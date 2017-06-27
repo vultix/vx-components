@@ -6,9 +6,9 @@ import {Component, Input, Renderer, AfterViewInit, Output, EventEmitter, OnDestr
      <div (mousedown)="onMouseDown('up')" (mouseup)="onMouseUp()" (mouseleave)="onMouseUp()"></div>
      <div class="spinner-down" (mousedown)="onMouseDown('down')" (mouseup)="onMouseUp()" (mouseleave)="onMouseUp()"></div>
   `,
-  styleUrls: ['number-spinner.component.scss'],
+  styleUrls: ['src/lib/vx-input/vx-number-spinner.component.scss'],
 })
-export class NumberSpinnerComponent implements AfterViewInit, OnDestroy {
+export class VxNumberSpinnerComponent implements AfterViewInit, OnDestroy {
   @Input() input: HTMLInputElement;
   @Input() value: number;
 

@@ -1,4 +1,4 @@
-@mixin number-spinner-theme($colors) {
+@mixin vx-number-spinner-theme($colors) {
   $primary: map-get($colors, primary);
   $background: map-get($colors, background);
   $foreground: map-get($colors, foreground);

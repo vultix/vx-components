@@ -1,5 +1,5 @@
 import {async, ComponentFixture, TestBed, fakeAsync, tick} from '@angular/core/testing';
-import {TabsComponent, TabComponent} from './tabs.component';
+import {VxTabsComponent, VxTabComponent} from './vx-tabs.component';
 import {Component} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {By} from '@angular/platform-browser';
@@ -7,16 +7,16 @@ import {By} from '@angular/platform-browser';
 const TABS_1 = ['Tab 1', 'Tab 2'];
 const TABS_2 = ['Tab 1', 'Tab 2', 'Tab 3', 'Tab 4'];
 
-describe('TabsComponent', () => {
+describe('VxTabsComponent', () => {
   let fixture: ComponentFixture<SimpleTabsComponent>;
   let testComponent: SimpleTabsComponent;
-  let tabsComponent: TabsComponent;
+  let tabsComponent: VxTabsComponent;
   let tabsNativeElement: Element;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [CommonModule],
-      declarations: [TabsComponent, SimpleTabsComponent, TabComponent]
+      declarations: [VxTabsComponent, SimpleTabsComponent, VxTabComponent]
     })
       .compileComponents();
   }));
@@ -26,7 +26,7 @@ describe('TabsComponent', () => {
     testComponent = fixture.componentInstance;
     fixture.detectChanges();
 
-    const tabsDebugElement = fixture.debugElement.query(By.directive(TabsComponent));
+    const tabsDebugElement = fixture.debugElement.query(By.directive(VxTabsComponent));
     tabsComponent = tabsDebugElement.componentInstance;
     tabsNativeElement = tabsDebugElement.nativeElement;
   });

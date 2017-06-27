@@ -1,4 +1,4 @@
-@mixin input-theme($colors) {
+@mixin vx-input-theme($colors) {
   $primary: map-get($colors, primary);
   $background: map-get($colors, background);
   $foreground: map-get($colors, foreground);

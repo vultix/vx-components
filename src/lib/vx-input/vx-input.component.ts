@@ -3,17 +3,17 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 @Component({
   selector: 'vx-input',
-  templateUrl: 'input.component.html',
-  styleUrls: ['input.component.scss'],
+  templateUrl: 'src/lib/vx-input/vx-input.component.html',
+  styleUrls: ['src/lib/vx-input/vx-input.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => InputComponent),
+      useExisting: forwardRef(() => VxInputComponent),
       multi: true
     }
   ]
 })
-export class InputComponent implements ControlValueAccessor {
+export class VxInputComponent implements ControlValueAccessor {
   /** The type attribute to pass to the input.  If type is numeric will add a number spinner. */
   @Input() type = 'text';
   /** The name attribute to pass to the input */

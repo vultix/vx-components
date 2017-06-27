@@ -7,11 +7,11 @@
 @import 'button';
 
 @mixin vx-load-themes($colors) {
-  @include checkbox-theme($colors);
-  @include tabs-theme($colors);
-  @include input-theme($colors);
-  @include number-spinner-theme($colors);
-  @include dropdown-theme($colors);
-  @include autocomplete-theme($colors);
-  @include button-theme($colors);
+  @include vx-checkbox-theme($colors);
+  @include vx-tabs-theme($colors);
+  @include vx-input-theme($colors);
+  @include vx-number-spinner-theme($colors);
+  @include vx-dropdown-theme($colors);
+  @include vx-autocomplete-theme($colors);
+  @include vx-button-theme($colors);
 }

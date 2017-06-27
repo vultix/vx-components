@@ -7,9 +7,9 @@ import {
 @Component({
   selector: 'vx-tab',
   template: `<ng-content></ng-content>`,
-  styleUrls: ['tab.component.scss']
+  styleUrls: ['src/lib/vx-tabs/vx-tab.component.scss']
 })
-export class TabComponent {
+export class VxTabComponent {
   /** The label for the tab */
   @Input() label = '';
 
@@ -24,10 +24,10 @@ export class TabComponent {
 
 @Component({
   selector: 'vx-tabs',
-  templateUrl: 'tabs.component.html',
-  styleUrls: ['tabs.component.scss']
+  templateUrl: 'src/lib/vx-tabs/vx-tabs.component.html',
+  styleUrls: ['src/lib/vx-tabs/vx-tabs.component.scss']
 })
-export class TabsComponent implements AfterViewInit {
+export class VxTabsComponent implements AfterViewInit {
   _selectedTab: number = 0;
 
   /** The selected tab */
@@ -47,7 +47,7 @@ export class TabsComponent implements AfterViewInit {
   @Output() selectedTabChange = new EventEmitter<number>();
 
   /** The list of tabs that were passed into the component */
-  @ContentChildren(TabComponent) _tabs: QueryList<TabComponent>;
+  @ContentChildren(VxTabComponent) _tabs: QueryList<VxTabComponent>;
 
   private previousTab = 0;
 

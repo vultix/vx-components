@@ -3,17 +3,17 @@ import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 
 @Component({
   selector: 'vx-checkbox',
-  templateUrl: 'checkbox.component.html',
-  styleUrls: ['checkbox.component.scss'],
+  templateUrl: 'src/lib/vx-checkbox/vx-checkbox.component.html',
+  styleUrls: ['src/lib/vx-checkbox/vx-checkbox.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CheckboxComponent),
+      useExisting: forwardRef(() => VxCheckboxComponent),
       multi: true
     }
   ]
 })
-export class CheckboxComponent implements ControlValueAccessor {
+export class VxCheckboxComponent implements ControlValueAccessor {
   private _tabIndex = 0;
   private _checked = false;
 

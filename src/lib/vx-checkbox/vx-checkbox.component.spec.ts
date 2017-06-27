@@ -1,5 +1,5 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {CheckboxComponent} from './checkbox.component';
+import {VxCheckboxComponent} from './vx-checkbox.component';
 import {Component} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';
@@ -7,12 +7,12 @@ import {FormsModule} from '@angular/forms';
 const TAB_INDEX = 2;
 const NAME = 'username';
 
-describe('CheckboxComponent', () => {
+describe('VxCheckboxComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [FormsModule],
-      declarations: [CheckboxComponent, SingleCheckboxComponent, NgModelCheckboxComponent]
+      declarations: [VxCheckboxComponent, SingleCheckboxComponent, NgModelCheckboxComponent]
     })
       .compileComponents();
   }));
@@ -20,7 +20,7 @@ describe('CheckboxComponent', () => {
   describe('basic behaviors', () => {
     let fixture: ComponentFixture<SingleCheckboxComponent>;
     let testComponent: SingleCheckboxComponent;
-    let checkboxComponent: CheckboxComponent;
+    let checkboxComponent: VxCheckboxComponent;
     let checkboxNativeElement: Element;
     let inputElement: HTMLInputElement;
     let labelElement: HTMLSpanElement;
@@ -30,7 +30,7 @@ describe('CheckboxComponent', () => {
       fixture.detectChanges();
       testComponent = fixture.componentInstance;
 
-      const checkboxDebugElement = fixture.debugElement.query(By.directive(CheckboxComponent));
+      const checkboxDebugElement = fixture.debugElement.query(By.directive(VxCheckboxComponent));
       checkboxComponent = checkboxDebugElement.componentInstance;
       checkboxNativeElement = checkboxDebugElement.nativeElement;
       inputElement = <HTMLInputElement>checkboxNativeElement.querySelector('input');
@@ -112,14 +112,14 @@ describe('CheckboxComponent', () => {
   describe('with ngModel', () => {
     let fixture: ComponentFixture<NgModelCheckboxComponent>;
     let testComponent: NgModelCheckboxComponent;
-    let checkboxComponent: CheckboxComponent;
+    let checkboxComponent: VxCheckboxComponent;
     let checkboxNativeElement: Element;
 
     beforeEach(() => {
       fixture = TestBed.createComponent(NgModelCheckboxComponent);
       fixture.detectChanges();
 
-      const checkboxDebugElement = fixture.debugElement.query(By.directive(CheckboxComponent));
+      const checkboxDebugElement = fixture.debugElement.query(By.directive(VxCheckboxComponent));
       checkboxComponent = checkboxDebugElement.componentInstance;
       checkboxNativeElement = checkboxDebugElement.nativeElement;
       testComponent = fixture.componentInstance;

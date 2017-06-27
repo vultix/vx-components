@@ -3,11 +3,11 @@ import {FormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {Component} from '@angular/core';
 import {By} from '@angular/platform-browser';
-import {AutocompleteComponent} from './autocomplete.component';
-import {InputModule} from '../input';
-import {InputComponent} from '../input/input.component';
-import {DropdownModule} from '../dropdown';
-import {DropdownComponent} from '../dropdown/dropdown.component';
+import {VxAutocompleteComponent} from './vx-autocomplete.component';
+import {InputModule} from '../vx-input';
+import {VxInputComponent} from '../vx-input/vx-input.component';
+import {DropdownModule} from '../vx-dropdown';
+import {VxDropdownComponent} from '../vx-dropdown/vx-dropdown.component';
 
 const STRING_ARRAY = ['United States', 'Mexico', 'Australia', 'Canada'];
 const OBJECT_ARRAY = [
@@ -15,19 +15,19 @@ const OBJECT_ARRAY = [
   {name: 'Australia', value: 'AU'}, {name: 'Canada', value: 'CA'}
 ];
 
-describe('AutocompleteComponent', () => {
+describe('VxAutocompleteComponent', () => {
   let testComponent: SimpleAutocompleteComponent;
   let fixture: ComponentFixture<SimpleAutocompleteComponent>;
-  let autocompleteComponent: AutocompleteComponent;
+  let autocompleteComponent: VxAutocompleteComponent;
   let autocompleteNativeElement: Element;
   let autocompleteInputElement: HTMLInputElement;
-  let autocompleteInputComponent: InputComponent;
-  let autocompleteDropdownComponent: DropdownComponent;
+  let autocompleteInputComponent: VxInputComponent;
+  let autocompleteDropdownComponent: VxDropdownComponent;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [FormsModule, CommonModule, InputModule, DropdownModule],
-      declarations: [AutocompleteComponent, SimpleAutocompleteComponent],
+      declarations: [VxAutocompleteComponent, SimpleAutocompleteComponent],
       providers: [{ provide: ComponentFixtureAutoDetect, useValue: true }]
     })
       .compileComponents();
@@ -37,12 +37,12 @@ describe('AutocompleteComponent', () => {
     fixture = TestBed.createComponent(SimpleAutocompleteComponent);
     testComponent = fixture.componentInstance;
 
-    const autocompleteDebugElement = fixture.debugElement.query(By.directive(AutocompleteComponent));
+    const autocompleteDebugElement = fixture.debugElement.query(By.directive(VxAutocompleteComponent));
     autocompleteComponent = autocompleteDebugElement.componentInstance;
     autocompleteNativeElement = autocompleteDebugElement.nativeElement;
     autocompleteInputElement = <HTMLInputElement> autocompleteNativeElement.getElementsByTagName('input')[0];
-    autocompleteInputComponent = fixture.debugElement.query(By.directive(InputComponent)).componentInstance;
-    autocompleteDropdownComponent = fixture.debugElement.query(By.directive(DropdownComponent)).componentInstance;
+    autocompleteInputComponent = fixture.debugElement.query(By.directive(VxInputComponent)).componentInstance;
+    autocompleteDropdownComponent = fixture.debugElement.query(By.directive(VxDropdownComponent)).componentInstance;
   });
 
   it('should forward name, placeholder, and tabIndex to input', () => {

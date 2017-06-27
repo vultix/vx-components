@@ -1,7 +1,7 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {Component} from '@angular/core';
 import {By} from '@angular/platform-browser';
-import {DropdownComponent} from './dropdown.component';
+import {VxDropdownComponent} from './vx-dropdown.component';
 import {CommonModule} from '@angular/common';
 
 const DEFAULT_TEXT = 'Default Text';
@@ -10,16 +10,16 @@ const DEFAULT_TEXT_2 = 'Default Text 2';
 const ITEMS_STRINGS = ['Item 1', 'Item 2', 'Item 3'];
 const ITEMS_OBJECTS = [{name: 'Item 1', value: 0}, {name: 'Item 2', value: 1}, {name: 'Item 3', value: 2}];
 
-describe('DropdownComponent', () => {
+describe('VxDropdownComponent', () => {
   let fixture: ComponentFixture<SimpleDropdownComponent>;
   let testComponent: SimpleDropdownComponent;
-  let dropdownComponent: DropdownComponent;
+  let dropdownComponent: VxDropdownComponent;
   let dropdownNativeElement: HTMLDivElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [CommonModule],
-      declarations: [DropdownComponent, SimpleDropdownComponent]
+      declarations: [VxDropdownComponent, SimpleDropdownComponent]
     })
       .compileComponents();
   }));
@@ -29,7 +29,7 @@ describe('DropdownComponent', () => {
     fixture.detectChanges();
     testComponent = fixture.componentInstance;
 
-    const dropdownDebugElement = fixture.debugElement.query(By.directive(DropdownComponent));
+    const dropdownDebugElement = fixture.debugElement.query(By.directive(VxDropdownComponent));
     dropdownComponent = dropdownDebugElement.componentInstance;
     dropdownNativeElement = dropdownDebugElement.nativeElement.querySelector('.dropdown');
   });

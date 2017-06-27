@@ -1,7 +1,7 @@
 export * from './vx-components.module';
 
-export * from './autocomplete/autocomplete.module';
-export * from './checkbox/checkbox.module';
-export * from './dropdown/dropdown.module';
-export * from './input/input.module';
-export * from './tabs/tabs.module';
+export * from './vx-autocomplete/vx-autocomplete.module';
+export * from './vx-checkbox/vx-checkbox.module';
+export * from './vx-dropdown/vx-dropdown.module';
+export * from './vx-input/vx-input.module';
+export * from './vx-tabs/vx-tabs.module';

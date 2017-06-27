@@ -1,11 +1,11 @@
 import {NgModule} from '@angular/core';
-import {CheckboxModule} from './checkbox/checkbox.module';
-import {InputModule} from './input/input.module';
-import {DropdownModule} from './dropdown/dropdown.module';
-import {AutocompleteModule} from './autocomplete/autocomplete.module';
-import {TabsModule} from './tabs/tabs.module';
+import {CheckboxModule} from './vx-checkbox/vx-checkbox.module';
+import {VxInputModule} from './vx-input/vx-input.module';
+import {VxDropdownModule} from './vx-dropdown/vx-dropdown.module';
+import {VxAutocompleteModule} from './vx-autocomplete/vx-autocomplete.module';
+import {VxTabsModule} from './vx-tabs/vx-tabs.module';
 
-const MODULES = [CheckboxModule, InputModule, DropdownModule, AutocompleteModule, TabsModule];
+const MODULES = [CheckboxModule, VxInputModule, VxDropdownModule, VxAutocompleteModule, VxTabsModule];
 
 @NgModule({
   imports: MODULES,

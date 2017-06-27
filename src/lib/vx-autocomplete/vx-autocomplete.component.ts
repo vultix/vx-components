@@ -1,22 +1,22 @@
 import {Component, forwardRef, Input, ViewChild} from '@angular/core';
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
-import {InputComponent} from '../input/input.component';
-import {DropdownComponent} from '../dropdown/dropdown.component';
+import {VxInputComponent} from '../vx-input/vx-input.component';
+import {VxDropdownComponent} from '../vx-dropdown/vx-dropdown.component';
 import * as Fuse from 'fuse.js';
 
 @Component({
   selector: 'vx-autocomplete',
-  templateUrl: 'autocomplete.component.html',
-  styleUrls: ['autocomplete.component.scss'],
+  templateUrl: 'src/lib/vx-autocomplete/vx-autocomplete.component.html',
+  styleUrls: ['src/lib/vx-autocomplete/vx-autocomplete.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => AutocompleteComponent),
+      useExisting: forwardRef(() => VxAutocompleteComponent),
       multi: true
     }
   ]
 })
-export class AutocompleteComponent implements ControlValueAccessor {
+export class VxAutocompleteComponent implements ControlValueAccessor {
   _items: any[];
   _multiple: boolean;
 
@@ -68,8 +68,8 @@ export class AutocompleteComponent implements ControlValueAccessor {
     this._onChangeFn(this.value);
   };
 
-  @ViewChild('input') input: InputComponent;
-  @ViewChild('dropdown') dropdown: DropdownComponent;
+  @ViewChild('input') input: VxInputComponent;
+  @ViewChild('dropdown') dropdown: VxDropdownComponent;
 
   _filteredItems: any[];
 

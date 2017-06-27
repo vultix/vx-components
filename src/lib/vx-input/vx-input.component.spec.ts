@@ -1,22 +1,22 @@
 import {async, ComponentFixture, TestBed, fakeAsync, tick} from '@angular/core/testing';
-import {InputComponent} from './input.component';
+import {VxInputComponent} from './vx-input.component';
 import {FormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
-import {NumberSpinnerComponent} from './number-spinner.component';
+import {VxNumberSpinnerComponent} from './vx-number-spinner.component';
 import {Component} from '@angular/core';
 import {By} from '@angular/platform-browser';
 
-describe('InputComponent', () => {
+describe('VxInputComponent', () => {
   let testComponent: SimpleInputComponent;
   let fixture: ComponentFixture<SimpleInputComponent>;
-  let inputComponent: InputComponent;
+  let inputComponent: VxInputComponent;
   let inputNativeElement: Element;
   let inputInputElement: HTMLInputElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [FormsModule, CommonModule],
-      declarations: [InputComponent, NumberSpinnerComponent, SimpleInputComponent]
+      declarations: [VxInputComponent, VxNumberSpinnerComponent, SimpleInputComponent]
     })
       .compileComponents();
   }));
@@ -26,7 +26,7 @@ describe('InputComponent', () => {
     testComponent = fixture.componentInstance;
     fixture.detectChanges();
 
-    const inputDebugElement = fixture.debugElement.query(By.directive(InputComponent));
+    const inputDebugElement = fixture.debugElement.query(By.directive(VxInputComponent));
     inputComponent = inputDebugElement.componentInstance;
     inputNativeElement = inputDebugElement.nativeElement;
     inputInputElement = inputNativeElement.querySelector('input');
@@ -91,13 +91,13 @@ describe('InputComponent', () => {
   }));
 
   describe('input[type=number]', () => {
-    let numberSpinnerComponent: NumberSpinnerComponent;
+    let numberSpinnerComponent: VxNumberSpinnerComponent;
     let numberSpinnerElement: Element;
 
     beforeEach(() => {
       testComponent.type = 'number';
       fixture.detectChanges();
-      const numberSpinnerDebugElement = fixture.debugElement.query(By.directive(NumberSpinnerComponent));
+      const numberSpinnerDebugElement = fixture.debugElement.query(By.directive(VxNumberSpinnerComponent));
       numberSpinnerComponent = numberSpinnerDebugElement.componentInstance;
       numberSpinnerElement = numberSpinnerDebugElement.nativeElement;
     });

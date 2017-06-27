@@ -1,5 +1,5 @@
 // Use this mixin to apply colored themes to the checkbox
-@mixin button-theme($colors) {
+@mixin vx-button-theme($colors) {
   $primary: map_get($colors, primary);
   $background: map_get($colors, background);
   $foreground: map_get($colors, foreground);
