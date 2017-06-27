@@ -1,6 +1,6 @@
 import {
   Component, AfterViewInit, ContentChildren, QueryList, Input, Output, EventEmitter,
-  HostBinding
+  HostBinding, OnInit
 } from '@angular/core';
 
 
@@ -16,7 +16,9 @@ export class TabComponent {
   /** Whether this tab is the active tab */
   @HostBinding('class.active') active = false;
 
-  @HostBinding('class.fromLeft') fromLeft = false;
+  @HostBinding('class.left') left = false;
+  @HostBinding('class.right') right = false;
+  @HostBinding('class.visible') visible: boolean;
 }
 
 
@@ -26,13 +28,19 @@ export class TabComponent {
   styleUrls: ['tabs.component.scss']
 })
 export class TabsComponent implements AfterViewInit {
-  _selectedTab = 0;
+  _selectedTab: number = 0;
 
   /** The selected tab */
   @Input('selectedTab')
   get selectedTab() { return this._selectedTab; }
   set selectedTab(tab: number) {
+    this.previousTab = this._selectedTab || 0;
+    if (tab === this.previousTab)
+      return;
+
     this._selectedTab = tab || 0;
+
+    this.setTabsLeftRight();
     this.ensureSelectedTab();
   };
 
@@ -40,6 +48,8 @@ export class TabsComponent implements AfterViewInit {
 
   /** The list of tabs that were passed into the component */
   @ContentChildren(TabComponent) _tabs: QueryList<TabComponent>;
+
+  private previousTab = 0;
 
   /** Sets the selected tab to be the tabIdx */
   public selectTab(tabIdx: number) {
@@ -51,9 +61,13 @@ export class TabsComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this._tabs.changes.subscribe(() => {
       setTimeout(() => this.ensureSelectedTab(), 0);
+      this.setTabsLeftRight();
     });
 
-    setTimeout(() => this.ensureSelectedTab(), 0);
+    setTimeout(() => {
+      this.ensureSelectedTab()
+      this.setTabsLeftRight();
+    });
   }
 
   /** Ensures that we have the correct tab selected */
@@ -65,6 +79,18 @@ export class TabsComponent implements AfterViewInit {
 
       this._tabs.forEach((tab) => tab.active = false);
       this._tabs.toArray()[this.selectedTab].active = true;
+    }
+  }
+
+  private setTabsLeftRight() {
+    const oldTab = this.previousTab;
+    const tab = this.selectedTab;
+    if (this._tabs) {
+      this._tabs.forEach((tb, idx) => {
+        tb.left = idx < tab;
+        tb.right = idx > tab;
+        tb.visible = idx === oldTab || idx === tab;
+      });
     }
   }
 }

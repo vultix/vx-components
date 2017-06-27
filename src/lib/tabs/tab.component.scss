@@ -1,4 +1,25 @@
 :host {
-  position: relative;
+  position: absolute;
   width: 100%;
+  transition: transform .5s;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  display: block;
+
+  &.active {
+    position: relative;
+    opacity: 1;
+    transform: translateX(0%);
+  }
+  &.left:not(.active) {
+    transform: translateX(-100%);
+  }
+  &.right:not(.active) {
+    transform: translateX(100%);
+  }
+
+  &.visible {
+    opacity: 1;
+  }
 }

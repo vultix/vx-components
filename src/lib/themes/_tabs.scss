@@ -11,14 +11,14 @@
   $activeTabColor: map-get($colors, background);
 
   $primary: map-get($colors, primary);
-  $primaryGradient: linear-gradient(to bottom, $primary, mix($foreground, $primary, 15%));
+  $tabBackgroundGradient: linear-gradient(to bottom, mix($foreground, $background, 5%), mix($foreground, $background, 8%));
 
   vx-tabs {
     color: $foreground;
 
     .tabs {
       background: $primary;
-      background: $primaryGradient;
+      background: $tabBackgroundGradient;
       border: 1px solid $borderColor;
       border-bottom: none;
     }
