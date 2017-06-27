@@ -1,0 +1,124 @@
+// Use this mixin to apply colored themes to the checkbox
+@mixin button-theme($colors) {
+  $primary: map_get($colors, primary);
+  $background: map_get($colors, background);
+  $foreground: map_get($colors, foreground);
+
+
+  $hoverColor: mix($foreground, $primary, 15%);
+  $primaryGradient: linear-gradient(to bottom, $primary, $hoverColor);
+  $activeColor: mix($foreground, $primary, 25%);
+
+  // Basic button styles
+  [vx-button] {
+    background: $primaryGradient;
+    border: 0;
+    color: $background;
+    padding: 10px;
+    border-radius: 3px;
+    outline: none;
+    font-size: inherit;
+
+
+    &:focus {
+      box-shadow: 0 0 2px 1px transparentize($primary, .5);
+    }
+
+    &:hover {
+      background: $hoverColor;
+    }
+
+    &:active {
+      background: $activeColor;
+    }
+
+    &:disabled {
+      cursor: auto;
+      opacity: .45;
+      pointer-events: none;
+    }
+
+    i {
+      vertical-align: top;
+      margin-right: 5px;
+    }
+  }
+
+  // Variation styles
+
+  $accent: map_get($colors, accent);
+  $accentHoverColor: mix($foreground, $accent, 15%);
+  $accentGradient: linear-gradient(to bottom, $accent, $accentHoverColor);
+  $accentActiveColor: mix($foreground, $accent, 25%);
+
+  [vx-button][vx-accent] {
+    background: $accentGradient;
+    &:focus {
+      box-shadow: 0 0 2px 1px transparentize($accent, .5);
+    }
+
+    &:hover {
+      background: $accentHoverColor;
+    }
+
+    &:active {
+      background: $accentActiveColor;
+    }
+  }
+
+  [vx-button][vx-flat] {
+    background: $primary;
+    &:hover {
+      background: $hoverColor;
+    }
+
+    &:active {
+      background: $activeColor;
+    }
+  }
+
+  [vx-button][vx-flat][vx-accent] {
+    background: $accent;
+    &:hover {
+      background: $accentHoverColor;
+    }
+
+    &:active {
+      background: $accentActiveColor;
+    }
+  }
+
+  $dark: mix($foreground, $background, 40%);
+  $darkHoverColor: mix($foreground, $dark, 15%);
+  $darkGradient: linear-gradient(to bottom, $dark, $darkHoverColor);
+  $darkActiveColor: mix($foreground, $dark, 25%);
+
+  [vx-button][vx-dark] {
+    background: $darkGradient;
+
+    &:focus {
+      box-shadow: 0 0 2px 1px transparentize($dark, .5);
+    }
+
+    &:hover {
+      background: $darkHoverColor;
+    }
+
+    &:active {
+      background: $darkActiveColor;
+    }
+  }
+
+  [vx-button][vx-dark][vx-flat] {
+    background: $dark;
+
+    &:hover {
+      background: $darkHoverColor;
+    }
+
+    &:active {
+      background: $darkActiveColor;
+    }
+  }
+
+}

@@ -1,0 +1,44 @@
+// Use this mixin to apply colored themes to the checkbox
+@mixin checkbox-theme($colors) {
+  $primary: map_get($colors, primary);
+  $accent: map_get($colors, accent);
+  $background: map_get($colors, background);
+  $foreground: map_get($colors, foreground);
+  $border: mix($foreground, $background, 40%);
+
+  vx-checkbox {
+    &:hover .checkbox {
+      background: mix($foreground, $background, 3%)
+    }
+    &:active .checkbox {
+      background: mix($foreground, $background, 10%)
+    }
+
+    &:focus .checkbox {
+      box-shadow: 0 0 2px 1px transparentize($primary, .5);
+    }
+
+    .checkbox {
+      background: $background;
+      border: 1px solid $border;
+
+      &:after {
+        border-right: 4px solid $primary;
+        border-top: 4px solid $primary;
+      }
+    }
+
+    &[vx-accent] {
+      .checkbox {
+        &:after {
+          border-right: 4px solid $accent;
+          border-top: 4px solid $accent;
+        }
+      }
+      &:focus .checkbox {
+        box-shadow: 0 0 2px 1px transparentize($accent, .5);
+      }
+    }
+  }
+
+}

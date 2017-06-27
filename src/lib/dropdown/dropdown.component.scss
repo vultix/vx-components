@@ -1,0 +1,64 @@
+:host {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 100px;
+  z-index: 1000;
+  max-height: 150px;
+  overflow: scroll;
+  border-radius: 3px;
+  margin-top: 10px;
+  font-size: 13px;
+  display: inline-block;
+  outline: none;
+  transform-origin: top;
+  transform: scale(1, 0);
+  opacity: 0;
+  transition: .2s ease;
+
+  &.visible {
+    transform: scale(1, 1);
+    opacity: 1;
+  }
+}
+
+.item {
+  display: block;
+  width: 100%;
+  border: none;
+  padding: 7px 10px;
+  text-align: left;
+  font-family: inherit;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 999;
+}
+
+.default {
+  padding: 10px;
+  display: inline-block;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: scale(1, 0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1, 1);
+  }
+}

@@ -1,0 +1,37 @@
+$triangleWidth: 4px;
+$triangleHeight: 7px;
+
+:host {
+  width: 30px;
+  position: relative;
+}
+
+:host div {
+  cursor: pointer;
+  position: absolute;
+  height: 50%;
+  width: 100%;
+  top: 0;
+
+  &.spinner-down {
+    top: 50%;
+  }
+  &:before {
+    content: ' ';
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 $triangleWidth $triangleHeight $triangleWidth;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &.spinner-down:before {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: $triangleHeight $triangleWidth 0 $triangleWidth;
+  }
+}

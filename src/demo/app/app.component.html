@@ -1,0 +1,102 @@
+<h1>
+  VX Components!
+</h1>
+
+
+<section>
+  <h2>Tabs</h2>
+  Selected Tab: {{selectedTab}}
+  <vx-tabs style="width: 50%; max-height: 300px;" [(selectedTab)]="selectedTab">
+    <vx-tab label="Tab 1">
+      <h1>
+        Tab 1
+      </h1>
+      Followed by some more Content
+      <br>
+      <vx-checkbox class="padTop">and a checkbox</vx-checkbox>
+    </vx-tab>
+
+    <vx-tab label="Tab 2">
+      <h1>
+        Tab 2
+      </h1>
+      <vx-input placeholder="Some Input!"></vx-input>
+    </vx-tab>
+
+    <vx-tab label="Tab 3">
+      <h1>
+        Tab 3
+      </h1>
+      <div style="height: 300px;">
+        Here is a tall div
+      </div>
+      Here is more text
+    </vx-tab>
+  </vx-tabs>
+
+</section>
+
+
+<section>
+  <h2>Button</h2>
+  {{clicked ? "Clicked" : ""}}
+  <br>
+  <button class="padTop" vx-button #button (click)="buttonClick()" [attr.vx-accent]="buttonAccent || null"
+          [attr.vx-flat]="buttonFlat || null" [attr.vx-dark]="buttonDark || null">Click Me!</button>
+  <br>
+  <vx-checkbox [(checked)]="button.disabled" class="padTop">Disabled</vx-checkbox>
+  <vx-checkbox [(checked)]="buttonAccent" class="padTop">Accent</vx-checkbox>
+  <vx-checkbox [(checked)]="buttonFlat" class="padTop">Flat</vx-checkbox>
+  <vx-checkbox [(ngModel)]="buttonDark" class="padTop">Dark</vx-checkbox>
+</section>
+
+<section>
+  <h2>Input</h2>
+
+  <vx-input #input placeholder="Placeholder" [type]="numeric ? 'number' : 'text'" ngModel [required]="isRequired" >
+  </vx-input>
+  Value: {{input.value}}
+  <br>
+  <vx-checkbox [(checked)]="input.disabled" class="padTop">Disabled</vx-checkbox>
+  <vx-checkbox [(checked)]="isRequired" class="padTop">Required</vx-checkbox>
+  <br>
+  <vx-checkbox [(checked)]="numeric" class="padTop">Numeric</vx-checkbox>
+  <vx-input placeholder="Min" [disabled]="!numeric" type="number" [(ngModel)]="input.min" class="small"></vx-input>
+  <vx-input placeholder="Max" [disabled]="!numeric" type="number" [(ngModel)]="input.max" [min]="input.min"
+            class="small"></vx-input>
+
+</section>
+
+<section>
+  <h2>Checkbox</h2>
+  <vx-checkbox [attr.vx-accent]="checkboxAccent || null" #checkbox>Check me!</vx-checkbox>
+  <vx-checkbox [attr.vx-accent]="checkboxAccent || null" [disabled]="true" [(checked)]="checkbox.checked">Disabled</vx-checkbox>
+  <p>
+    Checked: <b>{{checkbox.checked}}</b>
+  </p>
+  <br/>
+  <vx-checkbox [(checked)]="checkboxAccent">Accent</vx-checkbox>
+</section>
+
+<section>
+  <h2>Dropdown</h2>
+
+  <vx-dropdown #dropdown [items]="['Item 1', 'Item 2', 'Item 3']" (itemClick)="dropdownClick($event)">
+    <button vx-button (click)="dropdown.toggle()">Toggle Dropdown</button>
+    Selection: {{selectedItem}}
+  </vx-dropdown>
+
+  <br/>
+  <vx-checkbox [(checked)]="dropdown.autoClose" class="padTop">Auto-Close</vx-checkbox>
+
+</section>
+
+<section>
+  <h2>Autocomplete</h2>
+
+  <vx-autocomplete placeholder="Choose Item..." [items]="data" nameField="name" valueField="value" [(ngModel)]="selectedCountry" [multiple]="multiple">
+  </vx-autocomplete> {{selectedCountry}}
+
+  <br />
+  <vx-checkbox [(checked)]="multiple" class="padTop">Multiple</vx-checkbox>
+</section>

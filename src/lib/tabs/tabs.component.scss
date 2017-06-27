@@ -1,0 +1,92 @@
+$tabWidth: 70px;
+$tabHeight: 35px;
+$borderRadius: 4px;
+
+:host {
+  display: block;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  max-height: inherit;
+  max-width: inherit;
+}
+
+.tabs {
+  height: $tabHeight;
+  overflow: scroll;
+  white-space: nowrap;
+  position: relative;
+  padding-left: 8px;
+  padding-top: 5px;
+  border-top-left-radius: $borderRadius;
+  border-top-right-radius: $borderRadius;
+  top: 1px;
+  flex-shrink: 0;
+}
+
+.tab {
+  display: inline-block;
+  padding: 5px 10px;
+  margin: 0 5px;
+  box-sizing: border-box;
+
+  min-width: $tabWidth;
+  height: $tabHeight;
+
+  position: relative;
+  top: 0;
+  text-align: center;
+  cursor: pointer;
+
+  &:before, &:after {
+    content: ' ';
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    transform: skewX(25deg);
+    transform-origin: top;
+    left: 0;
+    box-sizing: border-box;
+    background: inherit;
+  }
+  &:before {
+    transform: skewX(-25deg);
+    border-right: none;
+  }
+
+  span {
+    z-index: 1;
+    position: relative;
+    bottom: 1px;
+    top: 5px;
+  }
+
+  &.active {
+    z-index: 40;
+    cursor: auto;
+  }
+
+  //Order the tabs the right way z-index wise
+  @for $i from 1 through 20 {
+    &:nth-child(#{$i}):not(.active) {
+      z-index: #{20 - $i};
+    }
+  }
+}
+
+.tabContent {
+  padding: 10px;
+  border-bottom-left-radius: $borderRadius;
+  border-bottom-right-radius: $borderRadius;
+  z-index: 30;
+  position: relative;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.tabContent /deep/ > vx-tab > div {
+  overflow-x: scroll;
+}

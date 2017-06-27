@@ -1,0 +1,17 @@
+@import 'checkbox';
+@import 'input';
+@import 'number-spinner';
+@import 'tabs';
+@import 'dropdown';
+@import 'autocomplete';
+@import 'button';
+
+@mixin vx-load-themes($colors) {
+  @include checkbox-theme($colors);
+  @include tabs-theme($colors);
+  @include input-theme($colors);
+  @include number-spinner-theme($colors);
+  @include dropdown-theme($colors);
+  @include autocomplete-theme($colors);
+  @include button-theme($colors);
+}

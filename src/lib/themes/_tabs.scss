@@ -1,0 +1,56 @@
+  @mixin tabs-theme($colors) {
+  $foreground: map_get($colors, foreground);
+  $background: map_get($colors, background);
+  $borderColor: mix($foreground, $background, 25%);
+
+  $tabColor: mix($foreground, $background, 15%);
+  $tabHoverColor: mix($foreground, $background, 3%);
+  $tabActiveColor: mix($foreground, $background, 15%);
+  $tabGradient: linear-gradient(to bottom, $tabHoverColor, $tabColor);
+
+  $activeTabColor: map-get($colors, background);
+
+  $primary: map-get($colors, primary);
+  $primaryGradient: linear-gradient(to bottom, $primary, mix($foreground, $primary, 15%));
+
+  vx-tabs {
+    color: $foreground;
+
+    .tabs {
+      background: $primary;
+      background: $primaryGradient;
+      border: 1px solid $borderColor;
+      border-bottom: none;
+    }
+
+    .tabContent {
+      background: $activeTabColor;
+      border: 1px solid $borderColor;
+    }
+
+    .tab {
+      background: $tabColor;
+      background: $tabGradient;
+      border-top: 1px solid $borderColor;
+
+      &.active {
+        background: $activeTabColor
+      }
+      &:not(.active):hover {
+        background: $tabHoverColor;
+      }
+
+      &:not(.active):active {
+        background: $tabActiveColor;
+      }
+
+      &:after {
+        border-right: 1px solid $borderColor;
+      }
+      &:before {
+        border-left: 1px solid $borderColor;
+      }
+
+    }
+  }
+}

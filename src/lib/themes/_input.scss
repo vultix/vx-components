@@ -1,0 +1,56 @@
+@mixin input-theme($colors) {
+  $primary: map-get($colors, primary);
+  $background: map-get($colors, background);
+  $foreground: map-get($colors, foreground);
+  $error: map-get($colors, error);
+
+  $placeholder: mix($foreground, $background, 30%);
+  $labelColor: mix($foreground, $background, 40%);
+
+  vx-input {
+    .container {
+      background: $background;
+      border: 1px solid $labelColor;
+    }
+    .label {
+      color: $labelColor;
+    }
+    input {
+      color: $foreground;
+    }
+    input::-webkit-input-placeholder {
+      color: $placeholder;
+    }
+
+    &.hasFocus {
+      .container {
+        border-color: $primary;
+      }
+      .label {
+        color: $primary;
+      }
+      input::-webkit-input-placeholder {
+        color: mix($foreground, $placeholder, 10%);
+      }
+    }
+
+    &.ng-invalid:not(.ng-pristine) {
+      .container {
+        border-color: $error;
+      }
+
+      .label {
+        color: $error;
+      }
+
+      input::-webkit-input-placeholder {
+        color: mix($error, $placeholder, 10%);
+      }
+
+      .hasFocus input::-webkit-input-placeholder {
+        color: mix($error, $placeholder, 20%);
+      }
+    }
+  }
+
+}

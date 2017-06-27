@@ -1,0 +1,28 @@
+$triangleWidth: 4px;
+$triangleHeight: 7px;
+
+.autocompleteDropdown /deep/ .dropdown {
+  margin-top: -2px;
+  left: 0;
+  right: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-top: 0;
+}
+
+[vx-suffix] {
+  width: 30px;
+  cursor: pointer;
+  position: relative;
+
+  .downArrow {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: $triangleHeight $triangleWidth 0 $triangleWidth;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
