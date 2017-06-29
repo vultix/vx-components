@@ -1,5 +1,5 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {VxCheckboxComponent} from './vx-checkbox.component';
+import {VxCheckboxComponent} from './checkbox.component';
 import {Component} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';

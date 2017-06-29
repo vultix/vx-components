@@ -1,7 +1,7 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {Component} from '@angular/core';
 import {By} from '@angular/platform-browser';
-import {VxDropdownComponent} from './vx-dropdown.component';
+import {VxDropdownComponent} from './dropdown.component';
 import {CommonModule} from '@angular/common';
 
 const DEFAULT_TEXT = 'Default Text';

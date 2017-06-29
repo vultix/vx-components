@@ -1,13 +1,13 @@
 import {Component, forwardRef, Input, ViewChild} from '@angular/core';
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
-import {VxInputComponent} from '../vx-input/vx-input.component';
-import {VxDropdownComponent} from '../vx-dropdown/vx-dropdown.component';
+import {VxInputComponent} from '../input/old/input.component';
+import {VxDropdownComponent} from '../dropdown/dropdown.component';
 import * as Fuse from 'fuse.js';
 
 @Component({
   selector: 'vx-autocomplete',
-  templateUrl: './vx-autocomplete.component.html',
-  styleUrls: ['./vx-autocomplete.component.scss'],
+  templateUrl: './autocomplete.component.html',
+  styleUrls: ['./autocomplete.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

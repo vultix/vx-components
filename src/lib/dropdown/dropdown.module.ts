@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {VxDropdownComponent} from './vx-dropdown.component';
+import {VxDropdownComponent} from './dropdown.component';
 
 @NgModule({
   imports: [

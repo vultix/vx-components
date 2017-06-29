@@ -1,8 +1,8 @@
 import {async, ComponentFixture, TestBed, fakeAsync, tick} from '@angular/core/testing';
-import {VxInputComponent} from './vx-input.component';
+import {VxInputComponent} from './input.component';
 import {FormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
-import {VxNumberSpinnerComponent} from './vx-number-spinner.component';
+import {VxNumberSpinnerComponent} from '../number-spinner/number-spinner.component';
 import {Component} from '@angular/core';
 import {By} from '@angular/platform-browser';
 

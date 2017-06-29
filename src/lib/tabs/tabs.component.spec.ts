@@ -1,5 +1,5 @@
 import {async, ComponentFixture, TestBed, fakeAsync, tick} from '@angular/core/testing';
-import {VxTabsComponent, VxTabComponent} from './vx-tabs.component';
+import {VxTabsComponent, VxTabComponent} from './tabs.component';
 import {Component} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {By} from '@angular/platform-browser';

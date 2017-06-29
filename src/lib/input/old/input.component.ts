@@ -3,8 +3,8 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 @Component({
   selector: 'vx-input',
-  templateUrl: './vx-input.component.html',
-  styleUrls: ['./vx-input.component.scss'],
+  templateUrl: './input.component.html',
+  styleUrls: ['./input.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

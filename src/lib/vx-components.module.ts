@@ -1,9 +1,9 @@
 import {NgModule} from '@angular/core';
-import {CheckboxModule} from './vx-checkbox/vx-checkbox.module';
-import {VxInputModule} from './vx-input/vx-input.module';
-import {VxDropdownModule} from './vx-dropdown/vx-dropdown.module';
-import {VxAutocompleteModule} from './vx-autocomplete/vx-autocomplete.module';
-import {VxTabsModule} from './vx-tabs/vx-tabs.module';
+import {CheckboxModule} from './checkbox/checkbox.module';
+import {VxInputModule} from './input/input.module';
+import {VxDropdownModule} from './dropdown/dropdown.module';
+import {VxAutocompleteModule} from './autocomplete/autocomplete.module';
+import {VxTabsModule} from './tabs/tabs.module';
 
 const MODULES = [CheckboxModule, VxInputModule, VxDropdownModule, VxAutocompleteModule, VxTabsModule];
 

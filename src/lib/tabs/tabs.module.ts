@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {VxTabsComponent, VxTabComponent} from './vx-tabs.component';
+import {VxTabsComponent, VxTabComponent} from './tabs.component';
 
 @NgModule({
   imports: [

@@ -3,11 +3,11 @@ import {FormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {Component} from '@angular/core';
 import {By} from '@angular/platform-browser';
-import {VxAutocompleteComponent} from './vx-autocomplete.component';
-import {InputModule} from '../vx-input';
-import {VxInputComponent} from '../vx-input/vx-input.component';
-import {DropdownModule} from '../vx-dropdown';
-import {VxDropdownComponent} from '../vx-dropdown/vx-dropdown.component';
+import {VxAutocompleteComponent} from './autocomplete.component';
+import {InputModule} from '../input';
+import {VxInputComponent} from '../input/old/input.component';
+import {DropdownModule} from '../dropdown';
+import {VxDropdownComponent} from '../dropdown/dropdown.component';
 
 const STRING_ARRAY = ['United States', 'Mexico', 'Australia', 'Canada'];
 const OBJECT_ARRAY = [
