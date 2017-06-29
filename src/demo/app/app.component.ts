@@ -17,6 +17,9 @@ export class AppComponent {
   selectedTab = 0;
   clicked = false;
   multiple = false;
+  min: number;
+  max: number;
+  inputDisabled: boolean;
 
   data: Country[] = [
     {name: 'Afghanistan', value: 'AF'},

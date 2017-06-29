@@ -53,4 +53,50 @@
     }
   }
 
+  vx-input-wrapper {
+    .container {
+      background: $background;
+      border: 1px solid $labelColor;
+    }
+    .label {
+      color: $labelColor;
+    }
+    [vxInput] {
+      color: $foreground;
+    }
+    [vxInput]::-webkit-input-placeholder {
+      color: $placeholder;
+    }
+
+    &.focused {
+      .container {
+        border-color: $primary;
+      }
+      .label {
+        color: $primary;
+      }
+      input::-webkit-input-placeholder {
+        color: mix($foreground, $placeholder, 10%);
+      }
+    }
+
+    &.invalid {
+      .container {
+        border-color: $error;
+      }
+
+      .label {
+        color: $error;
+      }
+
+      input::-webkit-input-placeholder {
+        color: mix($error, $placeholder, 10%);
+      }
+
+      .hasFocus input::-webkit-input-placeholder {
+        color: mix($error, $placeholder, 20%);
+      }
+    }
+  }
+
 }

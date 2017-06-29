@@ -1,16 +1,16 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import {VxInputComponent} from './old/input.component';
-import {VxNumberSpinnerComponent} from './number-spinner/number-spinner.component';
+import {VxInputWrapperComponent} from './input-wrapper.component';
+import {VxInputDirective} from './vx-input.directive';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule
   ],
-  declarations: [VxInputComponent, VxNumberSpinnerComponent],
-  exports: [VxInputComponent]
+  declarations: [VxInputWrapperComponent, VxInputDirective],
+  exports: [VxInputWrapperComponent, VxInputDirective]
 })
 export class VxInputModule {
 }

@@ -1,8 +1,8 @@
 import {Component, forwardRef, Input, ViewChild} from '@angular/core';
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
-import {VxInputComponent} from '../input/old/input.component';
 import {VxDropdownComponent} from '../dropdown/dropdown.component';
 import * as Fuse from 'fuse.js';
+import {VxInputDirective} from '../input/vx-input.directive';
 
 @Component({
   selector: 'vx-autocomplete',
@@ -40,7 +40,7 @@ export class VxAutocompleteComponent implements ControlValueAccessor {
       if (!this.getItemForValue(this.value)) {
         // If the selected value isn't in the new items, remove it
         this.value = null;
-        this.input.writeValue('');
+        this.input.value = '';
         this._filteredItems = null;
         this._onChangeFn(null);
       } else {
@@ -68,7 +68,7 @@ export class VxAutocompleteComponent implements ControlValueAccessor {
     this._onChangeFn(this.value);
   };
 
-  @ViewChild('input') input: VxInputComponent;
+  @ViewChild('input') input: VxInputDirective;
   @ViewChild('dropdown') dropdown: VxDropdownComponent;
 
   _filteredItems: any[];
@@ -83,7 +83,7 @@ export class VxAutocompleteComponent implements ControlValueAccessor {
         if (!this.dropdown.hasFocus()) {
           this._dropdownVisible = false;
         } else {
-          this.input.setHasFocus(true);
+          // this.input.setHasFocus(true);
         }
       }, 0);
     }
@@ -100,12 +100,12 @@ export class VxAutocompleteComponent implements ControlValueAccessor {
 
     this._onChangeFn(this.valueField ? item[this.valueField] : item);
     this.value = this.valueField ? item[this.valueField] : item;
-    this.input.writeValue(this.nameField ? item[this.nameField] : item);
+    this.input.value = this.nameField ? item[this.nameField] : item;
 
     this._filter(this.nameField ? item[this.nameField] : item);
 
     setTimeout(() => {
-      this.input.setHasFocus(true);
+      // this.input.setHasFocus(true);
       setTimeout(() => this._dropdownVisible = false);
     }, 0);
 

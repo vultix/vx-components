@@ -2,14 +2,14 @@
              [(visible)]="_dropdownVisible" [autoClose]="false" (itemClick)="_onSelectItem($event)"
              defaultText="No results found." class="autocompleteDropdown" >
 
-  <vx-input #input [placeholder]="placeholder" [tabIndex]="tabIndex" [disabled]="disabled"
-            (hasFocusChange)="_handleInputFocusChange($event)" ngModel (ngModelChange)="_onInputChange($event)"
-            [name]="name" (keydown.tab)="_closeDropdown()" (mousedown)="_showDropdown(); _onTouchedFn()"
-            (keydown.ArrowDown)="_showDropdown(); _onTouchedFn()" (keydown.escape)="_closeDropdown()">
+  <!--<vx-input #input [placeholder]="placeholder" [tabIndex]="tabIndex" [disabled]="disabled"-->
+            <!--(hasFocusChange)="_handleInputFocusChange($event)" ngModel (ngModelChange)="_onInputChange($event)"-->
+            <!--[name]="name" (keydown.tab)="_closeDropdown()" (mousedown)="_showDropdown(); _onTouchedFn()"-->
+            <!--(keydown.ArrowDown)="_showDropdown(); _onTouchedFn()" (keydown.escape)="_closeDropdown()">-->
 
     <div vx-suffix>
       <div class="downArrow"></div>
     </div>
-  </vx-input>
+  <!--</vx-input>-->
 
 </vx-dropdown>

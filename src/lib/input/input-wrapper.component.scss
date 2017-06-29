@@ -1,7 +1,7 @@
 :host {
   display: inline-block;
   position: relative;
-  width: 300px;
+  width: 200px;
   &.disabled {
     .container, .label {
       cursor: auto;
@@ -12,7 +12,7 @@
 }
 
 * {
-  transition: .2s ease;
+  transition: .3s ease;
 }
 
 .container {
@@ -24,13 +24,14 @@
   overflow: hidden;
 }
 
+
 .label {
   font-size: 12px;
   overflow: hidden;
   padding-bottom: 2px;
 }
 
-input {
+/deep/ [vxInput] {
   border: 0;
   font-size: 15px;
   outline: none;
@@ -39,18 +40,15 @@ input {
   max-width: 100%;
   margin: 5px;
   width: 25px;
-}
 
-i.fa-times {
-  margin-right: 5px;
-}
+  // Numeric Inputs
+  &[type=number] {
+    -moz-appearance: textfield;
 
-//Type=number
-input[type=number] {
-  -moz-appearance: textfield;
-
-  &::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+    &::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
   }
+
 }
