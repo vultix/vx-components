@@ -15,7 +15,7 @@ $borderRadius: 4px;
 
 .tabs {
   height: $tabHeight;
-  overflow: scroll;
+  overflow: auto;
   white-space: nowrap;
   position: relative;
   padding-left: 8px;
@@ -61,7 +61,7 @@ $borderRadius: 4px;
     z-index: 1;
     position: relative;
     bottom: 1px;
-    top: 5px;
+    top: 2px;
   }
 
   &.active {
@@ -78,15 +78,11 @@ $borderRadius: 4px;
 }
 
 .tabContent {
-  padding: 10px;
+  padding: 15px;
   border-bottom-left-radius: $borderRadius;
   border-bottom-right-radius: $borderRadius;
   z-index: 30;
   position: relative;
-  overflow-y: scroll;
-  overflow-x: hidden;
-}
-
-.tabContent /deep/ > vx-tab > div {
-  overflow-x: scroll;
+  overflow: hidden;
+  display: flex;
 }

@@ -4,14 +4,14 @@
   $borderColor: mix($foreground, $background, 25%);
 
   $tabColor: mix($foreground, $background, 15%);
-  $tabHoverColor: mix($foreground, $background, 3%);
+  $tabHoverColor: mix($foreground, $background, 6%);
   $tabActiveColor: mix($foreground, $background, 15%);
   $tabGradient: linear-gradient(to bottom, $tabHoverColor, $tabColor);
 
   $activeTabColor: map-get($colors, background);
 
   $primary: map-get($colors, primary);
-  $tabBackgroundGradient: linear-gradient(to bottom, mix($foreground, $background, 5%), mix($foreground, $background, 8%));
+  $tabBackgroundGradient: linear-gradient(to bottom, mix($foreground, $background, 3%), mix($foreground, $background, 10%));
 
   vx-tabs {
     color: $foreground;

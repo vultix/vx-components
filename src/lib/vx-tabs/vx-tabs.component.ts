@@ -7,7 +7,7 @@ import {
 @Component({
   selector: 'vx-tab',
   template: `<ng-content></ng-content>`,
-  styleUrls: ['src/lib/vx-tabs/vx-tab.component.scss']
+  styleUrls: ['./vx-tab.component.scss']
 })
 export class VxTabComponent {
   /** The label for the tab */
@@ -24,8 +24,8 @@ export class VxTabComponent {
 
 @Component({
   selector: 'vx-tabs',
-  templateUrl: 'src/lib/vx-tabs/vx-tabs.component.html',
-  styleUrls: ['src/lib/vx-tabs/vx-tabs.component.scss']
+  templateUrl: './vx-tabs.component.html',
+  styleUrls: ['./vx-tabs.component.scss']
 })
 export class VxTabsComponent implements AfterViewInit {
   _selectedTab: number = 0;

@@ -2,8 +2,8 @@ import {Component, Input, ElementRef, Output, EventEmitter, ViewChild, HostListe
 
 @Component({
   selector: 'vx-dropdown',
-  templateUrl: 'src/lib/vx-dropdown/vx-dropdown.component.html',
-  styleUrls: ['src/lib/vx-dropdown/vx-dropdown.component.scss']
+  templateUrl: './vx-dropdown.component.html',
+  styleUrls: ['./vx-dropdown.component.scss']
 })
 export class VxDropdownComponent {
   private _el: ElementRef;

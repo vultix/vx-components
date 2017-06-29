@@ -6,8 +6,8 @@ import * as Fuse from 'fuse.js';
 
 @Component({
   selector: 'vx-autocomplete',
-  templateUrl: 'src/lib/vx-autocomplete/vx-autocomplete.component.html',
-  styleUrls: ['src/lib/vx-autocomplete/vx-autocomplete.component.scss'],
+  templateUrl: './vx-autocomplete.component.html',
+  styleUrls: ['./vx-autocomplete.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

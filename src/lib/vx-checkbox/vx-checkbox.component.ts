@@ -3,8 +3,8 @@ import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 
 @Component({
   selector: 'vx-checkbox',
-  templateUrl: 'src/lib/vx-checkbox/vx-checkbox.component.html',
-  styleUrls: ['src/lib/vx-checkbox/vx-checkbox.component.scss'],
+  templateUrl: './vx-checkbox.component.html',
+  styleUrls: ['./vx-checkbox.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
