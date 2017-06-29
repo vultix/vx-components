@@ -2,40 +2,6 @@
   VX Components!
 </h1>
 
-<section>
-  <h2>Tabs</h2>
-  Selected Tab: {{selectedTab}}
-  <vx-tabs style="width: 50%; max-height: 300px;" [(selectedTab)]="selectedTab">
-    <vx-tab label="Tab 1">
-      <h1>
-        Tab 1
-      </h1>
-      Followed by some more Content
-      <br>
-      <vx-checkbox class="padTop">and a checkbox</vx-checkbox>
-      <!--<vx-input placeholder="hello"></vx-input>-->
-    </vx-tab>
-
-    <vx-tab label="Tab 2">
-      <h1>
-        Tab 2
-      </h1>
-      <!--<vx-input placeholder="Some Input!"></vx-input>-->
-    </vx-tab>
-
-    <vx-tab label="Tab 3">
-      <h1>
-        Tab 3
-      </h1>
-      <div style="height: 300px;">
-        Here is a tall div
-      </div>
-      Here is more text
-    </vx-tab>
-  </vx-tabs>
-
-</section>
-
 
 <section>
   <h2>Button</h2>
@@ -54,31 +20,16 @@
   <h2>Input</h2>
 
   <vx-input-wrapper>
-    <input #input [type]="numeric ? 'number' : 'text'" vxInput placeholder="hello" [(ngModel)]="testIt" [required]="isRequired"
+    <input #input vxInput placeholder="Placeholder" [required]="isRequired"
     [min]="min" [max]="max" [disabled]="inputDisabled">
   </vx-input-wrapper>
 
-  {{ testIt }}
-
-  <!--<vx-input #input placeholder="Placeholder" [type]="numeric ? 'number' : 'text'" ngModel [required]="isRequired" >-->
-  <!--</vx-input>-->
   Value: {{input.value}}
   <br>
   <vx-checkbox [(checked)]="inputDisabled" class="padTop">Disabled</vx-checkbox>
   <vx-checkbox [(checked)]="isRequired" class="padTop">Required</vx-checkbox>
   <br>
   <vx-checkbox [(checked)]="numeric" class="padTop">Numeric</vx-checkbox>
-
-  <vx-input-wrapper>
-    <input vxInput placeholder="Min" [disabled]="!numeric" type="number" [(ngModel)]="min" class="small">
-  </vx-input-wrapper>
-  <vx-input-wrapper>
-    <input vxInput placeholder="Max" [disabled]="!numeric" type="number" [(ngModel)]="max" [min]="input.min" class="small">
-  </vx-input-wrapper>
-
-  <!--<vx-input placeholder="Min" [disabled]="!numeric" type="number" [(ngModel)]="input.min" class="small"></vx-input>-->
-  <!--<vx-input placeholder="Max" [disabled]="!numeric" type="number" [(ngModel)]="input.max" [min]="input.min"-->
-            <!--class="small"></vx-input>-->
 
 </section>
 
@@ -114,4 +65,40 @@
 
   <br />
   <vx-checkbox [(checked)]="multiple" class="padTop">Multiple</vx-checkbox>
+</section>
+
+
+<section>
+  <h2>Tabs</h2>
+  Selected Tab: {{selectedTab}}
+  <vx-tabs style="width: 50%; max-height: 300px;" [(selectedTab)]="selectedTab">
+    <vx-tab label="Tab 1">
+      <h1>
+        Tab 1
+      </h1>
+      Followed by some more Content
+      <br>
+      <vx-checkbox class="padTop">and a checkbox</vx-checkbox>
+    </vx-tab>
+
+    <vx-tab label="Tab 2">
+      <h1>
+        Tab 2
+      </h1>
+      <vx-input-wrapper>
+        <input vxInput placeholder="Some Input!">
+      </vx-input-wrapper>
+    </vx-tab>
+
+    <vx-tab label="Tab 3">
+      <h1>
+        Tab 3
+      </h1>
+      <div style="height: 300px;">
+        Here is a tall div
+      </div>
+      Here is more text
+    </vx-tab>
+  </vx-tabs>
+
 </section>

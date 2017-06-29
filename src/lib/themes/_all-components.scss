@@ -1,6 +1,5 @@
 @import 'checkbox';
 @import 'input';
-@import 'number-spinner';
 @import 'tabs';
 @import 'dropdown';
 @import 'autocomplete';
@@ -10,7 +9,6 @@
   @include vx-checkbox-theme($colors);
   @include vx-tabs-theme($colors);
   @include vx-input-theme($colors);
-  @include vx-number-spinner-theme($colors);
   @include vx-dropdown-theme($colors);
   @include vx-autocomplete-theme($colors);
   @include vx-button-theme($colors);

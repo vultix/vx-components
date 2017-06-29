@@ -68,7 +68,7 @@ export class VxAutocompleteComponent implements ControlValueAccessor {
     this._onChangeFn(this.value);
   };
 
-  @ViewChild('input') input: VxInputDirective;
+  @ViewChild(VxInputDirective) input: VxInputDirective;
   @ViewChild('dropdown') dropdown: VxDropdownComponent;
 
   _filteredItems: any[];
@@ -77,19 +77,23 @@ export class VxAutocompleteComponent implements ControlValueAccessor {
 
   _handleInputFocusChange(hasFocus: boolean) {
     if (hasFocus) {
-      setTimeout(() => this._dropdownVisible = true, 0);
+      this._dropdownVisible = true;
     } else {
       setTimeout(() => {
         if (!this.dropdown.hasFocus()) {
           this._dropdownVisible = false;
         } else {
-          // this.input.setHasFocus(true);
+          this.input.focused = true;
+          this.input._elementRef.nativeElement.focus();
         }
       }, 0);
     }
   }
 
   constructor() {
+    setTimeout(() => {
+      this.input.focused = true;
+    }, 2000)
   }
 
   _onSelectItem(item: any) {
@@ -134,6 +138,11 @@ export class VxAutocompleteComponent implements ControlValueAccessor {
 
   _showDropdown() {
     this._dropdownVisible = true;
+  }
+
+  _focusInput() {
+    this.input.focused = true;
+    this.input._elementRef.nativeElement.focus();
   }
 
   _onChangeFn = (v: any) => v;

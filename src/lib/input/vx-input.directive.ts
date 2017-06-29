@@ -7,7 +7,8 @@ import {FormControl, FormGroupDirective, NgControl, NgForm} from '@angular/forms
   host: {
     '(focus)': '_onFocus()',
     '(blur)': '_onBlur()'
-  }
+  },
+  exportAs: 'vxInput'
 })
 export class VxInputDirective {
   /** Whether the element is disabled. */
@@ -40,10 +41,11 @@ export class VxInputDirective {
   }
 
   /** The input element's value. */
-  get value() {
+  get value(): string | number {
     let val = this._elementRef.nativeElement.value;
-    if (this.type === 'number')
-      val = +val || 0;
+    if (val && this.type === 'number')
+      val = +val;
+
     return  val
   }
   set value(value: string | number) { this._elementRef.nativeElement.value = value; }
