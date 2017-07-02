@@ -6,7 +6,7 @@ $colors: (
   background: #fCfCfC,
   error: #bf0000,
   foreground: black,
-  accent: #64afca
+  accent: #FFCA4F
 );
 
 @include vx-load-themes($colors);

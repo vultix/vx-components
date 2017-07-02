@@ -3,13 +3,14 @@ import {ControlValueAccessor, FormGroupDirective, NgControl, NgForm} from '@angu
 import {VxDropdownComponent} from '../dropdown/dropdown.component';
 import * as Fuse from 'fuse.js';
 import {VxInputDirective} from '../input/vx-input.directive';
+import {coerceBooleanProperty} from '../Util';
 
 @Component({
   selector: 'vx-autocomplete',
   templateUrl: './autocomplete.component.html',
   styleUrls: ['./autocomplete.component.scss'],
   host: {
-    '[class.invalid]': '_isInvalid()',
+    '[class.invalid]': '_isInvalid()'
   }
 })
 export class VxAutocompleteComponent<T> implements ControlValueAccessor {
@@ -77,6 +78,10 @@ export class VxAutocompleteComponent<T> implements ControlValueAccessor {
     this._onChangeFn(this.value);
   };
 
+  @Input()
+  get required() { return this._required; }
+  set required(value: any) { this._required = coerceBooleanProperty(value); }
+
   @ViewChild(VxInputDirective) input: VxInputDirective;
   @ViewChild('dropdown') dropdown: VxDropdownComponent;
 
@@ -84,6 +89,7 @@ export class VxAutocompleteComponent<T> implements ControlValueAccessor {
 
   _dropdownVisible = false;
 
+  _required: boolean;
   constructor(@Optional() private _parentForm: NgForm,
               @Optional() private _parentFormGroup: FormGroupDirective, @Optional() @Self() public _ngControl: NgControl) {
     if (_ngControl) {

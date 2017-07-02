@@ -8,9 +8,9 @@
            (focus)="_handleInputFocusChange(true)"
            (blur)="_handleInputFocusChange(false)"
            ngModel (ngModelChange)="_onInputChange($event)"
-           [name]="name" (keydown.tab)="_closeDropdown()">
+           [name]="name" (keydown.tab)="_closeDropdown()" [requiredLabel]="_required">
 
-    <div class="arrowContainer" (click)="_showDropdown()">
+    <div class="arrowContainer" (click)="_focusInput()">
       <div class="downArrow"></div>
     </div>
   </vx-input-wrapper>

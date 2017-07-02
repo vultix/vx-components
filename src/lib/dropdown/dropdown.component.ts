@@ -1,4 +1,5 @@
 import {Component, Input, ElementRef, Output, EventEmitter, ViewChild, HostListener} from '@angular/core';
+import {coerceBooleanProperty} from '../Util';
 
 @Component({
   selector: 'vx-dropdown',
@@ -133,9 +134,4 @@ export class VxDropdownComponent {
     }
     return false;
   }
-}
-
-/** Coerces a data-bound value (typically a string) to a boolean. */
-function coerceBooleanProperty(value: any): boolean {
-  return value != null && `${value}` !== 'false';
 }

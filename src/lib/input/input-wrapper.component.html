@@ -1,5 +1,6 @@
 <div class="label">
   {{ _input?.placeholder }}
+  <span *ngIf="_input?.required || _input?.requiredLabel" class="requiredLabel">*</span>
 </div>
 <div class="container">
   <ng-content></ng-content>

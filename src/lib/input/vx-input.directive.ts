@@ -1,5 +1,6 @@
 import {Directive, ElementRef, Input, Optional, Renderer2, Self} from '@angular/core';
 import {FormControl, FormGroupDirective, NgControl, NgForm} from '@angular/forms';
+import {coerceBooleanProperty} from '../Util';
 
 
 @Directive({
@@ -50,8 +51,15 @@ export class VxInputDirective {
   }
   set value(value: string | number) { this._elementRef.nativeElement.value = value; }
 
+  @Input()
+  get required() { return this._required; }
+  set required(value: any) { this._required = coerceBooleanProperty(value); }
+
+  @Input() requiredLabel: boolean;
+
   _disabled: boolean;
   focused: boolean;
+  _required: boolean;
 
   private _type: string;
   private _placeholder: string;

@@ -2,6 +2,7 @@
   $primary: map-get($colors, primary);
   $background: map-get($colors, background);
   $foreground: map-get($colors, foreground);
+  $accent: map-get($colors, accent);
   $error: map-get($colors, error);
 
   $placeholder: mix($foreground, $background, 30%);
@@ -12,7 +13,7 @@
       background: $background;
       border: 1px solid $labelColor;
     }
-    .label {
+    .label, .requiredLabel {
       color: $labelColor;
     }
     [vxInput] {
@@ -30,6 +31,9 @@
       .label {
         color: $primary;
       }
+      .requiredLabel {
+        color: $accent;
+      }
       input::-webkit-input-placeholder {
         color: mix($foreground, $placeholder, 10%);
       }
@@ -42,6 +46,9 @@
 
       .label {
         color: $error;
+      }
+      .requiredLabel {
+        color: mix($accent, $error);
       }
 
       input::-webkit-input-placeholder {

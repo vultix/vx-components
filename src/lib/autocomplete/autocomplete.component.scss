@@ -1,5 +1,9 @@
 $triangleWidth: 4px;
 $triangleHeight: 7px;
+:host {
+  display: inline-block;
+  vertical-align: middle;
+}
 
 vx-dropdown /deep/ .dropdown {
   margin-top: -2px;
