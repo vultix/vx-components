@@ -4,6 +4,7 @@ import {VxDropdownComponent} from '../dropdown/dropdown.component';
 import * as Fuse from 'fuse.js';
 import {VxInputDirective} from '../input/vx-input.directive';
 import {coerceBooleanProperty} from '../Util';
+import {FuseOptions} from 'fuse.js';
 
 @Component({
   selector: 'vx-autocomplete',
@@ -138,7 +139,7 @@ export class VxAutocompleteComponent<T> implements ControlValueAccessor {
   }
 
   _filter(query: string) {
-    const options = {
+    const options: FuseOptions = {
       keys: this.nameField ? [this.nameField] : null
     };
     this._filteredItems = new Fuse(this._items, options).search(query);

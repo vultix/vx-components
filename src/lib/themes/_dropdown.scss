@@ -3,7 +3,7 @@
   $background: map_get($colors, background);
   $foreground: map_get($colors, foreground);
   $primary: map_get($colors, primary);
-  $border: mix($foreground, $background, 40%);
+  $border: mix($foreground, $background, 15%);
   $focused: mix($foreground, $background, 3%);
 
   vx-dropdown {
