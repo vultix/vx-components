@@ -60,7 +60,8 @@
 <section>
   <h2>Autocomplete</h2>
 
-  <vx-autocomplete placeholder="Choose Item..." [items]="data" nameField="name" valueField="value" [(ngModel)]="selectedCountry" [multiple]="multiple">
+  <vx-autocomplete placeholder="Choose Item..." [items]="data" nameField="name" valueField="value"
+                   [(ngModel)]="selectedCountry" [multiple]="multiple" required>
   </vx-autocomplete> {{selectedCountry}}
 
   <br />

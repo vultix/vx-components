@@ -1,18 +1,18 @@
 <vx-dropdown #dropdown [items]="_filteredItems || _items" [nameField]="nameField"
-             [(visible)]="_dropdownVisible" [autoClose]="false" (itemClick)="_onSelectItem($event)"
-             defaultText="No results found." class="autocompleteDropdown" >
+             [(visible)]="_dropdownVisible" (itemClick)="_onSelectItem($event)"
+             defaultText="No results found." (keydown.ArrowDown)="_showDropdown()"
+             (keydown.escape)="_closeDropdown()" (visibleChange)="_handleDropdownVisibility($event)">
 
-    <vx-input-wrapper>
-      <input vxInput #input [placeholder]="placeholder" [tabIndex]="tabIndex" [disabled]="disabled"
-             (focus)="_handleInputFocusChange(true)"
-             (blur)="_handleInputFocusChange(false)"
-             ngModel (ngModelChange)="_onInputChange($event)"
-             [name]="name" (keydown.tab)="_closeDropdown()" (mousedown)="_showDropdown(); _onTouchedFn()"
-             (keydown.ArrowDown)="_showDropdown(); _onTouchedFn()" (keydown.escape)="_closeDropdown()">
+  <vx-input-wrapper [class.invalid]="_isInvalid()">
+    <input vxInput #input [placeholder]="placeholder" [tabIndex]="tabIndex" [disabled]="disabled"
+           (focus)="_handleInputFocusChange(true)"
+           (blur)="_handleInputFocusChange(false)"
+           ngModel (ngModelChange)="_onInputChange($event)"
+           [name]="name" (keydown.tab)="_closeDropdown()">
 
-      <div class="arrowContainer" (click)="_focusInput()">
-        <div class="downArrow"></div>
-      </div>
-    </vx-input-wrapper>
+    <div class="arrowContainer" (click)="_showDropdown()">
+      <div class="downArrow"></div>
+    </div>
+  </vx-input-wrapper>
 
 </vx-dropdown>

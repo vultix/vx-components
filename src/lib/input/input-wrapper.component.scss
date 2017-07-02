@@ -1,7 +1,8 @@
 :host {
   display: inline-block;
   position: relative;
-  width: 200px;
+  vertical-align: middle;
+
   &.disabled {
     .container, .label {
       cursor: auto;
@@ -21,6 +22,7 @@
   flex-wrap: wrap;
   border-radius: 3px;
   overflow: hidden;
+  line-height: 30px;
 }
 
 
@@ -28,26 +30,35 @@
   font-size: 12px;
   overflow: hidden;
   padding-bottom: 2px;
+  padding-right: 10px;
 }
 
-/deep/ [vxInput] {
-  border: 0;
-  font-size: 15px;
-  outline: none;
-  background: none;
-  flex-grow: 1;
-  max-width: 100%;
-  margin: 5px;
-  width: 25px;
+/deep/ {
+  [vxInput] {
+    border: 0;
+    font-size: 15px;
+    outline: none;
+    background: none;
+    flex-grow: 1;
+    max-width: 100%;
+    margin: 5px;
+    width: 150px;
+    height: 20px;
+    padding: 1px;
 
-  // Numeric Inputs
-  &[type=number] {
-    -moz-appearance: textfield;
+    // Numeric Inputs
+    &[type=number] {
+      -moz-appearance: textfield;
 
-    &::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
+      &::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
     }
   }
 
+  span[vxPrefix], i[vxPrefix] {
+    margin-right: 3px;
+    margin-left: 5px;
+  }
 }

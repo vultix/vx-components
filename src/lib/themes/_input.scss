@@ -5,7 +5,7 @@
   $error: map-get($colors, error);
 
   $placeholder: mix($foreground, $background, 30%);
-  $labelColor: mix($foreground, $background, 40%);
+  $labelColor: mix($foreground, $background, 35%);
 
   vx-input-wrapper {
     .container {
@@ -25,6 +25,7 @@
     &.focused {
       .container {
         border-color: $primary;
+        box-shadow: 0 0 3px $primary;
       }
       .label {
         color: $primary;
@@ -49,6 +50,10 @@
 
       .hasFocus input::-webkit-input-placeholder {
         color: mix($error, $placeholder, 20%);
+      }
+
+      &.focused .container {
+        box-shadow: 0 0 3px $error;
       }
     }
   }

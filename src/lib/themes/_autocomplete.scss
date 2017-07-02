@@ -3,6 +3,7 @@
   $background: map_get($colors, background);
   $primary: map_get($colors, primary);
   $foreground: map_get($colors, foreground);
+  $error: map_get($colors, error);
   $iconColorDown: mix($foreground, $background, 50%);
 
   vx-autocomplete {
@@ -18,6 +19,11 @@
       border-color: $iconColorDown transparent transparent transparent;
     }
 
+    &.invalid {
+      .dropdown {
+        border: 1px solid $error;
+      }
+    }
   }
 
 }

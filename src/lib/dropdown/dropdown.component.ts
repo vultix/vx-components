@@ -113,7 +113,6 @@ export class VxDropdownComponent {
     if (this.autoClose) {
       this.setVisible(false);
     }
-    return false;
   }
 
   //noinspection JSUnusedLocalSymbols
