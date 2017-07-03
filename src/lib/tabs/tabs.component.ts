@@ -1,6 +1,12 @@
 import {
-  Component, AfterViewInit, ContentChildren, QueryList, Input, Output, EventEmitter,
-  HostBinding, OnInit
+  AfterContentInit,
+  Component,
+  ContentChildren,
+  EventEmitter,
+  HostBinding,
+  Input,
+  Output,
+  QueryList
 } from '@angular/core';
 
 
@@ -27,7 +33,7 @@ export class VxTabComponent {
   templateUrl: './tabs.component.html',
   styleUrls: ['./tabs.component.scss']
 })
-export class VxTabsComponent implements AfterViewInit {
+export class VxTabsComponent implements AfterContentInit {
   _selectedTab: number = 0;
 
   /** The selected tab */
@@ -39,7 +45,6 @@ export class VxTabsComponent implements AfterViewInit {
       return;
 
     this._selectedTab = tab || 0;
-
     this.setTabsLeftRight();
     this.ensureSelectedTab();
   };
@@ -58,14 +63,16 @@ export class VxTabsComponent implements AfterViewInit {
   }
 
 
-  ngAfterViewInit(): void {
+  ngAfterContentInit(): void {
     this._tabs.changes.subscribe(() => {
-      setTimeout(() => this.ensureSelectedTab(), 0);
-      this.setTabsLeftRight();
+      setTimeout(() => {
+        this.ensureSelectedTab();
+        this.setTabsLeftRight();
+      });
     });
 
     setTimeout(() => {
-      this.ensureSelectedTab()
+      this.ensureSelectedTab();
       this.setTabsLeftRight();
     });
   }

@@ -73,8 +73,10 @@ export class VxDropdownComponent implements AfterContentInit {
 
       this.items.changes.subscribe(() => {
         // When items change focus the first item
-        this._setFocusedIdx(0);
-        this.updateItemListeners();
+        setTimeout(() => {
+          this._setFocusedIdx(0);
+          this.updateItemListeners();
+        });
 
       });
 
