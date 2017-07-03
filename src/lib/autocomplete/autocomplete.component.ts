@@ -1,5 +1,12 @@
 import {
-  AfterContentInit, Component, ContentChildren, EventEmitter, Input, Optional, QueryList, Self,
+  AfterContentInit,
+  Component,
+  ContentChildren,
+  EventEmitter,
+  Input,
+  Optional,
+  QueryList,
+  Self,
   ViewChild
 } from '@angular/core';
 import {ControlValueAccessor, FormGroupDirective, NgControl, NgForm} from '@angular/forms';
@@ -17,11 +24,12 @@ import {VxItemComponent} from '../dropdown/item.component';
   }
 })
 export class VxAutocompleteComponent implements ControlValueAccessor, AfterContentInit {
-  _multiple: boolean;
-
   get value(): any {
-    if (this.selectedItem)
+    if (!this.multiple && this.selectedItem)
       return this.selectedItem.value;
+    else if (this.multiple && this.selectedItems)
+      return this.selectedItems.map(item => item.value);
+
     return null;
   }
 
@@ -29,7 +37,8 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
   selectedItem: VxItemComponent;
 
   /** If multiple, the selected items */
-  selectedItems: VxItemComponent[];
+  selectedItems: VxItemComponent[] = [];
+
   /** The placeholder to pass down to the input component */
   @Input() placeholder: string;
   /** The name to pass down to the input component */
@@ -47,16 +56,28 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
     return this._multiple;
   };
 
-  set multiple(multiple: boolean) {
-    this._multiple = multiple;
-    this.selectedItem = null;
-    this.selectedItems = [];
-    this._onChangeFn(this.value);
+  set multiple(multiple: any) {
+    multiple = coerceBooleanProperty(multiple);
+    if (multiple !== this.multiple) {
+      setTimeout(() => {
+        this._multiple = multiple;
+        this.selectedItem = null;
+        this.selectedItems = [];
+        this.input.value = '';
+        this.input.placeholder = this.placeholder;
+        this._onChangeFn(this.value);
+      });
+    }
   };
 
   @Input()
-  get required() { return this._required; }
-  set required(value: any) { this._required = coerceBooleanProperty(value); }
+  get required() {
+    return this._required;
+  }
+
+  set required(value: any) {
+    this._required = coerceBooleanProperty(value);
+  }
 
   @ViewChild(VxInputDirective) input: VxInputDirective;
   @ViewChild('dropdown') dropdown: VxDropdownComponent;
@@ -64,6 +85,8 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
   _dropdownVisible = false;
   _itemsFiltered = new EventEmitter();
   _required: boolean;
+  _multiple = false;
+
   constructor(@Optional() private _parentForm: NgForm,
               @Optional() private _parentFormGroup: FormGroupDirective, @Optional() @Self() public _ngControl: NgControl) {
     if (_ngControl) {
@@ -98,18 +121,26 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
     }
   }
 
-  _onSelectItem(value: any) {
+  _onSelectItem(value: any, skipEmit = false) {
     if (!value) {
       this.selectedItem = null;
       return;
     }
 
     const item = this.getItemForValue(value);
-    this.selectedItem = item;
-    this.input.value = item.searchTxt;
-    this.items.forEach(item => item.visible = true);
+    if (this.multiple) {
+      this.selectedItems.push(item);
+      this.input.value = '';
+    } else {
+      this.selectedItem = item;
+      this.input.value = item.searchTxt;
+    }
 
-    this._onChangeFn(this.value);
+    this.items.forEach(item => item.visible = this.selectedItems.indexOf(item) === -1);
+    this._itemsFiltered.emit();
+
+    if (!skipEmit)
+      this._onChangeFn(this.value);
 
 
     setTimeout(() => {
@@ -123,7 +154,10 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
   _filter(query: string) {
     query = query.toUpperCase();
     this.items.forEach(item => {
+      // Does the actual search
       item.visible = !!(item.searchTxt && item.searchTxt.toUpperCase().indexOf(query) !== -1);
+      if (this._multiple)
+        item.visible = item.visible && this.selectedItems.indexOf(item) === -1;
     });
     this._itemsFiltered.next();
   }
@@ -134,7 +168,7 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
     if (value) {
       this._filter(value);
     } else {
-      this.items.forEach(item => item.visible = true);
+      this.items.forEach(item => item.visible = this.selectedItems.indexOf(item) === -1);
       this._itemsFiltered.next();
     }
   }
@@ -179,20 +213,40 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
   }
 
   _repopulateValue(): void {
-    if (this.selectedItem)
+    if (this.selectedItem && !this.multiple)
       this.input.value = this.selectedItem.searchTxt
   }
 
   _hideValue(): void {
-    if (this.selectedItem) {
+    if (this.selectedItem && !this.multiple) {
       const inputEl: HTMLInputElement = this.input._elementRef.nativeElement;
       inputEl.placeholder = this.selectedItem.searchTxt;
       inputEl.value = '';
     }
   }
 
+  _removeItem(item: VxItemComponent) {
+    this.selectedItems = this.selectedItems.filter(itm => itm !== item);
+    item.visible = true;
+    this._itemsFiltered.emit();
+    this._onChangeFn(this.value);
+  }
+
+  _arrowClicked() {
+    this._focusInput();
+    setTimeout(() => {
+      this._showDropdown();
+    });
+  }
+
   writeValue(obj: any): void {
-    this._onSelectItem(this.getItemForValue(obj));
+    if (this.multiple) {
+      obj.forEach(val => {
+        this._onSelectItem(this.getItemForValue(val), true);
+      })
+    } else {
+      this._onSelectItem(this.getItemForValue(obj), true);
+    }
   }
 
   registerOnChange(fn: any): void {
@@ -225,6 +279,25 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
       }
 
       this.items.forEach(item => item.visible = true);
+      this._itemsFiltered.next();
+    } else if (this.value && this.multiple) {
+      let changed = false;
+
+      const newItems = [];
+      this.value.forEach(val => {
+        const item = this.getItemForValue(val);
+        if (!item) {
+          changed = true;
+        } else {
+          newItems.push(item)
+        }
+      });
+
+      if (changed) {
+        this.selectedItems = newItems;
+        this._onChangeFn(this.value);
+      }
+      this.items.forEach(item => item.visible = newItems.indexOf(item) === -1);
       this._itemsFiltered.next();
     }
   }

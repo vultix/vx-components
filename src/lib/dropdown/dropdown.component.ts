@@ -30,6 +30,7 @@ export class VxDropdownComponent implements AfterContentInit {
   @Input() itemsFiltered: EventEmitter<void>;
 
   _focusedIdx: number;
+  private subscriptions: any[] = [];
 
   /** Whether the dropdown is visible */
   @Input()
@@ -195,12 +196,15 @@ export class VxDropdownComponent implements AfterContentInit {
   }
 
   private updateItemListeners(): void {
+    this.subscriptions.forEach((sub) => {
+      sub.unsubscribe();
+    });
 
     this.items.forEach(item => {
-      item.onSelect.subscribe(() => {
+      this.subscriptions.push(item.onSelect.subscribe(() => {
         this._selectItem(item);
-      })
+      }))
     })
-
   }
+
 }

@@ -4,6 +4,7 @@ import {FormsModule, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {VxAutocompleteComponent} from './autocomplete.component';
 import {VxInputModule} from '../input/input.module';
 import {VxDropdownModule} from '../dropdown/dropdown.module';
+import {VxItemComponent} from '../dropdown/item.component';
 
 @NgModule({
   imports: [
@@ -13,7 +14,7 @@ import {VxDropdownModule} from '../dropdown/dropdown.module';
     VxDropdownModule
   ],
   declarations: [VxAutocompleteComponent],
-  exports: [VxAutocompleteComponent],
+  exports: [VxAutocompleteComponent, VxItemComponent],
 
 })
 export class VxAutocompleteModule {

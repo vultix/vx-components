@@ -30,3 +30,25 @@ vx-dropdown /deep/ .dropdown {
     transform: translate(-50%, -50%);
   }
 }
+
+.chip {
+  font-size: 12px;
+  padding: 7px;
+  border-radius: 8px;
+  margin-left: 3px;
+  vertical-align: middle;
+  animation: chipEntrance .3s;
+  @keyframes chipEntrance {
+    from {
+      transform: scale(0, 0);
+    }
+    to {
+      transform: scale(1, 1);
+    }
+  }
+}
+
+.delete {
+  margin-left: 2px;
+  font-weight: bold;
+}

@@ -41,10 +41,10 @@
     background: none;
     flex-grow: 1;
     max-width: 100%;
-    margin: 5px;
+    margin: 0;
     width: 150px;
     height: 20px;
-    padding: 1px;
+    padding: 7px;
 
     // Numeric Inputs
     &[type=number] {
