@@ -9,15 +9,17 @@
         <button vx-button *ngFor="let item of selectedItems" class="chip" (click)="_removeItem(item)"> {{ item.searchTxt }} <span
           class="delete">X</span> </button>
       </span>
-      <input vxInput #input [placeholder]="placeholder" [tabIndex]="tabIndex" [disabled]="disabled"
-             (focus)="_handleInputFocusChange(true)"
-             (blur)="_handleInputFocusChange(false)"
-             ngModel (ngModelChange)="_onInputChange($event)"
-             [name]="name" (keydown.tab)="_closeDropdown()" [requiredLabel]="_required">
+      <span class="noWrap">
+        <input vxInput #input [placeholder]="placeholder" [tabIndex]="tabIndex" [disabled]="disabled"
+               (focus)="_handleInputFocusChange(true)"
+               (blur)="_handleInputFocusChange(false)"
+               ngModel (ngModelChange)="_onInputChange($event)"
+               [name]="name" (keydown.tab)="_closeDropdown()" [requiredLabel]="_required">
 
-      <div class="arrowContainer" (click)="_arrowClicked()">
-        <div class="downArrow"></div>
-      </div>
+        <div class="arrowContainer" (click)="_arrowClicked()">
+          <div class="downArrow"></div>
+        </div>
+      </span>
     </vx-input-wrapper>
   </div>
 

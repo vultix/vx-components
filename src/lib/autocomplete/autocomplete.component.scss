@@ -18,6 +18,8 @@ vx-dropdown /deep/ .dropdown {
   width: 30px;
   cursor: pointer;
   position: relative;
+  display: inline-block;
+  vertical-align: middle;
 
   .downArrow {
     width: 0;
@@ -51,4 +53,8 @@ vx-dropdown /deep/ .dropdown {
 .delete {
   margin-left: 2px;
   font-weight: bold;
+}
+
+.noWrap {
+  white-space: nowrap;
 }
