@@ -1,18 +1,22 @@
-<!--<vx-dropdown #dropdown [items]="_filteredItems || _items" [nameField]="nameField"-->
-             <!--[(visible)]="_dropdownVisible" (itemClick)="_onSelectItem($event)"-->
-             <!--defaultText="No results found." (keydown.ArrowDown)="_showDropdown()"-->
-             <!--(keydown.escape)="_closeDropdown()" (visibleChange)="_handleDropdownVisibility($event)">-->
+<vx-dropdown #dropdown [(visible)]="_dropdownVisible" (itemClick)="_onSelectItem($event)"
+             defaultText="No results found." (keydown.ArrowDown)="_showDropdown()"
+             (keydown.escape)="_closeDropdown()" (visibleChange)="_handleDropdownVisibility($event)"
+             [autocompleteItems]="items" [itemsFiltered]="_itemsFiltered">
 
-  <!--<vx-input-wrapper [class.invalid]="_isInvalid()">-->
-    <!--<input vxInput #input [placeholder]="placeholder" [tabIndex]="tabIndex" [disabled]="disabled"-->
-           <!--(focus)="_handleInputFocusChange(true)"-->
-           <!--(blur)="_handleInputFocusChange(false)"-->
-           <!--ngModel (ngModelChange)="_onInputChange($event)"-->
-           <!--[name]="name" (keydown.tab)="_closeDropdown()" [requiredLabel]="_required">-->
+  <div vx-dropdown-content>
+    <vx-input-wrapper [class.invalid]="_isInvalid()">
+      <input vxInput #input [placeholder]="placeholder" [tabIndex]="tabIndex" [disabled]="disabled"
+             (focus)="_handleInputFocusChange(true)"
+             (blur)="_handleInputFocusChange(false)"
+             ngModel (ngModelChange)="_onInputChange($event)"
+             [name]="name" (keydown.tab)="_closeDropdown()" [requiredLabel]="_required">
 
-    <!--<div class="arrowContainer" (click)="_focusInput()">-->
-      <!--<div class="downArrow"></div>-->
-    <!--</div>-->
-  <!--</vx-input-wrapper>-->
+      <div class="arrowContainer" (click)="_focusInput()">
+        <div class="downArrow"></div>
+      </div>
+    </vx-input-wrapper>
+  </div>
 
-<!--</vx-dropdown>-->
+  <ng-content select="vx-item" vx-autocomplete-items></ng-content>
+
+</vx-dropdown>

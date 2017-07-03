@@ -1,10 +1,12 @@
-import {Component, Input, Optional, Self, ViewChild} from '@angular/core';
+import {
+  AfterContentInit, Component, ContentChildren, EventEmitter, Input, Optional, QueryList, Self,
+  ViewChild
+} from '@angular/core';
 import {ControlValueAccessor, FormGroupDirective, NgControl, NgForm} from '@angular/forms';
 import {VxDropdownComponent} from '../dropdown/dropdown.component';
-import * as Fuse from 'fuse.js';
 import {VxInputDirective} from '../input/vx-input.directive';
 import {coerceBooleanProperty} from '../Util';
-import {FuseOptions} from 'fuse.js';
+import {VxItemComponent} from '../dropdown/item.component';
 
 @Component({
   selector: 'vx-autocomplete',
@@ -14,21 +16,20 @@ import {FuseOptions} from 'fuse.js';
     '[class.invalid]': '_isInvalid()'
   }
 })
-export class VxAutocompleteComponent<T> implements ControlValueAccessor {
-  _items: T[];
+export class VxAutocompleteComponent implements ControlValueAccessor, AfterContentInit {
   _multiple: boolean;
 
   get value(): any {
     if (this.selectedItem)
-      return this.valueField ? this.selectedItem[this.valueField] : this.selectedItem
+      return this.selectedItem.value;
     return null;
   }
 
   /** The selected item */
-  selectedItem: T;
+  selectedItem: VxItemComponent;
 
   /** If multiple, the selected items */
-  selectedItems: T[];
+  selectedItems: VxItemComponent[];
   /** The placeholder to pass down to the input component */
   @Input() placeholder: string;
   /** The name to pass down to the input component */
@@ -38,33 +39,7 @@ export class VxAutocompleteComponent<T> implements ControlValueAccessor {
   /** Whether or not the component is disabled  */
   @Input() disabled: boolean;
 
-  /** The items to show in the dropdown */
-  @Input()
-  get items() {
-    return this._items;
-  };
-
-  set items(items: T[]) {
-    this._items = items;
-    if (items && this.value && !this.multiple) {
-      if (!this.getItemForValue(this.value)) {
-        // If the selected value isn't in the new items, remove it
-        this.selectedItem = null;
-        this.input.value = '';
-        this._filteredItems = null;
-        debugger;
-        this._onChangeFn(null);
-      } else {
-        this._filteredItems = null;
-      }
-    }
-  };
-
-  /** The nameField to pass to the dropdown */
-  @Input() nameField: string;
-
-  /** The valueField to pass to the dropdown */
-  @Input() valueField: string;
+  @ContentChildren(VxItemComponent) items: QueryList<VxItemComponent>;
 
   /** Whether or not to allow multiple selection */
   @Input()
@@ -86,16 +61,22 @@ export class VxAutocompleteComponent<T> implements ControlValueAccessor {
   @ViewChild(VxInputDirective) input: VxInputDirective;
   @ViewChild('dropdown') dropdown: VxDropdownComponent;
 
-  _filteredItems: any[];
-
   _dropdownVisible = false;
-
+  _itemsFiltered = new EventEmitter();
   _required: boolean;
   constructor(@Optional() private _parentForm: NgForm,
               @Optional() private _parentFormGroup: FormGroupDirective, @Optional() @Self() public _ngControl: NgControl) {
     if (_ngControl) {
       _ngControl.valueAccessor = this;
     }
+  }
+
+  ngAfterContentInit() {
+    this.items.changes.subscribe(() => {
+      this.updateSelectedItem();
+    });
+
+    this.updateSelectedItem();
   }
 
   _handleInputFocusChange(hasFocus: boolean) {
@@ -117,15 +98,16 @@ export class VxAutocompleteComponent<T> implements ControlValueAccessor {
     }
   }
 
-  _onSelectItem(item: any) {
-    if (!item) {
+  _onSelectItem(value: any) {
+    if (!value) {
       this.selectedItem = null;
       return;
     }
 
+    const item = this.getItemForValue(value);
     this.selectedItem = item;
-    this.input.value = this.nameField ? item[this.nameField] : item;
-    this._filter(this.nameField ? item[this.nameField] : item);
+    this.input.value = item.searchTxt;
+    this.items.forEach(item => item.visible = true);
 
     this._onChangeFn(this.value);
 
@@ -139,10 +121,11 @@ export class VxAutocompleteComponent<T> implements ControlValueAccessor {
   }
 
   _filter(query: string) {
-    const options: FuseOptions = {
-      keys: this.nameField ? [this.nameField] : null
-    };
-    this._filteredItems = new Fuse(this._items, options).search(query);
+    query = query.toUpperCase();
+    this.items.forEach(item => {
+      item.visible = !!(item.searchTxt && item.searchTxt.toUpperCase().indexOf(query) !== -1);
+    });
+    this._itemsFiltered.next();
   }
 
   _onInputChange(value: any) {
@@ -151,7 +134,8 @@ export class VxAutocompleteComponent<T> implements ControlValueAccessor {
     if (value) {
       this._filter(value);
     } else {
-      this._filteredItems = null;
+      this.items.forEach(item => item.visible = true);
+      this._itemsFiltered.next();
     }
   }
 
@@ -196,18 +180,18 @@ export class VxAutocompleteComponent<T> implements ControlValueAccessor {
 
   _repopulateValue(): void {
     if (this.selectedItem)
-      this.input.value = this.nameField ? this.selectedItem[this.nameField] : this.selectedItem;
+      this.input.value = this.selectedItem.searchTxt
   }
 
   _hideValue(): void {
     if (this.selectedItem) {
       const inputEl: HTMLInputElement = this.input._elementRef.nativeElement;
-      inputEl.placeholder = this.nameField ? this.selectedItem[this.nameField] : this.selectedItem;
+      inputEl.placeholder = this.selectedItem.searchTxt;
       inputEl.value = '';
     }
   }
 
-  writeValue(obj: T): void {
+  writeValue(obj: any): void {
     this._onSelectItem(this.getItemForValue(obj));
   }
 
@@ -219,15 +203,30 @@ export class VxAutocompleteComponent<T> implements ControlValueAccessor {
     this._onTouchedFn = fn;
   }
 
-  private getItemForValue(value: T): T {
-    if (!this.valueField) {
-      return value;
-    } else {
-      for (const item of this._items) {
-        if (item[this.valueField] === value) {
-          return item;
-        }
+  private getItemForValue(value: any): VxItemComponent {
+    if (!this.items)
+      return null;
+
+    for (const item of this.items.toArray()) {
+      if (item.value === value) {
+        return item;
       }
     }
   }
+
+  private updateSelectedItem() {
+    if (this.value && !this.multiple) {
+      if (!this.getItemForValue(this.value)) {
+        // If the selected value isn't in the new items, remove it
+        this.selectedItem = null;
+        this.input.value = '';
+
+        this._onChangeFn(null);
+      }
+
+      this.items.forEach(item => item.visible = true);
+      this._itemsFiltered.next();
+    }
+  }
+
 }

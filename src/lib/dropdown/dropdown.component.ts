@@ -26,6 +26,9 @@ export class VxDropdownComponent implements AfterContentInit {
   /** The dropdown's items */
   @ContentChildren(VxItemComponent) items: QueryList<VxItemComponent>;
 
+  @Input() autocompleteItems: QueryList<VxItemComponent>;
+  @Input() itemsFiltered: EventEmitter<void>;
+
   _focusedIdx: number;
 
   /** Whether the dropdown is visible */
@@ -38,7 +41,7 @@ export class VxDropdownComponent implements AfterContentInit {
     this._visible = coerceBooleanProperty(visible);
 
     // When visibility changes focus the first item;
-    this._setFocusedIdx(0);
+    setTimeout(() => this._setFocusedIdx(0));
   };
 
   /** The default text to display if there are no items */
@@ -53,6 +56,10 @@ export class VxDropdownComponent implements AfterContentInit {
   /** Event thrown when an item is chosen.  Will emit the selected vx-item's value */
   @Output() itemClick = new EventEmitter();
 
+  get _visibleItems(): VxItemComponent[] {
+    return this.items ? this.items.filter(item => item.visible) : [];
+  }
+
   private activeItem: VxItemComponent;
   constructor(el: ElementRef) {
     this._el = el;
@@ -60,15 +67,27 @@ export class VxDropdownComponent implements AfterContentInit {
   }
 
   ngAfterContentInit() {
-    this.items.changes.subscribe(() => {
-      // When items change focus the first item
+    setTimeout(() => {
+      if (this.autocompleteItems)
+        this.items = this.autocompleteItems;
+
+      this.items.changes.subscribe(() => {
+        // When items change focus the first item
+        this._setFocusedIdx(0);
+        this.updateItemListeners();
+
+      });
+
       this._setFocusedIdx(0);
-
       this.updateItemListeners();
-    });
 
-    this._setFocusedIdx(0);
-    this.updateItemListeners();
+      if (this.itemsFiltered) {
+        this.itemsFiltered.subscribe(() => {
+            this._setFocusedIdx(0)
+            this.updateItemListeners();
+        })
+      }
+    });
   }
 
   /** Sets the visibility of the dropdown */
@@ -98,14 +117,17 @@ export class VxDropdownComponent implements AfterContentInit {
   @HostListener('keydown.ArrowUp', ['_focusedIdx - 1'])
   @HostListener('keydown.ArrowDown', ['_focusedIdx + 1'])
   _setFocusedIdx(idx: number) {
-    if (idx < 0 || idx > (this.items.length - 1)) {
+    if (!this.items)
+      return;
+
+    if (idx < 0 || idx > (this._visibleItems.length - 1)) {
       return;
     }
     this._focusedIdx = idx;
 
     if (this._el && this._dropdown) {
       // Scroll inside the container
-      this.items.forEach((item, idx) => {
+      this._visibleItems.forEach((item, idx) => {
         item.focused = false;
         if (idx === this._focusedIdx) {
           item.focused = true;
@@ -147,7 +169,7 @@ export class VxDropdownComponent implements AfterContentInit {
       if (this.activeItem)
         this.activeItem.active = false;
 
-      this.activeItem = this.items.toArray()[this._focusedIdx];
+      this.activeItem = this._visibleItems[this._focusedIdx];;
       this.activeItem.active = true;
     }
     return false;
@@ -163,7 +185,9 @@ export class VxDropdownComponent implements AfterContentInit {
         this.activeItem = null;
       }
 
-      this._selectItem(this.items.toArray()[this._focusedIdx]);
+      const curItem = this._visibleItems[this._focusedIdx];
+      this._selectItem(curItem);
+
     }
     return false;
   }

@@ -1,5 +1,5 @@
 :host {
-  display: block;
+  display: none;
   width: 100%;
   border: none;
   padding: 15px;
@@ -8,4 +8,8 @@
   font-family: inherit;
   box-sizing: border-box;
   cursor: pointer;
+
+  &.visible {
+    display: block;
+  }
 }
