@@ -195,8 +195,10 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
   }
 
   _focusInput() {
-    this.input.focused = true;
-    this.input._elementRef.nativeElement.focus();
+    if (this.wasDropdownOpened) {
+      this.input.focused = true;
+      this.input._elementRef.nativeElement.focus();
+    }
   }
 
   _onChangeFn = (v: any) => v;

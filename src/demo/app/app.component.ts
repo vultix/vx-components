@@ -8,7 +8,7 @@ import {Component} from '@angular/core';
 export class AppComponent {
   isRequired = false;
   selectedItem = '';
-  selectedCountry: String = null;
+  selectedCountry: String = 'US';
   numeric = false;
   buttonAccent = false;
   buttonFlat = false;
