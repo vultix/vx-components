@@ -1,11 +1,15 @@
-<ng-content></ng-content>
+<ng-content select="[vx-dropdown-content]"></ng-content>
 
 <span #dropdown class="dropdown" [class.visible]="_visible" [attr.tabindex]="_visible ? 0 : -1">
 
-  <span class="item" *ngFor="let item of _items; let idx = index;" (click)="_selectItem(item); _setFocusedIdx(idx)"
-        [class.active]="_activeIdx === idx" [class.focused]="_focusedIdx === idx" (focus)="_setFocusedIdx(idx)">
-    {{nameField ? item[nameField] : item}}
-  </span>
+  <ng-content select="vx-item">
+
+  </ng-content>
+
+  <!--<span class="item" *ngFor="let item of _items; let idx = index;" (click)="_selectItem(item); _setFocusedIdx(idx)"-->
+        <!--[class.active]="_activeIdx === idx" [class.focused]="_focusedIdx === idx" (focus)="_setFocusedIdx(idx)">-->
+    <!--{{nameField ? item[nameField] : item}}-->
+  <!--</span>-->
 
   <span *ngIf="defaultText && (!_items || !_items.length)" class="default">
     {{defaultText}}

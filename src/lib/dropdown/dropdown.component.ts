@@ -1,44 +1,45 @@
-import {Component, Input, ElementRef, Output, EventEmitter, ViewChild, HostListener} from '@angular/core';
+import {
+  AfterContentInit,
+  Component,
+  ContentChildren,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  Output,
+  QueryList,
+  ViewChild
+} from '@angular/core';
 import {coerceBooleanProperty} from '../Util';
+import {VxItemComponent} from './item.component';
 
 @Component({
   selector: 'vx-dropdown',
   templateUrl: './dropdown.component.html',
   styleUrls: ['./dropdown.component.scss']
 })
-export class VxDropdownComponent {
+export class VxDropdownComponent implements AfterContentInit {
   private _el: ElementRef;
   _visible = false;
-  _items: any[] = [];
   @ViewChild('dropdown') private _dropdown: ElementRef;
 
-  _activeIdx: number;
+  /** The dropdown's items */
+  @ContentChildren(VxItemComponent) items: QueryList<VxItemComponent>;
+
   _focusedIdx: number;
 
   /** Whether the dropdown is visible */
   @Input()
-  get visible() { return this._visible; };
+  get visible() {
+    return this._visible;
+  };
+
   set visible(visible: boolean) {
     this._visible = coerceBooleanProperty(visible);
 
     // When visibility changes focus the first item;
     this._setFocusedIdx(0);
   };
-
-  /** The dropdown's items */
-  @Input()
-  set items(items: any[]) {
-    this._items = items || [];
-
-    // When items change focus the first item;
-    this._setFocusedIdx(0);
-  };
-
-  /** If specified will display item[nameField] rather than the item itself */
-  @Input() nameField: string;
-
-  /** If specified the itemClick event will return item[valueField] rather than the item itself */
-  @Input() valueField: string;
 
   /** The default text to display if there are no items */
   @Input() defaultText: string;
@@ -49,11 +50,25 @@ export class VxDropdownComponent {
   /** Event thrown when the dropdown's visibility changes. The value is the visibility (true or false) */
   @Output() visibleChange = new EventEmitter<boolean>();
 
-  /** Event thrown when an item is chosen.  Will either emit the chosen item or item[valueField] if valueField is specified */
+  /** Event thrown when an item is chosen.  Will emit the selected vx-item's value */
   @Output() itemClick = new EventEmitter();
 
+  private activeItem: VxItemComponent;
   constructor(el: ElementRef) {
     this._el = el;
+
+  }
+
+  ngAfterContentInit() {
+    this.items.changes.subscribe(() => {
+      // When items change focus the first item
+      this._setFocusedIdx(0);
+
+      this.updateItemListeners();
+    });
+
+    this._setFocusedIdx(0);
+    this.updateItemListeners();
   }
 
   /** Sets the visibility of the dropdown */
@@ -61,7 +76,11 @@ export class VxDropdownComponent {
     if (visible !== this._visible) {
       this._visible = visible;
       this.visibleChange.emit(visible);
-      this._activeIdx = null;
+      if (this.activeItem) {
+        this.activeItem.active = false;
+        this.activeItem = null;
+      }
+
       this._focusedIdx = 0;
     }
   }
@@ -79,27 +98,32 @@ export class VxDropdownComponent {
   @HostListener('keydown.ArrowUp', ['_focusedIdx - 1'])
   @HostListener('keydown.ArrowDown', ['_focusedIdx + 1'])
   _setFocusedIdx(idx: number) {
-    if (idx < 0 || idx > (this._items.length - 1)) {
+    if (idx < 0 || idx > (this.items.length - 1)) {
       return;
     }
     this._focusedIdx = idx;
 
     if (this._el && this._dropdown) {
       // Scroll inside the container
-      const elements = this._el.nativeElement.getElementsByClassName('item');
-      const dropdown = this._dropdown.nativeElement;
+      this.items.forEach((item, idx) => {
+        item.focused = false;
+        if (idx === this._focusedIdx) {
+          item.focused = true;
 
-      if (elements[idx]) {
-        const top = elements[idx].offsetTop;
-        dropdown.scrollTop = top - dropdown.offsetHeight / 4;
-      }
+          const dropdown = this._dropdown.nativeElement;
+
+          const top = item._elementRef.nativeElement.offsetTop;
+          dropdown.scrollTop = top - dropdown.offsetHeight / 4;
+        }
+      });
+
     }
 
     return false;
   }
 
   _selectItem(item: any) {
-    this.itemClick.emit(this.valueField ? item[this.valueField] : item);
+    this.itemClick.emit(item.value);
 
     if (this._dropdown && this._dropdown.nativeElement) {
       this._dropdown.nativeElement.focus();
@@ -120,7 +144,11 @@ export class VxDropdownComponent {
   @HostListener('keydown.enter')
   private _enterKeyDown() {
     if (this._visible) {
-      this._activeIdx = this._focusedIdx;
+      if (this.activeItem)
+        this.activeItem.active = false;
+
+      this.activeItem = this.items.toArray()[this._focusedIdx];
+      this.activeItem.active = true;
     }
     return false;
   }
@@ -129,9 +157,24 @@ export class VxDropdownComponent {
   @HostListener('keyup.enter')
   private _enterKeyUp() {
     if (this._visible) {
-      this._activeIdx = null;
-      this._selectItem(this._items[this._focusedIdx]);
+
+      if (this.activeItem) {
+        this.activeItem.active = false;
+        this.activeItem = null;
+      }
+
+      this._selectItem(this.items.toArray()[this._focusedIdx]);
     }
     return false;
+  }
+
+  private updateItemListeners(): void {
+
+    this.items.forEach(item => {
+      item.onSelect.subscribe(() => {
+        this._selectItem(item);
+      })
+    })
+
   }
 }

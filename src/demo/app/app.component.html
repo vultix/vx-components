@@ -47,9 +47,21 @@
 <section>
   <h2>Dropdown</h2>
 
-  <vx-dropdown #dropdown [items]="['Item 1', 'Item 2', 'Item 3']" (itemClick)="dropdownClick($event)">
-    <button vx-button (click)="dropdown.toggle()">Toggle Dropdown</button>
-    Selection: {{selectedItem}}
+  <vx-dropdown #dropdown (itemClick)="dropdownClick($event)">
+    <div vx-dropdown-content>
+      <button vx-button (click)="dropdown.toggle()">Toggle Dropdown</button>
+      Selection: {{selectedItem}}
+    </div>
+
+    <vx-item value="1">
+      Item 1
+    </vx-item>
+    <vx-item value="2">
+      Item 2
+    </vx-item>
+    <vx-item value="3">
+      Item 3
+    </vx-item>
   </vx-dropdown>
 
   <br/>
