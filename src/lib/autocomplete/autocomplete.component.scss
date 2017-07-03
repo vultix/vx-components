@@ -16,6 +16,7 @@ vx-dropdown /deep/ .dropdown {
 
 .arrowContainer {
   width: 30px;
+  height: 100%;
   cursor: pointer;
   position: relative;
   display: inline-block;
@@ -37,7 +38,7 @@ vx-dropdown /deep/ .dropdown {
   font-size: 12px;
   padding: 7px;
   border-radius: 8px;
-  margin-left: 3px;
+  margin: 2px 2px 2px 3px;
   vertical-align: middle;
   animation: chipEntrance .3s;
   @keyframes chipEntrance {
@@ -56,5 +57,11 @@ vx-dropdown /deep/ .dropdown {
 }
 
 .noWrap {
-  white-space: nowrap;
+  flex-grow: 1;
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+vx-input-wrapper, vx-dropdown {
+  width: 100%;
 }

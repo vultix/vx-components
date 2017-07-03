@@ -30,7 +30,7 @@ export class VxDropdownComponent implements AfterContentInit {
   @Input() itemsFiltered: EventEmitter<void>;
 
   _focusedIdx: number;
-  private subscriptions: any[] = [];
+  private subscriptions = {};
 
   /** Whether the dropdown is visible */
   @Input()
@@ -147,7 +147,10 @@ export class VxDropdownComponent implements AfterContentInit {
     return false;
   }
 
-  _selectItem(item: any) {
+  _selectItem(item: VxItemComponent) {
+    if (item.disabled)
+      return;
+
     this.itemClick.emit(item.value);
 
     if (this._dropdown && this._dropdown.nativeElement) {
@@ -159,8 +162,13 @@ export class VxDropdownComponent implements AfterContentInit {
 
   @HostListener('keydown.escape')
   @HostListener('keydown.tab')
-  _closeIfAutoClose() {
-    if (this.autoClose) {
+  @HostListener('window:mousedown', ['$event'])
+  @HostListener('window:touchstart', ['$event'])
+  _closeIfAutoClose(event?: MouseEvent) {
+    if (this.autoClose && this.visible) {
+      if (event && isDescendant(this._dropdown.nativeElement, event.srcElement)) {
+        return;
+      }
       this.setVisible(false);
     }
   }
@@ -173,7 +181,8 @@ export class VxDropdownComponent implements AfterContentInit {
         this.activeItem.active = false;
 
       this.activeItem = this._visibleItems[this._focusedIdx];;
-      this.activeItem.active = true;
+      if (!this.activeItem.disabled)
+        this.activeItem.active = true;
     }
     return false;
   }
@@ -189,22 +198,31 @@ export class VxDropdownComponent implements AfterContentInit {
       }
 
       const curItem = this._visibleItems[this._focusedIdx];
-      this._selectItem(curItem);
+      curItem.handleClick();
 
     }
     return false;
   }
 
   private updateItemListeners(): void {
-    this.subscriptions.forEach((sub) => {
-      sub.unsubscribe();
-    });
-
     this.items.forEach(item => {
-      this.subscriptions.push(item.onSelect.subscribe(() => {
-        this._selectItem(item);
-      }))
+      if (!this.subscriptions[item.value]) {
+        this.subscriptions[item.value] = item.onSelect.subscribe(() => {
+          this._selectItem(item);
+        });
+      }
     })
   }
 
+}
+
+function isDescendant(parent: Element, child: Element) {
+  let node = child.parentNode;
+  while (node != null) {
+    if (node == parent) {
+      return true;
+    }
+    node = node.parentNode;
+  }
+  return false;
 }

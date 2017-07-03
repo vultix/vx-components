@@ -87,6 +87,7 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
   _multiple = false;
 
   private _value: any;
+  private wasDropdownOpened = false;
   constructor(@Optional() private _parentForm: NgForm,
               @Optional() private _parentFormGroup: FormGroupDirective, @Optional() @Self() public _ngControl: NgControl) {
     if (_ngControl) {
@@ -113,8 +114,7 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
           this._dropdownVisible = false;
           this._repopulateValue();
           this._onTouchedFn();
-        } else {
-          // this._focusInput();
+        } else if (this.wasDropdownOpened) {
           this.input.focused = true;
         }
       }, 0);
@@ -191,6 +191,7 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
     this._hideValue();
     this._dropdownVisible = true;
     this.input.focused = true;
+    this.wasDropdownOpened = true;
   }
 
   _focusInput() {
@@ -243,7 +244,8 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
   }
 
   writeValue(obj: any): void {
-    if (this.multiple) {
+    if (this.multiple && obj) {
+      this.selectedItems = [];
       obj.forEach(val => {
         this._onSelectItem(val, true);
       })
