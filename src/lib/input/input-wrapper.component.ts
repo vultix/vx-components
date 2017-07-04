@@ -15,7 +15,7 @@ import {VxInputDirective} from './vx-input.directive';
 export class VxInputWrapperComponent implements OnInit {
   @ContentChild(VxInputDirective) _input: VxInputDirective;
 
-  ngOnInit() {
+  ngOnInit(): void {
     if (!this._input)
       throw new Error('<vx-input-wrapper> requires a vxInput directive!');
   }

@@ -269,12 +269,12 @@ export class AppComponent {
 
   buttonTimer: any;
 
-  dropdownClick (item: string) {
+  dropdownClick (item: string): void {
     this.selectedItem = item;
   }
 
 
-  buttonClick() {
+  buttonClick(): void {
     this.clicked = true;
     if (this.buttonTimer) {
       clearTimeout(this.buttonTimer);

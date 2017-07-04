@@ -1,5 +1,6 @@
 import {Component, forwardRef, Input, Output, EventEmitter, HostBinding, HostListener} from '@angular/core';
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
+import {coerceBooleanProperty} from '../Util';
 
 @Component({
   selector: 'vx-checkbox',
@@ -20,7 +21,7 @@ export class VxCheckboxComponent implements ControlValueAccessor {
   /** The checkbox's tabIndex */
   @HostBinding('attr.tabIndex')
   @Input()
-  get tabIndex() { return this.disabled ? -1 : this._tabIndex; }
+  get tabIndex(): number { return this.disabled ? -1 : this._tabIndex; }
   set tabIndex(tabIndex: number) {
     this._tabIndex = tabIndex;
   };
@@ -30,13 +31,14 @@ export class VxCheckboxComponent implements ControlValueAccessor {
   @Input() disabled = false;
 
   /** Name value will be applied to the input element if present */
-  @Input() name: string = null;
+  @Input() name: string;
 
   /** Whether the checkbox is checked */
   @HostBinding('class.checked')
   @Input()
-  get checked() { return this._checked; };
+  get checked(): boolean { return this._checked; };
   set checked(checked: boolean) {
+    checked = coerceBooleanProperty(checked);
     this._onChangeFn(checked);
     this._onTouchedFn();
     this._checked = checked;
@@ -49,7 +51,7 @@ export class VxCheckboxComponent implements ControlValueAccessor {
   @HostListener('click')
   @HostListener('keydown.space')
   @HostListener('keydown.enter')
-  public toggle() {
+  public toggle(): boolean {
     this.checked = !this.checked;
     this.checkedChange.emit(this.checked);
     this._onChangeFn(this.checked);

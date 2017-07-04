@@ -34,11 +34,11 @@ export class VxTabComponent {
   styleUrls: ['./tabs.component.scss']
 })
 export class VxTabsComponent implements AfterContentInit {
-  _selectedTab: number = 0;
+  _selectedTab = 0;
 
   /** The selected tab */
   @Input('selectedTab')
-  get selectedTab() { return this._selectedTab; }
+  get selectedTab(): number { return this._selectedTab; }
   set selectedTab(tab: number) {
     this.previousTab = this._selectedTab || 0;
     if (tab === this.previousTab)
@@ -57,7 +57,7 @@ export class VxTabsComponent implements AfterContentInit {
   private previousTab = 0;
 
   /** Sets the selected tab to be the tabIdx */
-  public selectTab(tabIdx: number) {
+  public selectTab(tabIdx: number): void {
     this.selectedTab = tabIdx;
     this.selectedTabChange.emit(tabIdx);
   }
@@ -78,18 +78,18 @@ export class VxTabsComponent implements AfterContentInit {
   }
 
   /** Ensures that we have the correct tab selected */
-  private ensureSelectedTab() {
+  private ensureSelectedTab(): void {
     if (this._tabs && this._tabs.length) {
       if (this.selectedTab < 0 || this.selectedTab >= this._tabs.length) {
         this.selectTab(0);
       }
 
-      this._tabs.forEach((tab) => tab.active = false);
+      this._tabs.forEach(tab => tab.active = false);
       this._tabs.toArray()[this.selectedTab].active = true;
     }
   }
 
-  private setTabsLeftRight() {
+  private setTabsLeftRight(): void {
     const oldTab = this.previousTab;
     const tab = this.selectedTab;
     if (this._tabs) {

@@ -38,7 +38,8 @@ describe('VxTabsComponent', () => {
     let elements = getTabLabelElements();
     expect(elements.length).toBe(TABS_1.length);
     for (let i = 0; i < elements.length; i++) {
-      expect(elements[i].textContent.trim()).toBe(TABS_1[i]);
+      const content = elements[i].textContent || '';
+      expect(content.trim()).toBe(TABS_1[i]);
     }
 
     testComponent.tabs = TABS_2;
@@ -47,7 +48,8 @@ describe('VxTabsComponent', () => {
 
     expect(elements.length).toBe(TABS_2.length);
     for (let i = 0; i < elements.length; i++) {
-      expect(elements[i].textContent.trim()).toBe(TABS_2[i]);
+      const content = elements[i].textContent || '';
+      expect(content.trim()).toBe(TABS_2[i]);
     }
   });
 
@@ -109,8 +111,10 @@ describe('VxTabsComponent', () => {
   function getTabLabelElements(): HTMLSpanElement[] {
     const nodes = tabsNativeElement.querySelectorAll('.tab');
     const result: HTMLDivElement[] = [];
+
+    // tslint:disable-next-line
     for (let i = 0; i < nodes.length; i++) {
-      result.push(<HTMLDivElement> nodes[i]);
+      result.push(nodes[i] as HTMLDivElement);
     }
 
     return result;

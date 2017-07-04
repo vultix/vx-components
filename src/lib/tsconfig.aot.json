@@ -8,14 +8,16 @@
       "es2015",
       "dom"
     ],
-    "noImplicitAny": false,
     "target": "es5",
     "module": "es2015",
     "moduleResolution": "node",
     "sourceMap": false,
     "outDir": "../../dist",
     "skipLibCheck": true,
-    "baseUrl": "."
+    "baseUrl": ".",
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "strictNullChecks": true
   },
   "exclude": [
     "**/*.spec.ts"

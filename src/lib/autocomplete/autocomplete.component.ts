@@ -29,12 +29,10 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
       return this.selectedItem.value;
     else if (this.multiple && this.selectedItems)
       return this.selectedItems.map(item => item.value);
-
-    return null;
   }
 
   /** The selected item */
-  selectedItem: VxItemComponent;
+  selectedItem?: VxItemComponent;
 
   /** If multiple, the selected items */
   selectedItems: VxItemComponent[] = [];
@@ -52,15 +50,15 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
 
   /** Whether or not to allow multiple selection */
   @Input()
-  get multiple() {
+  get multiple(): boolean {
     return this._multiple;
   };
 
-  set multiple(multiple: any) {
+  set multiple(multiple: boolean) {
     this._multiple = coerceBooleanProperty(multiple);
     setTimeout(() => {
       if (this._multiple)
-        this.selectedItem = null;
+        this.selectedItem = undefined;
       else
         this.selectedItems = [];
 
@@ -70,11 +68,11 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
   };
 
   @Input()
-  get required() {
+  get required(): boolean {
     return this._required;
   }
 
-  set required(value: any) {
+  set required(value: boolean) {
     this._required = coerceBooleanProperty(value);
   }
 
@@ -95,7 +93,7 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
     }
   }
 
-  ngAfterContentInit() {
+  ngAfterContentInit(): void {
     this.items.changes.subscribe(() => {
       this.updateSelectedItem();
     });
@@ -103,7 +101,7 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
     this.updateSelectedItem();
   }
 
-  _handleInputFocusChange(hasFocus: boolean) {
+  _handleInputFocusChange(hasFocus: boolean): void {
     if (hasFocus) {
       this._showDropdown();
     } else {
@@ -121,9 +119,10 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
     }
   }
 
-  _onSelectItem(value: any, skipEmit = false) {
+  _onSelectItem(value: any, skipEmit = false): void {
     if (!value) {
-      this.selectedItem = null;
+      this.selectedItem = undefined;
+
       return;
     }
 
@@ -139,7 +138,7 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
       this.input.value = item.searchTxt;
     }
 
-    this.items.forEach(item => item.visible = this.selectedItems.indexOf(item) === -1);
+    this.items.forEach(it => it.visible = this.selectedItems.indexOf(it) === -1);
     this._itemsFiltered.emit();
 
     if (!skipEmit)
@@ -153,7 +152,7 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
 
   }
 
-  _filter(query: string) {
+  _filter(query: string): void {
     query = query.toUpperCase();
     this.items.forEach(item => {
       // Does the actual search
@@ -164,7 +163,7 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
     this._itemsFiltered.next();
   }
 
-  _onInputChange(value: any) {
+  _onInputChange(value: any): void {
     this._dropdownVisible = true;
 
     if (value) {
@@ -175,26 +174,26 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
     }
   }
 
-  _handleDropdownVisibility(visible: boolean) {
+  _handleDropdownVisibility(visible: boolean): void {
     if (!visible) {
       this.input.focused = false;
     }
 
   }
 
-  _closeDropdown() {
+  _closeDropdown(): void {
     this._dropdownVisible = false;
     this._repopulateValue();
   }
 
-  _showDropdown() {
+  _showDropdown(): void {
     this._hideValue();
     this._dropdownVisible = true;
     this.input.focused = true;
     this.wasDropdownOpened = true;
   }
 
-  _focusInput() {
+  _focusInput(): void {
     if (this.wasDropdownOpened) {
       this.input.focused = true;
       this.input._elementRef.nativeElement.focus();
@@ -230,7 +229,7 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
     }
   }
 
-  _removeItem(item: VxItemComponent) {
+  _removeItem(item: VxItemComponent): void {
     this.selectedItems = this.selectedItems.filter(itm => itm !== item);
     item.visible = true;
     this._itemsFiltered.emit();
@@ -238,7 +237,7 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
     this._value = this.value;
   }
 
-  _arrowClicked() {
+  _arrowClicked(): void {
     this._focusInput();
     setTimeout(() => {
       this._showDropdown();
@@ -248,7 +247,7 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
   writeValue(obj: any): void {
     if (this.multiple && obj) {
       this.selectedItems = [];
-      obj.forEach(val => {
+      obj.forEach((val: any) => {
         this._onSelectItem(val, true);
       })
     } else {
@@ -265,27 +264,28 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
     this._onTouchedFn = fn;
   }
 
-  private getItemForValue(value: any): VxItemComponent {
+  private getItemForValue(value: any): VxItemComponent | undefined {
     if (!this.items)
-      return null;
+      return undefined;
 
     for (const item of this.items.toArray()) {
       if (item.value === value) {
         return item;
       }
     }
+
+    return;
   }
 
-  private updateSelectedItem() {
+  private updateSelectedItem(): void {
     if (this._value && !this.multiple) {
-      debugger;
       if (!this.getItemForValue(this._value)) {
         // If the selected value isn't in the new items, remove it
-        this.selectedItem = null;
+        this.selectedItem = undefined;
         this.input.value = '';
 
-        this._onChangeFn(null);
-        this._value = null;
+        this._onChangeFn(undefined);
+        this._value = undefined;
       }
 
       this.items.forEach(item => item.visible = true);
@@ -293,8 +293,8 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
     } else if (this._value && this.multiple) {
       let changed = false;
 
-      const newItems = [];
-      this._value.forEach(val => {
+      const newItems: VxItemComponent[] = [];
+      this._value.forEach((val: any) => {
         const item = this.getItemForValue(val);
         if (!item) {
           changed = true;

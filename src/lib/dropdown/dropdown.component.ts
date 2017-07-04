@@ -30,11 +30,11 @@ export class VxDropdownComponent implements AfterContentInit {
   @Input() itemsFiltered: EventEmitter<void>;
 
   _focusedIdx: number;
-  private subscriptions = {};
+  private subscriptions: {[key: string]: any} = {};
 
   /** Whether the dropdown is visible */
   @Input()
-  get visible() {
+  get visible(): boolean {
     return this._visible;
   };
 
@@ -61,13 +61,13 @@ export class VxDropdownComponent implements AfterContentInit {
     return this.items ? this.items.filter(item => item.visible) : [];
   }
 
-  private activeItem: VxItemComponent;
+  private activeItem?: VxItemComponent;
   constructor(el: ElementRef) {
     this._el = el;
 
   }
 
-  ngAfterContentInit() {
+  ngAfterContentInit(): void {
     setTimeout(() => {
       if (this.autocompleteItems)
         this.items = this.autocompleteItems;
@@ -86,7 +86,7 @@ export class VxDropdownComponent implements AfterContentInit {
 
       if (this.itemsFiltered) {
         this.itemsFiltered.subscribe(() => {
-            this._setFocusedIdx(0)
+            this._setFocusedIdx(0);
             this.updateItemListeners();
         })
       }
@@ -94,13 +94,13 @@ export class VxDropdownComponent implements AfterContentInit {
   }
 
   /** Sets the visibility of the dropdown */
-  public setVisible(visible: boolean) {
+  public setVisible(visible: boolean): void {
     if (visible !== this._visible) {
       this._visible = visible;
       this.visibleChange.emit(visible);
       if (this.activeItem) {
         this.activeItem.active = false;
-        this.activeItem = null;
+        this.activeItem = undefined;
       }
 
       this._focusedIdx = 0;
@@ -108,18 +108,18 @@ export class VxDropdownComponent implements AfterContentInit {
   }
 
   /** Toggles the visibility of the dropdown */
-  public toggle() {
+  public toggle(): void {
     this.setVisible(!this._visible);
   }
 
   /** Returns whether or not the dropdown has focus */
-  public hasFocus() {
+  public hasFocus(): boolean {
     return this._dropdown.nativeElement === document.activeElement;
   }
 
   @HostListener('keydown.ArrowUp', ['_focusedIdx - 1'])
   @HostListener('keydown.ArrowDown', ['_focusedIdx + 1'])
-  _setFocusedIdx(idx: number) {
+  _setFocusedIdx(idx: number): boolean | undefined {
     if (!this.items)
       return;
 
@@ -130,9 +130,9 @@ export class VxDropdownComponent implements AfterContentInit {
 
     if (this._el && this._dropdown) {
       // Scroll inside the container
-      this._visibleItems.forEach((item, idx) => {
+      this._visibleItems.forEach((item, i) => {
         item.focused = false;
-        if (idx === this._focusedIdx) {
+        if (i === this._focusedIdx) {
           item.focused = true;
 
           const dropdown = this._dropdown.nativeElement;
@@ -147,7 +147,7 @@ export class VxDropdownComponent implements AfterContentInit {
     return false;
   }
 
-  _selectItem(item: VxItemComponent) {
+  _selectItem(item: VxItemComponent): void {
     if (item.disabled)
       return;
 
@@ -164,9 +164,9 @@ export class VxDropdownComponent implements AfterContentInit {
   @HostListener('keydown.tab')
   @HostListener('window:mousedown', ['$event'])
   @HostListener('window:touchstart', ['$event'])
-  _closeIfAutoClose(event?: MouseEvent) {
+  _closeIfAutoClose(event?: MouseEvent): void {
     if (this.autoClose && this.visible) {
-      if (event && isDescendant(this._dropdown.nativeElement, event.srcElement)) {
+      if (event && event.srcElement && isDescendant(this._dropdown.nativeElement, event.srcElement)) {
         return;
       }
       this.setVisible(false);
@@ -175,32 +175,34 @@ export class VxDropdownComponent implements AfterContentInit {
 
   //noinspection JSUnusedLocalSymbols
   @HostListener('keydown.enter')
-  private _enterKeyDown() {
+  private _enterKeyDown(): boolean {
     if (this._visible) {
       if (this.activeItem)
         this.activeItem.active = false;
 
-      this.activeItem = this._visibleItems[this._focusedIdx];;
+      this.activeItem = this._visibleItems[this._focusedIdx];
       if (!this.activeItem.disabled)
         this.activeItem.active = true;
     }
+
     return false;
   }
 
   //noinspection JSUnusedLocalSymbols
   @HostListener('keyup.enter')
-  private _enterKeyUp() {
+  private _enterKeyUp(): boolean {
     if (this._visible) {
 
       if (this.activeItem) {
         this.activeItem.active = false;
-        this.activeItem = null;
+        this.activeItem = undefined;
       }
 
       const curItem = this._visibleItems[this._focusedIdx];
       curItem.handleClick();
 
     }
+
     return false;
   }
 
@@ -216,13 +218,14 @@ export class VxDropdownComponent implements AfterContentInit {
 
 }
 
-function isDescendant(parent: Element, child: Element) {
+function isDescendant(parent: Element, child: Element): boolean {
   let node = child.parentNode;
-  while (node != null) {
-    if (node == parent) {
+  while (node) {
+    if (node === parent) {
       return true;
     }
     node = node.parentNode;
   }
+
   return false;
 }

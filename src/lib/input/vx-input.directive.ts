@@ -1,5 +1,5 @@
 import {Directive, ElementRef, Input, Optional, Renderer2, Self} from '@angular/core';
-import {FormControl, FormGroupDirective, NgControl, NgForm} from '@angular/forms';
+import {FormGroupDirective, NgControl, NgForm} from '@angular/forms';
 import {coerceBooleanProperty} from '../Util';
 
 
@@ -15,7 +15,10 @@ export class VxInputDirective {
   /** Whether the element is disabled. */
   @Input()
   get disabled(): boolean {
-    return this._ngControl ? this._ngControl.disabled : this._disabled;
+    if (this._ngControl)
+      return this._ngControl.disabled || false;
+
+    return this._disabled;
   }
 
   set disabled(value: boolean) {
@@ -34,7 +37,7 @@ export class VxInputDirective {
 
   /** Input type of the element. */
   @Input()
-  get type() { return this._type; }
+  get type(): string { return this._type; }
   set type(value: string) {
     this._type = value || 'text';
 
@@ -52,8 +55,8 @@ export class VxInputDirective {
   set value(value: string | number) { this._elementRef.nativeElement.value = value; }
 
   @Input()
-  get required() { return this._required; }
-  set required(value: any) { this._required = coerceBooleanProperty(value); }
+  get required(): boolean { return this._required; }
+  set required(value: boolean) { this._required = coerceBooleanProperty(value); }
 
   @Input() requiredLabel: boolean;
 
@@ -67,11 +70,11 @@ export class VxInputDirective {
               @Optional() private _parentFormGroup: FormGroupDirective, public _elementRef: ElementRef) {
   }
 
-  _onFocus() {
+  _onFocus(): void {
     this.focused = true;
   }
 
-  _onBlur() {
+  _onBlur(): void {
     this.focused = false;
   }
 

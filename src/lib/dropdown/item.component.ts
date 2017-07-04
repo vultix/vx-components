@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, EventEmitter, Input, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, Output} from '@angular/core';
 import {coerceBooleanProperty} from '../Util';
 
 @Component({
@@ -38,17 +38,19 @@ export class VxItemComponent {
     return this._disabled;
   }
 
+  private _searchTxt: string;
+  private _disabled: boolean;
+  constructor(public _elementRef: ElementRef) {}
+
   handleClick(): void {
     if (!this.disabled)
       this.onSelect.emit();
   }
 
-  private _searchTxt: string;
-  private _disabled: boolean;
-  constructor(public _elementRef: ElementRef) {}
 
   getSearchText(): string {
     if (this._elementRef.nativeElement && this._elementRef.nativeElement.innerText)
       return this._elementRef.nativeElement.innerText;
+    return '';
   }
 }

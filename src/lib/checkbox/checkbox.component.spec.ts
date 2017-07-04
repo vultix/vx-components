@@ -33,8 +33,8 @@ describe('VxCheckboxComponent', () => {
       const checkboxDebugElement = fixture.debugElement.query(By.directive(VxCheckboxComponent));
       checkboxComponent = checkboxDebugElement.componentInstance;
       checkboxNativeElement = checkboxDebugElement.nativeElement;
-      inputElement = <HTMLInputElement>checkboxNativeElement.querySelector('input');
-      labelElement = <HTMLInputElement>checkboxNativeElement.querySelector('span');
+      inputElement = checkboxNativeElement.querySelector('input') as HTMLInputElement;
+      labelElement = checkboxNativeElement.querySelector('span') as HTMLSpanElement;
     });
 
     it('should toggle checked', () => {
@@ -92,7 +92,7 @@ describe('VxCheckboxComponent', () => {
       expect(testComponent.isChecked).toBe(false);
     });
 
-    function expectCheckedToBe(checked: boolean) {
+    function expectCheckedToBe(checked: boolean): void {
       expect(checkboxComponent.checked).toBe(checked);
       expect(inputElement.checked).toBe(checked);
       expect(testComponent.isChecked).toBe(checked);
@@ -103,9 +103,9 @@ describe('VxCheckboxComponent', () => {
       }
     }
 
-    function expectTabIndexToBe(tabIndex: number) {
+    function expectTabIndexToBe(tabIndex: number): void {
       expect(checkboxComponent.tabIndex).toBe(tabIndex);
-      expect(checkboxNativeElement.getAttribute('tabIndex')).toBe(tabIndex + '');
+      expect(checkboxNativeElement.getAttribute('tabIndex')).toBe(`${tabIndex}`);
     }
   });
 

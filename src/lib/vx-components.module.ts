@@ -4,7 +4,6 @@ import {VxInputModule} from './input/input.module';
 import {VxDropdownModule} from './dropdown/dropdown.module';
 import {VxAutocompleteModule} from './autocomplete/autocomplete.module';
 import {VxTabsModule} from './tabs/tabs.module';
-import { VxInputDirective } from './input/vx-input.directive';
 
 const MODULES = [CheckboxModule, VxInputModule, VxDropdownModule, VxAutocompleteModule, VxTabsModule];
 
