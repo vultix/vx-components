@@ -2,119 +2,122 @@
   VX Components!
 </h1>
 
+<router-outlet>
 
-<section>
-  <h2>Button</h2>
-  {{clicked ? "Clicked" : ""}}
-  <br>
-  <button class="padTop" vx-button #button (click)="buttonClick()" [attr.vx-accent]="buttonAccent || null"
-          [attr.vx-flat]="buttonFlat || null" [attr.vx-dark]="buttonDark || null">Click Me!</button>
-  <br>
-  <vx-checkbox [(checked)]="button.disabled" class="padTop">Disabled</vx-checkbox>
-  <vx-checkbox [(checked)]="buttonAccent" class="padTop">Accent</vx-checkbox>
-  <vx-checkbox [(checked)]="buttonFlat" class="padTop">Flat</vx-checkbox>
-  <vx-checkbox [(ngModel)]="buttonDark" class="padTop">Dark</vx-checkbox>
-</section>
+</router-outlet>
 
-<section>
-  <h2>Input</h2>
+<!--<section>-->
+  <!--<h2>Button</h2>-->
+  <!--{{clicked ? "Clicked" : ""}}-->
+  <!--<br>-->
+  <!--<button class="padTop" vx-button #button (click)="buttonClick()" [attr.vx-accent]="buttonAccent || null"-->
+          <!--[attr.vx-flat]="buttonFlat || null" [attr.vx-dark]="buttonDark || null">Click Me!</button>-->
+  <!--<br>-->
+  <!--<vx-checkbox [(checked)]="button.disabled" class="padTop">Disabled</vx-checkbox>-->
+  <!--<vx-checkbox [(checked)]="buttonAccent" class="padTop">Accent</vx-checkbox>-->
+  <!--<vx-checkbox [(checked)]="buttonFlat" class="padTop">Flat</vx-checkbox>-->
+  <!--<vx-checkbox [(ngModel)]="buttonDark" class="padTop">Dark</vx-checkbox>-->
+<!--</section>-->
 
-  <vx-input-wrapper>
-    <input #input vxInput placeholder="Placeholder" [required]="isRequired"
-    [min]="min" [max]="max" [disabled]="inputDisabled">
-  </vx-input-wrapper>
+<!--<section>-->
+  <!--<h2>Input</h2>-->
 
-  Value: {{input.value}}
-  <br>
-  <vx-checkbox [(checked)]="inputDisabled" class="padTop">Disabled</vx-checkbox>
-  <vx-checkbox [(checked)]="isRequired" class="padTop">Required</vx-checkbox>
-  <br>
-  <vx-checkbox [(checked)]="numeric" class="padTop">Numeric</vx-checkbox>
+  <!--<vx-input-wrapper>-->
+    <!--<input #input vxInput placeholder="Placeholder" [required]="isRequired"-->
+    <!--[min]="min" [max]="max" [disabled]="inputDisabled">-->
+  <!--</vx-input-wrapper>-->
 
-</section>
+  <!--Value: {{input.value}}-->
+  <!--<br>-->
+  <!--<vx-checkbox [(checked)]="inputDisabled" class="padTop">Disabled</vx-checkbox>-->
+  <!--<vx-checkbox [(checked)]="isRequired" class="padTop">Required</vx-checkbox>-->
+  <!--<br>-->
+  <!--<vx-checkbox [(checked)]="numeric" class="padTop">Numeric</vx-checkbox>-->
 
-<section>
-  <h2>Checkbox</h2>
-  <vx-checkbox [attr.vx-accent]="checkboxAccent || null" #checkbox>Check me!</vx-checkbox>
-  <vx-checkbox [attr.vx-accent]="checkboxAccent || null" [disabled]="true" [(checked)]="checkbox.checked">Disabled</vx-checkbox>
-  <p>
-    Checked: <b>{{checkbox.checked}}</b>
-  </p>
-  <br/>
-  <vx-checkbox [(checked)]="checkboxAccent">Accent</vx-checkbox>
-</section>
+<!--</section>-->
 
-<section>
-  <h2>Dropdown</h2>
+<!--<section>-->
+  <!--<h2>Checkbox</h2>-->
+  <!--<vx-checkbox [attr.vx-accent]="checkboxAccent || null" #checkbox>Check me!</vx-checkbox>-->
+  <!--<vx-checkbox [attr.vx-accent]="checkboxAccent || null" [disabled]="true" [(checked)]="checkbox.checked">Disabled</vx-checkbox>-->
+  <!--<p>-->
+    <!--Checked: <b>{{checkbox.checked}}</b>-->
+  <!--</p>-->
+  <!--<br/>-->
+  <!--<vx-checkbox [(checked)]="checkboxAccent">Accent</vx-checkbox>-->
+<!--</section>-->
 
-  <vx-dropdown #dropdown (itemClick)="dropdownClick($event)">
-    <div vx-dropdown-content>
-      <button vx-button (click)="dropdown.toggle()">Toggle Dropdown</button>
-      Selection: {{selectedItem}}
-    </div>
+<!--<section>-->
+  <!--<h2>Dropdown</h2>-->
 
-    <vx-item value="1">
-      Item 1
-    </vx-item>
-    <vx-item value="2">
-      Item 2
-    </vx-item>
-    <vx-item value="3">
-      Item 3
-    </vx-item>
-  </vx-dropdown>
+  <!--<vx-dropdown #dropdown (itemClick)="dropdownClick($event)">-->
+    <!--<div vx-dropdown-content>-->
+      <!--<button vx-button (click)="dropdown.toggle()">Toggle Dropdown</button>-->
+      <!--Selection: {{selectedItem}}-->
+    <!--</div>-->
 
-  <br/>
-  <vx-checkbox [(checked)]="dropdown.autoClose" class="padTop">Auto-Close</vx-checkbox>
+    <!--<vx-item value="1">-->
+      <!--Item 1-->
+    <!--</vx-item>-->
+    <!--<vx-item value="2">-->
+      <!--Item 2-->
+    <!--</vx-item>-->
+    <!--<vx-item value="3">-->
+      <!--Item 3-->
+    <!--</vx-item>-->
+  <!--</vx-dropdown>-->
 
-</section>
+  <!--<br/>-->
+  <!--<vx-checkbox [(checked)]="dropdown.autoClose" class="padTop">Auto-Close</vx-checkbox>-->
 
-<section>
-  <h2>Autocomplete</h2>
+<!--</section>-->
 
-  <vx-autocomplete placeholder="Choose Item..." [(ngModel)]="selectedCountry" [multiple]="multiple" required>
+<!--<section>-->
+  <!--<h2>Autocomplete</h2>-->
 
-    <vx-item *ngFor="let item of data" [value]="item.value">
-      {{ item.name }}
-    </vx-item>
-  </vx-autocomplete> {{selectedCountry}}
+  <!--<vx-autocomplete placeholder="Choose Item..." [(ngModel)]="selectedCountry" [multiple]="multiple" required>-->
 
-  <br />
-  <vx-checkbox [(checked)]="multiple" class="padTop">Multiple</vx-checkbox>
-</section>
+    <!--<vx-item *ngFor="let item of data" [value]="item.value">-->
+      <!--{{ item.name }}-->
+    <!--</vx-item>-->
+  <!--</vx-autocomplete> {{selectedCountry}}-->
+
+  <!--<br />-->
+  <!--<vx-checkbox [(checked)]="multiple" class="padTop">Multiple</vx-checkbox>-->
+<!--</section>-->
 
 
-<section>
-  <h2>Tabs</h2>
-  Selected Tab: {{selectedTab}}
-  <vx-tabs style="width: 50%; max-height: 300px;" [(selectedTab)]="selectedTab">
-    <vx-tab label="Tab 1">
-      <h1>
-        Tab 1
-      </h1>
-      Followed by some more Content
-      <br>
-      <vx-checkbox class="padTop">and a checkbox</vx-checkbox>
-    </vx-tab>
+<!--<section>-->
+  <!--<h2>Tabs</h2>-->
+  <!--Selected Tab: {{selectedTab}}-->
+  <!--<vx-tabs style="width: 50%; max-height: 300px;" [(selectedTab)]="selectedTab">-->
+    <!--<vx-tab label="Tab 1">-->
+      <!--<h1>-->
+        <!--Tab 1-->
+      <!--</h1>-->
+      <!--Followed by some more Content-->
+      <!--<br>-->
+      <!--<vx-checkbox class="padTop">and a checkbox</vx-checkbox>-->
+    <!--</vx-tab>-->
 
-    <vx-tab label="Tab 2">
-      <h1>
-        Tab 2
-      </h1>
-      <vx-input-wrapper>
-        <input vxInput placeholder="Some Input!">
-      </vx-input-wrapper>
-    </vx-tab>
+    <!--<vx-tab label="Tab 2">-->
+      <!--<h1>-->
+        <!--Tab 2-->
+      <!--</h1>-->
+      <!--<vx-input-wrapper>-->
+        <!--<input vxInput placeholder="Some Input!">-->
+      <!--</vx-input-wrapper>-->
+    <!--</vx-tab>-->
 
-    <vx-tab label="Tab 3">
-      <h1>
-        Tab 3
-      </h1>
-      <div style="height: 300px;">
-        Here is a tall div
-      </div>
-      Here is more text
-    </vx-tab>
-  </vx-tabs>
+    <!--<vx-tab label="Tab 3">-->
+      <!--<h1>-->
+        <!--Tab 3-->
+      <!--</h1>-->
+      <!--<div style="height: 300px;">-->
+        <!--Here is a tall div-->
+      <!--</div>-->
+      <!--Here is more text-->
+    <!--</vx-tab>-->
+  <!--</vx-tabs>-->
 
-</section>
+<!--</section>-->

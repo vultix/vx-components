@@ -10,3 +10,7 @@ $colors: (
 );
 
 @include vx-load-themes($colors);
+
+pre {
+  margin: 0;
+}
