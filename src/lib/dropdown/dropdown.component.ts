@@ -103,7 +103,7 @@ export class VxDropdownComponent implements AfterContentInit {
         this.activeItem = undefined;
       }
 
-      this._focusedIdx = 0;
+      this._setFocusedIdx(0);
     }
   }
 

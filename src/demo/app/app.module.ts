@@ -5,16 +5,19 @@ import {AppComponent} from './app.component';
 import {VxComponentsModule} from './lib';
 import {TabsDemoComponent} from './tabs-demo/tabs-demo.component';
 import {Route, RouterModule} from '@angular/router';
+import {InputDemoComponent} from './input-demo/input-demo.component';
 
 const routes: Route[] = [
   { path: '', pathMatch: 'full', redirectTo: 'tabs'},
-  { path: 'tabs', component: TabsDemoComponent}
+  { path: 'tabs', component: TabsDemoComponent},
+  { path: 'input', component: InputDemoComponent}
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
-    TabsDemoComponent
+    TabsDemoComponent,
+    InputDemoComponent
   ],
   imports: [
     BrowserModule,

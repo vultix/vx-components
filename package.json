@@ -1,16 +1,17 @@
 {
   "name": "vx-components",
-  "version": "1.0.0-beta.25",
+  "version": "1.0.0-beta.28",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --prod --aot --base-href=/VxComponents/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "package": "rimraf dist && ngc -p src/lib/tsconfig.aot.json && gulp",
-    "dist": "npm run package && cd dist && npm publish"
+    "pages": "npm run build  &&  angular-cli-ghpages --dir demo",
+    "dist": "npm run pages && npm run package && cd dist && npm publish"
   },
   "dependencies": {
     "@angular/animations": "^4.0.0",

@@ -8,7 +8,7 @@
   Basic Usage
 </h2>
 <vx-tabs>
-  <vx-tab label="API">
+  <vx-tab label="Example">
     <vx-tabs>
       <vx-tab label="Tab 1">
         Here is the first tab!
@@ -23,10 +23,7 @@
   </vx-tab>
   <vx-tab label="HTML">
     <pre>
-      <code>
-
-        {{ example1 }}
-      </code>
+      <code>{{ example1 }}</code>
     </pre>
   </vx-tab>
 </vx-tabs>
@@ -35,10 +32,10 @@
   Variable Height Tabs
 </h2>
 <vx-tabs>
-  <vx-tab label="API">
+  <vx-tab label="Example">
     Vx-tabs will automatically adjust to the content height.
     <br>
-    If a tab overlow its container it will become scrollable.
+    If a tab overflows its container it will become scrollable.
     <vx-checkbox #overflow>Force Overflow</vx-checkbox>
     <vx-tabs [class.overflow]="overflow.checked">
       <vx-tab label="Small Tab">
@@ -51,19 +48,16 @@
       </vx-tab>
     </vx-tabs>
   </vx-tab>
+
   <vx-tab label="HTML">
     <pre>
-      <code>
-        {{ example2 }}
-      </code>
+      <code>{{ example2 }}</code>
     </pre>
   </vx-tab>
+
   <vx-tab label="CSS">
     <pre>
-      <code>
-        {{ example2CSS }}
-      </code>
+      <code>{{ example2CSS }}</code>
     </pre>
-
   </vx-tab>
 </vx-tabs>
