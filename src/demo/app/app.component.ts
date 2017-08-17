@@ -8,7 +8,7 @@ import {Component} from '@angular/core';
 export class AppComponent {
   isRequired = false;
   selectedItem = '';
-  selectedCountry: String = 'US';
+  selectedCountry: string[] = ['US', 'US', 'AF'];
   numeric = false;
   buttonAccent = false;
   buttonFlat = false;
@@ -268,8 +268,12 @@ export class AppComponent {
   ];
 
   buttonTimer: any;
+  constructor() {
+    // this.selectedCountry = 'YE';
+  }
 
-  dropdownClick (item: string): void {
+
+  dropdownClick(item: string): void {
     this.selectedItem = item;
   }
 

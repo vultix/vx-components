@@ -5,7 +5,8 @@
 
   <div vx-dropdown-content>
     <vx-input-wrapper [class.invalid]="_isInvalid()">
-      <button vx-button *ngFor="let item of selectedItems" class="chip" (click)="_removeItem(item)">
+      <button #button vx-button *ngFor="let item of selectedItems" class="chip" (click)="_removeItem(item)"
+              (keydown.backspace)="_removeItem(item)">
         {{ item.searchTxt }} <span class="delete">X</span>
       </button>
       <div class="noWrap">
@@ -14,7 +15,7 @@
                (blur)="_handleInputFocusChange(false)"
                (click)="_showDropdown()"
                ngModel (ngModelChange)="_onInputChange($event)"
-               [name]="name" (keydown.tab)="_closeDropdown()" [requiredLabel]="_required">
+               [name]="name" (keydown.tab)="_closeDropdown()" [requiredLabel]="_required" (keydown.backspace)="_handleBackspace()">
 
         <div class="arrowContainer" (click)="_arrowClicked()">
           <div class="downArrow"></div>

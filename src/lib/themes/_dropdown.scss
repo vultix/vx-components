@@ -16,6 +16,7 @@
     }
     vx-item {
       background: $background;
+      white-space: nowrap;
 
       &:not(:first-child) {
         border-top: 1px solid $border;

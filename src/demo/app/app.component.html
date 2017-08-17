@@ -72,19 +72,19 @@
 
 <!--</section>-->
 
-<!--<section>-->
-  <!--<h2>Autocomplete</h2>-->
+<section>
+  <h2>Autocomplete</h2>
 
-  <!--<vx-autocomplete placeholder="Choose Item..." [(ngModel)]="selectedCountry" [multiple]="multiple" required>-->
+  <vx-autocomplete placeholder="Choose Item..." [(ngModel)]="selectedCountry" [multiple]="true" required>
 
-    <!--<vx-item *ngFor="let item of data" [value]="item.value">-->
-      <!--{{ item.name }}-->
-    <!--</vx-item>-->
-  <!--</vx-autocomplete> {{selectedCountry}}-->
+    <vx-item *ngFor="let item of data" [value]="item.value">
+      {{ item.name }}
+    </vx-item>
+  </vx-autocomplete> {{selectedCountry}}
 
-  <!--<br />-->
-  <!--<vx-checkbox [(checked)]="multiple" class="padTop">Multiple</vx-checkbox>-->
-<!--</section>-->
+  <br />
+  <vx-checkbox [(checked)]="multiple" class="padTop">Multiple</vx-checkbox>
+</section>
 
 
 <!--<section>-->

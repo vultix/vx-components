@@ -1,13 +1,13 @@
 import {
   AfterContentInit,
   Component,
-  ContentChildren,
+  ContentChildren, ElementRef,
   EventEmitter,
   Input,
   Optional,
   QueryList,
   Self,
-  ViewChild
+  ViewChild, ViewChildren
 } from '@angular/core';
 import {ControlValueAccessor, FormGroupDirective, NgControl, NgForm} from '@angular/forms';
 import {VxDropdownComponent} from '../dropdown/dropdown.component';
@@ -57,13 +57,15 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
   set multiple(multiple: boolean) {
     this._multiple = coerceBooleanProperty(multiple);
     setTimeout(() => {
-      if (this._multiple)
+      if (this._multiple) {
+        this.input._elementRef.nativeElement.placeholder = 'Search...';
         this.selectedItem = undefined;
-      else
+      } else {
+        this.input.placeholder = this.placeholder;
         this.selectedItems = [];
+      }
 
       this.input.value = '';
-      this.input.placeholder = this.placeholder;
     });
   };
 
@@ -78,6 +80,7 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
 
   @ViewChild(VxInputDirective) input: VxInputDirective;
   @ViewChild('dropdown') dropdown: VxDropdownComponent;
+  @ViewChildren('button') buttons: QueryList<ElementRef>;
 
   _dropdownVisible = false;
   _itemsFiltered = new EventEmitter();
@@ -95,7 +98,7 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
 
   ngAfterContentInit(): void {
     this.items.changes.subscribe(() => {
-      this.updateSelectedItem();
+      setTimeout(() => this.updateSelectedItem());
     });
 
     this.updateSelectedItem();
@@ -235,6 +238,7 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
     this._itemsFiltered.emit();
     this._onChangeFn(this.value);
     this._value = this.value;
+    this._focusInput();
   }
 
   _arrowClicked(): void {
@@ -242,6 +246,16 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
     setTimeout(() => {
       this._showDropdown();
     });
+  }
+
+  _handleBackspace(): void {
+    if (!this.multiple) {
+      return;
+    }
+    if (!this.input.value && this.selectedItems.length) {
+      this.selectedItems.splice(this.selectedItems.length - 1, 1);
+      this._onChangeFn(this.value);
+    }
   }
 
   writeValue(obj: any): void {
@@ -290,24 +304,19 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
 
       this.items.forEach(item => item.visible = true);
       this._itemsFiltered.next();
+      this._onSelectItem(this._value);
     } else if (this._value && this.multiple) {
-      let changed = false;
-
       const newItems: VxItemComponent[] = [];
       this._value.forEach((val: any) => {
         const item = this.getItemForValue(val);
-        if (!item) {
-          changed = true;
-        } else {
+        if (item) {
           newItems.push(item)
         }
       });
 
-      if (changed) {
-        this.selectedItems = newItems;
-        this._onChangeFn(this.value);
-        this._value = this.value;
-      }
+      this.selectedItems = newItems;
+      this._onChangeFn(this.value);
+      this._value = this.value;
       this.items.forEach(item => item.visible = newItems.indexOf(item) === -1);
       this._itemsFiltered.next();
     }
