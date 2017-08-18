@@ -1,36 +1,31 @@
 import {
-  AfterContentInit,
+  AfterContentInit, AfterViewChecked,
   Component,
   ContentChildren,
   ElementRef,
   EventEmitter,
   HostListener,
   Input,
+  OnDestroy,
   Output,
   QueryList,
   ViewChild
 } from '@angular/core';
 import {coerceBooleanProperty} from '../Util';
 import {VxItemComponent} from './item.component';
+import {Subscription} from 'rxjs/Subscription';
+import {Subject} from 'rxjs/Subject';
+import 'rxjs/add/operator/takeUntil';
+import 'rxjs/add/observable/fromEvent';
 
 @Component({
   selector: 'vx-dropdown',
   templateUrl: './dropdown.component.html',
   styleUrls: ['./dropdown.component.scss']
 })
-export class VxDropdownComponent implements AfterContentInit {
-  private _el: ElementRef;
-  _visible = false;
-  @ViewChild('dropdown') private _dropdown: ElementRef;
-
+export class VxDropdownComponent implements AfterContentInit, OnDestroy, AfterViewChecked {
   /** The dropdown's items */
-  @ContentChildren(VxItemComponent) items: QueryList<VxItemComponent>;
-
-  @Input() autocompleteItems: QueryList<VxItemComponent>;
-  @Input() itemsFiltered: EventEmitter<void>;
-
-  _focusedIdx: number;
-  private subscriptions: {[key: string]: any} = {};
+  @ContentChildren(VxItemComponent) items: QueryList<ItemWithSubscription>;
 
   /** Whether the dropdown is visible */
   @Input()
@@ -39,10 +34,19 @@ export class VxDropdownComponent implements AfterContentInit {
   };
 
   set visible(visible: boolean) {
-    this._visible = coerceBooleanProperty(visible);
+    visible = coerceBooleanProperty(visible);
+    if (visible !== this._visible) {
+      this._visible = visible;
+      this.visibleChange.emit(visible);
+      // When visibility changes focus the first item;
+      setTimeout(() => this.focusedIdx = 0);
+      if (visible) {
+        this._positioned = false;
+        this.enterDown = false;
+        setTimeout(() => this._onOpen());
+      }
+    }
 
-    // When visibility changes focus the first item;
-    setTimeout(() => this._setFocusedIdx(0));
   };
 
   /** The default text to display if there are no items */
@@ -57,175 +61,182 @@ export class VxDropdownComponent implements AfterContentInit {
   /** Event thrown when an item is chosen.  Will emit the selected vx-item's value */
   @Output() itemClick = new EventEmitter();
 
-  get _visibleItems(): VxItemComponent[] {
-    return this.items ? this.items.filter(item => item.visible) : [];
+  @Input() element?: HTMLElement;
+
+  @Input() matchWidth = false;
+
+  @Input() offsetLeft = 0;
+  @Input() offsetTop = 10;
+
+  get focusedIdx(): number {
+    return this._focusedIdx;
   }
 
-  private activeItem?: VxItemComponent;
-  constructor(el: ElementRef) {
-    this._el = el;
+  set focusedIdx(value: number) {
+    const items = this.items.toArray();
+    if (value >= items.length)
+      value = items.length - 1;
+    else if (value < 0)
+      value = 0;
 
+    let idx = -1;
+    let found = false;
+    for (const item of items) {
+      if (item.focused)
+        item.focused = false;
+      if (item.visible && !item.disabled)
+        idx++;
+
+      if (idx === value && !found) {
+        this.focusItem(item);
+        found = true;
+      }
+    }
+    this._focusedIdx = value;
+    if (!found && idx > -1) {
+      this.focusedIdx = idx;
+    }
+  }
+
+  _positioned = false;
+
+  @ViewChild('dropdown') _dropdown: ElementRef;
+
+  private _focusedIdx = 0;
+  private _visible = false;
+  private _container = createContainer();
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
+  private enterDown: boolean;
+  private focusedItem?: VxItemComponent;
+
+  constructor(private _el: ElementRef) {
+    this._container.appendChild(_el.nativeElement);
+  }
+
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   ngAfterContentInit(): void {
     setTimeout(() => {
-      if (this.autocompleteItems)
-        this.items = this.autocompleteItems;
-
       this.items.changes.subscribe(() => {
-        // When items change focus the first item
-        setTimeout(() => {
-          this._setFocusedIdx(0);
-          this.updateItemListeners();
-        });
-
+        this.updateItemSubscriptions();
+        this.focusedIdx = 0;
       });
-
-      this._setFocusedIdx(0);
-      this.updateItemListeners();
-
-      if (this.itemsFiltered) {
-        this.itemsFiltered.subscribe(() => {
-            this._setFocusedIdx(0);
-            this.updateItemListeners();
-        })
-      }
+      this.updateItemSubscriptions();
     });
   }
 
-  /** Sets the visibility of the dropdown */
-  public setVisible(visible: boolean): void {
-    if (visible !== this._visible) {
-      this._visible = visible;
-      this.visibleChange.emit(visible);
-      if (this.activeItem) {
-        this.activeItem.active = false;
-        this.activeItem = undefined;
-      }
-
-      this._setFocusedIdx(0);
-    }
+  ngAfterViewChecked(): void {
+    this.repositionDropdown();
   }
 
-  /** Toggles the visibility of the dropdown */
-  public toggle(): void {
-    this.setVisible(!this._visible);
+  toggle(): void {
+    this.visible = !this.visible;
   }
 
-  /** Returns whether or not the dropdown has focus */
-  public hasFocus(): boolean {
-    return this._dropdown.nativeElement === document.activeElement;
-  }
-
-  @HostListener('keydown.ArrowUp', ['_focusedIdx - 1'])
-  @HostListener('keydown.ArrowDown', ['_focusedIdx + 1'])
-  _setFocusedIdx(idx: number): boolean | undefined {
-    if (!this.items)
-      return;
-
-    if (idx < 0 || idx > (this._visibleItems.length - 1)) {
-      return;
-    }
-    this._focusedIdx = idx;
-
-    if (this._el && this._dropdown) {
-      // Scroll inside the container
-      this._visibleItems.forEach((item, i) => {
-        item.focused = false;
-        if (i === this._focusedIdx) {
-          item.focused = true;
-
-          const dropdown = this._dropdown.nativeElement;
-
-          const top = item._elementRef.nativeElement.offsetTop;
-          dropdown.scrollTop = top - dropdown.offsetHeight / 4;
-        }
-      });
-
-    }
-
-    return false;
-  }
-
-  _selectItem(item: VxItemComponent): void {
-    if (item.disabled)
-      return;
-
-    this.itemClick.emit(item.value);
-
-    if (this._dropdown && this._dropdown.nativeElement) {
-      this._dropdown.nativeElement.focus();
-    }
-
-    this._closeIfAutoClose();
-  }
-
-  @HostListener('keydown.escape')
-  @HostListener('keydown.tab')
-  @HostListener('window:mousedown', ['$event'])
-  @HostListener('window:touchstart', ['$event'])
-  _closeIfAutoClose(event?: MouseEvent): void {
-    if (this.autoClose && this.visible) {
-      if (event && event.srcElement && isDescendant(this._dropdown.nativeElement, event.srcElement)) {
-        return;
-      }
-      this.setVisible(false);
-    }
-  }
-
-  //noinspection JSUnusedLocalSymbols
-  @HostListener('keydown.enter')
-  private _enterKeyDown(): boolean {
-    if (this._visible) {
-      if (this.activeItem)
-        this.activeItem.active = false;
-
-      this.activeItem = this._visibleItems[this._focusedIdx];
-      if (!this.activeItem.disabled)
-        this.activeItem.active = true;
-    }
-
-    return false;
-  }
-
-  //noinspection JSUnusedLocalSymbols
-  @HostListener('keyup.enter')
-  private _enterKeyUp(): boolean {
-    if (this._visible) {
-
-      if (this.activeItem) {
-        this.activeItem.active = false;
-        this.activeItem = undefined;
-      }
-
-      const curItem = this._visibleItems[this._focusedIdx];
-      curItem.handleClick();
-
-    }
-
-    return false;
-  }
-
-  private updateItemListeners(): void {
+  updateItemSubscriptions(): void {
     this.items.forEach(item => {
-      if (!this.subscriptions[item.value]) {
-        this.subscriptions[item.value] = item.onSelect.subscribe(() => {
-          this._selectItem(item);
+      if (!item.subscription) {
+        item.subscription = item.onSelect.takeUntil(this.ngUnsubscribe).subscribe(() => {
+          this.itemClick.emit(item.value);
         });
       }
     })
   }
 
-}
-
-function isDescendant(parent: Element, child: Element): boolean {
-  let node = child.parentNode;
-  while (node) {
-    if (node === parent) {
-      return true;
+  @HostListener('window:keydown.ArrowDown', ['focusedIdx + 1', '$event'])
+  @HostListener('window:keydown.ArrowUp', ['focusedIdx - 1', '$event'])
+  _onArrowDown(newIdx: number, event: Event): void {
+    if (this.visible) {
+      this.focusedIdx = newIdx;
+      event.preventDefault();
     }
-    node = node.parentNode;
   }
 
-  return false;
+  @HostListener('window:keydown.escape')
+  @HostListener('window:keydown.tab')
+  _close(): void {
+    if (this.autoClose) {
+      this.visible = false;
+    }
+  }
+  @HostListener('window:keydown.enter', ['$event'])
+  _onEnterDown(event: Event): void {
+    if (this.visible && this.focusedItem) {
+      this.focusedItem.active = true;
+      this.itemClick.emit(this.focusedItem.value);
+      event.preventDefault();
+    }
+    this.enterDown = true;
+  }
+
+  @HostListener('window:keyup.enter', ['$event'])
+  _onEnterUp(event: Event): void {
+    if (this.visible && this.focusedItem) {
+      this.focusedItem.active = false;
+      event.preventDefault();
+    }
+    if (this.enterDown)
+      this._close();
+  }
+
+  hasFocus(): boolean {
+    return document.activeElement === this._dropdown.nativeElement;
+  }
+  private _onOpen(): void {
+    if (this.items) {
+      this.items.forEach(item => {
+        item.active = false;
+      });
+    }
+
+    if (!this.element) {
+      throw new Error('Dropdown opened without attached element');
+    }
+    this.repositionDropdown();
+    this._positioned = true;
+  }
+
+  @HostListener('window:scroll')
+  @HostListener('window:resize')
+  repositionDropdown(): void {
+    if (this.element && this.visible) {
+      const elementPosition = this.element.getBoundingClientRect();
+      const dropdown: HTMLDivElement = this._dropdown.nativeElement;
+
+      let top = elementPosition.bottom + this.offsetTop;
+      const left = elementPosition.left + this.offsetLeft;
+      if (this.matchWidth)
+        dropdown.style.width = `${elementPosition.width}px`;
+
+      if ((top + dropdown.offsetHeight) > window.innerHeight) {
+        top = window.innerHeight - dropdown.offsetHeight;
+      }
+      dropdown.style.top = `${top}px`;
+      dropdown.style.left = `${left}px`;
+    }
+  }
+
+  private focusItem(item: VxItemComponent): void {
+    const dropdown = this._dropdown.nativeElement;
+
+    const top = item._elementRef.nativeElement.offsetTop;
+    dropdown.scrollTop = top - dropdown.offsetHeight / 4;
+
+    item.focused = true;
+    this.focusedItem = item;
+  }
+}
+
+function createContainer(): HTMLDivElement {
+  const container = document.createElement('div');
+
+  document.body.appendChild(container);
+  return container;
+}
+
+interface ItemWithSubscription extends VxItemComponent {
+  subscription?: Subscription;
 }

@@ -7,10 +7,6 @@
   $iconColorDown: mix($foreground, $background, 50%);
 
   vx-autocomplete {
-    .dropdown {
-      box-shadow: 0 3px 3px 0 transparentize($foreground, .75);
-      border: 1px solid $primary
-    }
     .hasFocus .container {
       box-shadow: 0 -1px 3px 0 rgba(0, 0, 0, 0.25)
     }
@@ -19,11 +15,14 @@
       border-color: $iconColorDown transparent transparent transparent;
     }
 
-    &.invalid {
-      .dropdown {
-        border: 1px solid $error;
-      }
-    }
+
   }
 
+  .autocompleteDropdown .dropdown {
+    box-shadow: 0 3px 3px 0 transparentize($foreground, .75);
+    border: 1px solid $primary;
+  }
+  .autocompleteDropdown.invalid .dropdown {
+    border-color: $error;
+  }
 }

@@ -2,9 +2,9 @@
   VX Components!
 </h1>
 
-<router-outlet>
+<!--<router-outlet>-->
 
-</router-outlet>
+<!--</router-outlet>-->
 
 <!--<section>-->
   <!--<h2>Button</h2>-->
@@ -50,11 +50,11 @@
 <!--<section>-->
   <!--<h2>Dropdown</h2>-->
 
-  <!--<vx-dropdown #dropdown (itemClick)="dropdownClick($event)">-->
-    <!--<div vx-dropdown-content>-->
-      <!--<button vx-button (click)="dropdown.toggle()">Toggle Dropdown</button>-->
-      <!--Selection: {{selectedItem}}-->
-    <!--</div>-->
+  <!--<div vx-dropdown-content>-->
+    <!--<button vx-button (click)="dropdown.toggle()" #button>Toggle Dropdown</button>-->
+    <!--Selection: {{selectedItem}}-->
+  <!--</div>-->
+  <!--<vx-dropdown #dropdown (itemClick)="dropdownClick($event)" [element]="button">-->
 
     <!--<vx-item value="1">-->
       <!--Item 1-->
@@ -65,6 +65,7 @@
     <!--<vx-item value="3">-->
       <!--Item 3-->
     <!--</vx-item>-->
+    <!--<vx-item *ngIf="selectedItem">tet</vx-item>-->
   <!--</vx-dropdown>-->
 
   <!--<br/>-->

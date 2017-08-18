@@ -1,5 +1,5 @@
 import {
-  AfterContentInit,
+  AfterContentInit, AfterViewChecked,
   Component,
   ContentChildren, ElementRef,
   EventEmitter,
@@ -14,6 +14,7 @@ import {VxDropdownComponent} from '../dropdown/dropdown.component';
 import {VxInputDirective} from '../input/vx-input.directive';
 import {coerceBooleanProperty} from '../Util';
 import {VxItemComponent} from '../dropdown/item.component';
+import {Subject} from 'rxjs/Subject';
 
 @Component({
   selector: 'vx-autocomplete',
@@ -83,7 +84,7 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
   @ViewChildren('button') buttons: QueryList<ElementRef>;
 
   _dropdownVisible = false;
-  _itemsFiltered = new EventEmitter();
+  _itemsFiltered = new Subject();
   _required: boolean;
   _multiple = false;
 
@@ -94,11 +95,17 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
     if (_ngControl) {
       _ngControl.valueAccessor = this;
     }
+    this._itemsFiltered.subscribe(() => {
+      setTimeout(() => this.dropdown.focusedIdx = 0);
+    })
   }
 
   ngAfterContentInit(): void {
     this.items.changes.subscribe(() => {
       setTimeout(() => this.updateSelectedItem());
+    });
+    setTimeout(() => {
+      this.dropdown.items = this.items;
     });
 
     this.updateSelectedItem();
@@ -142,7 +149,7 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
     }
 
     this.items.forEach(it => it.visible = this.selectedItems.indexOf(it) === -1);
-    this._itemsFiltered.emit();
+    this._itemsFiltered.next();
 
     if (!skipEmit)
       this._onChangeFn(this.value);
@@ -175,13 +182,6 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
       this.items.forEach(item => item.visible = this.selectedItems.indexOf(item) === -1);
       this._itemsFiltered.next();
     }
-  }
-
-  _handleDropdownVisibility(visible: boolean): void {
-    if (!visible) {
-      this.input.focused = false;
-    }
-
   }
 
   _closeDropdown(): void {
@@ -235,7 +235,7 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
   _removeItem(item: VxItemComponent): void {
     this.selectedItems = this.selectedItems.filter(itm => itm !== item);
     item.visible = true;
-    this._itemsFiltered.emit();
+    this._itemsFiltered.next();
     this._onChangeFn(this.value);
     this._value = this.value;
     this._focusInput();

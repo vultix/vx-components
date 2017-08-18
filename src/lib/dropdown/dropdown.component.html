@@ -1,17 +1,12 @@
-<ng-content select="[vx-dropdown-content]"></ng-content>
-
-<span #dropdown class="dropdown" [class.visible]="_visible" [attr.tabindex]="_visible ? 0 : -1">
-
+<div class="overlay" [class.visible]="visible" (click)="_close()" *ngIf="autoClose">
+</div>
+<div class="dropdown" #dropdown [class.visible]="visible && _positioned" [attr.tabindex]="_visible ? 0 : -1">
   <ng-content select="vx-item">
   </ng-content>
-  <ng-content select="[vx-autocomplete-items]"></ng-content>
+  <ng-content select="[vx-dropdown-items]">
+  </ng-content>
 
-  <!--<span class="item" *ngFor="let item of _items; let idx = index;" (click)="_selectItem(item); _setFocusedIdx(idx)"-->
-        <!--[class.active]="_activeIdx === idx" [class.focused]="_focusedIdx === idx" (focus)="_setFocusedIdx(idx)">-->
-    <!--{{nameField ? item[nameField] : item}}-->
-  <!--</span>-->
-
-  <span *ngIf="defaultText && (!_visibleItems || !_visibleItems.length)" class="default">
+  <span *ngIf="defaultText && (!items.length)" class="default">
     {{defaultText}}
   </span>
-</span>
+</div>

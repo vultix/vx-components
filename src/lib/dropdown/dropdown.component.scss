@@ -4,23 +4,21 @@
 }
 
 .dropdown {
-  position: absolute;
-  top: 100%;
-  left: 0;
+  position: fixed;
   min-width: 100px;
   z-index: 1000;
   max-height: 200px;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
   border-radius: 3px;
-  margin-top: 10px;
   font-size: 13px;
   display: inline-block;
   outline: none;
   transform-origin: top;
   transform: scale(1, 0);
   opacity: 0;
-  transition: .2s ease;
+  box-sizing: border-box;
+  transition: transform .2s ease, opacity .2s ease;
 
   &.visible {
     transform: scale(1, 1);
@@ -29,12 +27,15 @@
 }
 
 .overlay {
-  position: fixed;
+  position: relative;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
   z-index: 999;
+  &.visible {
+    position: fixed;
+  }
 }
 
 .default {
