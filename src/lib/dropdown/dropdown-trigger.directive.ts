@@ -16,10 +16,10 @@ export class VxDropdownTriggerDirective implements OnInit {
     if (!this.vxDropdownTrigger) {
       throw new Error('vxDropdownTrigger without a dropdown');
     }
-    this.vxDropdownTrigger.element = this.el.nativeElement;
   }
 
   onClick(): void {
+    this.vxDropdownTrigger.element = this.el.nativeElement;
     this.vxDropdownTrigger.toggle();
   }
 }
