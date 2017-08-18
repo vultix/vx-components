@@ -192,8 +192,8 @@ export class VxDropdownComponent implements AfterContentInit, OnDestroy, AfterVi
       });
     }
 
-    if (!this.element) {
-      throw new Error('Dropdown opened without attached element');
+    if (!this.element || !(this.element instanceof HTMLElement)) {
+      throw new Error('Dropdown opened without an attached HTMLelement.');
     }
     this.repositionDropdown();
     this._positioned = true;
