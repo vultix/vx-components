@@ -1,0 +1,78 @@
+.wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+.content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
+  padding: 20px;
+  z-index: 2;
+  border-radius: 5px;
+  animation: contentAnimation .3s ease;
+
+  &.closing {
+    animation: contentClose .3s ease;
+    animation-fill-mode: forwards;
+  }
+  &.loading {
+    text-align: center;
+  }
+  @keyframes contentAnimation {
+    from {
+      transform: scale(0, 0);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1, 1);
+      opacity: 1;
+    }
+  }
+  @keyframes contentClose {
+    from {
+      transform: scale(1, 1);
+      opacity: 1;
+    }
+    to {
+      transform: scale(0, 0);
+      opacity: 0;
+    }
+  }
+}
+
+.buttons {
+  margin-top: 15px;
+  text-align: right;
+  margin-bottom: -5px;
+  button {
+    margin-left: 10px;
+  }
+}
+
+.title {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+p.loading {
+  padding-top: 1px;
+  margin-bottom: 0;
+  text-align: center;
+}

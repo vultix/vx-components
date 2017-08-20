@@ -137,6 +137,7 @@
     "newline-before-return": false,
     "ordered-imports": false,
     "no-forward-ref": false,
-    "jsdoc-format": false
+    "jsdoc-format": false,
+    "no-null-keyword": false
   }
 }

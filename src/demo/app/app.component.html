@@ -47,39 +47,40 @@
   <!--<vx-checkbox [(checked)]="checkboxAccent">Accent</vx-checkbox>-->
 <!--</section>-->
 
-<section>
-  <h2>Dropdown</h2>
+<!--<section>-->
+  <!--<h2>Dropdown</h2>-->
 
-  <div>
-    <button vx-button [vxDropdownTrigger]="dropdown">Toggle Dropdown</button>
-    Selection: {{selectedItem}}
-  </div>
-  <vx-dropdown #dropdown (itemClick)="dropdownClick($event)">
+  <!--<div>-->
+    <!--<button vx-button [vxDropdownTrigger]="dropdown">Toggle Dropdown</button>-->
+    <!--Selection: {{selectedItem}}-->
+  <!--</div>-->
+  <!--<vx-dropdown #dropdown (itemClick)="dropdownClick($event)">-->
 
-    <vx-item *ngFor="let item of data" [value]="item.value">
-      {{ item.name }}
-    </vx-item>
-  </vx-dropdown>
+    <!--<vx-item *ngFor="let item of data" [value]="item.value">-->
+      <!--{{ item.name }}-->
+    <!--</vx-item>-->
+  <!--</vx-dropdown>-->
 
-  <br/>
-  <vx-checkbox [(checked)]="dropdown.autoClose" class="padTop">Auto-Close</vx-checkbox>
+  <!--<br/>-->
+  <!--<vx-checkbox [(checked)]="dropdown.autoClose" class="padTop">Auto-Close</vx-checkbox>-->
 
-</section>
+<!--</section>-->
 
-<section>
-  <h2>Autocomplete</h2>
+<!--<section>-->
+  <!--<h2>Autocomplete</h2>-->
 
-  <vx-autocomplete placeholder="Choose Item..." [(ngModel)]="selectedCountry" [multiple]="multiple" required>
+  <!--<vx-autocomplete placeholder="Choose Item..." [(ngModel)]="selectedCountry" [multiple]="multiple" required>-->
 
-    <vx-item *ngFor="let item of data" [value]="item.value">
-      {{ item.name }}
-    </vx-item>
-  </vx-autocomplete> {{selectedCountry}}
+    <!--<vx-item *ngFor="let item of data" [value]="item.value">-->
+      <!--{{ item.name }}-->
+    <!--</vx-item>-->
+  <!--</vx-autocomplete> {{selectedCountry}}-->
 
-  <br />
-  <vx-checkbox [(checked)]="multiple" class="padTop">Multiple</vx-checkbox>
-</section>
+  <!--<br />-->
+  <!--<vx-checkbox [(checked)]="multiple" class="padTop">Multiple</vx-checkbox>-->
+<!--</section>-->
 
+<button vx-button (click)="showDialog()">Show Dialog</button>
 
 <!--<section>-->
   <!--<h2>Tabs</h2>-->

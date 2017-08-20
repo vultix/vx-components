@@ -4,6 +4,7 @@
 @import 'dropdown';
 @import 'autocomplete';
 @import 'button';
+@import 'dialog';
 
 @mixin vx-load-themes($colors) {
   @include vx-checkbox-theme($colors);
@@ -12,4 +13,5 @@
   @include vx-dropdown-theme($colors);
   @include vx-autocomplete-theme($colors);
   @include vx-button-theme($colors);
+  @include vx-dialog-theme($colors)
 }

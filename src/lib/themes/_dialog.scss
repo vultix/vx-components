@@ -1,0 +1,17 @@
+@mixin vx-dialog-theme($colors) {
+  $primary: map_get($colors, primary);
+  $accent: map_get($colors, accent);
+  $background: map_get($colors, background);
+  $foreground: map_get($colors, foreground);
+
+  .vxDialog {
+    .overlay {
+      background: transparentize($foreground, .8);
+    }
+    .content {
+      background-color: $background;
+      color: $foreground;
+      box-shadow: 0 10px 20px 3px transparentize($foreground, .9), 0 10px 45px 8px transparentize($foreground, .9);
+    }
+  }
+}

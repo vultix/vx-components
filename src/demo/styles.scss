@@ -14,3 +14,9 @@ $colors: (
 pre {
   margin: 0;
 }
+
+body {
+  background: map-get($colors, background);
+  color: map-get($colors, foreground);
+  font-family: sans-serif;
+}

@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {VxDialog} from '../../lib/dialog/dialog.service';
 
 @Component({
   selector: 'vx-root',
@@ -268,10 +269,22 @@ export class AppComponent {
   ];
 
   buttonTimer: any;
-  constructor() {
+  constructor(private vxDialog: VxDialog) {
     // this.selectedCountry = 'YE';
   }
 
+  showDialog(): void {
+    this.vxDialog.open({
+      title: 'Dialog title!',
+      body: 'Here is the body of the dialog.',
+      defaultButtonIdx: 0,
+      buttons: [
+        {text: 'Button A'},
+        {text: 'Button B'},
+        {text: 'Button C'}
+      ]
+    })
+  }
 
   dropdownClick(item: string): void {
     this.selectedItem = item;
