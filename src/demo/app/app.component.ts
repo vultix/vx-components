@@ -253,6 +253,8 @@ export class AppComponent {
     {name: 'Zambia', value: 'ZM'},
     {name: 'Zimbabwe', value: 'ZW'}
   ];
+
+  opened: boolean;
   constructor(public titleService: TitleService) {
 
   }

@@ -2,18 +2,25 @@
   <vx-tab label="Overview">
     <p>The vx-input-wrapper is a component used to wrap an input, giving it a stylized label and giving it
       validation.</p>
-    <vx-input-wrapper>
-      <input vxInput placeholder="Username" required ngModel>
-    </vx-input-wrapper>
-    <vx-input-wrapper>
-      <input type="password" vxInput placeholder="Password" required ngMode>
-    </vx-input-wrapper>
+    <vx-tabs>
+      <vx-tab label="Example">
+        <vx-input-wrapper>
+          <input vxInput placeholder="Username">
+        </vx-input-wrapper>
+        <vx-input-wrapper>
+          <input vxInput type="password" placeholder="Password">
+        </vx-input-wrapper>
+      </vx-tab>
+      <vx-tab label="HTML">
+        <pre><code>{{ example1 }}</code></pre>
+      </vx-tab>
+    </vx-tabs>
   </vx-tab>
   <vx-tab label="Api">
     <pre><code>{{importLbl}}</code></pre>
 
     <h3>VxInputWrapperComponent</h3>
-    <p>Used to wrap a &lt;vxInput&gt; directive.</p>
+    <p>Used to wrap a <code>vxInput</code> directive.</p>
     <pre><code>{{ basicExample }}</code></pre>
 
     <h3>VxInputDirective</h3>
@@ -52,7 +59,7 @@ value: string | number;</code></pre>
 
       </vx-tab>
       <vx-tab label="HTML">
-        <pre><code>{{ example1 }}</code></pre>
+        <pre><code>{{ example2 }}</code></pre>
       </vx-tab>
       <vx-tab label="CSS">
         <pre><code>{{ example1Css }}</code></pre>

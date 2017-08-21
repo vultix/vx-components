@@ -7,18 +7,21 @@ import {TabsDemoComponent} from './tabs-demo/tabs-demo.component';
 import {Route, RouterModule} from '@angular/router';
 import {InputDemoComponent} from './input-demo/input-demo.component';
 import {TitleService} from './title.service';
+import { CheckboxDemoComponent } from './checkbox-demo/checkbox-demo.component';
 
 const routes: Route[] = [
   { path: '', pathMatch: 'full', redirectTo: 'tabs'},
   { path: 'tabs', component: TabsDemoComponent},
-  { path: 'input', component: InputDemoComponent}
+  { path: 'input', component: InputDemoComponent},
+  { path: 'checkbox', component: CheckboxDemoComponent}
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
     TabsDemoComponent,
-    InputDemoComponent
+    InputDemoComponent,
+    CheckboxDemoComponent
   ],
   imports: [
     BrowserModule,
