@@ -60,10 +60,10 @@ export class VxInputDirective {
 
   @Input() requiredLabel: boolean;
 
-  _disabled: boolean;
   focused: boolean;
-  _required: boolean;
 
+  _disabled: boolean;
+  _required: boolean;
   private _type: string;
   private _placeholder: string;
   constructor(private _renderer: Renderer2, @Optional() @Self() public _ngControl: NgControl, @Optional() private _parentForm: NgForm,

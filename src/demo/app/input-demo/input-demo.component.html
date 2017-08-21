@@ -1,53 +1,62 @@
-<h1>Input</h1>
-<div class="links">
-  <a href="input#inputExample1">Basic Usage</a>
-</div>
-
-
-<h2 id="inputExample1">
-  Basic Inputs
-</h2>
 <vx-tabs>
-  <vx-tab label="Example">
+  <vx-tab label="Overview">
+    <p>The vx-input-wrapper is a component used to wrap an input, giving it a stylized label and giving it
+      validation.</p>
     <vx-input-wrapper>
-      <input vxInput placeholder="Username">
+      <input vxInput placeholder="Username" required ngModel>
     </vx-input-wrapper>
     <vx-input-wrapper>
-      <input type="password" vxInput placeholder="Password">
+      <input type="password" vxInput placeholder="Password" required ngMode>
     </vx-input-wrapper>
   </vx-tab>
-  <vx-tab label="HTML">
-    <pre>
-      <code>{{ example1 }}</code>
-    </pre>
-  </vx-tab>
-  <vx-tab label="CSS">
-    <pre>
-      <code>{{ example1Css }}</code>
-    </pre>
-  </vx-tab>
-</vx-tabs>
+  <vx-tab label="Api">
+    <pre><code>{{importLbl}}</code></pre>
 
-<h2 id="inputExample2">
-  Inputs with validation
-</h2>
-<vx-tabs>
-  <vx-tab label="Example">
-    <vx-input-wrapper>
-      <input vxInput placeholder="Username" ngModel required>
-    </vx-input-wrapper>
-    <vx-input-wrapper>
-      <input type="password" vxInput placeholder="Password" ngModel required>
-    </vx-input-wrapper>
+    <h3>VxInputWrapperComponent</h3>
+    <p>Used to wrap a &lt;vxInput&gt; directive.</p>
+    <pre><code>{{ basicExample }}</code></pre>
+
+    <h3>VxInputDirective</h3>
+    <pre><code>&lt;input vxInput&gt;</code></pre>
+    <h4>Properties</h4>
+    <pre><code>// Whether or not the input is disabled.
+@Input() disabled: boolean;
+
+// The input's placeholder.  Will also be shown in the surrounding VxInputWrapperComponent.
+@Input() placeholder: string;
+
+// The input's type.  text, number, email, etc..
+@Input() type: string;
+
+// Whether or not the input is required
+@Input() required: string;
+
+// Bound to whether or not the input has focus
+focused: boolean;
+
+// Used to set /get the value of the input.
+// If the input has the type of number the value will be a number
+value: string | number;</code></pre>
   </vx-tab>
-  <vx-tab label="HTML">
-    <pre>
-      <code>{{ example2 }}</code>
-    </pre>
-  </vx-tab>
-  <vx-tab label="CSS">
-    <pre>
-      <code>{{ example1Css }}</code>
-    </pre>
+  <vx-tab label="Examples">
+    <vx-tabs>
+      <vx-tab label="Example">
+        <vx-input-wrapper>
+          <input #input vxInput placeholder="Placeholder" [required]="isRequired" [disabled]="inputDisabled" ngModel>
+        </vx-input-wrapper>
+
+        <div class="padTop">Value: {{input.value}}</div>
+
+        <vx-checkbox [(checked)]="inputDisabled" class="padTop">Disabled</vx-checkbox>
+        <vx-checkbox [(checked)]="isRequired" class="padTop">Required</vx-checkbox>
+
+      </vx-tab>
+      <vx-tab label="HTML">
+        <pre><code>{{ example1 }}</code></pre>
+      </vx-tab>
+      <vx-tab label="CSS">
+        <pre><code>{{ example1Css }}</code></pre>
+      </vx-tab>
+    </vx-tabs>
   </vx-tab>
 </vx-tabs>

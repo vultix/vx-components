@@ -40,6 +40,10 @@ $borderRadius: 4px;
   text-align: center;
   cursor: pointer;
 
+  user-select: none;
+
+  -webkit-tap-highlight-color: transparent;
+
   &:before, &:after {
     content: ' ';
     height: 100%;

@@ -6,6 +6,14 @@ import {TitleService} from '../title.service';
   styleUrls: ['./input-demo.component.scss']
 })
 export class InputDemoComponent {
+  importLbl = `import {VxInputModule} from 'vx-components';`;
+
+  basicExample = `
+<vx-input-wrapper>
+  <input vxInput placeholder="Input">
+</vx-input-wrapper>
+  `.trim();
+
   example1 = `
 <vx-input-wrapper>
   <input vxInput placeholder="Username">
@@ -25,14 +33,18 @@ vx-input-wrapper {
 
   example2 = `
 <vx-input-wrapper>
-  <input vxInput placeholder="Username" ngModel required>
+  <input #input vxInput placeholder="Placeholder" [required]="isRequired" [disabled]="inputDisabled" ngModel>
 </vx-input-wrapper>
-<vx-input-wrapper>
-  <input vxInput type="password" placeholder="Password" ngModel required>
-</vx-input-wrapper>
+
+<div>Value: {{input.value}}</div>
+
+<vx-checkbox [(checked)]="inputDisabled">Disabled</vx-checkbox>
+<vx-checkbox [(checked)]="isRequired">Required</vx-checkbox>
   `.trim();
 
+  inputDisabled: boolean;
+  isRequired: boolean;
   constructor(titleService: TitleService) {
-    titleService.title = 'Vx Input'
+    titleService.title = 'Input'
   }
 }

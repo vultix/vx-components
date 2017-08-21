@@ -48,6 +48,6 @@ export class TabsDemoComponent {
   `.trim();
 
   constructor(titleService: TitleService) {
-    titleService.title = 'Vx Tabs'
+    titleService.title = 'Tabs'
   }
 }
