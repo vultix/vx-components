@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {TitleService} from '../title.service';
 
 @Component({
   templateUrl: './input-demo.component.html',
@@ -30,4 +31,8 @@ vx-input-wrapper {
   <input vxInput type="password" placeholder="Password" ngModel required>
 </vx-input-wrapper>
   `.trim();
+
+  constructor(titleService: TitleService) {
+    titleService.title = 'Vx Input'
+  }
 }

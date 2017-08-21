@@ -4,8 +4,8 @@ import {VxDialog} from './dialog.service';
 import {CommonModule} from '@angular/common';
 
 @NgModule({
-  declarations: [VxDialogComponent],
   imports: [CommonModule],
+  declarations: [VxDialogComponent],
   entryComponents: [VxDialogComponent],
   providers: [VxDialog]
 })

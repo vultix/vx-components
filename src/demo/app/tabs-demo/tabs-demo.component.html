@@ -1,63 +1,68 @@
-<h1>Tabs</h1>
-<div class="links">
-  <a href="tabs#tabsExample1">Basic Usage</a>
-  <a href="tabs#tabsExample2">Variable Height</a>
-</div>
-
-<h2 id="tabsExample1">
-  Basic Usage
-</h2>
 <vx-tabs>
-  <vx-tab label="Example">
+  <vx-tab label="Overview">
+    <p>The vx-tabs component creates a tab folder to separate content into tabs.</p>
     <vx-tabs>
-      <vx-tab label="Tab 1">
-        Here is the first tab!
+      <vx-tab label="Example">
+        <vx-tabs>
+          <vx-tab label="Tab 1">
+            Here is the first tab!
+          </vx-tab>
+          <vx-tab label="Tab 2">
+            Here is the second tab!
+          </vx-tab>
+          <vx-tab label="Tab 3">
+            Here is the third tab!
+          </vx-tab>
+        </vx-tabs>
       </vx-tab>
-      <vx-tab label="Tab 2">
-        Here is the second tab!
-      </vx-tab>
-      <vx-tab label="Tab 3">
-        Here is the third tab!
-      </vx-tab>
-    </vx-tabs>
-  </vx-tab>
-  <vx-tab label="HTML">
-    <pre>
-      <code>{{ example1 }}</code>
-    </pre>
-  </vx-tab>
-</vx-tabs>
-
-<h2 id="tabsExample2">
-  Variable Height Tabs
-</h2>
-<vx-tabs>
-  <vx-tab label="Example">
-    Vx-tabs will automatically adjust to the content height.
-    <br>
-    If a tab overflows its container it will become scrollable.
-    <vx-checkbox #overflow>Force Overflow</vx-checkbox>
-    <vx-tabs [class.overflow]="overflow.checked">
-      <vx-tab label="Small Tab">
-        A small tab with little content.
-      </vx-tab>
-      <vx-tab label="Large Tab">
-        <h1>Big Tab</h1>
-        <div class="spacer"></div>
-        Some content below.
+      <vx-tab label="HTML">
+        <pre><code>{{ example1 }}</code></pre>
       </vx-tab>
     </vx-tabs>
+
+    <h4>Inputs</h4>
+    <pre><code>// Sets the selected tab's index
+@Input() selectedTab: number;</code></pre>
+
+    <h4>Outputs</h4>
+    <pre><code>// Emitted when the user changes the selected tab
+@Output() selectedTabChange: EventEmitter&lt;number&gt;</code></pre>
   </vx-tab>
 
-  <vx-tab label="HTML">
-    <pre>
-      <code>{{ example2 }}</code>
-    </pre>
-  </vx-tab>
+  <vx-tab label="Api">
+    <pre><code>{{importLbl}}</code></pre>
 
-  <vx-tab label="CSS">
-    <pre>
-      <code>{{ example2CSS }}</code>
-    </pre>
+    <h4>Components</h4>
+    <pre><code>&lt;vx-tabs&gt;...&lt;/vx-tabs&gt;</code></pre>
+  </vx-tab>
+  <vx-tab label="Examples">
+
+    <vx-tabs>
+      <vx-tab label="Example">
+        Vx-tabs will automatically adjust to the content height.
+        <br>
+        If a tab overflows its container it will become scrollable.
+        <vx-checkbox #overflow>Force Overflow</vx-checkbox>
+        <vx-tabs [class.overflow]="overflow.checked">
+          <vx-tab label="Small Tab">
+            A small tab with little content.
+          </vx-tab>
+          <vx-tab label="Large Tab">
+            <h1>Big Tab</h1>
+            <div class="spacer"></div>
+            Some content below.
+          </vx-tab>
+        </vx-tabs>
+      </vx-tab>
+
+      <vx-tab label="HTML">
+        <pre><code>{{ example2 }}</code></pre>
+      </vx-tab>
+
+      <vx-tab label="CSS">
+        <pre><code>{{ example2CSS }}</code></pre>
+      </vx-tab>
+    </vx-tabs>
+
   </vx-tab>
 </vx-tabs>

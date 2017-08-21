@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {VxDialog} from '../../lib/dialog/dialog.service';
+import {TitleService} from './title.service';
 
 @Component({
   selector: 'vx-root',
@@ -7,22 +8,7 @@ import {VxDialog} from '../../lib/dialog/dialog.service';
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
-  isRequired = false;
-  selectedItem = '';
-  selectedCountry: string[] = ['US', 'US', 'AF'];
-  numeric = false;
-  buttonAccent = false;
-  buttonFlat = false;
-  buttonDark = false;
-  checkboxAccent = false;
-  selectedTab = 0;
-  clicked = false;
-  multiple = false;
-  min: number;
-  max: number;
-  inputDisabled: boolean;
-
-  data: Country[] = [
+  data = [
     {name: 'Afghanistan', value: 'AF'},
     {name: 'Åland Islands', value: 'AX'},
     {name: 'Albania', value: 'AL'},
@@ -267,40 +253,8 @@ export class AppComponent {
     {name: 'Zambia', value: 'ZM'},
     {name: 'Zimbabwe', value: 'ZW'}
   ];
+  constructor(public titleService: TitleService) {
 
-  buttonTimer: any;
-  constructor(private vxDialog: VxDialog) {
-    // this.selectedCountry = 'YE';
   }
 
-  showDialog(): void {
-    this.vxDialog.open({
-      title: 'Dialog title!',
-      body: 'Here is the body of the dialog.',
-      defaultButtonIdx: 0,
-      buttons: [
-        {text: 'Button A'},
-        {text: 'Button B'},
-        {text: 'Button C'}
-      ]
-    })
-  }
-
-  dropdownClick(item: string): void {
-    this.selectedItem = item;
-  }
-
-
-  buttonClick(): void {
-    this.clicked = true;
-    if (this.buttonTimer) {
-      clearTimeout(this.buttonTimer);
-    }
-    this.buttonTimer = setTimeout(() => this.clicked = false, 400);
-  }
-}
-
-class Country {
-  name: string;
-  value: string;
 }

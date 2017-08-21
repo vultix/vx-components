@@ -1,13 +1,6 @@
-/* You can add global styles to this file, and also import other style files */
-@import "../lib/themes/all-components";
+@import 'app/vars';
 
-$colors: (
-  primary: #3fa0bd,
-  background: #fCfCfC,
-  error: #bf0000,
-  foreground: black,
-  accent: #FFCA4F
-);
+@import "../lib/themes/all-components";
 
 @include vx-load-themes($colors);
 
@@ -19,4 +12,12 @@ body {
   background: map-get($colors, background);
   color: map-get($colors, foreground);
   font-family: sans-serif;
+  margin: 0;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+
+h4 {
+  margin-top: 15px;
+  margin-bottom: 8px;
 }

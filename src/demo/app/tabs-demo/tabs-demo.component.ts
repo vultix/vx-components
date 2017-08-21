@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {TitleService} from '../title.service';
 
 @Component({
   selector: 'vx-tabs-demo',
@@ -6,6 +7,8 @@ import {Component} from '@angular/core';
   styleUrls: ['./tabs-demo.component.scss']
 })
 export class TabsDemoComponent {
+  importLbl = `import {VxTabsModule} from 'vx-components';`;
+
   example1 = `
 <vx-tabs>
   <vx-tab label="Tab 1">
@@ -43,4 +46,8 @@ export class TabsDemoComponent {
   max-height: 200px;
 }
   `.trim();
+
+  constructor(titleService: TitleService) {
+    titleService.title = 'Vx Tabs'
+  }
 }

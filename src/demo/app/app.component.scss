@@ -1,20 +1,128 @@
-.padTop {
-  margin-top: 15px;
-}
+@import "vars";
 
-.small {
-  width: 100px;
-}
+$headerH: 60px;
+$sidebarW: 200px;
 
-section {
-  padding-top: 30px;
-  padding-left: 30px;
+.sidebar {
+  width: $sidebarW;
+  background: mix($background, $foreground, 35%);
+  color: $background;
+  z-index: 9999;
+  position: fixed;
+  height: 100%;
+  left: 0;
+  top: 0;
 
-  h2 {
-    margin-left: -20px;
+  .links a {
+    display: block;
+    padding: 15px 10px;
+    border-top: 1px solid mix($background, $foreground, 75%);
+    color: $background;
+    text-decoration: none;
+
+    &.active {
+      font-weight: bold;
+    }
   }
 }
 
-[vx-button] {
-  font-size: 13px;
+.header {
+  position: fixed;
+  top: 0;
+  left: $sidebarW;
+  right: 0;
+  height: $headerH;
+  background: $mainColor;
+  color: $background;
+  line-height: $headerH;
+  vertical-align: middle;
+  border: none;
+  box-shadow: 0 0 10px 1px transparentize($foreground, .5);
+  font-size: 25px;
+  z-index: 100;
+  text-align: center;
+
+  &.inner {
+    position: static;
+    border-right: 2px solid mix($foreground, $mainColor, 35%);
+    box-shadow: none;
+  }
+}
+
+.body {
+  margin-top: $headerH;
+  margin-left: $sidebarW;
+}
+
+.mainContent {
+  padding: 13px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+@media screen and (max-width: 475px) {
+  .sidebar {
+    transition: transform .3s;
+    transform: translateX(-$sidebarW);
+
+    &.opened {
+      transform: translateX(0);
+    }
+  }
+  .body {
+    margin-left: 0;
+  }
+  .header {
+    left: 0;
+    &.inner {
+      box-shadow: none;
+    }
+  }
+
+  .overlay {
+    position: absolute;
+    z-index: 9998;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0,0,0, .3);
+  }
+
+  .menu {
+    $barW: 30px;
+    $barH: 4px;
+    $space: 4px;
+    position: absolute;
+    left: 15px;
+    width: $barW;
+    height: $barH;
+    top: 50%;
+    transform: translateY(-50%);
+    background: $background;
+    border-radius: 1px;
+
+    &:before {
+      content: '';
+      position: absolute;
+      width: $barW;
+      height: $barH;
+      background: $background;
+      border-radius: 1px;
+      bottom: 100%;
+      margin-bottom: $space;
+      left: 0;
+    }
+    &:after {
+      content: '';
+      position: absolute;
+      width: $barW;
+      height: $barH;
+      background: $background;
+      border-radius: 1px;
+      top: 100%;
+      margin-top: $space;
+      left: 0;
+    }
+  }
 }

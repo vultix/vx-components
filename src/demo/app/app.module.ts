@@ -6,6 +6,7 @@ import {VxComponentsModule} from './lib';
 import {TabsDemoComponent} from './tabs-demo/tabs-demo.component';
 import {Route, RouterModule} from '@angular/router';
 import {InputDemoComponent} from './input-demo/input-demo.component';
+import {TitleService} from './title.service';
 
 const routes: Route[] = [
   { path: '', pathMatch: 'full', redirectTo: 'tabs'},
@@ -25,7 +26,7 @@ const routes: Route[] = [
     VxComponentsModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [],
+  providers: [TitleService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

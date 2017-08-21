@@ -99,11 +99,11 @@ export class VxDropdownComponent implements AfterContentInit, OnDestroy, AfterVi
   }
 
   _positioned = false;
+  _visible = false;
 
   @ViewChild('dropdown') _dropdown: ElementRef;
 
   private _focusedIdx = 0;
-  private _visible = false;
   private _container = createContainer();
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private enterDown: boolean;
