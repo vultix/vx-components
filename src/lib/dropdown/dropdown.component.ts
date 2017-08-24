@@ -141,6 +141,7 @@ export class VxDropdownComponent implements AfterContentInit, OnDestroy, AfterVi
       if (!item.subscription) {
         item.subscription = item.onSelect.takeUntil(this.ngUnsubscribe).subscribe(() => {
           this.itemClick.emit(item.value);
+          this._autoClose();
         });
       }
     })
@@ -157,7 +158,7 @@ export class VxDropdownComponent implements AfterContentInit, OnDestroy, AfterVi
 
   @HostListener('window:keydown.escape')
   @HostListener('window:keydown.tab')
-  _close(): void {
+  _autoClose(): void {
     if (this.autoClose) {
       this.visible = false;
     }
@@ -166,7 +167,6 @@ export class VxDropdownComponent implements AfterContentInit, OnDestroy, AfterVi
   _onEnterDown(event: Event): void {
     if (this.visible && this.focusedItem) {
       this.focusedItem.active = true;
-      this.itemClick.emit(this.focusedItem.value);
       event.preventDefault();
     }
     this.enterDown = true;
@@ -176,10 +176,11 @@ export class VxDropdownComponent implements AfterContentInit, OnDestroy, AfterVi
   _onEnterUp(event: Event): void {
     if (this.visible && this.focusedItem) {
       this.focusedItem.active = false;
+      this.focusedItem.onSelect.emit();
       event.preventDefault();
     }
     if (this.enterDown)
-      this._close();
+      this._autoClose();
   }
 
   hasFocus(): boolean {

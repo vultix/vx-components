@@ -1,6 +1,6 @@
 {
   "name": "vx-components",
-  "version": "1.0.0-beta.39",
+  "version": "1.0.0-beta.42",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
