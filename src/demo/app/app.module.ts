@@ -8,12 +8,15 @@ import {Route, RouterModule} from '@angular/router';
 import {InputDemoComponent} from './input-demo/input-demo.component';
 import {TitleService} from './title.service';
 import { CheckboxDemoComponent } from './checkbox-demo/checkbox-demo.component';
+import { AutocompleteDemoComponent } from './autocomplete-demo/autocomplete-demo.component';
+import {HighlightCodeDirective} from './highlight-code.directive';
 
 const routes: Route[] = [
   { path: '', pathMatch: 'full', redirectTo: 'tabs'},
   { path: 'tabs', component: TabsDemoComponent},
   { path: 'input', component: InputDemoComponent},
-  { path: 'checkbox', component: CheckboxDemoComponent}
+  { path: 'checkbox', component: CheckboxDemoComponent},
+  { path: 'autocomplete', component: AutocompleteDemoComponent}
 ];
 
 @NgModule({
@@ -21,7 +24,9 @@ const routes: Route[] = [
     AppComponent,
     TabsDemoComponent,
     InputDemoComponent,
-    CheckboxDemoComponent
+    CheckboxDemoComponent,
+    AutocompleteDemoComponent,
+    HighlightCodeDirective
   ],
   imports: [
     BrowserModule,

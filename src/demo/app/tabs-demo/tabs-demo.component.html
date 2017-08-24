@@ -16,7 +16,7 @@
         </vx-tabs>
       </vx-tab>
       <vx-tab label="HTML">
-        <pre><code>{{ example1 }}</code></pre>
+        <pre><code vxHighlight>{{ example1 }}</code></pre>
       </vx-tab>
     </vx-tabs>
 
@@ -24,22 +24,22 @@
 
 
   <vx-tab label="Api">
-    <pre><code>{{importLbl}}</code></pre>
+    <pre><code vxHighlight>{{importLbl}}</code></pre>
 
     <h3>VxTabsComponent</h3>
-    <pre><code>&lt;vx-tabs&gt;...&lt;/vx-tabs&gt;</code></pre>
+    <pre><code vxHighlight>&lt;vx-tabs&gt;...&lt;/vx-tabs&gt;</code></pre>
     <h4>Inputs</h4>
-    <pre><code>// Sets the selected tab's index
+    <pre><code vxHighlight>// Sets the selected tab's index
 @Input() selectedTab: number;</code></pre>
 
     <h4>Outputs</h4>
-    <pre><code>// Emitted when the user changes the selected tab
+    <pre><code vxHighlight>// Emitted when the user changes the selected tab
 @Output() selectedTabChange: EventEmitter&lt;number&gt;</code></pre>
 
     <h3>VxTabComponent</h3>
-    <pre><code>&lt;vx-tab label="Label"&gt;...&lt;/vx-tab&gt;</code></pre>
+    <pre><code vxHighlight>&lt;vx-tab label="Label"&gt;...&lt;/vx-tab&gt;</code></pre>
     <h4>Inputs</h4>
-    <pre><code>// The tab's label. Required
+    <pre><code vxHighlight>// The tab's label. Required
 @Input() label: string;</code></pre>
   </vx-tab>
 
@@ -65,11 +65,11 @@
       </vx-tab>
 
       <vx-tab label="HTML">
-        <pre><code>{{ example2 }}</code></pre>
+        <pre><code vxHighlight>{{ example2 }}</code></pre>
       </vx-tab>
 
       <vx-tab label="CSS">
-        <pre><code>{{ example2CSS }}</code></pre>
+        <pre><code vxHighlight>{{ example2CSS }}</code></pre>
       </vx-tab>
     </vx-tabs>
 

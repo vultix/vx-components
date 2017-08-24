@@ -19,7 +19,13 @@ export class VxItemComponent {
   visible = true;
 
   @Output() onSelect = new EventEmitter();
-  @Input() value: any;
+  @Input() get value(): any {
+    return this._value || this.searchTxt;
+  }
+
+  set value(value: any) {
+    this._value = value;
+  }
 
   get searchTxt(): string {
     return this._searchTxt ? this._searchTxt : this.getSearchText();
@@ -40,6 +46,7 @@ export class VxItemComponent {
 
   private _searchTxt: string;
   private _disabled: boolean;
+  private _value: any;
   constructor(public _elementRef: ElementRef) {}
 
   handleClick(): void {

@@ -7,8 +7,7 @@ export class VxDialog {
   constructor(private resolver: ComponentFactoryResolver, private injector: Injector, private appRef: ApplicationRef) {
   }
   open(options: DialogBodyOptions): VxDialogComponent;
-  open(component: Type<any>, options?: BaseDialogOptions): VxDialogComponent;
-  open<T extends undefined>(component: Type<OnDialogOpen<T>>, options?: BaseDialogOptions): VxDialogComponent;
+  open(component: Type<OnDialogOpen<undefined> | NotOnDialogOpen>, options?: BaseDialogOptions): VxDialogComponent;
   open<T, K extends T>(component: Type<OnDialogOpen<T>>, options: BaseDialogOptions | null, data: K): VxDialogComponent;
   open(componentOrOptions: any, optionsOrData?: any, data?: any): VxDialogComponent {
     const container = createOverlay();
@@ -37,4 +36,8 @@ function createOverlay(): HTMLElement {
 
   document.body.appendChild(container);
   return container;
+}
+
+interface NotOnDialogOpen {
+  onDialogOpen?: undefined;
 }
