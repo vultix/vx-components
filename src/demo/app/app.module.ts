@@ -16,7 +16,8 @@ const routes: Route[] = [
   { path: 'tabs', component: TabsDemoComponent},
   { path: 'input', component: InputDemoComponent},
   { path: 'checkbox', component: CheckboxDemoComponent},
-  { path: 'autocomplete', component: AutocompleteDemoComponent}
+  { path: 'autocomplete', component: AutocompleteDemoComponent},
+  { path: '**', redirectTo: 'tabs'}
 ];
 
 @NgModule({

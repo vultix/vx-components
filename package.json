@@ -1,6 +1,6 @@
 {
   "name": "vx-components",
-  "version": "1.0.0-beta.34",
+  "version": "1.0.0-beta.39",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -11,7 +11,7 @@
     "e2e": "ng e2e",
     "package": "rimraf dist && ngc -p src/lib/tsconfig.aot.json && gulp",
     "pages": "npm run build  &&  angular-cli-ghpages --dir demo",
-    "dist": "npm run pages && npm run package && cd dist && npm publish"
+    "dist": "npm run package && cd dist && npm publish"
   },
   "dependencies": {
     "@angular/animations": "^4.0.0",

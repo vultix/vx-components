@@ -11,7 +11,7 @@ import {
   QueryList,
   ViewChild
 } from '@angular/core';
-import {coerceBooleanProperty} from '../Util';
+import {coerceBooleanProperty, getStyleOnElement} from '../Util';
 import {VxItemComponent} from './item.component';
 import {Subscription} from 'rxjs/Subscription';
 import {Subject} from 'rxjs/Subject';
@@ -195,6 +195,18 @@ export class VxDropdownComponent implements AfterContentInit, OnDestroy, AfterVi
     if (!this.element || !(this.element instanceof HTMLElement)) {
       throw new Error('Dropdown opened without an attached HTMLelement.');
     }
+
+    let zIndex = '';
+    let el: HTMLElement | null = this.element;
+    while (el) {
+      const zIdx = getStyleOnElement(el, 'zIndex');
+      if (+zIdx && zIdx > zIndex) {
+        zIndex = zIdx;
+      }
+      el = el.parentElement
+    }
+    this._container.style.zIndex = zIndex;
+
     this.repositionDropdown();
     this._positioned = true;
   }
@@ -232,11 +244,12 @@ export class VxDropdownComponent implements AfterContentInit, OnDestroy, AfterVi
 
 function createContainer(): HTMLDivElement {
   const container = document.createElement('div');
+  container.style.position = 'relative';
 
   document.body.appendChild(container);
   return container;
 }
 
-interface ItemWithSubscription extends VxItemComponent {
+export interface ItemWithSubscription extends VxItemComponent {
   subscription?: Subscription;
 }

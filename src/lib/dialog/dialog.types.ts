@@ -1,5 +1,5 @@
 import {VxDialogComponent} from './dialog.component';
-interface DialogButton {
+export interface DialogButton {
   text: string;
   value?: any;
 }

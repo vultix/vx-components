@@ -38,6 +38,6 @@ function createOverlay(): HTMLElement {
   return container;
 }
 
-interface NotOnDialogOpen {
+export interface NotOnDialogOpen {
   onDialogOpen?: undefined;
 }

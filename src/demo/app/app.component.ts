@@ -1,7 +1,5 @@
 import {Component} from '@angular/core';
-import {VxDialog} from '../../lib/dialog/dialog.service';
 import {TitleService} from './title.service';
-import {NavigationEnd, Router} from '@angular/router';
 
 @Component({
   selector: 'vx-root',
@@ -11,7 +9,7 @@ import {NavigationEnd, Router} from '@angular/router';
 export class AppComponent {
 
   opened: boolean;
-  constructor(public titleService: TitleService, router: Router) {
+  constructor(public titleService: TitleService) {
   }
 
 }
