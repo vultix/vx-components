@@ -1,0 +1,24 @@
+<vx-tabs>
+  <vx-tab label="Overview">
+    <p>The vx-autocomplete component allows the user to choose one, or multiple items from a dropdown.
+      It allows them to search for items in the dropdown.</p>
+
+    <vx-tabs>
+      <vx-tab label="Example">
+        <vx-autocomplete placeholder="Choose A Country" #autocomplete>
+          <vx-item *ngFor="let country of countries" [value]="country.value">{{ country.name }}</vx-item>
+        </vx-autocomplete>
+        {{ autocomplete.value }}
+      </vx-tab>
+      <vx-tab label="HTML">
+        <pre><code vxHighlight>{{ example1 }}</code></pre>
+      </vx-tab>
+    </vx-tabs>
+  </vx-tab>
+  <vx-tab label="API">
+    <pre><code vxHighlight>{{ importLbl }}</code></pre>
+
+    <h3>VxAutocompleteComponent</h3>
+    <pre><code vxHighlight>&lt;vx-autocomplete&gt;...&lt;/vx-autocomplete&gt;</code></pre>
+  </vx-tab>
+</vx-tabs>
