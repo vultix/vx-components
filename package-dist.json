@@ -1,0 +1,25 @@
+{
+  "name": "vx-components",
+  "version": "1.0.1-beta.1",
+  "description": "Vx Components",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vultix/VxComponents"
+  },
+  "keywords": [
+    "angular",
+    "components"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vultix/VxComponents/issues"
+  },
+  "homepage": "https://vultix.github.io/VxComponents/",
+  "peerDependencies": {
+    "@angular/core": "^4.3.0",
+    "@angular/common": "^4.3.0"
+  },
+  "dependencies": {
+    "tslib": "^1.7.1"
+  }
+}

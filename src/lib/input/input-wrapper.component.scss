@@ -6,7 +6,7 @@
   &.disabled {
     .container, .label {
       cursor: auto;
-      opacity: .45;
+      opacity: .65;
       pointer-events: none;
     }
   }
@@ -36,7 +36,7 @@
 /deep/ {
   [vxInput] {
     border: 0;
-    font-size: 15px;
+    font-size: 16px;
     outline: none;
     background: none;
     flex-grow: 1;

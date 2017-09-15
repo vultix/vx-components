@@ -1,5 +1,6 @@
 import {
-  AfterContentInit, AfterViewChecked,
+  AfterContentInit,
+  AfterViewChecked,
   Component,
   ContentChildren,
   ElementRef,
@@ -15,8 +16,9 @@ import {coerceBooleanProperty, getStyleOnElement} from '../Util';
 import {VxItemComponent} from './item.component';
 import {Subscription} from 'rxjs/Subscription';
 import {Subject} from 'rxjs/Subject';
-import 'rxjs/add/operator/takeUntil';
+import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/fromEvent';
+import 'rxjs/add/operator/takeUntil';
 
 @Component({
   selector: 'vx-dropdown',
@@ -111,11 +113,18 @@ export class VxDropdownComponent implements AfterContentInit, OnDestroy, AfterVi
 
   constructor(private _el: ElementRef) {
     this._container.appendChild(_el.nativeElement);
+
+    // Until angular 2 has away to do usecapture, we have to capture the event like this.
+    Observable.fromEvent(window, 'scroll', true).takeUntil(this.ngUnsubscribe).subscribe(() => {
+      this.repositionDropdown();
+    })
   }
 
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+    if (this._container)
+      this._container.remove();
   }
 
   ngAfterContentInit(): void {
@@ -163,6 +172,7 @@ export class VxDropdownComponent implements AfterContentInit, OnDestroy, AfterVi
       this.visible = false;
     }
   }
+
   @HostListener('window:keydown.enter', ['$event'])
   _onEnterDown(event: Event): void {
     if (this.visible && this.focusedItem) {
@@ -186,6 +196,7 @@ export class VxDropdownComponent implements AfterContentInit, OnDestroy, AfterVi
   hasFocus(): boolean {
     return document.activeElement === this._dropdown.nativeElement;
   }
+
   private _onOpen(): void {
     if (this.items) {
       this.items.forEach(item => {
@@ -197,22 +208,21 @@ export class VxDropdownComponent implements AfterContentInit, OnDestroy, AfterVi
       throw new Error('Dropdown opened without an attached HTMLelement.');
     }
 
-    let zIndex = '';
+    let zIndex = 100;
     let el: HTMLElement | null = this.element;
     while (el) {
-      const zIdx = getStyleOnElement(el, 'zIndex');
-      if (+zIdx && zIdx > zIndex) {
-        zIndex = zIdx;
+      const zIdx = +getStyleOnElement(el, 'zIndex');
+      if (zIdx && zIdx > zIndex) {
+        zIndex = zIdx + 1;
       }
       el = el.parentElement
     }
-    this._container.style.zIndex = zIndex;
+    this._container.style.zIndex = `${zIndex}`;
 
     this.repositionDropdown();
     this._positioned = true;
   }
 
-  @HostListener('window:scroll')
   @HostListener('window:resize')
   repositionDropdown(): void {
     if (this.element && this.visible) {
@@ -220,13 +230,22 @@ export class VxDropdownComponent implements AfterContentInit, OnDestroy, AfterVi
       const dropdown: HTMLDivElement = this._dropdown.nativeElement;
 
       let top = elementPosition.bottom + this.offsetTop;
-      const left = elementPosition.left + this.offsetLeft;
+      let left = elementPosition.left + this.offsetLeft;
+      if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream) {
+        top += window.scrollY;
+        left += window.scrollX;
+      }
       if (this.matchWidth)
         dropdown.style.width = `${elementPosition.width}px`;
 
-      if ((top + dropdown.offsetHeight) > window.innerHeight) {
-        top = window.innerHeight - dropdown.offsetHeight;
+      const viewportHeight =  Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+      if ((top + dropdown.offsetHeight) > viewportHeight) {
+        top = viewportHeight - dropdown.offsetHeight;
       }
+      if (top < 0) {
+        top = 0;
+      }
+
       dropdown.style.top = `${top}px`;
       dropdown.style.left = `${left}px`;
     }
@@ -245,7 +264,7 @@ export class VxDropdownComponent implements AfterContentInit, OnDestroy, AfterVi
 
 function createContainer(): HTMLDivElement {
   const container = document.createElement('div');
-  container.style.position = 'relative';
+  container.style.position = 'absolute';
 
   document.body.appendChild(container);
   return container;

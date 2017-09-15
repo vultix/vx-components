@@ -40,4 +40,5 @@ function createOverlay(): HTMLElement {
 
 export interface NotOnDialogOpen {
   onDialogOpen?: undefined;
+  [key: string]: any;
 }

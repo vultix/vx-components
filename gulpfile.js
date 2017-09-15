@@ -23,6 +23,7 @@ const gulpSourcemaps = require('gulp-sourcemaps');
 const gulpAutoprefixer = require('gulp-autoprefixer');
 const gulpMinifyCss = require('gulp-clean-css');
 const gulpMinifyHtml = require('gulp-htmlmin');
+const rename = require('gulp-rename');
 
 gulp.task('copy-and-inline-resource', copyHtml);
 
@@ -49,7 +50,7 @@ function copyScss () {
 }
 
 function copyPackage () {
-  gulp.src('./package.json')
+  gulp.src('./package-dist.json').pipe(rename('package.json'))
     .pipe(gulp.dest('./dist/')).on('end', inlineResource);
 }
 

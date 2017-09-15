@@ -8,7 +8,7 @@ $size: 20px;
   outline: none;
 
   &.disabled {
-    opacity: .45;
+    opacity: .65;
     pointer-events: none;
   }
 
@@ -24,7 +24,7 @@ $size: 20px;
 .checkbox {
   display: inline-block;
   height: $size;
-  margin-right: 3px;
+  margin-right: 5px;
   width: $size;
   border-radius: 3px;
   position: relative;

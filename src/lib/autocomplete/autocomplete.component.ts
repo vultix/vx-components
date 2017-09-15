@@ -114,7 +114,6 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
   }
 
   _handleInputFocusChange(hasFocus: boolean): void {
-    this._onTouchedFn();
     this.touched = true;
     if (hasFocus) {
       this._showDropdown();
