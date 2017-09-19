@@ -12,13 +12,14 @@ import {
   QueryList,
   ViewChild
 } from '@angular/core';
-import {coerceBooleanProperty, getStyleOnElement} from '../Util';
+import {coerceBooleanProperty, getHighestZIdx, getStyleOnElement} from '../Util';
 import {VxItemComponent} from './item.component';
 import {Subscription} from 'rxjs/Subscription';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/operator/takeUntil';
+import 'rxjs/add/operator/startWith';
 
 @Component({
   selector: 'vx-dropdown',
@@ -128,12 +129,15 @@ export class VxDropdownComponent implements AfterContentInit, OnDestroy, AfterVi
   }
 
   ngAfterContentInit(): void {
+    // Wrapped in a a timeout so that the autocomplete has time to set this.items.
     setTimeout(() => {
-      this.items.changes.subscribe(() => {
-        this.updateItemSubscriptions();
-        this.focusedIdx = 0;
-      });
-      this.updateItemSubscriptions();
+        this.items.changes.startWith(null).subscribe(() => {
+            this.updateItemSubscriptions();
+            // TODO: why is this timeout necessary?
+            setTimeout(() => {
+              this.focusedIdx = 0;
+            });
+        });
     });
   }
 
@@ -208,16 +212,7 @@ export class VxDropdownComponent implements AfterContentInit, OnDestroy, AfterVi
       throw new Error('Dropdown opened without an attached HTMLelement.');
     }
 
-    let zIndex = 100;
-    let el: HTMLElement | null = this.element;
-    while (el) {
-      const zIdx = +getStyleOnElement(el, 'zIndex');
-      if (zIdx && zIdx > zIndex) {
-        zIndex = zIdx + 1;
-      }
-      el = el.parentElement
-    }
-    this._container.style.zIndex = `${zIndex}`;
+    this._container.style.zIndex = `${getHighestZIdx()}`;
 
     this.repositionDropdown();
     this._positioned = true;
@@ -239,11 +234,16 @@ export class VxDropdownComponent implements AfterContentInit, OnDestroy, AfterVi
         dropdown.style.width = `${elementPosition.width}px`;
 
       const viewportHeight =  Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+      const viewportWidth =  Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
       if ((top + dropdown.offsetHeight) > viewportHeight) {
         top = viewportHeight - dropdown.offsetHeight;
       }
       if (top < 0) {
         top = 0;
+      }
+
+      if ((left + dropdown.offsetWidth) > viewportWidth) {
+        left = viewportWidth - dropdown.offsetWidth;
       }
 
       dropdown.style.top = `${top}px`;

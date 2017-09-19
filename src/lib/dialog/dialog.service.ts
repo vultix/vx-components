@@ -1,6 +1,7 @@
 import {ApplicationRef, ComponentFactoryResolver, Injectable, Injector, Type} from '@angular/core';
 import {VxDialogComponent} from './dialog.component';
 import {BaseDialogOptions, DialogBodyOptions, OnDialogOpen} from './dialog.types';
+import {getHighestZIdx} from '../Util';
 
 @Injectable()
 export class VxDialog {
@@ -27,12 +28,15 @@ export class VxDialog {
     dialog.instance._setComponentRef(dialog);
     dialog.instance._setContainer(container);
 
+
     return dialog.instance;
   }
 }
 
 function createOverlay(): HTMLElement {
   const container = document.createElement('div');
+  container.style.position = 'absolute';
+  container.style.zIndex = `${getHighestZIdx()}`;
 
   document.body.appendChild(container);
   return container;

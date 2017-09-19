@@ -134,6 +134,8 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
   _onSelectItem(value: any, skipEmit = false): void {
     if (!value) {
       this.selectedItem = undefined;
+      this.input.value = '';
+      this.input.placeholder = this.placeholder;
 
       return;
     }

@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod --aot --base-href=/VxComponents/",
+    "build": "ng build --prod --aot --base-href=/VxComponents/ --build-optimizer",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
@@ -56,6 +56,6 @@
     "rimraf": "^2.6.2",
     "ts-node": "~3.0.4",
     "tslint": "^5.7.0",
-    "typescript": "2.3.4"
+    "typescript": "2.4.0"
   }
 }
