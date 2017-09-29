@@ -6,14 +6,11 @@
     {{ item.searchTxt }} <span class="delete">X</span>
   </button>
 
-  <div class="noWrap">
+  <div class="noWrap" [tabIndex]="!search ? tabIndex : -1" (click)="_showDropdown()">
     <input vxInput #input [placeholder]="placeholder" [tabIndex]="tabIndex" [disabled]="disabled"
-           (focus)="_handleInputFocusChange(true)"
-           (blur)="_handleInputFocusChange(false)"
-           (click)="_showDropdown()"
            ngModel (ngModelChange)="_onInputChange($event)"
            [name]="name" (keydown.escape)="_closeDropdown()" [requiredLabel]="_required"
-           (keydown.backspace)="_handleBackspace()">
+           (keydown.backspace)="_handleBackspace()" [attr.disabled]="!search || undefined" [class.pointer]="!search">
 
     <div class="arrowContainer" (click)="_arrowClicked()">
       <div class="downArrow"></div>

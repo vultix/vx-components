@@ -47,6 +47,16 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
   @Input() tabIndex: number;
   /** Whether or not the component is disabled  */
   @Input() disabled: boolean;
+  /** Whether or not to allow searching **/
+  @Input()
+  get search(): boolean {
+    return this._search;
+  }
+
+  set search(value: boolean) {
+    value = coerceBooleanProperty(value);
+    this._search = value;
+  }
 
   @ContentChildren(VxItemComponent) items: QueryList<VxItemComponent>;
 
@@ -60,7 +70,7 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
     this._multiple = coerceBooleanProperty(multiple);
     setTimeout(() => {
       if (this._multiple) {
-        this.input._elementRef.nativeElement.placeholder = 'Search...';
+        this.input._elementRef.nativeElement.placeholder = this.search ? 'Search...' : 'Select...';
         this.selectedItem = undefined;
       } else {
         this.input.placeholder = this.placeholder;
@@ -91,6 +101,7 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
 
   private _value: any;
   private touched = false;
+  private _search = true;
 
   constructor(@Optional() private _parentForm: NgForm,
               @Optional() private _parentFormGroup: FormGroupDirective, @Optional() @Self() public _ngControl: NgControl) {
@@ -115,6 +126,7 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
 
   _handleInputFocusChange(hasFocus: boolean): void {
     this.touched = true;
+    this.input.focused = hasFocus;
     if (hasFocus) {
       this._showDropdown();
     } else {
@@ -203,6 +215,8 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
   _focusInput(): void {
     this.input.focused = true;
     this.input._elementRef.nativeElement.focus();
+    if (!this.search)
+      this.input._elementRef.nativeElement.parentElement.focus();
   }
 
   _onChangeFn = (v: any) => v;
@@ -255,8 +269,7 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
       return;
     }
     if (!this.input.value && this.selectedItems.length) {
-      this.selectedItems.splice(this.selectedItems.length - 1, 1);
-      this._onChangeFn(this.value);
+      this._removeItem(this.selectedItems[this.selectedItems.length - 1]);
     }
   }
 

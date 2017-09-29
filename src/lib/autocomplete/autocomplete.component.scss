@@ -57,8 +57,13 @@ vx-dropdown /deep/ .dropdown {
   flex-grow: 1;
   display: flex;
   flex-wrap: nowrap;
+  outline: none;
 }
 
 vx-input-wrapper, vx-dropdown {
   width: 100%;
+}
+
+.pointer {
+  cursor: pointer;
 }
