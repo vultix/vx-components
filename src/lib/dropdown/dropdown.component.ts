@@ -12,7 +12,7 @@ import {
   QueryList,
   ViewChild
 } from '@angular/core';
-import {coerceBooleanProperty, getHighestZIdx, getStyleOnElement} from '../Util';
+import {coerceBooleanProperty, getHighestZIdx} from '../Util';
 import {VxItemComponent} from './item.component';
 import {Subscription} from 'rxjs/Subscription';
 import {Subject} from 'rxjs/Subject';

@@ -20,7 +20,10 @@ export class VxItemComponent {
 
   @Output() onSelect = new EventEmitter();
   @Input() get value(): any {
-    return this._value || this.searchTxt;
+    const value = this._value;
+    if (value !== null && value !== undefined)
+      return value;
+    else return this.searchTxt;
   }
 
   set value(value: any) {
