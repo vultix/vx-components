@@ -1,9 +1,11 @@
 import {
-  AfterViewInit, Component, ComponentFactoryResolver, ComponentRef, ElementRef, OnDestroy, Type, ViewChild,
+  AfterViewInit, Component, ComponentFactoryResolver, ComponentRef, Directive, ElementRef, OnDestroy, Type, ViewChild,
   ViewContainerRef
 } from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {DialogOptions} from './dialog.types';
+import {VxDialogActionsDirective} from './dialog.directives';
+import {InteractivityChecker} from './interactivity-checker';
 
 const CLOSE_ANIMATION_TIME = 300;
 @Component({
@@ -18,6 +20,7 @@ export class VxDialogComponent implements OnDestroy, AfterViewInit {
   @ViewChild('content', { read: ViewContainerRef }) content: ViewContainerRef;
   onClose = new Subject<any>();
   dialogOptions: DialogOptions = {body: ''};
+  @ViewChild('dialog') dialog: ElementRef;
   @ViewChild('buttons') buttons: ElementRef;
 
   _closing = false;
@@ -45,6 +48,14 @@ export class VxDialogComponent implements OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    const children = this.dialog.nativeElement.querySelectorAll('*');
+    for (const child of children) {
+      if (InteractivityChecker.isFocusable(child) && InteractivityChecker.isTabbable(child)) {
+        child.focus();
+        break;
+      }
+    }
+
     if (this.buttons) {
       const buttonContainer = this.buttons.nativeElement as HTMLDivElement;
 

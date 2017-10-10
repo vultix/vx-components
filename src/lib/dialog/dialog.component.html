@@ -3,19 +3,19 @@
   <div class="overlay" *ngIf="!_closing" (click)="_overlayClick()"></div>
 
   <div class="content" [class.closing]="_closing" [style.width]="dialogOptions.width"
-       [style.height]="dialogOptions.height" [class.loading]="dialogOptions.loading">
+       [style.height]="dialogOptions.height" [class.loading]="dialogOptions.loading" #dialog>
     <ng-template #content></ng-template>
 
-    <div *ngIf="!_hasComponent">
-      <div class="title" *ngIf="dialogOptions.title">
+    <ng-container *ngIf="!_hasComponent">
+      <h2 vx-dialog-title *ngIf="dialogOptions.title">
         {{ dialogOptions.title }}
-      </div>
+      </h2>
 
-      <p>{{ dialogOptions.body }}</p>
+      <p vx-dialog-content>{{ dialogOptions.body }}</p>
 
-      <div class="buttons" *ngIf="dialogOptions.buttons" #buttons>
+      <div vx-dialog-actions *ngIf="dialogOptions.buttons">
         <button *ngFor="let button of dialogOptions.buttons" vx-button (click)="close(button.value)">{{ button.text }}</button>
       </div>
-    </div>
+    </ng-container>
   </div>
 </div>

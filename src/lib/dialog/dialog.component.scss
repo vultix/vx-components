@@ -20,8 +20,6 @@
 .content {
   position: relative;
   max-width: 90vw;
-  max-height: 90vh;
-  overflow: auto;
   -webkit-overflow-scrolling: touch;
   box-sizing: border-box;
   padding: 20px;
@@ -58,19 +56,6 @@
   }
 }
 
-.buttons {
-  margin-top: 15px;
-  text-align: right;
-  margin-bottom: -5px;
-  button {
-    margin-left: 10px;
-  }
-}
-
-.title {
-  font-size: 18px;
-  margin-bottom: 15px;
-}
 p.loading {
   padding-top: 1px;
   margin-bottom: 0;

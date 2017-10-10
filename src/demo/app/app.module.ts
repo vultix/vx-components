@@ -10,6 +10,8 @@ import {TitleService} from './title.service';
 import { CheckboxDemoComponent } from './checkbox-demo/checkbox-demo.component';
 import { AutocompleteDemoComponent } from './autocomplete-demo/autocomplete-demo.component';
 import {HighlightCodeDirective} from './highlight-code.directive';
+import {DialogDemoComponent} from './dialog-demo/dialog-demo.component';
+import {DialogDemoDialogComponent} from './dialog-demo/dialog-demo-dialog.component';
 
 const routes: Route[] = [
   { path: '', pathMatch: 'full', redirectTo: 'tabs'},
@@ -17,6 +19,7 @@ const routes: Route[] = [
   { path: 'input', component: InputDemoComponent},
   { path: 'checkbox', component: CheckboxDemoComponent},
   { path: 'autocomplete', component: AutocompleteDemoComponent},
+  { path: 'dialog', component: DialogDemoComponent},
   { path: '**', redirectTo: 'tabs'}
 ];
 
@@ -27,7 +30,9 @@ const routes: Route[] = [
     InputDemoComponent,
     CheckboxDemoComponent,
     AutocompleteDemoComponent,
-    HighlightCodeDirective
+    HighlightCodeDirective,
+    DialogDemoComponent,
+    DialogDemoDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -35,6 +40,7 @@ const routes: Route[] = [
     VxComponentsModule,
     RouterModule.forRoot(routes)
   ],
+  entryComponents: [DialogDemoDialogComponent],
   providers: [TitleService],
   bootstrap: [AppComponent]
 })
