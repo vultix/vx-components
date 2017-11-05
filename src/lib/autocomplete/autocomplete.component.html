@@ -20,7 +20,7 @@
 </vx-input-wrapper>
 
 <vx-dropdown #dropdown [(visible)]="_dropdownVisible" (itemClick)="_onSelectItem($event)" [class.invalid]="_isInvalid()"
-             (keydown.escape)="_closeDropdown()" [offsetTop]="-2" [matchWidth]="true" class="autocompleteDropdown"
+             (keydown.escape)="_closeDropdown()" [offsetTop]="-2" [matchWidth]="true" class="autocompleteDropdown" [defaultText]="defaultText"
              [autoClose]="false">
   <ng-content select="vx-item" vx-dropdown-items></ng-content>
 </vx-dropdown>

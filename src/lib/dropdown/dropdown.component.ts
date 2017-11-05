@@ -12,7 +12,7 @@ import {
   QueryList,
   ViewChild
 } from '@angular/core';
-import {coerceBooleanProperty, getHighestZIdx} from '../Util';
+import {coerceBooleanProperty, getHighestZIdx, removeFromArray} from '../Util';
 import {VxItemComponent} from './item.component';
 import {Subscription} from 'rxjs/Subscription';
 import {Subject} from 'rxjs/Subject';
@@ -28,7 +28,7 @@ import 'rxjs/add/operator/startWith';
 })
 export class VxDropdownComponent implements AfterContentInit, OnDestroy, AfterViewChecked {
   /** The dropdown's items */
-  @ContentChildren(VxItemComponent) items: QueryList<ItemWithSubscription>;
+  @ContentChildren(VxItemComponent, {descendants: true}) items: QueryList<ItemWithSubscription>;
 
   /** Whether the dropdown is visible */
   @Input()
@@ -41,8 +41,10 @@ export class VxDropdownComponent implements AfterContentInit, OnDestroy, AfterVi
     if (visible !== this._visible) {
       this._visible = visible;
       this.visibleChange.emit(visible);
-      // When visibility changes focus the first item;
-      setTimeout(() => this.focusedIdx = 0);
+      if (this._resetFocusedOnOpen) {
+        // When visibility changes focus the first item;
+        setTimeout(() => this.focusedIdx = 0);
+      }
       if (visible) {
         this._positioned = false;
         this.enterDown = false;
@@ -87,7 +89,7 @@ export class VxDropdownComponent implements AfterContentInit, OnDestroy, AfterVi
     for (const item of items) {
       if (item.focused)
         item.focused = false;
-      if (item.visible && !item.disabled)
+      if (!item.filtered.getValue() && !item.disabled)
         idx++;
 
       if (idx === value && !found) {
@@ -103,8 +105,11 @@ export class VxDropdownComponent implements AfterContentInit, OnDestroy, AfterVi
 
   _positioned = false;
   _visible = false;
+  _resetFocusedOnOpen = true;
 
   @ViewChild('dropdown') _dropdown: ElementRef;
+
+  unFilteredItems: any[] = [];
 
   private _focusedIdx = 0;
   private _container = createContainer();
@@ -151,10 +156,20 @@ export class VxDropdownComponent implements AfterContentInit, OnDestroy, AfterVi
 
   updateItemSubscriptions(): void {
     this.items.forEach(item => {
-      if (!item.subscription) {
-        item.subscription = item.onSelect.takeUntil(this.ngUnsubscribe).subscribe(() => {
+      if (!item.subscriptions) {
+        item.subscriptions = [];
+
+        item.subscriptions[0] = item.onSelect.takeUntil(this.ngUnsubscribe).subscribe(() => {
           this.itemClick.emit(item.value);
           this._autoClose();
+        });
+
+        item.subscriptions[1] = item.filtered.subscribe(filtered => {
+          if (filtered) {
+            removeFromArray(this.unFilteredItems, item);
+          } else if (this.unFilteredItems.indexOf(item) === -1) {
+            this.unFilteredItems.push(item);
+          }
         });
       }
     })
@@ -271,5 +286,5 @@ function createContainer(): HTMLDivElement {
 }
 
 export interface ItemWithSubscription extends VxItemComponent {
-  subscription?: Subscription;
+  subscriptions?: Subscription[];
 }

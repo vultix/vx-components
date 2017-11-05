@@ -6,7 +6,7 @@
   <ng-content select="[vx-dropdown-items]">
   </ng-content>
 
-  <span *ngIf="defaultText && (!items.length)" class="default">
+  <span *ngIf="defaultText && (!unFilteredItems.length)" class="default">
     {{defaultText}}
   </span>
 </div>

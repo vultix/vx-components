@@ -47,6 +47,8 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
   @Input() tabIndex: number;
   /** Whether or not the component is disabled  */
   @Input() disabled: boolean;
+  /** The text to show when there are no items */
+  @Input() defaultText = 'No results found.';
   /** Whether or not to allow searching **/
   @Input()
   get search(): boolean {
@@ -120,6 +122,7 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
     setTimeout(() => {
       this.dropdown.items = this.items;
     });
+    this.dropdown._resetFocusedOnOpen = false;
 
     this.updateSelectedItem();
   }
@@ -164,7 +167,7 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
       this.input.value = item.searchTxt;
     }
 
-    this.items.forEach(it => it.visible = this.selectedItems.indexOf(it) === -1);
+    this.items.forEach(it => it.filtered.next(this.selectedItems.indexOf(it) !== -1));
     this._itemsFiltered.next();
 
     if (!skipEmit)
@@ -182,10 +185,11 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
   _filter(query: string): void {
     query = query.toUpperCase();
     this.items.forEach(item => {
+      const filtered = !(item.searchTxt && item.searchTxt.toUpperCase().indexOf(query) !== -1);
       // Does the actual search
-      item.visible = !!(item.searchTxt && item.searchTxt.toUpperCase().indexOf(query) !== -1);
-      if (this._multiple)
-        item.visible = item.visible && this.selectedItems.indexOf(item) === -1;
+      item.filtered.next(filtered);
+      if (this._multiple && !filtered)
+        item.filtered.next(this.selectedItems.indexOf(item) !== -1);
     });
     this._itemsFiltered.next();
   }
@@ -196,7 +200,7 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
     if (value) {
       this._filter(value);
     } else {
-      this.items.forEach(item => item.visible = this.selectedItems.indexOf(item) === -1);
+      this.items.forEach(item => item.filtered.next(this.selectedItems.indexOf(item) !== -1));
       this._itemsFiltered.next();
     }
   }
@@ -207,9 +211,19 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
   }
 
   _showDropdown(): void {
+    if (this._dropdownVisible)
+      return;
+
     this._hideValue();
     this._dropdownVisible = true;
     this.input.focused = true;
+    if (!this.multiple && this.selectedItem) {
+      const item = this.selectedItem;
+      // Timeout to give allow the dropdown to become visible
+      setTimeout(() => {
+        this.dropdown.focusedIdx = this.items.toArray().indexOf(item);
+      })
+    }
   }
 
   _focusInput(): void {
@@ -250,7 +264,7 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
 
   _removeItem(item: VxItemComponent): void {
     this.selectedItems = this.selectedItems.filter(itm => itm !== item);
-    item.visible = true;
+    item.filtered.next(false);
     this._itemsFiltered.next();
     this._onChangeFn(this.value);
     this._value = this.value;
@@ -317,7 +331,7 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
         this._value = undefined;
       }
 
-      this.items.forEach(item => item.visible = true);
+      this.items.forEach(item => item.filtered.next(false));
       this._itemsFiltered.next();
       this._onSelectItem(this._value);
     } else if (this._value && this.multiple) {
@@ -332,7 +346,7 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
       this.selectedItems = newItems;
       this._onChangeFn(this.value);
       this._value = this.value;
-      this.items.forEach(item => item.visible = newItems.indexOf(item) === -1);
+      this.items.forEach(item => item.filtered.next(newItems.indexOf(item) !== -1));
       this._itemsFiltered.next();
     }
   }

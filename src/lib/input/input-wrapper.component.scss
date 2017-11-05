@@ -45,6 +45,7 @@
     width: 100px;
     height: 20px;
     padding: 7px;
+    -webkit-opacity: 1;
 
     // Numeric Inputs
     &[type=number] {

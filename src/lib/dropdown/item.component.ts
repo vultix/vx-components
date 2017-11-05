@@ -1,5 +1,6 @@
 import {Component, ElementRef, EventEmitter, Input, Output} from '@angular/core';
 import {coerceBooleanProperty} from '../Util';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Component({
   selector: 'vx-item',
@@ -8,7 +9,7 @@ import {coerceBooleanProperty} from '../Util';
   host: {
     '[class.focused]': 'focused',
     '[class.active]': 'active',
-    '[class.visible]': 'visible',
+    '[class.visible]': '!(filtered | async)',
     '[class.disabled]': 'disabled',
     '(click)': 'handleClick()'
   }
@@ -16,7 +17,6 @@ import {coerceBooleanProperty} from '../Util';
 export class VxItemComponent {
   focused: boolean;
   active: boolean;
-  visible = true;
 
   @Output() onSelect = new EventEmitter();
   @Input() get value(): any {
@@ -46,6 +46,9 @@ export class VxItemComponent {
   get disabled(): boolean {
     return this._disabled;
   }
+
+  /** @internal */
+  filtered = new BehaviorSubject(false);
 
   private _searchTxt: string;
   private _disabled: boolean;
