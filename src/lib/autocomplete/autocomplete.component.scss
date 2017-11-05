@@ -25,6 +25,7 @@ vx-dropdown /deep/ .dropdown {
     border-style: solid;
     border-width: $triangleHeight $triangleWidth 0 $triangleWidth;
     position: absolute;
+    pointer-events: none;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);

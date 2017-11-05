@@ -26,9 +26,9 @@ import 'rxjs/add/operator/startWith';
   templateUrl: './dropdown.component.html',
   styleUrls: ['./dropdown.component.scss']
 })
-export class VxDropdownComponent implements AfterContentInit, OnDestroy, AfterViewChecked {
+export class VxDropdownComponent<T = string> implements AfterContentInit, OnDestroy, AfterViewChecked {
   /** The dropdown's items */
-  @ContentChildren(VxItemComponent, {descendants: true}) items: QueryList<ItemWithSubscription>;
+  @ContentChildren(VxItemComponent, {descendants: true}) items: QueryList<ItemWithSubscription<T>>;
 
   /** Whether the dropdown is visible */
   @Input()
@@ -64,7 +64,7 @@ export class VxDropdownComponent implements AfterContentInit, OnDestroy, AfterVi
   @Output() visibleChange = new EventEmitter<boolean>();
 
   /** Event thrown when an item is chosen.  Will emit the selected vx-item's value */
-  @Output() itemClick = new EventEmitter();
+  @Output() itemClick = new EventEmitter<T>();
 
   @Input() element?: HTMLElement;
 
@@ -115,7 +115,7 @@ export class VxDropdownComponent implements AfterContentInit, OnDestroy, AfterVi
   private _container = createContainer();
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private enterDown: boolean;
-  private focusedItem?: VxItemComponent;
+  private focusedItem?: VxItemComponent<T>;
 
   constructor(private _el: ElementRef) {
     this._container.appendChild(_el.nativeElement);
@@ -266,7 +266,7 @@ export class VxDropdownComponent implements AfterContentInit, OnDestroy, AfterVi
     }
   }
 
-  private focusItem(item: VxItemComponent): void {
+  private focusItem(item: VxItemComponent<T>): void {
     const dropdown = this._dropdown.nativeElement;
 
     const top = item._elementRef.nativeElement.offsetTop;
@@ -285,6 +285,6 @@ function createContainer(): HTMLDivElement {
   return container;
 }
 
-export interface ItemWithSubscription extends VxItemComponent {
+export interface ItemWithSubscription<T> extends VxItemComponent<T> {
   subscriptions?: Subscription[];
 }

@@ -14,19 +14,19 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
     '(click)': 'handleClick()'
   }
 })
-export class VxItemComponent {
+export class VxItemComponent<T = string> {
   focused: boolean;
   active: boolean;
 
   @Output() onSelect = new EventEmitter();
-  @Input() get value(): any {
+  @Input() get value(): T {
     const value = this._value;
     if (value !== null && value !== undefined)
       return value;
-    else return this.searchTxt;
+    else return this.searchTxt as any;
   }
 
-  set value(value: any) {
+  set value(value: T) {
     this._value = value;
   }
 
@@ -52,7 +52,7 @@ export class VxItemComponent {
 
   private _searchTxt: string;
   private _disabled: boolean;
-  private _value: any;
+  private _value: T;
   constructor(public _elementRef: ElementRef) {}
 
   handleClick(): void {

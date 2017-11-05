@@ -11,10 +11,9 @@ import {
   ViewChildren
 } from '@angular/core';
 import {ControlValueAccessor, FormGroupDirective, NgControl, NgForm} from '@angular/forms';
-import {VxDropdownComponent} from '../dropdown/dropdown.component';
-import {VxInputDirective} from '../input/vx-input.directive';
+import {VxDropdownComponent, VxItemComponent} from '../dropdown';
+import {VxInputDirective} from '../input';
 import {coerceBooleanProperty} from '../Util';
-import {VxItemComponent} from '../dropdown/item.component';
 import {Subject} from 'rxjs/Subject';
 
 @Component({
@@ -25,19 +24,21 @@ import {Subject} from 'rxjs/Subject';
     '[class.invalid]': '_isInvalid()'
   }
 })
-export class VxAutocompleteComponent implements ControlValueAccessor, AfterContentInit {
-  get value(): any {
+export class VxAutocompleteComponent<T = string> implements ControlValueAccessor, AfterContentInit {
+  get value(): T | T[] | undefined {
     if (!this.multiple && this.selectedItem)
       return this.selectedItem.value;
     else if (this.multiple && this.selectedItems)
       return this.selectedItems.map(item => item.value);
+    else
+      return;
   }
 
   /** The selected item */
-  selectedItem?: VxItemComponent;
+  selectedItem?: VxItemComponent<T>;
 
   /** If multiple, the selected items */
-  selectedItems: VxItemComponent[] = [];
+  selectedItems: VxItemComponent<T>[] = [];
 
   /** The placeholder to pass down to the input component */
   @Input() placeholder: string;
@@ -49,6 +50,7 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
   @Input() disabled: boolean;
   /** The text to show when there are no items */
   @Input() defaultText = 'No results found.';
+
   /** Whether or not to allow searching **/
   @Input()
   get search(): boolean {
@@ -60,7 +62,7 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
     this._search = value;
   }
 
-  @ContentChildren(VxItemComponent) items: QueryList<VxItemComponent>;
+  @ContentChildren(VxItemComponent) items: QueryList<VxItemComponent<T>>;
 
   /** Whether or not to allow multiple selection */
   @Input()
@@ -93,7 +95,7 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
   }
 
   @ViewChild(VxInputDirective) input: VxInputDirective;
-  @ViewChild('dropdown') dropdown: VxDropdownComponent;
+  @ViewChild('dropdown') dropdown: VxDropdownComponent<T>;
   @ViewChildren('button') buttons: QueryList<ElementRef>;
 
   _dropdownVisible = false;
@@ -101,7 +103,7 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
   _required: boolean;
   _multiple = false;
 
-  private _value: any;
+  private _value: T | T[] | undefined;
   private touched = false;
   private _search = true;
 
@@ -262,7 +264,7 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
     }
   }
 
-  _removeItem(item: VxItemComponent): void {
+  _removeItem(item: VxItemComponent<T>): void {
     this.selectedItems = this.selectedItems.filter(itm => itm !== item);
     item.filtered.next(false);
     this._itemsFiltered.next();
@@ -307,7 +309,7 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
     this._onTouchedFn = fn;
   }
 
-  private getItemForValue(value: any): VxItemComponent | undefined {
+  private getItemForValue(value: any): VxItemComponent<T> | undefined {
     if (!this.items)
       return undefined;
 
@@ -335,8 +337,8 @@ export class VxAutocompleteComponent implements ControlValueAccessor, AfterConte
       this._itemsFiltered.next();
       this._onSelectItem(this._value);
     } else if (this._value && this.multiple) {
-      const newItems: VxItemComponent[] = [];
-      this._value.forEach((val: any) => {
+      const newItems: VxItemComponent<T>[] = [];
+      (this._value as T[]).forEach((val: any) => {
         const item = this.getItemForValue(val);
         if (item) {
           newItems.push(item)
