@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
-import {OnDialogOpen} from '../../../lib/dialog';
-import {VxDialogComponent} from '../../../lib/dialog/dialog.component';
+import {VxDialogComponent} from '../lib/dialog/dialog.component';
 
 @Component({
   template: `
@@ -17,7 +16,7 @@ import {VxDialogComponent} from '../../../lib/dialog/dialog.component';
     </div>
   `
 })
-export class DialogDemoDialogComponent implements OnDialogOpen {
+export class DialogDemoDialogComponent {
   dialog: VxDialogComponent;
 
   onDialogOpen(dialog: VxDialogComponent): void {

@@ -3,8 +3,8 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build --prod --aot --base-href=/VxComponents/ --build-optimizer",
+    "start": "ng serve --preserve-symlinks",
+    "build": "ng build --prod --aot --base-href=/VxComponents/ --preserve-symlinks",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",

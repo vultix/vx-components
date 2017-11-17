@@ -95,6 +95,6 @@ export class VxRadioGroupComponent implements AfterContentInit, OnDestroy, Contr
   }
 }
 
-interface ButtonWithSubscription extends VxRadioButtonComponent {
+export interface ButtonWithSubscription extends VxRadioButtonComponent {
   subscription?: Subscription;
 }
