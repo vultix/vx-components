@@ -7,7 +7,7 @@ import {TitleService} from '../title.service';
   styleUrls: ['./checkbox-demo.component.css']
 })
 export class CheckboxDemoComponent {
-  importLbl = `import {VxCheckboxLabel} from 'vx-components';`;
+  importLbl = `import {VxCheckboxModule} from 'vx-components';`;
 
   example1 = `<vx-checkbox>Check Me!</vx-checkbox>`;
 

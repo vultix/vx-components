@@ -1,0 +1,51 @@
+:host {
+  display: inline-block;
+  outline: none;
+
+  &.disabled {
+    pointer-events: none;
+    opacity: .65;
+  }
+}
+.container {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.outline {
+  display: inline-block;;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  border-radius: 50%;
+
+  &:focus {
+    outline: none;
+  }
+}
+.circle {
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  left: 50%;
+  top: 50%;
+  position: relative;
+  transform: translate(-50%, -50%) scale(0);
+  box-sizing: border-box;
+  transition: transform .25s ease;
+}
+.selected .circle {
+  transform: translate(-50%, -50%) scale(1);
+}
+.content {
+  display: inline-block;
+  line-height: inherit;
+  padding-left: 8px;
+  padding-right: 0;
+}

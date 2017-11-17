@@ -1,0 +1,9 @@
+<input type="radio" [value]="value" [checked]="selected" [name]="name" title="" hidden>
+<div class="container">
+  <div class="outline" [class.selected]="selected">
+    <div class="circle"></div>
+  </div>
+  <div class="content">
+    <ng-content></ng-content>
+  </div>
+</div>

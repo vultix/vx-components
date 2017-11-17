@@ -6,3 +6,4 @@ export * from './dropdown';
 export * from './input';
 export * from './tabs';
 export * from './dialog';
+export * from './radio';

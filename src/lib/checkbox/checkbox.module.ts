@@ -9,5 +9,10 @@ import {VxCheckboxComponent} from './checkbox.component';
   declarations: [VxCheckboxComponent],
   exports: [VxCheckboxComponent]
 })
-export class CheckboxModule {
+export class VxCheckboxModule {
 }
+
+/*
+  @deprecated, import from VxCheckboxModule instead
+ */
+export let CheckboxModule = VxCheckboxModule;

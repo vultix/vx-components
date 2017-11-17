@@ -12,6 +12,7 @@ import { AutocompleteDemoComponent } from './autocomplete-demo/autocomplete-demo
 import {HighlightCodeDirective} from './highlight-code.directive';
 import {DialogDemoComponent} from './dialog-demo/dialog-demo.component';
 import {DialogDemoDialogComponent} from './dialog-demo/dialog-demo-dialog.component';
+import { RadioDemoComponent } from './radio-demo/radio-demo.component';
 
 const routes: Route[] = [
   { path: '', pathMatch: 'full', redirectTo: 'tabs'},
@@ -20,6 +21,7 @@ const routes: Route[] = [
   { path: 'checkbox', component: CheckboxDemoComponent},
   { path: 'autocomplete', component: AutocompleteDemoComponent},
   { path: 'dialog', component: DialogDemoComponent},
+  { path: 'radio', component: RadioDemoComponent},
   { path: '**', redirectTo: 'tabs'}
 ];
 
@@ -32,7 +34,8 @@ const routes: Route[] = [
     AutocompleteDemoComponent,
     HighlightCodeDirective,
     DialogDemoComponent,
-    DialogDemoDialogComponent
+    DialogDemoDialogComponent,
+    RadioDemoComponent
   ],
   imports: [
     BrowserModule,

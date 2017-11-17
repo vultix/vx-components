@@ -1,0 +1,38 @@
+// Use this mixin to apply colored themes to the radio
+@mixin vx-radio-theme($colors) {
+  $primary: map_get($colors, primary);
+  $accent: map_get($colors, accent);
+  $background: map_get($colors, background);
+  $foreground: map_get($colors, foreground);
+  $border: mix($foreground, $background, 40%);
+
+  vx-radio-button {
+    &:hover .outline {
+      background: mix($foreground, $background, 3%)
+    }
+    &:active .outline {
+      background: mix($foreground, $background, 10%)
+    }
+
+    &:focus .outline {
+      box-shadow: 0 0 2px 1px transparentize($primary, .5);
+    }
+
+    .outline {
+      border: 2px solid $border;
+    }
+    .circle {
+      background: $primary;
+    }
+  }
+
+  vx-radio-group[vx-accent] vx-radio-button, vx-radio-button[vx-accent] {
+    .circle {
+      background: $accent;
+    }
+    &:focus .outline {
+      box-shadow: 0 0 2px 1px transparentize($accent, .5);
+    }
+  }
+
+}

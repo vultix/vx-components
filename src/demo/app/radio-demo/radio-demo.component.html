@@ -1,0 +1,53 @@
+<vx-tabs>
+  <vx-tab label="Overview">
+    The vx-checkbox component is used to display a checkbox and a label.
+    <vx-tabs>
+      <vx-tab label="Example">
+        <vx-radio-group [(ngModel)]="value">
+          <vx-radio-button [value]="1">One</vx-radio-button>
+          <vx-radio-button [value]="2">Two</vx-radio-button>
+          <vx-radio-button [value]="3">Three</vx-radio-button>
+        </vx-radio-group>
+        <div>You Selected: {{value}}</div>
+      </vx-tab>
+      <vx-tab label="HTML"><pre><code vxHighlight>{{ example1 }}</code></pre></vx-tab>
+    </vx-tabs>
+  </vx-tab>
+  <vx-tab label="Api">
+    <pre><code vxHighlight>{{importLbl}}</code></pre>
+    <h3>VxCheckboxComponent</h3>
+    <pre><code vxHighlight>&lt;vx-checkbox&gt;Checkbox Label&lt;/vx-checkbox&gt;</code></pre>
+    <p>Adding the attribute vx-accent to change the checkbox's styling to be accented.</p>
+    <h4>Properties</h4>
+    <pre><code vxHighlight>// The checkbox's tabIndex
+@Input() tabIndex: number;
+
+// Whether the checkbox is disabled
+@Input() disabled: boolean;
+
+// The name property to be passed into the underlying input element
+@Input() name: string;
+
+// Used to set if the checkbox is checked
+@Input() checked: boolean;
+
+// Emits the value of the `checked` property when it changes.
+@Output() checkedChange: EventEmitter&lt;boolean&gt;</code></pre>
+  </vx-tab>
+  <vx-tab label="Examples">
+    <vx-tabs>
+      <vx-tab label="Example" class="example2">
+        <vx-radio-group #test [attr.vx-accent]="accent || undefined" [disabled]="disabled">
+          <vx-radio-button value="Top">Top</vx-radio-button>
+          <vx-radio-button value="Middle">Middle</vx-radio-button>
+          <vx-radio-button value="Bottom">Bottom</vx-radio-button>
+        </vx-radio-group>
+
+        <vx-checkbox [(ngModel)]="accent">Toggle accent colors</vx-checkbox>
+        <vx-checkbox [(ngModel)]="disabled">Toggle disabled</vx-checkbox>
+      </vx-tab>
+      <vx-tab label="HTML"><pre><code vxHighlight>{{ example2 }}</code></pre></vx-tab>
+      <vx-tab label="CSS"><pre><code vxHighlight>{{ example2CSS }}</code></pre></vx-tab>
+    </vx-tabs>
+  </vx-tab>
+</vx-tabs>
