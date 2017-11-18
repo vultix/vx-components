@@ -22,8 +22,17 @@ $borderRadius: 4px;
   padding-top: 5px;
   border-top-left-radius: $borderRadius;
   border-top-right-radius: $borderRadius;
-  top: 1px;
   flex-shrink: 0;
+
+  &:after {
+    content: ' ';
+    width: 100%;
+    height: 1px;
+    bottom: 0;
+    left: 0;
+    position: absolute;;
+    z-index: 21;
+  }
 }
 
 .tab {
@@ -69,7 +78,7 @@ $borderRadius: 4px;
   }
 
   &.active {
-    z-index: 40;
+    z-index: 22;
     cursor: auto;
   }
 

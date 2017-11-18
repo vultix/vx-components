@@ -21,11 +21,16 @@
       background: $tabBackgroundGradient;
       border: 1px solid $borderColor;
       border-bottom: none;
+
+      &:after {
+        background: $borderColor;
+      }
     }
 
     .tabContent {
       background: $activeTabColor;
       border: 1px solid $borderColor;
+      border-top-width: 0;
     }
 
     .tab {
