@@ -4,15 +4,14 @@ import {VxInputModule} from './input';
 import {VxDropdownModule} from './dropdown';
 import {VxAutocompleteModule} from './autocomplete';
 import {VxTabsModule} from './tabs';
-import {VxDialog, VxDialogModule} from './dialog';
-import {VxRadioModule} from './radio/radio.module';
+import {VxDialogModule} from './dialog';
+import {VxRadioModule} from './radio';
 
 const MODULES = [VxCheckboxModule, VxInputModule, VxDropdownModule, VxAutocompleteModule, VxTabsModule, VxDialogModule, VxRadioModule];
 
 @NgModule({
   imports: MODULES,
-  exports: MODULES,
-  providers: [VxDialog]
+  exports: MODULES
 })
 export class VxComponentsModule {
 }
