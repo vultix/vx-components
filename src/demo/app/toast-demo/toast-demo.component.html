@@ -1,0 +1,54 @@
+<vx-tabs>
+  <vx-tab label="Overview">
+    The VxToast service is a service that allows you to show growl / gnome type notifications.
+    <vx-tabs>
+      <vx-tab label="Example">
+        <button vx-button (click)="showToast()">Show Toast!</button>
+
+        <vx-autocomplete placeholder="Toast Position" [(ngModel)]="toastPos">
+          <vx-item *ngFor="let position of toastPositions">{{position}}</vx-item>
+        </vx-autocomplete>
+        <vx-autocomplete placeholder="Toast Type" [(ngModel)]="toastType">
+          <vx-item *ngFor="let type of toastTypes">{{type}}</vx-item>
+        </vx-autocomplete>
+
+        <vx-input-wrapper>
+          <input vxInput placeholder="Toast Title" [(ngModel)]="toastTitle">
+        </vx-input-wrapper>
+        <vx-input-wrapper>
+          <input vxInput placeholder="Toast Text" [(ngModel)]="toastText">
+        </vx-input-wrapper>
+      </vx-tab>
+      <vx-tab label="HTML">
+        <pre><code vxHighlight>{{example1HTML}}</code></pre>
+      </vx-tab>
+      <vx-tab label="TS"><pre><code vxHighlight>{{example1TS}}</code></pre></vx-tab>
+    </vx-tabs>
+  </vx-tab>
+  <vx-tab label="API">
+    <pre><code vxHighlight>{{importLbl}}</code></pre>
+    <h3>VxToast</h3>
+    Inject the VxToast service into your app to create toasts.
+    <pre><code vxHighlight>{{toastUsage}}</code></pre>
+    <h4>Methods</h4>
+    <pre><code>open(options: CreateToastOptions): VxToastComponent;</code></pre>
+    <h3 #create>CreateToastOptions</h3>
+    <pre><code vxHighlight>/** Required, the text to put in the toast */
+text: string;
+/** Where to place the toast, the default is "top-right" */
+position: ToastPosition;
+/** How long to show the toast in milliseconds, defaults to 3000 */
+duration: number;
+/** What style of toast to show, defaults to "success" */
+type: ToastType;
+/** An optional title for the toast. */
+title: string;
+/** Whether or not to show the close toast button.  Defaults to true */
+showClose: boolean;</code></pre>
+    <h3>ToastType</h3>
+    <pre><code vxHighlight>export type ToastType = 'error' | 'info' | 'success' | 'warn';</code></pre>
+    <h3>ToastPosition</h3>
+    <pre><code vxHighlight>export type ToastPosition = 'top-left' | 'top-middle' | 'top-right' | 'bottom-left' | 'bottom-middle' | 'bottom-right';</code></pre>
+  </vx-tab>
+</vx-tabs>
+

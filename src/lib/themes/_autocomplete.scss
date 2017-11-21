@@ -1,5 +1,8 @@
+@import "defaults";
 // Use this mixin to apply colored themes to the checkbox
 @mixin vx-autocomplete-theme($colors) {
+  $colors: prepareColors($colors);
+
   $background: map_get($colors, background);
   $primary: map_get($colors, primary);
   $foreground: map_get($colors, foreground);

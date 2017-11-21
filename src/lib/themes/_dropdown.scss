@@ -1,5 +1,7 @@
+@import "defaults";
 // Use this mixin to apply colored themes to the dropdown
 @mixin vx-dropdown-theme($colors) {
+  $colors: prepareColors($colors);
   $background: map_get($colors, background);
   $foreground: map_get($colors, foreground);
   $primary: map_get($colors, primary);

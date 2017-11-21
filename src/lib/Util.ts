@@ -31,3 +31,7 @@ export function removeFromArray<T>(arr: T[], item: T): T[] {
   }
   return arr;
 }
+
+export function isDefined(item: any): boolean {
+  return item !== undefined && item !== null;
+}

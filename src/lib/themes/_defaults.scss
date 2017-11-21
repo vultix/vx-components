@@ -1,0 +1,13 @@
+$defaultColors: (
+  primary: #3fa0bd,
+  background: #fcfcfc,
+  error: #bf0000,
+  success: #51a351,
+  warn: #f89406,
+  foreground: black,
+  accent:  #FFCA4F
+);
+
+@function prepareColors($colors) {
+  @return map-merge($defaultColors, $colors);
+}

@@ -1,4 +1,7 @@
+@import "defaults";
+
 @mixin vx-tabs-theme($colors) {
+  $colors: prepareColors($colors);
   $foreground: map_get($colors, foreground);
   $background: map_get($colors, background);
   $borderColor: mix($foreground, $background, 25%);

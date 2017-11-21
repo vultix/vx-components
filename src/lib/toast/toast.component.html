@@ -1,0 +1,8 @@
+<div class="toast {{options.type}}" [class.closing]="closing" (click)="close()" [style.maxHeight.px]="maxHeight">
+  <div class="content">
+    <span class="closeButton" *ngIf="options.showClose">×</span>
+    <div class="title"  *ngIf="options.title?.length">{{options.title}}</div>
+    <div class="text" *ngIf="options.text?.length">{{options.text}}</div>
+    <ng-template #content></ng-template>
+  </div>
+</div>

@@ -1,0 +1,54 @@
+.toast {
+  text-align: left;
+  display: inline-block;
+  overflow: hidden;
+  border-radius: 6px;
+  cursor: pointer;
+  animation: show .3s;
+  opacity: .8;
+  transition: opacity .3s, max-height .15s .3s;
+  &:hover {
+    opacity: 1;
+  }
+  &.closing {
+    max-height: 0!important;
+    opacity: 0;
+  }
+}
+
+.content {
+  padding: 15px;
+  position: relative;
+}
+
+.title {
+  font-weight: bold;
+}
+
+.text {
+  font-size: 14px;
+}
+
+.closeButton {
+  padding: 0;
+  position: absolute;
+  right: 8px;
+  top: 3px;
+  font-size: 20px;
+  font-weight: 700;
+  text-shadow: 0 1px 0 #fff;
+  opacity: .8;
+  line-height: 1;
+  transition: opacity .3s;
+  &:hover {
+    opacity: 1;
+  }
+}
+@keyframes show {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: .8;
+  }
+}

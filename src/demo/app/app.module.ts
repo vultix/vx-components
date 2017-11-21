@@ -13,6 +13,7 @@ import {HighlightCodeDirective} from './highlight-code.directive';
 import {DialogDemoComponent} from './dialog-demo/dialog-demo.component';
 import {DialogDemoDialogComponent} from './dialog-demo/dialog-demo-dialog.component';
 import { RadioDemoComponent } from './radio-demo/radio-demo.component';
+import { ToastDemoComponent } from './toast-demo/toast-demo.component';
 
 const routes: Route[] = [
   { path: '', pathMatch: 'full', redirectTo: 'tabs'},
@@ -22,6 +23,7 @@ const routes: Route[] = [
   { path: 'autocomplete', component: AutocompleteDemoComponent},
   { path: 'dialog', component: DialogDemoComponent},
   { path: 'radio', component: RadioDemoComponent},
+  { path: 'toast', component: ToastDemoComponent},
   { path: '**', redirectTo: 'tabs'}
 ];
 
@@ -35,7 +37,8 @@ const routes: Route[] = [
     HighlightCodeDirective,
     DialogDemoComponent,
     DialogDemoDialogComponent,
-    RadioDemoComponent
+    RadioDemoComponent,
+    ToastDemoComponent
   ],
   imports: [
     BrowserModule,

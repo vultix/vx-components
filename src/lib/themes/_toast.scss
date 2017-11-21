@@ -1,0 +1,68 @@
+@import "defaults";
+@mixin vx-toast-theme($colors) {
+  $colors: prepareColors($colors);
+
+  $primary: map_get($colors, primary);
+  $accent: map_get($colors, accent);
+  $background: map_get($colors, background);
+  $foreground: map_get($colors, foreground);
+  $error: map_get($colors, error);
+  $warn: map_get($colors, warn);
+  $success: map_get($colors, success);
+  $border: mix($foreground, $background, 40%);
+
+  .vx-toast-container {
+    position: absolute;
+    &[class*=" top-"] {
+      top: 0;
+      .toast {
+        margin-top: 6px;
+      }
+    }
+    &[class*=" bottom-"] {
+      bottom: 0;
+      .toast {
+        margin-bottom: 6px;
+      }
+    }
+    &[class*="-left"] {
+      left: 0;
+      .toast {
+        margin-left: 6px;
+      }
+    }
+    &[class*="-right"] {
+      right: 0;
+      .toast {
+        margin-right: 6px;
+      }
+    }
+    &[class*="-middle"] {
+      left: 0;
+      width: 100%;
+      text-align: center;
+    }
+
+    .toast {
+      background: $error;
+      color: $background;
+      box-shadow: 0 0 12px transparentize($foreground, .75);
+      &.warn {
+        background: $warn;
+      }
+      &.error {
+        background: $error;
+      }
+      &.info {
+        background: $primary;
+      }
+      &.success {
+        background: $success;
+      }
+    }
+    .closeButton {
+      text-shadow: 0 1px 0 $background;
+    }
+  }
+
+}

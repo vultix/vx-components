@@ -6,8 +6,10 @@ import {VxAutocompleteModule} from './autocomplete';
 import {VxTabsModule} from './tabs';
 import {VxDialogModule} from './dialog';
 import {VxRadioModule} from './radio';
+import {VxToastModule} from './toast';
 
-const MODULES = [VxCheckboxModule, VxInputModule, VxDropdownModule, VxAutocompleteModule, VxTabsModule, VxDialogModule, VxRadioModule];
+const MODULES = [VxCheckboxModule, VxInputModule, VxDropdownModule, VxAutocompleteModule,
+  VxTabsModule, VxDialogModule, VxRadioModule, VxToastModule];
 
 @NgModule({
   imports: MODULES,

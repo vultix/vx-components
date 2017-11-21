@@ -1,5 +1,7 @@
+@import "defaults";
 // Use this mixin to apply colored themes to the checkbox
 @mixin vx-checkbox-theme($colors) {
+  $colors: prepareColors($colors);
   $primary: map_get($colors, primary);
   $accent: map_get($colors, accent);
   $background: map_get($colors, background);
