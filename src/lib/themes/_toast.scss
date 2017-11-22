@@ -27,15 +27,9 @@
     }
     &[class*="-left"] {
       left: 0;
-      .toast {
-        margin-left: 6px;
-      }
     }
     &[class*="-right"] {
       right: 0;
-      .toast {
-        margin-right: 6px;
-      }
     }
     &[class*="-middle"] {
       left: 0;

@@ -5,8 +5,9 @@
   border-radius: 6px;
   cursor: pointer;
   animation: show .3s;
-  opacity: .8;
   transition: opacity .3s, max-height .15s .3s;
+  margin-left: 6px;
+  margin-right: 6px;
   &:hover {
     opacity: 1;
   }

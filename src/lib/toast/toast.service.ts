@@ -1,4 +1,4 @@
-import {ApplicationRef, ComponentFactoryResolver, Injectable, Injector, Type} from '@angular/core';
+import {ApplicationRef, ComponentFactoryResolver, Injectable, Injector, Type, ViewContainerRef} from '@angular/core';
 import {getHighestZIdx} from '../Util';
 import {VxToastComponent} from './toast.component';
 import {CreateToastOptions, ToastOptions, ToastPosition} from './toast.types';
