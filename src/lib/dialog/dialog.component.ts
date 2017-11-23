@@ -1,11 +1,18 @@
 import {
-  AfterViewInit, Component, ComponentFactoryResolver, ComponentRef, Directive, ElementRef, OnDestroy, Type, ViewChild,
+  AfterViewInit,
+  Component,
+  ComponentFactoryResolver,
+  ComponentRef,
+  ElementRef,
+  NgZone,
+  OnDestroy,
+  Type,
+  ViewChild,
   ViewContainerRef
 } from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {DialogOptions} from './dialog.types';
-import {VxDialogActionsDirective} from './dialog.directives';
-import {InteractivityChecker} from './interactivity-checker';
+import {FocusTrap} from './focus-trap';
 
 const CLOSE_ANIMATION_TIME = 300;
 @Component({
@@ -28,8 +35,10 @@ export class VxDialogComponent implements OnDestroy, AfterViewInit {
   private componentRef: ComponentRef<this>;
   private contentComponentRef?: ComponentRef<any>;
   private container: HTMLElement;
+  private focusTrap: FocusTrap;
+  private _elementFocusedBeforeDialogWasOpened: HTMLElement;
 
-  constructor(private resolver: ComponentFactoryResolver) {
+  constructor(private resolver: ComponentFactoryResolver, private zone: NgZone) {
   }
 
   _setContent(content: Type<any> | null, options?: DialogOptions | null, data?: any): void {
@@ -47,16 +56,12 @@ export class VxDialogComponent implements OnDestroy, AfterViewInit {
     }
   }
 
-  ngAfterViewInit(): void {
-    const children = this.dialog.nativeElement.querySelectorAll('*');
-    for (const child of children) {
-      if (InteractivityChecker.isFocusable(child) && InteractivityChecker.isTabbable(child)) {
-        child.focus();
-        break;
-      }
-    }
+  async ngAfterViewInit(): Promise<void> {
+    this._elementFocusedBeforeDialogWasOpened = document.activeElement as HTMLElement;
+    this.focusTrap = new FocusTrap(this.container, this.zone, document);
+    await this.focusTrap.focusInitialElementWhenReady();
 
-    if (this.buttons) {
+    if (this.dialogOptions.defaultButtonIdx && this.buttons) {
       const buttonContainer = this.buttons.nativeElement as HTMLDivElement;
 
       if (buttonContainer.children && buttonContainer.children.length) {
@@ -95,10 +100,26 @@ export class VxDialogComponent implements OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy(): void {
+    this.restoreFocus();
+
     if (this.contentComponentRef)
       this.contentComponentRef.destroy();
     if (this.container)
       this.container.remove();
     this.onClose.complete();
+  }
+
+  /** Restores focus to the element that was focused before the dialog opened. */
+  private restoreFocus(): void {
+    const toFocus = this._elementFocusedBeforeDialogWasOpened;
+
+    // We need the extra check, because IE can set the `activeElement` to null in some cases.
+    if (toFocus && typeof toFocus.focus === 'function') {
+      toFocus.focus();
+    }
+
+    if (this.focusTrap) {
+      this.focusTrap.destroy();
+    }
   }
 }

@@ -1,6 +1,6 @@
 @import 'app/vars';
 
-@import "../lib/themes/all-components";
+@import "../lib/theming";
 
 @include vx-load-themes($colors);
 

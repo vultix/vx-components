@@ -13,7 +13,7 @@
 
       <p vx-dialog-content>{{ dialogOptions.body }}</p>
 
-      <div vx-dialog-actions *ngIf="dialogOptions.buttons">
+      <div vx-dialog-actions *ngIf="dialogOptions.buttons" #buttons>
         <button *ngFor="let button of dialogOptions.buttons" vx-button (click)="close(button.value)">{{ button.text }}</button>
       </div>
     </ng-container>

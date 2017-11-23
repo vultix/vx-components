@@ -78,6 +78,52 @@ export class InteractivityChecker {
     return isPotentiallyFocusable(element) && !this.isDisabled(element) && this.isVisible(element);
   }
 
+  /** Get the last tabbable element from a DOM subtree (inclusive). */
+  static getLastTabbableElement(root: HTMLElement): HTMLElement | null {
+    if (InteractivityChecker.isFocusable(root) && InteractivityChecker.isTabbable(root)) {
+      return root;
+    }
+
+    // Iterate in reverse DOM order.
+    const children = root.children || root.childNodes;
+
+    for (let i = children.length - 1; i >= 0; i--) {
+      const tabbableChild = children[i].nodeType === Node.ELEMENT_NODE ?
+        this.getLastTabbableElement(children[i] as HTMLElement) :
+        null;
+
+      if (tabbableChild) {
+        return tabbableChild;
+      }
+    }
+
+    return null;
+  }
+
+  /** Get the first tabbable element from a DOM subtree (inclusive). */
+  static getFirstTabbableElement(root: HTMLElement): HTMLElement | null {
+    if (InteractivityChecker.isFocusable(root) && InteractivityChecker.isTabbable(root)) {
+      return root;
+    }
+
+    // Iterate in DOM order. Note that IE doesn't have `children` for SVG so we fall
+    // back to `childNodes` which includes text nodes, comments etc.
+    const children = root.children || root.childNodes;
+
+    // tslint:disable-next-line
+    for (let i = 0; i < children.length; i++) {
+      const tabbableChild = children[i].nodeType === Node.ELEMENT_NODE ?
+        this.getFirstTabbableElement(children[i] as HTMLElement) :
+        null;
+
+      if (tabbableChild) {
+        return tabbableChild;
+      }
+    }
+
+    return null;
+  }
+
 }
 
 /** Checks whether the specified element has any geometry / rectangles. */
