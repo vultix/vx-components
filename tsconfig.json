@@ -13,6 +13,7 @@
     "strictNullChecks": true,
     "target": "es5",
     "skipLibCheck": true,
+    "stripInternal": true,
     "typeRoots": [
       "node_modules/@types"
     ],

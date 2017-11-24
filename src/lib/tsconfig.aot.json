@@ -17,7 +17,8 @@
     "baseUrl": ".",
     "noImplicitAny": true,
     "noImplicitReturns": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "stripInternal": true
   },
   "exclude": [
     "**/*.spec.ts"

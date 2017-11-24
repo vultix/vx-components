@@ -2,7 +2,7 @@
   text-align: left;
   display: inline-block;
   overflow: hidden;
-  border-radius: 6px;
+  border-radius: 5px;
   cursor: pointer;
   animation: show .3s;
   transition: opacity .3s, max-height .15s .3s;
@@ -20,6 +20,9 @@
 .content {
   padding: 15px;
   position: relative;
+  &.close {
+    padding-right: 28px;
+  }
 }
 
 .title {

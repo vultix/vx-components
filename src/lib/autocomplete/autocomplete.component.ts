@@ -3,9 +3,9 @@ import {
   Component,
   ContentChildren,
   ElementRef,
-  Input,
+  Input, OnInit,
   Optional,
-  QueryList,
+  QueryList, Renderer2,
   Self,
   ViewChild,
   ViewChildren
@@ -17,14 +17,15 @@ import {coerceBooleanProperty} from '../Util';
 import {Subject} from 'rxjs/Subject';
 
 @Component({
-  selector: 'vx-autocomplete',
+  selector: 'vx-autocomplete, vx-select',
   templateUrl: './autocomplete.component.html',
   styleUrls: ['./autocomplete.component.scss'],
   host: {
     '[class.invalid]': '_isInvalid()'
   }
 })
-export class VxAutocompleteComponent<T = string> implements ControlValueAccessor, AfterContentInit {
+export class VxAutocompleteComponent<T = string> implements ControlValueAccessor, AfterContentInit, OnInit {
+  /** The autocomplete's selected value **/
   get value(): T | T[] | undefined {
     if (!this.multiple && this.selectedItem)
       return this.selectedItem.value;
@@ -34,10 +35,10 @@ export class VxAutocompleteComponent<T = string> implements ControlValueAccessor
       return;
   }
 
-  /** The selected item */
+  /** @internal The selected item */
   selectedItem?: VxItemComponent<T>;
 
-  /** If multiple, the selected items */
+  /** @internal If multiple, the selected items */
   selectedItems: VxItemComponent<T>[] = [];
 
   /** The placeholder to pass down to the input component */
@@ -62,6 +63,7 @@ export class VxAutocompleteComponent<T = string> implements ControlValueAccessor
     this._search = value;
   }
 
+  /** @internal */
   @ContentChildren(VxItemComponent) items: QueryList<VxItemComponent<T>>;
 
   /** Whether or not to allow multiple selection */
@@ -85,6 +87,7 @@ export class VxAutocompleteComponent<T = string> implements ControlValueAccessor
     });
   };
 
+  /** Whether or not the autocomplete is required */
   @Input()
   get required(): boolean {
     return this._required;
@@ -94,13 +97,20 @@ export class VxAutocompleteComponent<T = string> implements ControlValueAccessor
     this._required = coerceBooleanProperty(value);
   }
 
+  /** @internal */
   @ViewChild(VxInputDirective) input: VxInputDirective;
+  /** @internal */
   @ViewChild('dropdown') dropdown: VxDropdownComponent<T>;
+  /** @internal */
   @ViewChildren('button') buttons: QueryList<ElementRef>;
 
+  /** @internal */
   _dropdownVisible = false;
+  /** @internal */
   _itemsFiltered = new Subject();
+  /** @internal */
   _required: boolean;
+  /** @internal */
   _multiple = false;
 
   private _value: T | T[] | undefined;
@@ -108,7 +118,9 @@ export class VxAutocompleteComponent<T = string> implements ControlValueAccessor
   private _search = true;
 
   constructor(@Optional() private _parentForm: NgForm,
-              @Optional() private _parentFormGroup: FormGroupDirective, @Optional() @Self() public _ngControl: NgControl) {
+              @Optional() private _parentFormGroup: FormGroupDirective,
+              @Optional() @Self() public _ngControl: NgControl,
+              private el: ElementRef) {
     if (_ngControl) {
       _ngControl.valueAccessor = this;
     }
@@ -117,6 +129,7 @@ export class VxAutocompleteComponent<T = string> implements ControlValueAccessor
     })
   }
 
+  /** @internal */
   ngAfterContentInit(): void {
     this.items.changes.subscribe(() => {
       setTimeout(() => this.updateSelectedItem());
@@ -129,6 +142,15 @@ export class VxAutocompleteComponent<T = string> implements ControlValueAccessor
     this.updateSelectedItem();
   }
 
+  /** @internal */
+  ngOnInit(): void {
+    const el: HTMLElement = this.el.nativeElement;
+    if (el.tagName === 'VX-SELECT') {
+      this._search = false;
+    }
+  }
+
+  /** @internal */
   _handleInputFocusChange(hasFocus: boolean): void {
     this.touched = true;
     this.input.focused = hasFocus;
@@ -148,6 +170,7 @@ export class VxAutocompleteComponent<T = string> implements ControlValueAccessor
     }
   }
 
+  /** @internal */
   _onSelectItem(value: any, skipEmit = false): void {
     if (value === null || value === undefined) {
       this.selectedItem = undefined;
@@ -184,6 +207,7 @@ export class VxAutocompleteComponent<T = string> implements ControlValueAccessor
 
   }
 
+  /** @internal */
   _filter(query: string): void {
     query = query.toUpperCase();
     this.items.forEach(item => {
@@ -196,6 +220,7 @@ export class VxAutocompleteComponent<T = string> implements ControlValueAccessor
     this._itemsFiltered.next();
   }
 
+  /** @internal */
   _onInputChange(value: any): void {
     this._dropdownVisible = true;
 
@@ -207,11 +232,13 @@ export class VxAutocompleteComponent<T = string> implements ControlValueAccessor
     }
   }
 
+  /** @internal */
   _closeDropdown(): void {
     this._dropdownVisible = false;
     this._repopulateValue();
   }
 
+  /** @internal */
   _showDropdown(): void {
     if (this._dropdownVisible)
       return;
@@ -228,6 +255,7 @@ export class VxAutocompleteComponent<T = string> implements ControlValueAccessor
     }
   }
 
+  /** @internal */
   _focusInput(): void {
     this.input.focused = true;
     this.input._elementRef.nativeElement.focus();
@@ -235,11 +263,13 @@ export class VxAutocompleteComponent<T = string> implements ControlValueAccessor
       this.input._elementRef.nativeElement.parentElement.focus();
   }
 
+  /** @internal */
   _onChangeFn = (v: any) => v;
+  /** @internal */
   _onTouchedFn = () => {
   };
 
-  /** Whether the input is in an error state. */
+  /** @internal Whether the input is in an error state. */
   _isInvalid(): boolean {
     const control = this._ngControl;
     const form = this._parentFormGroup || this._parentForm;
@@ -251,11 +281,13 @@ export class VxAutocompleteComponent<T = string> implements ControlValueAccessor
     return false;
   }
 
+  /** @internal */
   _repopulateValue(): void {
     if (this.selectedItem && !this.multiple)
       this.input.value = this.selectedItem.searchTxt
   }
 
+  /** @internal */
   _hideValue(): void {
     if (this.selectedItem && !this.multiple) {
       const inputEl: HTMLInputElement = this.input._elementRef.nativeElement;
@@ -264,6 +296,7 @@ export class VxAutocompleteComponent<T = string> implements ControlValueAccessor
     }
   }
 
+  /** @internal */
   _removeItem(item: VxItemComponent<T>): void {
     this.selectedItems = this.selectedItems.filter(itm => itm !== item);
     item.filtered.next(false);
@@ -273,6 +306,7 @@ export class VxAutocompleteComponent<T = string> implements ControlValueAccessor
     this._focusInput();
   }
 
+  /** @internal */
   _arrowClicked(): void {
     this._focusInput();
     setTimeout(() => {
@@ -280,6 +314,7 @@ export class VxAutocompleteComponent<T = string> implements ControlValueAccessor
     });
   }
 
+  /** @internal */
   _handleBackspace(): void {
     if (!this.multiple) {
       return;
@@ -289,6 +324,7 @@ export class VxAutocompleteComponent<T = string> implements ControlValueAccessor
     }
   }
 
+  /** @internal */
   writeValue(obj: any): void {
     if (this.multiple && obj) {
       this.selectedItems = [];
@@ -301,10 +337,12 @@ export class VxAutocompleteComponent<T = string> implements ControlValueAccessor
     this._value = obj;
   }
 
+  /** @internal */
   registerOnChange(fn: any): void {
     this._onChangeFn = fn;
   }
 
+  /** @internal */
   registerOnTouched(fn: any): void {
     this._onTouchedFn = fn;
   }

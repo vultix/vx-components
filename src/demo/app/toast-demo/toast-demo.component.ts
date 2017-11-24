@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {VxToast, ToastType, ToastPosition} from '../lib/';
+import {TitleService} from '../title.service';
 
 @Component({
   selector: 'vx-toast-demo',
@@ -65,9 +66,10 @@ export class ToastDemoComponent implements OnInit {
 
   toastUsage = `constructor(private vxToast: VxToast) { }`;
 
-  constructor(private toast: VxToast) { }
+  constructor(private toast: VxToast, private titleService: TitleService) { }
 
   ngOnInit(): void {
+    this.titleService.title = 'Toast';
   }
 
   showToast(): void {

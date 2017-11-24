@@ -1,6 +1,6 @@
 <vx-tabs>
   <vx-tab label="Overview">
-    <p>The vx-autocomplete component allows the user to choose one, or multiple items from a dropdown.
+    <p>The vx-autocomplete and component allows the user to choose one, or multiple items from a dropdown.
       It allows them to search for items in the dropdown.</p>
 
     <vx-tabs>
@@ -18,7 +18,39 @@
   <vx-tab label="API">
     <pre><code vxHighlight>{{ importLbl }}</code></pre>
 
-    <h3>VxAutocompleteComponent</h3>
+    <h2>VxAutocompleteComponent&lt;T&gt;</h2>
     <pre><code vxHighlight>&lt;vx-autocomplete&gt;...&lt;/vx-autocomplete&gt;</code></pre>
+    <pre><code vxHighlight>&lt;vx-select&gt;...&lt;/vx-select&gt;</code></pre>
+
+    <p>When using the vx-select tag, the component's search property is set to false,
+      making it behave as a select box rather than an autocomplete.  This can be overridden.</p>
+    <h3>Properties</h3>
+    <pre><code>  /** The autocomplete's selected value **/
+  get value(): T | T[] | undefined;
+
+  /** The placeholder to pass down to the input component */
+  @Input() placeholder: string;
+
+  /** The name to pass down to the input component */
+  @Input() name: string;
+
+  /** The tabIndex to forward down to the input component */
+  @Input() tabIndex: number;
+
+  /** Whether or not the component is disabled  */
+  @Input() disabled: boolean;
+
+  /** The text to show when there are no items */
+  @Input() defaultText = 'No results found.';
+
+  /** Whether or not to allow searching **/
+  @Input() search: boolean;
+
+  /** Whether or not to allow multiple selection */
+  @Input() multiple: boolean;
+
+  /** Whether or not the autocomplete is required */
+  @Input() required: boolean;</code></pre>
+
   </vx-tab>
 </vx-tabs>

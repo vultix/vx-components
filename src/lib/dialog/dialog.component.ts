@@ -14,7 +14,7 @@ import {Subject} from 'rxjs/Subject';
 import {DialogOptions} from './dialog.types';
 import {FocusTrap} from './focus-trap';
 
-const CLOSE_ANIMATION_TIME = 300;
+const ANIMATION_TIME = 300;
 @Component({
   selector: 'vx-dialog',
   templateUrl: './dialog.component.html',
@@ -56,23 +56,8 @@ export class VxDialogComponent implements OnDestroy, AfterViewInit {
     }
   }
 
-  async ngAfterViewInit(): Promise<void> {
-    this._elementFocusedBeforeDialogWasOpened = document.activeElement as HTMLElement;
-    this.focusTrap = new FocusTrap(this.container, this.zone, document);
-    await this.focusTrap.focusInitialElementWhenReady();
-
-    if (this.dialogOptions.defaultButtonIdx && this.buttons) {
-      const buttonContainer = this.buttons.nativeElement as HTMLDivElement;
-
-      if (buttonContainer.children && buttonContainer.children.length) {
-        const defaultButtonIdx = this.dialogOptions.defaultButtonIdx || 0;
-        const child = buttonContainer.children[defaultButtonIdx] as HTMLButtonElement;
-        if (!child) {
-          throw new Error(`Invalid defaultButtonIdx: ${defaultButtonIdx}`)
-        }
-        child.focus();
-      }
-    }
+  ngAfterViewInit(): void {
+    setTimeout(() => this.focusInitial(), ANIMATION_TIME);
   }
 
   _setComponentRef(componentRef: ComponentRef<this>): void {
@@ -85,7 +70,7 @@ export class VxDialogComponent implements OnDestroy, AfterViewInit {
 
     setTimeout(() => {
       this.componentRef.destroy();
-    }, CLOSE_ANIMATION_TIME);
+    }, ANIMATION_TIME);
   }
 
   _setContainer(container: HTMLElement): void {
@@ -107,6 +92,25 @@ export class VxDialogComponent implements OnDestroy, AfterViewInit {
     if (this.container)
       this.container.remove();
     this.onClose.complete();
+  }
+
+  private async focusInitial(): Promise<void> {
+    this._elementFocusedBeforeDialogWasOpened = document.activeElement as HTMLElement;
+    this.focusTrap = new FocusTrap(this.container, this.zone, document);
+    await this.focusTrap.focusInitialElementWhenReady();
+
+    if (this.dialogOptions.defaultButtonIdx && this.buttons) {
+      const buttonContainer = this.buttons.nativeElement as HTMLDivElement;
+
+      if (buttonContainer.children && buttonContainer.children.length) {
+        const defaultButtonIdx = this.dialogOptions.defaultButtonIdx || 0;
+        const child = buttonContainer.children[defaultButtonIdx] as HTMLButtonElement;
+        if (!child) {
+          throw new Error(`Invalid defaultButtonIdx: ${defaultButtonIdx}`)
+        }
+        child.focus();
+      }
+    }
   }
 
   /** Restores focus to the element that was focused before the dialog opened. */
