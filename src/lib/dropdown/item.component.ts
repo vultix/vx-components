@@ -1,5 +1,5 @@
 import {Component, ElementRef, EventEmitter, Input, Output} from '@angular/core';
-import {coerceBooleanProperty} from '../Util';
+import {coerceBooleanProperty} from '../shared/util';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Component({

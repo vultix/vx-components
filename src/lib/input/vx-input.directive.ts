@@ -1,6 +1,6 @@
 import {Directive, ElementRef, Input, Optional, Renderer2, Self} from '@angular/core';
 import {FormGroupDirective, NgControl, NgForm} from '@angular/forms';
-import {coerceBooleanProperty} from '../Util';
+import {coerceBooleanProperty} from '../shared/util';
 
 
 @Directive({

@@ -1,0 +1,37 @@
+@import "defaults";
+
+// Use this mixin to apply colored themes to the stepper
+@mixin vx-stepper-theme($colors) {
+  $colors: prepareColors($colors);
+  $primary: map_get($colors, primary);
+  $accent: map_get($colors, accent);
+  $background: map_get($colors, background);
+  $foreground: map_get($colors, foreground);
+
+  $line: mix($foreground, $background, 10%);
+  $hover: transparentize($foreground, .95);
+  $active: transparentize($foreground, .88);
+  $gray: mix($foreground, $background, 37%);
+
+  vx-stepper {
+    .vx-step-header-line {
+      border-color: $line;
+    }
+    vx-step-header {
+      &:hover {
+        background: $hover;
+      }
+      &:focus {
+        background: $active;
+      }
+      .status {
+        color: $background;
+        background: $gray;
+        &.active {
+          background: $primary;
+        }
+      }
+    }
+  }
+
+}

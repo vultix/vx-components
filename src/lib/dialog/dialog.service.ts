@@ -1,7 +1,7 @@
 import {ApplicationRef, ComponentFactoryResolver, Injectable, Injector, Type} from '@angular/core';
 import {VxDialogComponent} from './dialog.component';
 import {BaseDialogOptions, DialogBodyOptions, OnDialogOpen} from './dialog.types';
-import {getHighestZIdx} from '../Util';
+import {getHighestZIdx} from '../shared/util';
 
 @Injectable()
 export class VxDialog {

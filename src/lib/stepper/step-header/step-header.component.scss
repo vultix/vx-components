@@ -1,0 +1,28 @@
+:host {
+  overflow: hidden;
+  outline: 0;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 15px;
+}
+
+.status {
+  border-radius: 50%;
+  height: 24px;
+  width: 24px;
+  margin-right: 8px;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  transition: background .5s;
+}
+
+.label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 50px;
+}

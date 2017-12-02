@@ -14,6 +14,7 @@ import {DialogDemoComponent} from './dialog-demo/dialog-demo.component';
 import {DialogDemoDialogComponent} from './dialog-demo/dialog-demo-dialog.component';
 import { RadioDemoComponent } from './radio-demo/radio-demo.component';
 import { ToastDemoComponent } from './toast-demo/toast-demo.component';
+import {StepperDemoComponent} from './stepper-demo/stepper-demo.component';
 
 const routes: Route[] = [
   { path: '', pathMatch: 'full', redirectTo: 'tabs'},
@@ -24,6 +25,7 @@ const routes: Route[] = [
   { path: 'dialog', component: DialogDemoComponent},
   { path: 'radio', component: RadioDemoComponent},
   { path: 'toast', component: ToastDemoComponent},
+  {path: 'stepper', component: StepperDemoComponent},
   { path: '**', redirectTo: 'tabs'}
 ];
 
@@ -38,7 +40,8 @@ const routes: Route[] = [
     DialogDemoComponent,
     DialogDemoDialogComponent,
     RadioDemoComponent,
-    ToastDemoComponent
+    ToastDemoComponent,
+    StepperDemoComponent
   ],
   imports: [
     BrowserModule,

@@ -13,7 +13,7 @@ import {
 import {ControlValueAccessor, FormGroupDirective, NgControl, NgForm} from '@angular/forms';
 import {VxDropdownComponent, VxItemComponent} from '../dropdown';
 import {VxInputDirective} from '../input';
-import {coerceBooleanProperty} from '../Util';
+import {coerceBooleanProperty} from '../shared/util';
 import {Subject} from 'rxjs/Subject';
 
 @Component({

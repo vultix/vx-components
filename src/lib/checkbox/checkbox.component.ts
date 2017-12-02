@@ -1,6 +1,6 @@
 import {Component, forwardRef, Input, Output, EventEmitter, HostBinding, HostListener} from '@angular/core';
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
-import {coerceBooleanProperty} from '../Util';
+import {coerceBooleanProperty} from '../shared/util';
 
 @Component({
   selector: 'vx-checkbox',

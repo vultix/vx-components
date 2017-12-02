@@ -3,7 +3,7 @@ import {
   ViewContainerRef
 } from '@angular/core';
 import {CreateToastOptions, ToastComponentOptions, ToastOptions} from './toast.types';
-import {isDefined} from '../Util';
+import {isDefined} from '../shared/util';
 
 const CLOSE_ANIMATION_TIME = 450;
 @Component({
