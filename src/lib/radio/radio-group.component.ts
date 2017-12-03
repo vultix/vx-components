@@ -1,4 +1,7 @@
-import {AfterContentInit, Component, ContentChildren, forwardRef, OnDestroy, QueryList, Input, HostBinding} from '@angular/core';
+import {
+  AfterContentInit, Component, ContentChildren, forwardRef, OnDestroy, QueryList, Input, HostBinding,
+  HostListener
+} from '@angular/core';
 import {VxRadioButtonComponent} from './radio-button.component';
 import {Subscription} from 'rxjs/Subscription';
 import 'rxjs/add/operator/startWith';
@@ -71,6 +74,34 @@ export class VxRadioGroupComponent implements AfterContentInit, OnDestroy, Contr
     this.onTouchedFn = fn;
   }
 
+  /** @internal */
+  @HostListener('keyup.ArrowRight')
+  @HostListener('keyup.ArrowDown')
+  _next(): void {
+    const buttons = this.buttons.toArray();
+    let selectedIndex = this.getSelectedIndex();
+    if (selectedIndex === buttons.length - 1) {
+      selectedIndex = 0;
+    } else {
+      selectedIndex++;
+    }
+    this.handleButtonClick(buttons[selectedIndex]);
+  }
+
+  /** @internal */
+  @HostListener('keyup.ArrowLeft')
+  @HostListener('keyup.ArrowUp')
+  _previous(): void {
+    const buttons = this.buttons.toArray();
+    let selectedIndex = this.getSelectedIndex();
+    if (selectedIndex === 0) {
+      selectedIndex = buttons.length - 1;
+    } else {
+      selectedIndex--;
+    }
+    this.handleButtonClick(buttons[selectedIndex]);
+  }
+
   private updateButtonSubscriptions(): void {
     this.buttons.forEach(button => {
       if (!button.subscription) {
@@ -92,6 +123,17 @@ export class VxRadioGroupComponent implements AfterContentInit, OnDestroy, Contr
     this.onChangeFn(clicked.value);
     this.onTouchedFn();
     this.updateButtonSelections();
+  }
+
+  private getSelectedIndex(): number {
+    const buttons = this.buttons.toArray();
+    let selectedIndex = 0;
+    for (let i = 0; i < buttons.length; i++) {
+      if (buttons[i].selected) {
+        selectedIndex = i;
+      }
+    }
+    return selectedIndex;
   }
 }
 
