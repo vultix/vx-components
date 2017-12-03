@@ -4,7 +4,7 @@
     <vx-tabs>
       <vx-tab label="Example" class="ex1">
         <vx-checkbox #linear>Enable Linear Mode</vx-checkbox>
-        <vx-checkbox #vertical>Vertical Stepper</vx-checkbox>
+        <vx-checkbox #vertical checked="true">Vertical Stepper</vx-checkbox>
         <vx-stepper [linear]="linear.checked" [vertical]="vertical.checked">
           <vx-step label="Fill out your name" [stepControl]="nameInput">
             <vx-input-wrapper>

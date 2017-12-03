@@ -1,4 +1,4 @@
-import {Directive} from '@angular/core';
+import {AfterViewChecked, Directive, ElementRef, Input} from '@angular/core';
 import {VxStepperComponent} from './stepper.component';
 import {TabbableController} from '../shared/tab-controller';
 import {VxStepComponent} from './step.component';
@@ -22,5 +22,21 @@ export class VxStepperPreviousDirective {
 })
 export class VxStepperNextDirective {
   constructor(public _stepper: TabbableController<VxStepComponent>) {
+  }
+}
+
+@Directive({
+  selector: '[vxBindOffsetHeight]'
+})
+export class VxBindOffsetHeightDirective implements AfterViewChecked {
+  @Input() vxBindOffsetHeight: HTMLDivElement;
+
+  constructor(private el: ElementRef) {
+  }
+
+  ngAfterViewChecked(): void {
+    if (this.el.nativeElement) {
+      this.el.nativeElement.style.maxHeight = `${this.vxBindOffsetHeight.offsetHeight}px`;
+    }
   }
 }

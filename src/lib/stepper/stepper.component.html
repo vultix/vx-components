@@ -18,9 +18,10 @@
     <vx-step-header [step]="step" [number]="idx + 1" (click)="selectStep(idx)"
                     [disabled]="shouldDisable(step)" [vertical]="true"></vx-step-header>
     <div class="vx-step vertical" [class.last]="last">
-      <div class="vertical-overflow" [class.closed]="!step.active" [style.maxHeight.px]="content.offsetHeight">
-        <div #content>
+      <div class="vertical-overflow" [class.closed]="!step.active" [vxBindOffsetHeight]="container">
+        <div #container>
           <ng-container [ngTemplateOutlet]="step.content"></ng-container>
+          <div class="clear"></div>
         </div>
       </div>
     </div>
