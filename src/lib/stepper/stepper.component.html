@@ -1,10 +1,28 @@
-<div class="header">
-  <ng-container *ngFor="let step of steps; let last = last; let idx = index;">
+<ng-container *ngIf="!vertical">
+  <div class="header">
+    <ng-container *ngFor="let step of steps; let last = last; let idx = index;">
+      <vx-step-header [step]="step" [number]="idx + 1" (click)="selectStep(idx)"
+                      [disabled]="shouldDisable(step)" [vertical]="falsse"></vx-step-header>
+      <div class="vx-step-header-line" *ngIf="!last"></div>
+    </ng-container>
+  </div>
+  <div class="steps">
+    <div *ngFor="let step of steps;" class="vx-step horizontal" [class.left]="step.left"
+         [class.active]="step.active" [class.right]="step.right" [class.visible]="step.visible">
+      <ng-container [ngTemplateOutlet]="step.content"></ng-container>
+    </div>
+  </div>
+</ng-container>
+<ng-container *ngIf="vertical">
+  <div *ngFor="let step of steps; let idx = index; let last = last;" class="vertical-container">
     <vx-step-header [step]="step" [number]="idx + 1" (click)="selectStep(idx)"
-                    [disabled]="shouldDisable(step)"></vx-step-header>
-    <div class="vx-step-header-line" *ngIf="!last"></div>
-  </ng-container>
-</div>
-<div class="steps">
-  <ng-content select="vx-step"></ng-content>
-</div>
+                    [disabled]="shouldDisable(step)" [vertical]="true"></vx-step-header>
+    <div class="vx-step vertical" [class.last]="last">
+      <div class="vertical-overflow" [class.closed]="!step.active" [style.maxHeight.px]="content.offsetHeight">
+        <div #content>
+          <ng-container [ngTemplateOutlet]="step.content"></ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

@@ -32,9 +32,12 @@
         }
       }
       .disabled {
-        opacity: .65;
+        opacity: .55;
       }
     }
+  }
+  .vx-step.vertical:not(.last):before {
+    border-left: 1px solid $line;
   }
 
 }

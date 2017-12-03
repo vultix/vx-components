@@ -1,17 +1,14 @@
-import {Component, HostBinding, Input} from '@angular/core';
+import {Component, HostBinding, Input, TemplateRef, ViewChild} from '@angular/core';
 import {AbstractControl, AbstractControlDirective, FormControl, NgModel} from '@angular/forms';
 
 @Component({
   selector: 'vx-step',
-  template: '<ng-content></ng-content>',
-  styleUrls: ['../shared/tabbable.component.scss'],
-  host: {
-    '[style.paddingTop]': '0'
-  }
+  template: '<ng-template><ng-content></ng-content></ng-template>',
 })
 export class VxStepComponent {
   @Input() label?: string;
   @Input() stepControl?: AbstractControlDirective | AbstractControl | NgModel;
+  @ViewChild(TemplateRef) content: TemplateRef<any>;
 
   /** Whether this tab is the active tab */
   @HostBinding('class.active') active = false;

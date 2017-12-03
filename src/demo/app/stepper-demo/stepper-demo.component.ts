@@ -10,7 +10,8 @@ export class StepperDemoComponent implements OnInit {
   importLbl = `import {VxStepperModule} from 'vx-components';`;
 
   example1Html = `<vx-checkbox #linear>Enable Linear Mode</vx-checkbox>
-<vx-stepper [linear]="linear.checked">
+<vx-checkbox #vertical>Vertical Stepper</vx-checkbox>
+<vx-stepper [linear]="linear.checked" [vertical]="vertical.checked">
   <vx-step label="Fill out your name" [stepControl]="nameInput">
     <vx-input-wrapper>
       <input vxInput placeholder="Enter Name" name="name" ngModel #nameInput="ngModel" required>

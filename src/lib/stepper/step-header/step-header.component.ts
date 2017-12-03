@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, HostBinding, Input} from '@angular/core';
 import {VxStepComponent} from '../step.component';
 import {AbstractControl} from '@angular/forms';
 
@@ -11,4 +11,7 @@ export class VxStepHeaderComponent {
   @Input() step: VxStepComponent;
   @Input() number: number;
   @Input() disabled = false;
+
+  @HostBinding('class.vertical')
+  @Input() vertical: boolean;
 }

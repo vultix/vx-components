@@ -1,4 +1,4 @@
-import {AfterContentInit, ChangeDetectorRef, Component, ContentChildren, Directive, Input, QueryList} from '@angular/core';
+import {AfterContentInit, ChangeDetectorRef, Component, ContentChildren, Input, QueryList} from '@angular/core';
 import {VxStepComponent} from './step.component';
 import {TabbableController} from '../shared/tab-controller';
 import {coerceBooleanProperty} from '../shared/util';
@@ -21,6 +21,17 @@ export class VxStepperComponent extends TabbableController<VxStepComponent> impl
 
   set linear(value: boolean) {
     this._linear = coerceBooleanProperty(value);
+  }
+
+  private _vertical = false;
+
+  @Input()
+  get vertical(): boolean {
+    return this._vertical;
+  }
+
+  set vertical(value: boolean) {
+    this._vertical = coerceBooleanProperty(value);
   }
 
   constructor(cdr: ChangeDetectorRef) {
