@@ -15,12 +15,12 @@ export class VxToastComponent implements OnDestroy {
   @ViewChild('content', { read: ViewContainerRef }) content: ViewContainerRef;
   options: CreateToastOptions;
 
-  /** @internal */
+  /** @--internal */
   hasComponent = false;
 
-  /** @internal */
+  /** @--internal */
   closing = false;
-  /**@internal */
+  /**@--internal */
   maxHeight = 300;
 
   private contentComponentRef: ComponentRef<any>;
@@ -30,7 +30,7 @@ export class VxToastComponent implements OnDestroy {
   }
 
 
-  /** @internal */
+  /** @--internal */
   create(ref: ComponentRef<this>, container: HTMLElement, content: Type<any>, options?: ToastComponentOptions<any>): void;
   create(ref: ComponentRef<this>, container: HTMLElement, content: null, options: CreateToastOptions): void;
   create(ref: ComponentRef<this>, container: HTMLElement, content: Type<any> | null,

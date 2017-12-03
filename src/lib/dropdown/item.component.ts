@@ -47,7 +47,7 @@ export class VxItemComponent<T = string> {
     return this._disabled;
   }
 
-  /** @internal */
+  /** @--internal */
   filtered = new BehaviorSubject(false);
 
   private _searchTxt: string;

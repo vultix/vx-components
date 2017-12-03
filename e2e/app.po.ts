@@ -1,6 +1,6 @@
 import { browser, by, element } from 'protractor';
 
-export class VxComponents2Page {
+export class VxComponentsPage {
   navigateTo() {
     return browser.get('/');
   }

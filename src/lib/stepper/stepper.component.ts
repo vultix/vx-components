@@ -49,7 +49,7 @@ export class VxStepperComponent extends TabbableController<VxStepComponent> impl
       this.setSelectedIndex(stepIdx);
   }
 
-  /** @internal */
+  /** @--internal */
   shouldDisable(curStep: VxStepComponent, markAsTouched = false): boolean {
     const steps = this.steps.toArray();
     for (const step of steps) {

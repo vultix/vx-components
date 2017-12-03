@@ -1,10 +1,10 @@
-import { VxComponents2Page } from './app.po';
+import {VxComponentsPage} from './app.po';
 
 describe('vx-components2 App', () => {
-  let page: VxComponents2Page;
+  let page: VxComponentsPage;
 
   beforeEach(() => {
-    page = new VxComponents2Page();
+    page = new VxComponentsPage();
   });
 
   it('should display welcome message', () => {

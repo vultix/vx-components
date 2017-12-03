@@ -42,7 +42,7 @@ export class VxRadioGroupComponent implements AfterContentInit, OnDestroy, Contr
   private onChangeFn = (v: boolean) => {};
   private onTouchedFn = () => {};
 
-  /** @internal */
+  /** @--internal */
   ngAfterContentInit(): void {
     this.buttons.changes.startWith(null).subscribe(() => {
       this.updateButtonSubscriptions();
@@ -50,13 +50,13 @@ export class VxRadioGroupComponent implements AfterContentInit, OnDestroy, Contr
     })
   }
 
-  /** @internal */
+  /** @--internal */
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
 
-  /** @internal */
+  /** @--internal */
   writeValue(obj: any): void {
     this._value = obj;
     if (this.buttons) {
@@ -64,17 +64,17 @@ export class VxRadioGroupComponent implements AfterContentInit, OnDestroy, Contr
     }
   }
 
-  /** @internal */
+  /** @--internal */
   registerOnChange(fn: any): void {
     this.onChangeFn = fn;
   }
 
-  /** @internal */
+  /** @--internal */
   registerOnTouched(fn: any): void {
     this.onTouchedFn = fn;
   }
 
-  /** @internal */
+  /** @--internal */
   @HostListener('keyup.ArrowRight')
   @HostListener('keyup.ArrowDown')
   _next(): void {
@@ -88,7 +88,7 @@ export class VxRadioGroupComponent implements AfterContentInit, OnDestroy, Contr
     this.handleButtonClick(buttons[selectedIndex]);
   }
 
-  /** @internal */
+  /** @--internal */
   @HostListener('keyup.ArrowLeft')
   @HostListener('keyup.ArrowUp')
   _previous(): void {

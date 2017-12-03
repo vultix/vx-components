@@ -21,7 +21,7 @@ export class VxRadioButtonComponent {
   @Input() name: string;
   selected = false;
 
-  /** @internal */
+  /** @--internal */
   onClick = new Subject();
 
 }

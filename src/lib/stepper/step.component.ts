@@ -24,7 +24,7 @@ export class VxStepComponent {
     return this.stepControl ? !!this.stepControl.valid : true;
   }
 
-  /** @internal */
+  /** @--internal */
   markAsTouched(): void {
     const control = this.getControl();
     if (control) {
