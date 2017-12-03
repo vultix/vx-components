@@ -21,7 +21,7 @@
       &:hover {
         background: $hover;
       }
-      &:focus {
+      &:active {
         background: $active;
       }
       .status {
@@ -30,6 +30,9 @@
         &.active {
           background: $primary;
         }
+      }
+      .disabled {
+        opacity: .65;
       }
     }
   }

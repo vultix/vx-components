@@ -61,6 +61,14 @@ export class VxTabsComponent extends TabbableController<VxTabComponent> implemen
     this.selectedTabChange.emit(this.selectedTab);
   }
 
+  next(): void {
+    this.selectTab(this.selectedIndex + 1);
+  }
+
+  previous(): void {
+    this.selectTab(this.selectedIndex - 1);
+  }
+
   ngAfterContentInit(): void {
     this.setTabbables(this._tabs);
   }

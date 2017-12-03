@@ -1,11 +1,63 @@
-<vx-stepper>
-  <vx-step label="step 1">
-    Here is my first Step
-  </vx-step>
-  <vx-step label="step 2">
-    Here is my second step!
-  </vx-step>
-  <vx-step label="step 3">
-    Here is my third step!
-  </vx-step>
-</vx-stepper>
+<form>
+  <vx-stepper linear="true">
+    <vx-step label="step 1" [stepControl]="g">
+      <div ngModelGroup="group1" #g="ngModelGroup">
+        <vx-input-wrapper>
+          <input vxInput placeholder="Enter your name" type="text" name="hello" ngModel required>
+        </vx-input-wrapper>
+        <vx-input-wrapper>
+          <input vxInput placeholder="Enter your aname" type="text" name="helloo" ngModel required>
+        </vx-input-wrapper>
+        <vx-input-wrapper>
+          <input vxInput placeholder="Enterd your name" type="text" name="helleo" ngModel required>
+        </vx-input-wrapper>
+        <button vx-button vxStepperNext>Next</button>
+      </div>
+    </vx-step>
+    <vx-step label="step 2" [stepControl]="b">
+      <div ngModelGroup #b="ngModelGroup">
+        <vx-input-wrapper>
+          <input vxInput placeholder="Enter your name" type="text" name="hello2" ngModel required>
+        </vx-input-wrapper>
+        <button vx-button vxStepperBack>Previous</button>
+        <button vx-button vxStepperNext>Next</button>
+      </div>
+    </vx-step>
+    <vx-step label="step 3">
+      Here is my third step!
+      <button vx-button vxStepperBack>Previous</button>
+      <button vx-button vxStepperNext>Next</button>
+
+      <vx-stepper linear="true">
+        <vx-step label="step 1">
+          <div>
+            <vx-input-wrapper>
+              <input vxInput placeholder="Enter your name" type="text" name="hello" ngModel required>
+            </vx-input-wrapper>
+            <vx-input-wrapper>
+              <input vxInput placeholder="Enter your aname" type="text" name="helloo" ngModel required>
+            </vx-input-wrapper>
+            <vx-input-wrapper>
+              <input vxInput placeholder="Enterd your name" type="text" name="helleo" ngModel required>
+            </vx-input-wrapper>
+            <button vx-button vxStepperNext>Next</button>
+          </div>
+        </vx-step>
+        <vx-step label="step 2">
+          <div>
+            <vx-input-wrapper>
+              <input vxInput placeholder="Enter your name" type="text" name="hello2" ngModel required>
+            </vx-input-wrapper>
+            <button vx-button vxStepperBack>Previous</button>
+            <button vx-button vxStepperNext>Next</button>
+          </div>
+        </vx-step>
+        <vx-step label="step 3">
+          Here is my third step!
+          <button vx-button vxStepperBack>Previous</button>
+          <button vx-button vxStepperNext>Next</button>
+        </vx-step>
+      </vx-stepper>
+    </vx-step>
+  </vx-stepper>
+</form>

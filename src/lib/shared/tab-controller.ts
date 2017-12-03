@@ -1,10 +1,14 @@
 import {ChangeDetectorRef, QueryList} from '@angular/core';
 import 'rxjs/add/operator/startWith';
 
-export class TabbableController<T extends Tabbable> {
+export abstract class TabbableController<T extends Tabbable> {
   protected selectedIndex = 0;
   private tabbables: QueryList<T>;
   private previousIndex = 0;
+
+  abstract next(): void;
+
+  abstract previous(): void;
 
   protected setSelectedIndex(idx: number): void {
     this.previousIndex = this.selectedIndex || 0;
@@ -12,8 +16,8 @@ export class TabbableController<T extends Tabbable> {
       return;
 
     this.selectedIndex = idx || 0;
-    this.setTabsLeftRight();
     this.ensureSelectedTab();
+    this.setTabsLeftRight();
   }
 
   constructor(private cdr: ChangeDetectorRef) {
@@ -32,8 +36,11 @@ export class TabbableController<T extends Tabbable> {
   /** Ensures that we have the correct tab selected */
   private ensureSelectedTab(): void {
     if (this.tabbables && this.tabbables.length) {
-      if (this.selectedIndex < 0 || this.selectedIndex >= this.tabbables.length) {
+      if (this.selectedIndex < 0) {
         this.setSelectedIndex(0);
+        return;
+      } else if (this.selectedIndex >= this.tabbables.length) {
+        this.setSelectedIndex(this.tabbables.length - 1);
         return;
       }
 

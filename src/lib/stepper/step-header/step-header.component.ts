@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {VxStepComponent} from '../step.component';
+import {AbstractControl} from '@angular/forms';
 
 @Component({
   selector: 'vx-step-header',
@@ -9,4 +10,5 @@ import {VxStepComponent} from '../step.component';
 export class VxStepHeaderComponent {
   @Input() step: VxStepComponent;
   @Input() number: number;
+  @Input() disabled = false;
 }
