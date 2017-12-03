@@ -1,63 +1,46 @@
-<form>
-  <vx-stepper linear="true">
-    <vx-step label="step 1" [stepControl]="g">
-      <div ngModelGroup="group1" #g="ngModelGroup">
-        <vx-input-wrapper>
-          <input vxInput placeholder="Enter your name" type="text" name="hello" ngModel required>
-        </vx-input-wrapper>
-        <vx-input-wrapper>
-          <input vxInput placeholder="Enter your aname" type="text" name="helloo" ngModel required>
-        </vx-input-wrapper>
-        <vx-input-wrapper>
-          <input vxInput placeholder="Enterd your name" type="text" name="helleo" ngModel required>
-        </vx-input-wrapper>
-        <button vx-button vxStepperNext>Next</button>
-      </div>
-    </vx-step>
-    <vx-step label="step 2" [stepControl]="b">
-      <div ngModelGroup #b="ngModelGroup">
-        <vx-input-wrapper>
-          <input vxInput placeholder="Enter your name" type="text" name="hello2" ngModel required>
-        </vx-input-wrapper>
-        <button vx-button vxStepperBack>Previous</button>
-        <button vx-button vxStepperNext>Next</button>
-      </div>
-    </vx-step>
-    <vx-step label="step 3">
-      Here is my third step!
-      <button vx-button vxStepperBack>Previous</button>
-      <button vx-button vxStepperNext>Next</button>
-
-      <vx-stepper linear="true">
-        <vx-step label="step 1">
-          <div>
+<vx-tabs>
+  <vx-tab label="Overview">
+    The vx-stepper component creates a tabs-wizard workflow by separating content into steps.
+    <vx-tabs>
+      <vx-tab label="Example" class="ex1">
+        <vx-checkbox #linear>Enable Linear Mode</vx-checkbox>
+        <vx-stepper [linear]="linear.checked">
+          <vx-step label="Fill out your name" [stepControl]="nameInput">
             <vx-input-wrapper>
-              <input vxInput placeholder="Enter your name" type="text" name="hello" ngModel required>
+              <input vxInput placeholder="Enter Name" name="name" ngModel #nameInput="ngModel" required>
             </vx-input-wrapper>
+            <div>
+              <button vx-button vxStepperNext>Next</button>
+            </div>
+          </vx-step>
+          <vx-step label="Fill out your address" [stepControl]="addressInput">
             <vx-input-wrapper>
-              <input vxInput placeholder="Enter your aname" type="text" name="helloo" ngModel required>
+              <input vxInput placeholder="Enter Your Address" name="address" ngModel #addressInput="ngModel" required>
             </vx-input-wrapper>
-            <vx-input-wrapper>
-              <input vxInput placeholder="Enterd your name" type="text" name="helleo" ngModel required>
-            </vx-input-wrapper>
-            <button vx-button vxStepperNext>Next</button>
-          </div>
-        </vx-step>
-        <vx-step label="step 2">
-          <div>
-            <vx-input-wrapper>
-              <input vxInput placeholder="Enter your name" type="text" name="hello2" ngModel required>
-            </vx-input-wrapper>
-            <button vx-button vxStepperBack>Previous</button>
-            <button vx-button vxStepperNext>Next</button>
-          </div>
-        </vx-step>
-        <vx-step label="step 3">
-          Here is my third step!
-          <button vx-button vxStepperBack>Previous</button>
-          <button vx-button vxStepperNext>Next</button>
-        </vx-step>
-      </vx-stepper>
-    </vx-step>
-  </vx-stepper>
-</form>
+            <div>
+              <button vx-button vxStepperBack>Back</button>
+              <button vx-button vxStepperNext>Next</button>
+            </div>
+          </vx-step>
+          <vx-step label="Done">
+            You are finished!
+            <div>
+              <button vx-button vxStepperBack>Back</button>
+            </div>
+          </vx-step>
+        </vx-stepper>
+      </vx-tab>
+      <vx-tab label="HTML">
+        <pre><code>{{example1Html}}</code></pre>
+      </vx-tab>
+      <vx-tab label="CSS">
+        <pre><code>{{example1CSS}}</code></pre>
+      </vx-tab>
+    </vx-tabs>
+  </vx-tab>
+  <vx-tab label="API">
+    <pre><code vxHighlight>{{importLbl}}</code></pre>
+    <h3>VxStepperComponent</h3>
+    <pre><code vxHighlight>&lt;vx-stepper&gt;...&lt;/vx-stepper&gt;</code></pre>
+  </vx-tab>
+</vx-tabs>
