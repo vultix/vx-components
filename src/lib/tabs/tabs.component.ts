@@ -41,10 +41,6 @@ export class VxTabsComponent extends TabbableController<VxTabComponent> implemen
   /** The list of tabs that were passed into the component */
   @ContentChildren(VxTabComponent) _tabs: QueryList<VxTabComponent>;
 
-  constructor(cdr: ChangeDetectorRef) {
-    super(cdr);
-  }
-
   /** The selected tab */
   @Input('selectedTab')
   get selectedTab(): number {

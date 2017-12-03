@@ -5,7 +5,7 @@ import {AbstractControl, AbstractControlDirective, FormControl, NgModel} from '@
   selector: 'vx-step',
   template: '<ng-template><div #container><ng-content></ng-content></div></ng-template>',
 })
-export class VxStepComponent implements AfterViewChecked {
+export class VxStepComponent {
   @Input() label?: string;
   @Input() stepControl?: AbstractControlDirective | AbstractControl | NgModel;
   @Input() invalid = false;
@@ -20,8 +20,6 @@ export class VxStepComponent implements AfterViewChecked {
   @HostBinding('class.right') right = false;
   @HostBinding('class.visible') visible: boolean;
 
-  contentHeight: number;
-
   valid(): boolean {
     return this.invalid || (this.stepControl ? !!this.stepControl.valid : true);
   }
@@ -32,10 +30,6 @@ export class VxStepComponent implements AfterViewChecked {
     if (control) {
       markAllTouched(control);
     }
-  }
-
-  ngAfterViewChecked(): void {
-    this.contentHeight = this.container.nativeElement.offsetHeight;
   }
 
   private getControl(): AbstractControl | undefined {

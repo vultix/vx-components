@@ -20,16 +20,13 @@ export abstract class TabbableController<T extends Tabbable> {
     this.setTabsLeftRight();
   }
 
-  constructor(private cdr: ChangeDetectorRef) {
-
-  }
-
   protected setTabbables(tabbables: QueryList<T>): void {
     this.tabbables = tabbables;
     tabbables.changes.startWith(null).subscribe(() => {
-      this.ensureSelectedTab();
-      this.setTabsLeftRight();
-      this.cdr.markForCheck();
+      setTimeout(() => {
+        this.ensureSelectedTab();
+        this.setTabsLeftRight();
+      });
     });
   }
 

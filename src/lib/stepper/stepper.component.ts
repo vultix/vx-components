@@ -34,10 +34,6 @@ export class VxStepperComponent extends TabbableController<VxStepComponent> impl
     this._vertical = coerceBooleanProperty(value);
   }
 
-  constructor(cdr: ChangeDetectorRef) {
-    super(cdr);
-  }
-
   next(): void {
     if (this.selectedIndex < this.steps.length - 1) {
       this.selectStep(this.selectedIndex + 1);
