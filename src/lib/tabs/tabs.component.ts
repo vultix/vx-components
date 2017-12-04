@@ -9,7 +9,7 @@ import {
   Output,
   QueryList
 } from '@angular/core';
-import {TabbableController} from '../shared/tab-controller';
+import {TabbableController} from '../shared/tabbable-controller';
 
 
 @Component({

@@ -11,7 +11,8 @@ export class StepperDemoComponent implements OnInit {
 
   example1Html = `<vx-checkbox #linear>Enable Linear Mode</vx-checkbox>
 <vx-checkbox #vertical>Vertical Stepper</vx-checkbox>
-<vx-stepper [linear]="linear.checked" [vertical]="vertical.checked">
+<vx-checkbox #toggling [disabled]="!vertical.checked">Allow Toggling</vx-checkbox>
+<vx-stepper [linear]="linear.checked" [vertical]="vertical.checked" [allowToggling]="toggling.checked">
   <vx-step [stepControl]="nameInput">
     <ng-template vxStepLabel>Fill out Your Name</ng-template>
     <vx-input-wrapper>

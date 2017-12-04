@@ -1,6 +1,6 @@
-import {AfterContentInit, ChangeDetectorRef, Component, ContentChildren, Input, QueryList} from '@angular/core';
+import {AfterContentInit, Component, ContentChildren, EventEmitter, Input, Output, QueryList} from '@angular/core';
 import {VxStepComponent} from './step.component';
-import {TabbableController} from '../shared/tab-controller';
+import {TabbableController} from '../shared/tabbable-controller';
 import {coerceBooleanProperty} from '../shared/util';
 
 @Component({
@@ -23,6 +23,17 @@ export class VxStepperComponent extends TabbableController<VxStepComponent> impl
     this._linear = coerceBooleanProperty(value);
   }
 
+  @Input()
+  set selectedStep(step: number) {
+    this.setSelectedIndex(+step);
+  }
+
+  get selectedStep(): number {
+    return this.selectedIndex;
+  }
+
+  @Output() selectedStepChange = new EventEmitter<number>();
+
   private _vertical = false;
 
   @Input()
@@ -32,6 +43,21 @@ export class VxStepperComponent extends TabbableController<VxStepComponent> impl
 
   set vertical(value: boolean) {
     this._vertical = coerceBooleanProperty(value);
+    this.enforceSelectedTabbable = !(this._allowToggling && this._vertical);
+    if (!this._vertical) this.ensureSelectedTab();
+  }
+
+  private _allowToggling = false;
+
+  @Input()
+  get allowToggling(): boolean {
+    return this._allowToggling;
+  }
+
+  set allowToggling(value: boolean) {
+    this._allowToggling = coerceBooleanProperty(value);
+    this.enforceSelectedTabbable = !(this._allowToggling && this._vertical);
+    if (!this._vertical) this.ensureSelectedTab();
   }
 
   next(): void {
@@ -52,8 +78,14 @@ export class VxStepperComponent extends TabbableController<VxStepComponent> impl
 
   selectStep(stepIdx: number): void {
     const step = this.steps.toArray()[stepIdx];
-    if (!this.shouldDisable(step, true))
+
+    if (!this.enforceSelectedTabbable && step.active) {
+      this.setSelectedIndex(-1);
+      this.selectedStepChange.emit(-1);
+    } else if (!this.shouldDisable(step, true)) {
       this.setSelectedIndex(stepIdx);
+      this.selectedStepChange.emit(stepIdx);
+    }
   }
 
   /** @--internal */

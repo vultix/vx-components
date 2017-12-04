@@ -1,8 +1,9 @@
-import {ChangeDetectorRef, QueryList} from '@angular/core';
+import {QueryList} from '@angular/core';
 import 'rxjs/add/operator/startWith';
 
 export abstract class TabbableController<T extends Tabbable> {
   protected selectedIndex = 0;
+  protected enforceSelectedTabbable = true;
   private tabbables: QueryList<T>;
   private previousIndex = 0;
 
@@ -31,18 +32,20 @@ export abstract class TabbableController<T extends Tabbable> {
   }
 
   /** Ensures that we have the correct tab selected */
-  private ensureSelectedTab(): void {
+  protected ensureSelectedTab(): void {
     if (this.tabbables && this.tabbables.length) {
-      if (this.selectedIndex < 0) {
+      if (this.selectedIndex < 0 && this.enforceSelectedTabbable) {
         this.setSelectedIndex(0);
         return;
-      } else if (this.selectedIndex >= this.tabbables.length) {
+      } else if (this.selectedIndex >= this.tabbables.length && this.enforceSelectedTabbable) {
         this.setSelectedIndex(this.tabbables.length - 1);
         return;
       }
 
       this.tabbables.forEach(tab => tab.active = false);
-      this.tabbables.toArray()[this.selectedIndex].active = true;
+      const tabToActivate = this.tabbables.toArray()[this.selectedIndex];
+      if (tabToActivate)
+        tabToActivate.active = true;
     }
   }
 

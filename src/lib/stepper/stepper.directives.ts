@@ -1,6 +1,6 @@
 import {AfterViewChecked, Directive, ElementRef, Input, TemplateRef, ViewChild} from '@angular/core';
 import {VxStepperComponent} from './stepper.component';
-import {TabbableController} from '../shared/tab-controller';
+import {TabbableController} from '../shared/tabbable-controller';
 import {VxStepComponent} from './step.component';
 
 @Directive({
