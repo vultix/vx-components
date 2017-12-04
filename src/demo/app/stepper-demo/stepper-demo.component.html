@@ -6,7 +6,8 @@
         <vx-checkbox #linear>Enable Linear Mode</vx-checkbox>
         <vx-checkbox #vertical>Vertical Stepper</vx-checkbox>
         <vx-stepper [linear]="linear.checked" [vertical]="vertical.checked">
-          <vx-step label="Fill out your name" [stepControl]="nameInput">
+          <vx-step [stepControl]="nameInput">
+            <ng-template vxStepLabel>Fill out Your Name</ng-template>
             <vx-input-wrapper>
               <input vxInput placeholder="Enter Name" name="name" ngModel #nameInput="ngModel" required>
             </vx-input-wrapper>
@@ -23,21 +24,19 @@
               <button vx-button vxStepperNext>Next</button>
             </div>
           </vx-step>
-          <ng-container *ngIf="linear.checked">
-            <vx-step label="Done">
-              You are finished!
-              <div>
-                <button vx-button vxStepperBack>Back</button>
-              </div>
-            </vx-step>
-          </ng-container>
+          <vx-step label="Done">
+            You are finished!
+            <div>
+              <button vx-button vxStepperBack>Back</button>
+            </div>
+          </vx-step>
         </vx-stepper>
       </vx-tab>
       <vx-tab label="HTML">
-        <pre><code>{{example1Html}}</code></pre>
+        <pre><code vxHighlight>{{example1Html}}</code></pre>
       </vx-tab>
       <vx-tab label="CSS">
-        <pre><code>{{example1CSS}}</code></pre>
+        <pre><code vxHighlight>{{example1CSS}}</code></pre>
       </vx-tab>
     </vx-tabs>
   </vx-tab>

@@ -1,4 +1,7 @@
 <div class="status" [class.active]="step.active">
   {{number}}
 </div>
-<div class="label" [class.disabled]="disabled">{{step.label}}</div>
+<div class="label" [class.disabled]="disabled">
+  <ng-container *ngIf="!step.stepLabel">{{step.label}}</ng-container>
+  <ng-container *ngIf="step.stepLabel" [ngTemplateOutlet]="step.stepLabel.template"></ng-container>
+</div>

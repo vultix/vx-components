@@ -1,4 +1,4 @@
-import {AfterViewChecked, Directive, ElementRef, Input} from '@angular/core';
+import {AfterViewChecked, Directive, ElementRef, Input, TemplateRef, ViewChild} from '@angular/core';
 import {VxStepperComponent} from './stepper.component';
 import {TabbableController} from '../shared/tab-controller';
 import {VxStepComponent} from './step.component';
@@ -22,6 +22,14 @@ export class VxStepperPreviousDirective {
 })
 export class VxStepperNextDirective {
   constructor(public _stepper: TabbableController<VxStepComponent>) {
+  }
+}
+
+@Directive({
+  selector: 'ng-template[vxStepLabel]'
+})
+export class VxStepLabelDirective {
+  constructor(public template: TemplateRef<any>) {
   }
 }
 

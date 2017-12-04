@@ -12,7 +12,8 @@ export class StepperDemoComponent implements OnInit {
   example1Html = `<vx-checkbox #linear>Enable Linear Mode</vx-checkbox>
 <vx-checkbox #vertical>Vertical Stepper</vx-checkbox>
 <vx-stepper [linear]="linear.checked" [vertical]="vertical.checked">
-  <vx-step label="Fill out your name" [stepControl]="nameInput">
+  <vx-step [stepControl]="nameInput">
+    <ng-template vxStepLabel>Fill out Your Name</ng-template>
     <vx-input-wrapper>
       <input vxInput placeholder="Enter Name" name="name" ngModel #nameInput="ngModel" required>
     </vx-input-wrapper>
@@ -41,7 +42,7 @@ export class StepperDemoComponent implements OnInit {
   margin-top: 10px;
 }
 vx-input-wrapper {
-  width: 250px;
+  width: 100%;
 }
 vx-stepper {
   background: white;

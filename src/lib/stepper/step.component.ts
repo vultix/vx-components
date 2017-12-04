@@ -1,5 +1,6 @@
-import {AfterViewChecked, Component, ElementRef, HostBinding, Input, TemplateRef, ViewChild} from '@angular/core';
+import {AfterViewChecked, Component, ContentChild, ElementRef, HostBinding, Input, TemplateRef, ViewChild} from '@angular/core';
 import {AbstractControl, AbstractControlDirective, FormControl, NgModel} from '@angular/forms';
+import {VxStepLabelDirective} from './stepper.directives';
 
 @Component({
   selector: 'vx-step',
@@ -9,6 +10,7 @@ export class VxStepComponent {
   @Input() label?: string;
   @Input() stepControl?: AbstractControlDirective | AbstractControl | NgModel;
   @Input() invalid = false;
+  @ContentChild(VxStepLabelDirective) stepLabel: VxStepLabelDirective;
 
   @ViewChild(TemplateRef) content: TemplateRef<any>;
   @ViewChild('container') container: ElementRef;
