@@ -9,6 +9,7 @@
 @import 'toast';
 @import 'defaults';
 @import 'stepper';
+@import 'spinner';
 
 @mixin vx-load-themes($col) {
   $colors: prepareColors($col);
@@ -22,4 +23,5 @@
   @include vx-radio-theme($colors);
   @include vx-toast-theme($colors);
   @include vx-stepper-theme($colors);
+  @include vx-spinner-theme($colors);
 }

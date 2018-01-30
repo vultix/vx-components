@@ -7,26 +7,28 @@ import {TabsDemoComponent} from './tabs-demo/tabs-demo.component';
 import {Route, RouterModule} from '@angular/router';
 import {InputDemoComponent} from './input-demo/input-demo.component';
 import {TitleService} from './title.service';
-import { CheckboxDemoComponent } from './checkbox-demo/checkbox-demo.component';
-import { AutocompleteDemoComponent } from './autocomplete-demo/autocomplete-demo.component';
+import {CheckboxDemoComponent} from './checkbox-demo/checkbox-demo.component';
+import {AutocompleteDemoComponent} from './autocomplete-demo/autocomplete-demo.component';
 import {HighlightCodeDirective} from './highlight-code.directive';
 import {DialogDemoComponent} from './dialog-demo/dialog-demo.component';
 import {DialogDemoDialogComponent} from './dialog-demo/dialog-demo-dialog.component';
-import { RadioDemoComponent } from './radio-demo/radio-demo.component';
-import { ToastDemoComponent } from './toast-demo/toast-demo.component';
+import {RadioDemoComponent} from './radio-demo/radio-demo.component';
+import {ToastDemoComponent} from './toast-demo/toast-demo.component';
 import {StepperDemoComponent} from './stepper-demo/stepper-demo.component';
+import {SpinnerDemoComponent} from './spinner-demo/spinner-demo.component';
 
 const routes: Route[] = [
-  { path: '', pathMatch: 'full', redirectTo: 'tabs'},
-  { path: 'tabs', component: TabsDemoComponent},
-  { path: 'input', component: InputDemoComponent},
-  { path: 'checkbox', component: CheckboxDemoComponent},
-  { path: 'autocomplete', component: AutocompleteDemoComponent},
-  { path: 'dialog', component: DialogDemoComponent},
-  { path: 'radio', component: RadioDemoComponent},
-  { path: 'toast', component: ToastDemoComponent},
+  {path: '', pathMatch: 'full', redirectTo: 'tabs'},
+  {path: 'tabs', component: TabsDemoComponent},
+  {path: 'input', component: InputDemoComponent},
+  {path: 'checkbox', component: CheckboxDemoComponent},
+  {path: 'autocomplete', component: AutocompleteDemoComponent},
+  {path: 'dialog', component: DialogDemoComponent},
+  {path: 'radio', component: RadioDemoComponent},
+  {path: 'toast', component: ToastDemoComponent},
   {path: 'stepper', component: StepperDemoComponent},
-  { path: '**', redirectTo: 'tabs'}
+  {path: 'spinner', component: SpinnerDemoComponent},
+  {path: '**', redirectTo: 'tabs'}
 ];
 
 @NgModule({
@@ -41,7 +43,8 @@ const routes: Route[] = [
     DialogDemoDialogComponent,
     RadioDemoComponent,
     ToastDemoComponent,
-    StepperDemoComponent
+    StepperDemoComponent,
+    SpinnerDemoComponent
   ],
   imports: [
     BrowserModule,
@@ -53,4 +56,5 @@ const routes: Route[] = [
   providers: [TitleService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

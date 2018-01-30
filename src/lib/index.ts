@@ -9,3 +9,4 @@ export * from './dialog';
 export * from './radio';
 export * from './toast';
 export * from './stepper';
+export * from './spinner';

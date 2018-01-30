@@ -1,0 +1,25 @@
+@import "defaults";
+// Use this mixin to apply colored themes to the checkbox
+@mixin vx-spinner-theme($colors) {
+  $colors: prepareColors($colors);
+  $primary: map_get($colors, primary);
+  $accent: map_get($colors, accent);
+  $background: map_get($colors, background);
+  $foreground: map_get($colors, foreground);
+
+  vx-spinner {
+    .circle:before {
+      background-color: $primary;
+    }
+    &[vx-dark] .circle:before {
+      background-color: black;
+    }
+    &[vx-light] .circle:before {
+      background-color: white;
+    }
+    &[vx-accent] .circle:before {
+      background-color: $accent;
+    }
+  }
+
+}

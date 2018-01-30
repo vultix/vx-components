@@ -7,10 +7,11 @@ import {VxTabsModule} from './tabs';
 import {VxDialogModule} from './dialog';
 import {VxRadioModule} from './radio';
 import {VxToastModule} from './toast';
-import {VxStepperModule} from './stepper/stepper.module';
+import {VxStepperModule} from './stepper';
+import {VxSpinnerModule} from './spinner';
 
 const MODULES = [VxCheckboxModule, VxInputModule, VxDropdownModule, VxAutocompleteModule,
-  VxTabsModule, VxDialogModule, VxRadioModule, VxToastModule, VxStepperModule];
+  VxTabsModule, VxDialogModule, VxRadioModule, VxToastModule, VxStepperModule, VxSpinnerModule];
 
 @NgModule({
   imports: MODULES,
