@@ -12,5 +12,4 @@ import {VxSpinnerComponent} from './spinner.component';
   exports: [VxSpinnerComponent]
 })
 export class VxSpinnerModule {
-  @Input() ticks = 5;
 }
