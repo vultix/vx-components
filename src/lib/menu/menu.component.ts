@@ -1,12 +1,12 @@
 import {
   AfterContentInit,
-  AfterViewChecked,
+  AfterViewChecked, AfterViewInit,
   Component,
   ContentChildren,
   ElementRef,
   EventEmitter,
   HostListener,
-  Input,
+  Input, NgZone,
   OnDestroy,
   Output,
   QueryList,
@@ -20,13 +20,18 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/operator/startWith';
+import {OverlayFactory} from '../shared/overlay-factory';
 
 @Component({
-  selector: 'vx-dropdown',
-  templateUrl: './dropdown.component.html',
-  styleUrls: ['./dropdown.component.scss']
+  selector: 'vx-menu',
+  templateUrl: './menu.component.html',
+  styleUrls: ['./menu.component.scss'],
+  host: {
+    '[class.visible]': 'visible && _positioned',
+    '[attr.tabindex]': 'visible ? 0 : -1'
+  }
 })
-export class VxDropdownComponent<T = string> implements AfterContentInit, OnDestroy, AfterViewChecked {
+export class VxMenuComponent<T = string> implements AfterContentInit, OnDestroy, AfterViewChecked, AfterViewInit {
   /** The dropdown's items */
   @ContentChildren(VxItemComponent, {descendants: true}) items: QueryList<ItemWithSubscription<T>>;
 
@@ -49,6 +54,9 @@ export class VxDropdownComponent<T = string> implements AfterContentInit, OnDest
         this._positioned = false;
         this.enterDown = false;
         setTimeout(() => this._onOpen());
+        this._overlay.showOverlay();
+      } else {
+        this._overlay.hideOverlay();
       }
     }
 
@@ -58,7 +66,7 @@ export class VxDropdownComponent<T = string> implements AfterContentInit, OnDest
   @Input() defaultText: string;
 
   /** If true the dropdown will automatically close when an item is chosen, or when clicked off of the dropdown  */
-  @Input() autoClose = true;
+  @Input() autoClose: boolean | DropdownAutoclose = true;
 
   /** Event thrown when the dropdown's visibility changes. The value is the visibility (true or false) */
   @Output() visibleChange = new EventEmitter<boolean>();
@@ -107,30 +115,34 @@ export class VxDropdownComponent<T = string> implements AfterContentInit, OnDest
   _visible = false;
   _resetFocusedOnOpen = true;
 
-  @ViewChild('dropdown') _dropdown: ElementRef;
-
   unFilteredItems: any[] = [];
 
   private _focusedIdx = 0;
-  private _container = createContainer();
+  private _overlay = OverlayFactory.createOverlay();
   private ngUnsubscribe: Subject<void> = new Subject<void>();
   private enterDown: boolean;
   private focusedItem?: VxItemComponent<T>;
 
-  constructor(private _el: ElementRef) {
-    this._container.appendChild(_el.nativeElement);
+  constructor(private _el: ElementRef, private ngZone: NgZone) {
+    this._overlay.overlayClick.subscribe(() => {
+      this._autoClose('overlay');
+    });
 
-    // Until angular 2 has away to do usecapture, we have to capture the event like this.
-    Observable.fromEvent(window, 'scroll', true).takeUntil(this.ngUnsubscribe).subscribe(() => {
-      this.repositionDropdown();
-    })
+    this.ngZone.runOutsideAngular(() => {
+      Observable.fromEvent(window, 'scroll', true).takeUntil(this.ngUnsubscribe).subscribe(() => {
+        this.repositionDropdown();
+      });
+    });
   }
 
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
-    if (this._container)
-      this._container.remove();
+    this._overlay.destroy();
+  }
+
+  ngAfterViewInit(): void {
+    this._overlay.container.appendChild(this._el.nativeElement);
   }
 
   ngAfterContentInit(): void {
@@ -161,7 +173,7 @@ export class VxDropdownComponent<T = string> implements AfterContentInit, OnDest
 
         item.subscriptions[0] = item.onSelect.takeUntil(this.ngUnsubscribe).subscribe(() => {
           this.itemClick.emit(item.value);
-          this._autoClose();
+          this._autoClose('itemSelect');
         });
 
         item.subscriptions[1] = item.filtered.subscribe(filtered => {
@@ -184,10 +196,14 @@ export class VxDropdownComponent<T = string> implements AfterContentInit, OnDest
     }
   }
 
-  @HostListener('window:keydown.escape')
-  @HostListener('window:keydown.tab')
-  _autoClose(): void {
-    if (this.autoClose) {
+  @HostListener('window:keydown.escape', ['"escape"'])
+  @HostListener('window:keydown.tab', ['"tab"'])
+  _autoClose(type: keyof DropdownAutoclose): void {
+    if (this.autoClose === false) {
+      return;
+    } else if (this.autoClose === true) {
+      this.visible = false;
+    } else if (this.autoClose[type] !== false) {
       this.visible = false;
     }
   }
@@ -203,17 +219,16 @@ export class VxDropdownComponent<T = string> implements AfterContentInit, OnDest
 
   @HostListener('window:keyup.enter', ['$event'])
   _onEnterUp(event: Event): void {
-    if (this.visible && this.focusedItem) {
+    if (this.visible && this.focusedItem && this.enterDown) {
       this.focusedItem.active = false;
       this.focusedItem.onSelect.emit();
       event.preventDefault();
+      this._autoClose('itemSelect');
     }
-    if (this.enterDown)
-      this._autoClose();
   }
 
   hasFocus(): boolean {
-    return document.activeElement === this._dropdown.nativeElement;
+    return document.activeElement === this._el.nativeElement;
   }
 
   private _onOpen(): void {
@@ -227,7 +242,7 @@ export class VxDropdownComponent<T = string> implements AfterContentInit, OnDest
       throw new Error('Dropdown opened without an attached HTMLelement.');
     }
 
-    this._container.style.zIndex = `${getHighestZIdx()}`;
+    this._overlay.container.style.zIndex = `${getHighestZIdx()}`;
 
     this.repositionDropdown();
     this._positioned = true;
@@ -237,14 +252,14 @@ export class VxDropdownComponent<T = string> implements AfterContentInit, OnDest
   repositionDropdown(): void {
     if (this.element && this.visible) {
       const elementPosition = this.element.getBoundingClientRect();
-      const dropdown: HTMLDivElement = this._dropdown.nativeElement;
+      const dropdown: HTMLDivElement = this._el.nativeElement;
 
       let top = elementPosition.bottom + this.offsetTop;
       let left = elementPosition.left + this.offsetLeft;
-      if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream) {
-        top += window.scrollY;
-        left += window.scrollX;
-      }
+      // if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream) {
+      //   top += window.scrollY;
+      //   left += window.scrollX;
+      // }
       if (this.matchWidth)
         dropdown.style.width = `${elementPosition.width}px`;
 
@@ -267,7 +282,7 @@ export class VxDropdownComponent<T = string> implements AfterContentInit, OnDest
   }
 
   private focusItem(item: VxItemComponent<T>): void {
-    const dropdown = this._dropdown.nativeElement;
+    const dropdown = this._el.nativeElement;
 
     const top = item._elementRef.nativeElement.offsetTop;
     dropdown.scrollTop = top - dropdown.offsetHeight / 4;
@@ -277,14 +292,31 @@ export class VxDropdownComponent<T = string> implements AfterContentInit, OnDest
   }
 }
 
-function createContainer(): HTMLDivElement {
-  const container = document.createElement('div');
-  container.style.position = 'absolute';
-
-  document.body.appendChild(container);
-  return container;
-}
-
 export interface ItemWithSubscription<T> extends VxItemComponent<T> {
   subscriptions?: Subscription[];
+}
+
+export interface DropdownAutoclose {
+  escape?: boolean;
+  tab?: boolean;
+  itemSelect?: boolean;
+  overlay?: boolean;
+}
+
+
+/*
+  @deprecated, changed to VxMenuComponent.
+ */
+@Component({
+  selector: 'vx-dropdown',
+  templateUrl: './menu.component.html',
+  styleUrls: ['./menu.component.scss']
+})
+export class VxDropdownComponent<T = string> extends VxMenuComponent<T> {
+  constructor(_el: ElementRef, ngZone: NgZone) {
+    super(_el, ngZone);
+
+    console.warn('Use of VxDropdownComponent is deprecated and will soon be removed from vx-components. ' +
+      'Please change all occurrences of VxDropdownComponent to VxMenuComponent and all uses of <vx-dropdown> to <vx-menu>.');
+  }
 }

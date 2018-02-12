@@ -16,6 +16,7 @@ import {RadioDemoComponent} from './radio-demo/radio-demo.component';
 import {ToastDemoComponent} from './toast-demo/toast-demo.component';
 import {StepperDemoComponent} from './stepper-demo/stepper-demo.component';
 import {SpinnerDemoComponent} from './spinner-demo/spinner-demo.component';
+import {MenuDemoComponent} from './menu-demo/menu-demo-component';
 
 const routes: Route[] = [
   {path: '', pathMatch: 'full', redirectTo: 'tabs'},
@@ -28,6 +29,7 @@ const routes: Route[] = [
   {path: 'toast', component: ToastDemoComponent},
   {path: 'stepper', component: StepperDemoComponent},
   {path: 'spinner', component: SpinnerDemoComponent},
+  {path: 'menu', component: MenuDemoComponent},
   {path: '**', redirectTo: 'tabs'}
 ];
 
@@ -44,7 +46,8 @@ const routes: Route[] = [
     RadioDemoComponent,
     ToastDemoComponent,
     StepperDemoComponent,
-    SpinnerDemoComponent
+    SpinnerDemoComponent,
+    MenuDemoComponent
   ],
   imports: [
     BrowserModule,

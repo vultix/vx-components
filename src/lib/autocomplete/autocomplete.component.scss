@@ -5,7 +5,7 @@ $triangleHeight: 7px;
   vertical-align: middle;
 }
 
-vx-dropdown /deep/ .dropdown {
+vx-dropdown, vx-menu {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   border-top: 0;
@@ -61,7 +61,7 @@ vx-dropdown /deep/ .dropdown {
   outline: none;
 }
 
-vx-input-wrapper, vx-dropdown {
+vx-input-wrapper, vx-dropdown, vx-menu {
   width: 100%;
 }
 

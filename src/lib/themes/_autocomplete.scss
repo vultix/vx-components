@@ -21,11 +21,11 @@
 
   }
 
-  .autocompleteDropdown .dropdown {
+  .autocompleteMenu {
     box-shadow: 0 3px 3px 0 transparentize($foreground, .75);
     border: 1px solid $primary;
   }
-  .autocompleteDropdown.invalid .dropdown {
+  .autocompleteMenu.invalid {
     border-color: $error;
   }
 }

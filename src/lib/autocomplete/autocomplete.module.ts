@@ -2,16 +2,15 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {VxAutocompleteComponent} from './autocomplete.component';
-import {VxInputModule} from '../input/input.module';
-import {VxDropdownModule} from '../dropdown/dropdown.module';
-import {VxItemComponent} from '../dropdown/item.component';
+import {VxInputModule} from '../input';
+import {VxMenuModule, VxItemComponent} from '../menu';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     VxInputModule,
-    VxDropdownModule
+    VxMenuModule
   ],
   declarations: [VxAutocompleteComponent],
   exports: [VxAutocompleteComponent, VxItemComponent]

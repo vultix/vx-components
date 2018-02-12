@@ -11,7 +11,7 @@ import {
   ViewChildren
 } from '@angular/core';
 import {ControlValueAccessor, FormGroupDirective, NgControl, NgForm} from '@angular/forms';
-import {VxDropdownComponent, VxItemComponent} from '../dropdown';
+import {VxMenuComponent, VxItemComponent} from '../menu';
 import {VxInputDirective} from '../input';
 import {coerceBooleanProperty} from '../shared/util';
 import {Subject} from 'rxjs/Subject';
@@ -100,7 +100,7 @@ export class VxAutocompleteComponent<T = string> implements ControlValueAccessor
   /** @--internal */
   @ViewChild(VxInputDirective) input: VxInputDirective;
   /** @--internal */
-  @ViewChild('dropdown') dropdown: VxDropdownComponent<T>;
+  @ViewChild('dropdown') dropdown: VxMenuComponent<T>;
   /** @--internal */
   @ViewChildren('button') buttons: QueryList<ElementRef>;
 

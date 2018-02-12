@@ -2,7 +2,7 @@ export * from './vx-components.module';
 
 export * from './autocomplete';
 export * from './checkbox';
-export * from './dropdown';
+export * from './menu';
 export * from './input';
 export * from './tabs';
 export * from './dialog';

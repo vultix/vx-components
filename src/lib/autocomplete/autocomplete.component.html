@@ -1,6 +1,6 @@
 <vx-input-wrapper [class.invalid]="_isInvalid()" (keydown.ArrowDown)="_showDropdown()"
                   (focusin)="_handleInputFocusChange(true)"
-                  (focusout)="_handleInputFocusChange(false)" [vxAttachDropdown]="dropdown">
+                  (focusout)="_handleInputFocusChange(false)" [vxAttachMenu]="dropdown">
   <button #button vx-button *ngFor="let item of selectedItems" class="chip"
           (click)="_removeItem(item)" (keydown.backspace)="_removeItem(item)">
     {{ item.searchTxt }} <span class="delete">X</span>
@@ -19,8 +19,9 @@
 
 </vx-input-wrapper>
 
-<vx-dropdown #dropdown [(visible)]="_dropdownVisible" (itemClick)="_onSelectItem($event)" [class.invalid]="_isInvalid()"
-             (keydown.escape)="_closeDropdown()" [offsetTop]="-2" [matchWidth]="true" class="autocompleteDropdown" [defaultText]="defaultText"
-             [autoClose]="false">
-  <ng-content select="vx-item" vx-dropdown-items></ng-content>
-</vx-dropdown>
+<vx-menu #dropdown [(visible)]="_dropdownVisible" (itemClick)="_onSelectItem($event)" [class.invalid]="_isInvalid()"
+         (keydown.escape)="_closeDropdown()" [offsetTop]="-2" [matchWidth]="true" class="autocompleteMenu"
+         [defaultText]="defaultText"
+         [autoClose]="false">
+  <ng-content select="vx-item" vx-menu-items></ng-content>
+</vx-menu>

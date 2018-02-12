@@ -10,3 +10,25 @@
   position: absolute;
   width: 1px;
 }
+
+.vx-overlay-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.vx-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 999;
+  -webkit-tap-highlight-color: transparent;
+}

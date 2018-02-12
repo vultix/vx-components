@@ -1,0 +1,8 @@
+<ng-content select="vx-item">
+</ng-content>
+<ng-content select="[vx-menu-items]">
+</ng-content>
+
+<span *ngIf="defaultText && (!unFilteredItems.length)" class="default">
+  {{defaultText}}
+</span>

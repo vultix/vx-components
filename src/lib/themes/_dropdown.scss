@@ -8,14 +8,12 @@
   $border: mix($foreground, $background, 15%);
   $focused: mix($foreground, $background, 3%);
 
-  vx-dropdown {
+  vx-dropdown, vx-menu {
+    color: $foreground;
+    border: 1px solid $border;
+    box-shadow: 0 2px 10px 0 transparentize($foreground, .75);
+    background: $background;
 
-    .dropdown {
-      color: $foreground;
-      border: 1px solid $border;
-      box-shadow: 0 2px 10px 0 transparentize($foreground, .75);
-      background: $background;
-    }
     vx-item {
       background: $background;
 
