@@ -1,6 +1,8 @@
 <div class="wrapper" [class.checked]="checked">
   <div class="bar"></div>
-  <div class="handle"></div>
+  <div class="handle" [class.transition]="transitionHandle" [style.left.px]="handleLeft"
+       (touchmove)="handleTouchMove($event)" (touchstart)="handleTouchStart($event)"
+       (mousedown)="handleTouchStart($event)" (mousemove)="handleTouchMove($event)"></div>
 </div>
 
 <ng-content></ng-content>
