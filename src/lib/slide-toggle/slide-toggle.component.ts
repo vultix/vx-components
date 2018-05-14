@@ -1,0 +1,89 @@
+import {Component, EventEmitter, forwardRef, HostBinding, HostListener, Input, Output} from '@angular/core';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {coerceBooleanProperty} from '../shared/util';
+
+@Component({
+  selector: 'vx-slide-toggle',
+  templateUrl: './slide-toggle.component.html',
+  styleUrls: ['./slide-toggle.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => VxSlideToggleComponent),
+      multi: true
+    }
+  ]
+})
+export class VxSlideToggleComponent implements ControlValueAccessor {
+  private _tabIndex = 0;
+  private _checked = false;
+
+  /** The checkbox's tabIndex */
+  @HostBinding('attr.tabIndex')
+  @Input()
+  get tabIndex(): number {
+    return this.disabled ? -1 : this._tabIndex;
+  }
+
+  set tabIndex(tabIndex: number) {
+    this._tabIndex = tabIndex;
+  };
+
+  /** Whether the checkbox is disabled. */
+  @HostBinding('class.disabled')
+  @Input() disabled = false;
+
+  /** Name value will be applied to the input element if present */
+  @Input() name: string;
+
+  /** Whether the checkbox is checked */
+  @HostBinding('class.checked')
+  @Input()
+  get checked(): boolean {
+    return this._checked;
+  };
+
+  set checked(checked: boolean) {
+    checked = coerceBooleanProperty(checked);
+    this._onChangeFn(checked);
+    this._onTouchedFn();
+    this._checked = checked;
+  };
+
+  /** Emitted when the checkbox's `checked` value changes. */
+  @Output() checkedChange = new EventEmitter<boolean>();
+
+  /** Toggles the `checked` state of the checkbox. */
+  @HostListener('click')
+  @HostListener('keydown.space')
+  @HostListener('keydown.enter')
+  public toggle(): boolean {
+    this.checked = !this.checked;
+    this.checkedChange.emit(this.checked);
+    this._onChangeFn(this.checked);
+    this._onTouchedFn();
+
+    return false;
+  }
+
+  /** NgModel support */
+  private _onChangeFn = (v: boolean) => v;
+  private _onTouchedFn = () => {
+  };
+
+  writeValue(checked: boolean): void {
+    if (checked === true || checked === false && this._checked !== checked) {
+      this._checked = checked;
+      this.checkedChange.emit(checked);
+    }
+  }
+
+  registerOnChange(fn: any): void {
+    this._onChangeFn = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this._onTouchedFn = fn;
+  }
+}
+

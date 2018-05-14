@@ -1,0 +1,31 @@
+@import "defaults";
+// Use this mixin to apply colored themes to the checkbox
+@mixin vx-slide-toggle-theme($colors) {
+  $colors: prepareColors($colors);
+  $primary: map_get($colors, primary);
+  $accent: map_get($colors, accent);
+  $background: map_get($colors, background);
+  $foreground: map_get($colors, foreground);
+
+  vx-slide-toggle {
+    .bar {
+      background: transparentize($foreground, 0.75);
+    }
+    .handle {
+      background: $background;
+      box-shadow: 0 2px 1px -1px transparentize($foreground, 0.8),
+      0 1px 1px 0 transparentize($foreground, 0.86),
+      0 1px 3px 0 transparentize($background, 0.88);
+    }
+
+    .checked {
+      .bar {
+        background: transparentize($primary, 0.75);
+      }
+      .handle {
+        background: $primary;
+      }
+    }
+  }
+
+}

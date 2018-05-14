@@ -9,9 +9,12 @@ import {VxRadioModule} from './radio';
 import {VxToastModule} from './toast';
 import {VxStepperModule} from './stepper';
 import {VxSpinnerModule} from './spinner';
+import {VxSlideToggleModule} from './slide-toggle';
 
-const MODULES = [VxCheckboxModule, VxInputModule, VxMenuModule, VxAutocompleteModule,
-  VxTabsModule, VxDialogModule, VxRadioModule, VxToastModule, VxStepperModule, VxSpinnerModule];
+const MODULES = [VxCheckboxModule, VxInputModule, VxMenuModule,
+  VxAutocompleteModule, VxTabsModule, VxDialogModule,
+  VxRadioModule, VxToastModule, VxStepperModule,
+  VxSpinnerModule, VxSlideToggleModule];
 
 @NgModule({
   imports: MODULES,

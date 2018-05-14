@@ -17,6 +17,7 @@ import {ToastDemoComponent} from './toast-demo/toast-demo.component';
 import {StepperDemoComponent} from './stepper-demo/stepper-demo.component';
 import {SpinnerDemoComponent} from './spinner-demo/spinner-demo.component';
 import {MenuDemoComponent} from './menu-demo/menu-demo-component';
+import {SlideToggleDemoComponent} from './slide-toggle-demo/slide-toggle-demo.component';
 
 const routes: Route[] = [
   {path: '', pathMatch: 'full', redirectTo: 'tabs'},
@@ -30,6 +31,7 @@ const routes: Route[] = [
   {path: 'stepper', component: StepperDemoComponent},
   {path: 'spinner', component: SpinnerDemoComponent},
   {path: 'menu', component: MenuDemoComponent},
+  {path: 'slide-toggle', component: SlideToggleDemoComponent},
   {path: '**', redirectTo: 'tabs'}
 ];
 
@@ -47,7 +49,8 @@ const routes: Route[] = [
     ToastDemoComponent,
     StepperDemoComponent,
     SpinnerDemoComponent,
-    MenuDemoComponent
+    MenuDemoComponent,
+    SlideToggleDemoComponent
   ],
   imports: [
     BrowserModule,
