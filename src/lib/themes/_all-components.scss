@@ -10,7 +10,8 @@
 @import 'defaults';
 @import 'stepper';
 @import 'spinner';
-@import "slide-toggle";
+@import 'slide-toggle';
+@import 'slider';
 
 @mixin vx-load-themes($col) {
   $colors: prepareColors($col);
@@ -26,4 +27,5 @@
   @include vx-stepper-theme($colors);
   @include vx-spinner-theme($colors);
   @include vx-slide-toggle-theme($colors);
+  @include vx-slider-theme($colors);
 }

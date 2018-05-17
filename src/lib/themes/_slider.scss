@@ -1,0 +1,25 @@
+@import "defaults";
+// Use this mixin to apply colored themes to the checkbox
+@mixin vx-slider-theme($colors) {
+  $colors: prepareColors($colors);
+  $primary: map_get($colors, primary);
+  $accent: map_get($colors, accent);
+  $background: map_get($colors, background);
+  $foreground: map_get($colors, foreground);
+  $border: mix($foreground, $background, 40%);
+
+  vx-slider {
+    .bar {
+      background: $border;
+
+      &.fill {
+        background: $mainColor;
+      }
+    }
+
+    .handle {
+      background: $mainColor;
+    }
+  }
+
+}

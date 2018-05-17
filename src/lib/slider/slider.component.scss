@@ -1,0 +1,27 @@
+$handleHeight: 16px;
+$barHeight: 3px;
+:host {
+  position: relative;
+  display: inline-block;
+
+  min-width: 150px;
+  height: $handleHeight;
+  margin: 0 $handleHeight / 2 + 10;
+}
+
+.handle {
+  width: $handleHeight;
+  height: $handleHeight;
+  border-radius: 10px;
+  top: 0;
+  transform: translateX(-50%);
+  position: absolute;
+}
+
+.bar {
+  position: absolute;
+  width: 100%;
+  height: $barHeight;
+  top: ($handleHeight - $barHeight) / 2;
+  left: 0;
+}

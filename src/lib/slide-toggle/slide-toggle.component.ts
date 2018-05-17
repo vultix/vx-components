@@ -1,6 +1,6 @@
 import {Component, ElementRef, EventEmitter, forwardRef, HostBinding, HostListener, Input, Output, ViewChild} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {coerceBooleanProperty} from '../shared/util';
+import {coerceBooleanProperty, getTouchPos} from '../shared/util';
 
 const MAX_HANDLE_LEFT = 13;
 const MIN_HANDLE_LEFT = -3;
@@ -62,10 +62,11 @@ export class VxSlideToggleComponent implements ControlValueAccessor {
 
   set checked(checked: boolean) {
     checked = coerceBooleanProperty(checked);
-    this._onChangeFn(checked);
-    this._onTouchedFn();
-    this._checked = checked;
-    this.checkedChange.emit(checked);
+    if (checked !== this._checked) {
+      this._onChangeFn(checked);
+      this._onTouchedFn();
+      this._checked = checked;
+    }
     this.updateHandleLeft();
   };
 
@@ -76,10 +77,12 @@ export class VxSlideToggleComponent implements ControlValueAccessor {
   public toggle(): boolean {
     if (this.didMove) {
       this.didMove = false;
-      return;
+
+      return false;
     }
 
     this.checked = !this.checked;
+    this.checkedChange.emit(this.checked);
 
     return false;
   }
@@ -100,14 +103,14 @@ export class VxSlideToggleComponent implements ControlValueAccessor {
   }
 
   handleTouchStart(event: MouseEvent | TouchEvent): void {
-    this.touchX = getTouchPos(event);
+    this.touchX = getTouchPos(event).x;
     this.touchDown = true;
     this.didMove = false;
   }
 
   handleTouchMove(event: MouseEvent | TouchEvent): void {
     if (this.touchDown) {
-      const newTouchX = getTouchPos(event);
+      const newTouchX = getTouchPos(event).x;
 
       this.handleLeft += newTouchX - this.touchX;
 
@@ -137,8 +140,10 @@ export class VxSlideToggleComponent implements ControlValueAccessor {
 
     if (dragPos >= (dragArea / 2) && !this.checked) {
       this.checked = true;
+      this.checkedChange.emit(this.checked);
     } else if (dragPos < (dragArea / 2) && this.checked) {
       this.checked = false;
+      this.checkedChange.emit(this.checked);
     } else {
       this.updateHandleLeft();
     }
@@ -151,10 +156,3 @@ export class VxSlideToggleComponent implements ControlValueAccessor {
 }
 
 
-function getTouchPos(event: MouseEvent | TouchEvent): number {
-  if (event instanceof TouchEvent) {
-    return event.touches[0].clientX;
-  } else {
-    return event.clientX;
-  }
-}
