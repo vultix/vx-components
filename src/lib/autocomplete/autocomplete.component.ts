@@ -14,7 +14,7 @@ import {ControlValueAccessor, FormGroupDirective, NgControl, NgForm} from '@angu
 import {VxMenuComponent, VxItemComponent} from '../menu';
 import {VxInputDirective} from '../input';
 import {coerceBooleanProperty} from '../shared/util';
-import {Subject} from 'rxjs/Subject';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'vx-autocomplete, vx-select',

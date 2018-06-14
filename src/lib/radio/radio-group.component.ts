@@ -3,9 +3,8 @@ import {
   HostListener
 } from '@angular/core';
 import {VxRadioButtonComponent} from './radio-button.component';
-import {Subscription} from 'rxjs/Subscription';
-import 'rxjs/add/operator/startWith';
-import {Subject} from 'rxjs/Subject';
+import {Subscription, Subject} from 'rxjs';
+import {startWith} from 'rxjs/operators';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 @Component({
@@ -44,7 +43,7 @@ export class VxRadioGroupComponent implements AfterContentInit, OnDestroy, Contr
 
   /** @--internal */
   ngAfterContentInit(): void {
-    this.buttons.changes.startWith(null).subscribe(() => {
+    this.buttons.changes.pipe(startWith(null)).subscribe(() => {
       this.updateButtonSubscriptions();
       this.updateButtonSelections();
     })

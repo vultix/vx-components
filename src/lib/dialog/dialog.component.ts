@@ -10,7 +10,7 @@ import {
   ViewChild,
   ViewContainerRef
 } from '@angular/core';
-import {Subject} from 'rxjs/Subject';
+import {Subject} from 'rxjs';
 import {DialogOptions} from './dialog.types';
 import {FocusTrap} from './focus-trap';
 

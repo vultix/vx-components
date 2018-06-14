@@ -1,5 +1,6 @@
+import {startWith} from 'rxjs/operators';
 import {QueryList} from '@angular/core';
-import 'rxjs/add/operator/startWith';
+
 
 export abstract class TabbableController<T extends Tabbable> {
   protected selectedIndex = 0;
@@ -23,7 +24,7 @@ export abstract class TabbableController<T extends Tabbable> {
 
   protected setTabbables(tabbables: QueryList<T>): void {
     this.tabbables = tabbables;
-    tabbables.changes.startWith(null).subscribe(() => {
+    tabbables.changes.pipe(startWith(null)).subscribe(() => {
       setTimeout(() => {
         this.ensureSelectedTab();
         this.setTabsLeftRight();

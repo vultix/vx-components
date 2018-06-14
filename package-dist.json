@@ -1,6 +1,6 @@
 {
   "name": "vx-components",
-  "version": "1.0.1-beta.35",
+  "version": "1.0.2-beta.2",
   "description": "Vx Components",
   "repository": {
     "type": "git",
@@ -16,8 +16,8 @@
   },
   "homepage": "https://vultix.github.io/VxComponents/",
   "peerDependencies": {
-    "@angular/core": "^5.0.0",
-    "@angular/common": "^5.0.0"
+    "@angular/core": "^6.0.0",
+    "@angular/common": "^6.0.0"
   },
   "dependencies": {
     "tslib": "^1.7.1"

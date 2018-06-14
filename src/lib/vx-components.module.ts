@@ -11,11 +11,14 @@ import {VxStepperModule} from './stepper';
 import {VxSpinnerModule} from './spinner';
 import {VxSlideToggleModule} from './slide-toggle';
 import {VxSliderModule} from './slider';
+import {VxButtonModule} from './button';
+import {VxButtonGroupModule} from './button-group';
 
 const MODULES = [VxCheckboxModule, VxInputModule, VxMenuModule,
   VxAutocompleteModule, VxTabsModule, VxDialogModule,
   VxRadioModule, VxToastModule, VxStepperModule,
-  VxSpinnerModule, VxSlideToggleModule, VxSliderModule];
+  VxSpinnerModule, VxSlideToggleModule, VxSliderModule,
+  VxButtonModule, VxButtonGroupModule];
 
 @NgModule({
   imports: MODULES,

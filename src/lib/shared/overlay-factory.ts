@@ -1,8 +1,5 @@
+import {fromEvent, Subject, Observable, Subscription} from 'rxjs';
 import {getHighestZIdx} from './util';
-import {Subject} from 'rxjs/Subject';
-import {Observable} from 'rxjs/Observable';
-import {SubscriptionLoggable} from 'rxjs/testing/SubscriptionLoggable';
-import {Subscription} from 'rxjs/Subscription';
 
 export class OverlayFactory {
   static createOverlay(overlayClasses: string[] = [], containerClasses: string[] = []): OverlayRef {
@@ -50,7 +47,7 @@ export class OverlayRef {
       this.overlaySubscription.unsubscribe();
     }
 
-    this.overlaySubscription = Observable.fromEvent(this.overlay, 'click').subscribe((event: Event) => {
+    this.overlaySubscription = fromEvent(this.overlay, 'click').subscribe((event: Event) => {
       this.overlayClickSubject.next(event);
     });
     this.hideOverlay();

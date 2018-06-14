@@ -1,6 +1,6 @@
 import {Component, ElementRef, EventEmitter, Input, Output} from '@angular/core';
 import {coerceBooleanProperty} from '../shared/util';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {BehaviorSubject} from 'rxjs';
 
 @Component({
   selector: 'vx-item',

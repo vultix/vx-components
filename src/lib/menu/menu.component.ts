@@ -1,3 +1,5 @@
+import {fromEvent, Subscription, Subject} from 'rxjs';
+import {startWith, takeUntil} from 'rxjs/operators';
 import {
   AfterContentInit,
   AfterViewChecked, AfterViewInit,
@@ -9,17 +11,10 @@ import {
   Input, NgZone,
   OnDestroy,
   Output,
-  QueryList,
-  ViewChild
+  QueryList
 } from '@angular/core';
 import {coerceBooleanProperty, getHighestZIdx, removeFromArray} from '../shared/util';
 import {VxItemComponent} from './item.component';
-import {Subscription} from 'rxjs/Subscription';
-import {Subject} from 'rxjs/Subject';
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/observable/fromEvent';
-import 'rxjs/add/operator/takeUntil';
-import 'rxjs/add/operator/startWith';
 import {OverlayFactory} from '../shared/overlay-factory';
 
 @Component({
@@ -129,7 +124,7 @@ export class VxMenuComponent<T = string> implements AfterContentInit, OnDestroy,
     });
 
     this.ngZone.runOutsideAngular(() => {
-      Observable.fromEvent(window, 'scroll', true).takeUntil(this.ngUnsubscribe).subscribe(() => {
+      fromEvent(window, 'scroll', {capture: true}).pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => {
         this.repositionDropdown();
       });
     });
@@ -148,13 +143,13 @@ export class VxMenuComponent<T = string> implements AfterContentInit, OnDestroy,
   ngAfterContentInit(): void {
     // Wrapped in a a timeout so that the autocomplete has time to set this.items.
     setTimeout(() => {
-        this.items.changes.startWith(null).subscribe(() => {
-            this.updateItemSubscriptions();
-            // TODO: why is this timeout necessary?
-            setTimeout(() => {
-              this.focusedIdx = 0;
-            });
+      this.items.changes.pipe(startWith(null)).subscribe(() => {
+        this.updateItemSubscriptions();
+        // TODO: why is this timeout necessary?
+        setTimeout(() => {
+          this.focusedIdx = 0;
         });
+      });
     });
   }
 
@@ -171,7 +166,7 @@ export class VxMenuComponent<T = string> implements AfterContentInit, OnDestroy,
       if (!item.subscriptions) {
         item.subscriptions = [];
 
-        item.subscriptions[0] = item.onSelect.takeUntil(this.ngUnsubscribe).subscribe(() => {
+        item.subscriptions[0] = item.onSelect.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => {
           this.itemClick.emit(item.value);
           this._autoClose('itemSelect');
         });

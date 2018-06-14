@@ -12,15 +12,9 @@
   $activeColor: mix($foreground, $primary, 25%);
 
   // Basic button styles
-  [vx-button] {
+  .vx-button {
     background: $primaryGradient;
-    border: 0;
     color: $background;
-    padding: 10px;
-    border-radius: 3px;
-    outline: none;
-    font-size: inherit;
-
 
     &:focus {
       box-shadow: 0 0 2px 1px transparentize($primary, .5);
@@ -34,15 +28,8 @@
       background: $activeColor;
     }
 
-    &:disabled {
-      cursor: auto;
-      opacity: .65;
-      pointer-events: none;
-    }
-
-    i {
-      vertical-align: top;
-      margin-right: 5px;
+    &.vx-button-group-selected-button {
+      background: $activeColor;
     }
   }
 
@@ -53,7 +40,7 @@
   $accentGradient: linear-gradient(to bottom, $accent, $accentHoverColor);
   $accentActiveColor: mix($foreground, $accent, 25%);
 
-  [vx-button][vx-accent] {
+  .vx-button[vx-accent] {
     background: $accentGradient;
     &:focus {
       box-shadow: 0 0 2px 1px transparentize($accent, .5);
@@ -66,9 +53,12 @@
     &:active {
       background: $accentActiveColor;
     }
+    &.vx-button-group-selected-button {
+      background: $accentActiveColor;
+    }
   }
 
-  [vx-button][vx-flat] {
+  .vx-button[vx-flat] {
     background: $primary;
     &:hover {
       background: $hoverColor;
@@ -77,15 +67,23 @@
     &:active {
       background: $activeColor;
     }
+
+    &.vx-button-group-selected-button {
+      background: $activeColor;
+    }
   }
 
-  [vx-button][vx-flat][vx-accent] {
+  .vx-button[vx-flat][vx-accent] {
     background: $accent;
     &:hover {
       background: $accentHoverColor;
     }
 
     &:active {
+      background: $accentActiveColor;
+    }
+
+    &.vx-button-group-selected-button {
       background: $accentActiveColor;
     }
   }
@@ -95,7 +93,7 @@
   $darkGradient: linear-gradient(to bottom, $dark, $darkHoverColor);
   $darkActiveColor: mix($foreground, $dark, 25%);
 
-  [vx-button][vx-dark] {
+  .vx-button[vx-dark] {
     background: $darkGradient;
 
     &:focus {
@@ -109,9 +107,13 @@
     &:active {
       background: $darkActiveColor;
     }
+
+    &.vx-button-group-selected-button {
+      background: $darkActiveColor;
+    }
   }
 
-  [vx-button][vx-dark][vx-flat] {
+  .vx-button[vx-dark][vx-flat] {
     background: $dark;
 
     &:hover {
@@ -119,6 +121,10 @@
     }
 
     &:active {
+      background: $darkActiveColor;
+    }
+
+    &.vx-button-group-selected-button {
       background: $darkActiveColor;
     }
   }

@@ -3,10 +3,11 @@ import {VxDialogComponent} from './dialog.component';
 import {VxDialog} from './dialog.service';
 import {CommonModule} from '@angular/common';
 import {VxDialogActionsDirective, VxDialogContentDirective, VxDialogTitleDirective} from './dialog.directives';
+import {VxButtonModule} from '../button';
 
 const directives = [VxDialogActionsDirective, VxDialogContentDirective, VxDialogTitleDirective];
 @NgModule({
-  imports: [CommonModule],
+  imports: [CommonModule, VxButtonModule],
   declarations: [VxDialogComponent, ...directives],
   exports: directives,
   entryComponents: [VxDialogComponent],

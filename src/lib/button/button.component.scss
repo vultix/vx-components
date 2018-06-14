@@ -1,0 +1,37 @@
+:host {
+  display: inline-block;
+
+  border: 0;
+  padding: 10px;
+  border-radius: 3px;
+  outline: none;
+  font-size: inherit;
+  text-align: center;
+  -webkit-tap-highlight-color: transparent;
+
+  &:disabled {
+    cursor: auto;
+    opacity: .65;
+    pointer-events: none;
+  }
+
+  i {
+    vertical-align: top;
+    margin-right: 5px;
+  }
+
+  &.vx-button-group-button {
+    border-radius: 0;
+    flex: 1;
+
+    &:first-child {
+      border-top-left-radius: 3px;
+      border-bottom-left-radius: 3px;
+    }
+
+    &:last-child {
+      border-top-right-radius: 3px;
+      border-bottom-right-radius: 3px;
+    }
+  }
+}

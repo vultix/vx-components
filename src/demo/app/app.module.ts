@@ -19,6 +19,7 @@ import {SpinnerDemoComponent} from './spinner-demo/spinner-demo.component';
 import {MenuDemoComponent} from './menu-demo/menu-demo-component';
 import {SlideToggleDemoComponent} from './slide-toggle-demo/slide-toggle-demo.component';
 import {SliderDemoComponent} from './slider-demo/slider-demo.component';
+import {ButtonGroupDemoComponent} from './button-group-demo/button-group-demo.component';
 
 const routes: Route[] = [
   {path: '', pathMatch: 'full', redirectTo: 'tabs'},
@@ -34,6 +35,7 @@ const routes: Route[] = [
   {path: 'menu', component: MenuDemoComponent},
   {path: 'slide-toggle', component: SlideToggleDemoComponent},
   {path: 'slider', component: SliderDemoComponent},
+  {path: 'button-group', component: ButtonGroupDemoComponent},
   {path: '**', redirectTo: 'tabs'}
 ];
 
@@ -53,7 +55,8 @@ const routes: Route[] = [
     SpinnerDemoComponent,
     MenuDemoComponent,
     SlideToggleDemoComponent,
-    SliderDemoComponent
+    SliderDemoComponent,
+    ButtonGroupDemoComponent
   ],
   imports: [
     BrowserModule,
