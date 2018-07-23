@@ -5,12 +5,14 @@ import {Component, OnInit} from '@angular/core';
   templateUrl: './slider-demo.component.html',
   styleUrls: ['./slider-demo.component.css']
 })
-export class SliderDemoComponent implements OnInit {
-
+export class SliderDemoComponent {
+  min = 0;
+  max = 10;
   constructor() {
-  }
-
-  ngOnInit() {
+    setTimeout(() => {
+      this.min = 10000;
+      this.max = 1000;
+    })
   }
 
 }

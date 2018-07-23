@@ -1,4 +1,14 @@
-import {Component, ElementRef, EventEmitter, forwardRef, HostListener, Input, Output, ViewChild} from '@angular/core';
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  forwardRef,
+  HostListener,
+  Input, OnChanges,
+  Output, SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {getTouchPos, roundTo} from '../shared/util';
 
@@ -12,11 +22,13 @@ import {getTouchPos, roundTo} from '../shared/util';
       useExisting: forwardRef(() => VxSliderComponent),
       multi: true
     }
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class VxSliderComponent implements ControlValueAccessor {
+export class VxSliderComponent implements ControlValueAccessor, OnChanges {
   @Output() valueChange = new EventEmitter<number>();
   @ViewChild('bar') bar: ElementRef;
+
   private touching = false;
   private onChange = (a: number) => {
   };
@@ -29,11 +41,10 @@ export class VxSliderComponent implements ControlValueAccessor {
 
   private _stepSize = 0;
 
+  @Input()
   get stepSize(): number {
     return this._stepSize;
   }
-
-  @Input()
   set stepSize(value: number) {
     this._stepSize = +value || 0;
     this.value = roundTo(this.value, this.stepSize);
@@ -41,39 +52,30 @@ export class VxSliderComponent implements ControlValueAccessor {
   }
 
   private _value = 0;
+
   get value(): number {
     return this._value;
   }
-
   @Input()
   set value(value: number) {
     value = +value || 0;
-
 
     if (value !== this._value) {
       this._value = value;
       this.onTouched();
       this.onChange(value);
     }
-
-    this.boundNumber();
   }
 
 
   private _min = 0;
+  @Input()
   get min(): number {
     return this._min;
   }
-
-  @Input()
   set min(value: number) {
     value = +value || 0;
-    if (value > this.max) {
-      throw new Error('VxSlider min cannot be greater than max.');
-    }
-
     this._min = value;
-    this.boundNumber();
   }
 
 
@@ -85,12 +87,7 @@ export class VxSliderComponent implements ControlValueAccessor {
   @Input()
   set max(value: number) {
     value = +value || 0;
-    if (value < this.min) {
-      throw new Error('VxSlider max cannot be less than min.');
-    }
-
     this._max = value;
-    this.boundNumber();
   }
 
   writeValue(val: number): void {
@@ -106,6 +103,12 @@ export class VxSliderComponent implements ControlValueAccessor {
 
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.max || changes.min || changes.value) {
+      this.boundNumber();
+    }
   }
 
   @HostListener('touchstart', ['$event'])
@@ -138,10 +141,10 @@ export class VxSliderComponent implements ControlValueAccessor {
 
   private boundNumber(): void {
     if (this.value < this.min) {
-      this.value = this.min;
+      this._value = this.min;
       this.valueChange.emit(this.min);
     } else if (this.value > this.max) {
-      this.value = this.max;
+      this._value = this.max;
       this.valueChange.emit(this.max);
     }
   }
