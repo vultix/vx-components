@@ -2,7 +2,7 @@
   <div class="header">
     <ng-container *ngFor="let step of steps; let last = last; let idx = index;">
       <vx-step-header [step]="step" [number]="idx + 1" (click)="selectStep(idx)"
-                      [disabled]="shouldDisable(step)" [vertical]="false"></vx-step-header>
+                      [disabled]="shouldDisable(step)" [vertical]="false" [active]="step.active"></vx-step-header>
       <div class="vx-step-header-line" *ngIf="!last"></div>
     </ng-container>
   </div>
@@ -16,10 +16,10 @@
 <ng-container *ngIf="vertical">
   <div *ngFor="let step of steps; let idx = index; let last = last;" class="vertical-container">
     <vx-step-header [step]="step" [number]="idx + 1" (click)="selectStep(idx)"
-                    [disabled]="shouldDisable(step)" [vertical]="true"></vx-step-header>
+                    [disabled]="shouldDisable(step)" [vertical]="true" [active]="step.active"></vx-step-header>
     <div class="vx-step vertical" [class.last]="last">
-      <div class="vertical-overflow" [class.closed]="!step.active" [vxBindOffsetHeight]="container">
-        <div #container>
+      <div class="vertical-overflow" [class.closed]="!step.active" #overflow>
+        <div>
           <ng-container [ngTemplateOutlet]="step.content"></ng-container>
           <div class="clear"></div>
         </div>

@@ -85,11 +85,8 @@
     padding: 0 20px 20px;
   }
   overflow: hidden;
-  transition: max-height .3s;
-
-  &.closed {
-    max-height: 0 !important;
-  }
+  transition: height .3s;
+  height: 0;
 }
 
 .clear {

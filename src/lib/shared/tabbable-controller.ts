@@ -1,9 +1,21 @@
 import {startWith} from 'rxjs/operators';
-import {QueryList} from '@angular/core';
+import {ChangeDetectorRef, Injectable, QueryList} from '@angular/core';
 
-
+@Injectable()
 export abstract class TabbableController<T extends Tabbable> {
-  protected selectedIndex = 0;
+  protected get selectedIndex(): number {
+    return this._selectedIndex;
+  }
+
+  protected set selectedIndex(value: number) {
+    if (this._selectedIndex !== value) {
+      this.onSelectedIndexChanged(value, this.selectedIndex);
+      this._selectedIndex = value;
+    }
+  }
+
+  private _selectedIndex = 0;
+
   protected enforceSelectedTabbable = true;
   private tabbables: QueryList<T>;
   private previousIndex = 0;
@@ -11,6 +23,10 @@ export abstract class TabbableController<T extends Tabbable> {
   abstract next(): void;
 
   abstract previous(): void;
+
+  constructor(protected cdr: ChangeDetectorRef) {
+    this.onSelectedIndexChanged(0, -1);
+  }
 
   protected setSelectedIndex(idx: number): void {
     this.previousIndex = this.selectedIndex || 0;
@@ -25,10 +41,9 @@ export abstract class TabbableController<T extends Tabbable> {
   protected setTabbables(tabbables: QueryList<T>): void {
     this.tabbables = tabbables;
     tabbables.changes.pipe(startWith(null)).subscribe(() => {
-      setTimeout(() => {
-        this.ensureSelectedTab();
-        this.setTabsLeftRight();
-      });
+      this.ensureSelectedTab();
+      this.setTabsLeftRight();
+      this.cdr.markForCheck();
     });
   }
 
@@ -60,6 +75,10 @@ export abstract class TabbableController<T extends Tabbable> {
         tb.visible = idx === oldTab || idx === tab;
       });
     }
+  }
+
+  protected onSelectedIndexChanged(idx: number, oldIdx: number): void {
+
   }
 }
 

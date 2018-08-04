@@ -32,19 +32,3 @@ export class VxStepLabelDirective {
   constructor(public template: TemplateRef<any>) {
   }
 }
-
-@Directive({
-  selector: '[vxBindOffsetHeight]'
-})
-export class VxBindOffsetHeightDirective implements AfterViewChecked {
-  @Input() vxBindOffsetHeight: HTMLDivElement;
-
-  constructor(private el: ElementRef) {
-  }
-
-  ngAfterViewChecked(): void {
-    if (this.el.nativeElement) {
-      this.el.nativeElement.style.maxHeight = `${this.vxBindOffsetHeight.offsetHeight}px`;
-    }
-  }
-}
