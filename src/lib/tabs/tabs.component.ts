@@ -1,55 +1,64 @@
 import {
-  AfterContentInit,
-  ChangeDetectorRef,
+  AfterContentInit, AfterViewInit,
+  ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
-  ContentChildren,
+  ContentChildren, ElementRef,
   EventEmitter,
-  HostBinding,
   Input,
   Output,
-  QueryList
+  QueryList,
+  TemplateRef,
+  ViewChild
 } from '@angular/core';
-import {TabbableController} from '../shared/tabbable-controller';
+import {VxPagerComponent} from '../pager';
 
 
 @Component({
   selector: 'vx-tab',
   template: `
-    <ng-content></ng-content>`,
-  styleUrls: ['../shared/tabbable.component.scss']
+    <ng-template #template>
+      <ng-content></ng-content>
+    </ng-template>
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class VxTabComponent {
   /** The label for the tab */
   @Input() label = '';
 
-  /** Whether this tab is the active tab */
-  @HostBinding('class.active') active = false;
-
-  @HostBinding('class.left') left = false;
-  @HostBinding('class.right') right = false;
-  @HostBinding('class.visible') visible: boolean;
+  @ViewChild(TemplateRef) _template: TemplateRef<any>
+  @ViewChild('content') content: ElementRef;
 }
 
 
 @Component({
   selector: 'vx-tabs',
   templateUrl: './tabs.component.html',
-  styleUrls: ['./tabs.component.scss']
+  styleUrls: ['./tabs.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class VxTabsComponent extends TabbableController<VxTabComponent> implements AfterContentInit {
+export class VxTabsComponent implements AfterViewInit {
   @Output() selectedTabChange = new EventEmitter<number>();
+
+  @ViewChild(VxPagerComponent) pager: VxPagerComponent;
+
   /** The list of tabs that were passed into the component */
   @ContentChildren(VxTabComponent) _tabs: QueryList<VxTabComponent>;
 
   /** The selected tab */
   @Input('selectedTab')
   get selectedTab(): number {
-    return this.selectedIndex;
+    return this.pager.selectedPage;
   }
 
   set selectedTab(tab: number) {
-    this.setSelectedIndex(tab);
+    this.pager.selectedPage = tab;
+    this.cdr.markForCheck();
   };
+
+  constructor(private cdr: ChangeDetectorRef) {
+
+  }
 
   /** Sets the selected tab to be the tabIdx */
   public selectTab(tabIdx: number): void {
@@ -58,15 +67,16 @@ export class VxTabsComponent extends TabbableController<VxTabComponent> implemen
   }
 
   next(): void {
-    this.selectTab(this.selectedIndex + 1);
+    this.selectedTab++;
   }
 
   previous(): void {
-    this.selectTab(this.selectedIndex - 1);
+    this.selectedTab--;
   }
 
-  ngAfterContentInit(): void {
-    this.setTabbables(this._tabs);
+  ngAfterViewInit(): void {
+    // After the child pager component is created we need to re-check our bindings.
+    this.cdr.detectChanges();
   }
 
 }

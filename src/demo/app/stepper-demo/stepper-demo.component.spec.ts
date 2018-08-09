@@ -2,7 +2,7 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {StepperDemoComponent} from './stepper-demo.component';
 
-describe('StepperDemoComponent', () => {
+describe('PagerDemoComponent', () => {
   let component: StepperDemoComponent;
   let fixture: ComponentFixture<StepperDemoComponent>;
 

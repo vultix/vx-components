@@ -4,10 +4,12 @@ import {VxStepperComponent} from './stepper.component';
 import {VxStepComponent} from './step.component';
 import {VxStepHeaderComponent} from './step-header/step-header.component';
 import {VxStepLabelDirective, VxStepperNextDirective, VxStepperPreviousDirective} from './stepper.directives';
+import {VxPagerModule} from '../pager';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    VxPagerModule
   ],
   declarations: [VxStepperComponent, VxStepComponent, VxStepperNextDirective, VxStepperPreviousDirective,
     VxStepHeaderComponent, VxStepLabelDirective],

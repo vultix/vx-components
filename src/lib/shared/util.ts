@@ -58,3 +58,7 @@ export function roundTo(toRound: number, round: number): number {
 
   return round * Math.round(toRound / round);
 }
+
+export function boundNumber(toBound: number, min: number, max: number): number {
+  return Math.max(Math.min(toBound, max), min);
+}

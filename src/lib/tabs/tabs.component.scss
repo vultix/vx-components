@@ -94,6 +94,9 @@ $borderRadius: 4px;
   border-bottom-left-radius: $borderRadius;
   border-bottom-right-radius: $borderRadius;
   z-index: 30;
-  position: relative;
   overflow: hidden;
+}
+
+vx-pager {
+  border: none;
 }

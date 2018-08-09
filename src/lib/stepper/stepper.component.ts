@@ -1,28 +1,39 @@
 import {
-  AfterContentInit, AfterViewInit,
-  ChangeDetectionStrategy, ChangeDetectorRef,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
-  ContentChildren, ElementRef,
+  ContentChildren,
+  ElementRef,
   EventEmitter,
   Input,
-  OnChanges,
   Output,
-  QueryList, ViewChildren
+  QueryList,
+  ViewChild,
+  ViewChildren
 } from '@angular/core';
 import {VxStepComponent} from './step.component';
-import {TabbableController} from '../shared/tabbable-controller';
-import {coerceBooleanProperty} from '../shared/util';
+import {boundNumber, coerceBooleanProperty} from '../shared/util';
+import {VxPagerComponent} from '../pager';
+import {STEPPER_TOKEN} from './stepper.token';
 
 @Component({
   selector: 'vx-stepper',
   templateUrl: './stepper.component.html',
   styleUrls: ['./stepper.component.scss'],
-  providers: [{provide: TabbableController, useExisting: VxStepperComponent}],
+  providers: [{provide: STEPPER_TOKEN, useExisting: VxStepperComponent}],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class VxStepperComponent extends TabbableController<VxStepComponent> implements AfterContentInit, AfterViewInit {
+export class VxStepperComponent {
   @ContentChildren(VxStepComponent) steps: QueryList<VxStepComponent>;
+
   @ViewChildren('overflow') overflows: QueryList<ElementRef<HTMLDivElement>>;
+
+  @ViewChild(VxPagerComponent) set pager(pager: VxPagerComponent) {
+    this.cdr.detectChanges();
+  }
+
+  @Output() selectedStepChange = new EventEmitter<number>();
 
   private _linear = false;
 
@@ -36,20 +47,29 @@ export class VxStepperComponent extends TabbableController<VxStepComponent> impl
     this.cdr.markForCheck();
   }
 
-  @Input()
-  set selectedStep(step: number) {
-    this.setSelectedIndex(+step);
-    this.cdr.markForCheck();
-  }
+  private _selectedStep = -1;
 
   get selectedStep(): number {
-    return this.selectedIndex;
+    return this._selectedStep;
   }
 
-  @Output() selectedStepChange = new EventEmitter<number>();
+  @Input()
+  set selectedStep(stepIdx: number) {
+    stepIdx = boundNumber(+stepIdx || 0, 0, this.steps ? this.steps.length - 1 : 0);
+    if (this.steps) {
+      const step = this.steps.toArray()[stepIdx];
 
-  constructor(cdr: ChangeDetectorRef) {
-    super(cdr);
+      if (this._shouldDisable(step, true)) {
+        return;
+      }
+    }
+
+    if (this.selectedStep !== stepIdx) {
+      this.animateStepChange(stepIdx, this.selectedStep);
+      this._selectedStep = stepIdx;
+      this.selectedStepChange.emit(stepIdx);
+      this.cdr.markForCheck();
+    }
   }
 
   private _vertical = false;
@@ -61,61 +81,35 @@ export class VxStepperComponent extends TabbableController<VxStepComponent> impl
 
   set vertical(value: boolean) {
     this._vertical = coerceBooleanProperty(value);
-    this.enforceSelectedTabbable = !(this._allowToggling && this._vertical);
-    if (!this._vertical) this.ensureSelectedTab();
+
+    if (this.vertical) {
+      // The timeout allows the overflows to be created.
+      setTimeout(() => {
+        this.animateStepChange(this.selectedStep, -1);
+      }, 0)
+    }
+
     this.cdr.markForCheck();
   }
 
-  private _allowToggling = false;
-
-  @Input()
-  get allowToggling(): boolean {
-    return this._allowToggling;
-  }
-
-  set allowToggling(value: boolean) {
-    this._allowToggling = coerceBooleanProperty(value);
-    this.enforceSelectedTabbable = !(this._allowToggling && this._vertical);
-    if (!this._vertical) this.ensureSelectedTab();
+  constructor(private cdr: ChangeDetectorRef) {
+    this.selectedStep = 0;
   }
 
   next(): void {
-    if (this.selectedIndex < this.steps.length - 1) {
-      this.selectStep(this.selectedIndex + 1);
-    }
-    this.cdr.markForCheck();
+    this.selectedStep++;
   }
 
   previous(): void {
-    if (this.selectedIndex > 0) {
-      this.selectStep(this.selectedIndex - 1);
-    }
-    this.cdr.markForCheck();
+    this.selectedStep--;
   }
 
-  ngAfterContentInit(): void {
-    this.setTabbables(this.steps);
-  }
-
-  ngAfterViewInit(): void {
-    this.onSelectedIndexChanged(this.selectedStep, -1);
-  }
-
-  selectStep(stepIdx: number): void {
-    const step = this.steps.toArray()[stepIdx];
-
-    if (!this.enforceSelectedTabbable && step.active) {
-      this.setSelectedIndex(-1);
-      this.selectedStepChange.emit(-1);
-    } else if (!this.shouldDisable(step, true)) {
-      this.setSelectedIndex(stepIdx);
-      this.selectedStepChange.emit(stepIdx);
-    }
-    this.cdr.markForCheck();
-  }
 
   /** @--internal */
-  shouldDisable(curStep: VxStepComponent, markAsTouched = false): boolean {
+  _shouldDisable(curStep: VxStepComponent, markAsTouched = false): boolean {
+    if (!this.linear)
+      return false;
+
     const steps = this.steps.toArray();
     for (const step of steps) {
       if (step === curStep)
@@ -124,14 +118,14 @@ export class VxStepperComponent extends TabbableController<VxStepComponent> impl
         if (markAsTouched)
           step.markAsTouched();
 
-        if (this.linear && !step.valid())
+        if (!step.valid())
           return true;
       }
     }
     return false;
   }
 
-  onSelectedIndexChanged(idx: number, oldIdx: number): void {
+  private animateStepChange(idx: number, oldIdx: number): void {
     if (this.overflows && this.vertical) {
       const overflows = this.overflows.toArray();
 
@@ -140,13 +134,8 @@ export class VxStepperComponent extends TabbableController<VxStepComponent> impl
 
       if (oldIdx !== -1) {
         oldEl = overflows[oldIdx].nativeElement;
-        oldChild = oldEl.children[0] as HTMLDivElement
+        oldChild = oldEl.children[0] as HTMLDivElement;
         oldEl.style.height = `${oldChild.offsetHeight}px`;
-      }
-
-      if (idx === -1 && oldEl) { // Toggled Shut
-        setTimeout(() => oldEl!.style.height = '0');
-        return;
       }
 
       const el = overflows[idx].nativeElement;
@@ -163,7 +152,5 @@ export class VxStepperComponent extends TabbableController<VxStepComponent> impl
         }, 300)
       })
     }
-
-    this.cdr.markForCheck();
   }
 }

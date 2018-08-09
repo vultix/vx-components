@@ -12,6 +12,7 @@
 @import 'spinner';
 @import 'slide-toggle';
 @import 'slider';
+@import 'pager';
 
 @mixin vx-load-themes($col) {
   $colors: prepareColors($col);
@@ -28,4 +29,5 @@
   @include vx-spinner-theme($colors);
   @include vx-slide-toggle-theme($colors);
   @include vx-slider-theme($colors);
+  @include vx-pager-theme($colors);
 }

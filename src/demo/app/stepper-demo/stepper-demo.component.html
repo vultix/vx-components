@@ -1,12 +1,12 @@
 <vx-tabs>
   <vx-tab label="Overview">
     The vx-stepper component creates a tabs-wizard workflow by separating content into steps.
-    <vx-tabs>
-      <vx-tab label="Example" class="ex1">
+    <vx-tabs class="ex1">
+      <vx-tab label="Example">
         <vx-checkbox #linear>Enable Linear Mode</vx-checkbox>
         <vx-checkbox #vertical>Vertical Stepper</vx-checkbox>
-        <vx-checkbox #toggling [disabled]="!vertical.checked">Allow Toggling</vx-checkbox>
-        <vx-stepper [linear]="linear.checked" [vertical]="vertical.checked" [allowToggling]="toggling.checked">
+
+        <vx-stepper [linear]="linear.checked" [vertical]="vertical.checked">
           <vx-step [stepControl]="nameInput">
             <ng-template vxStepLabel>Fill out Your Name</ng-template>
             <vx-input-wrapper>

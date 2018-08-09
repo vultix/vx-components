@@ -17,6 +17,14 @@
     "typeRoots": [
       "node_modules/@types"
     ],
+    "paths": {
+      "vx-components/*": [
+        "src/lib/*"
+      ],
+      "vx-components": [
+        "src/lib"
+      ]
+    },
     "lib": [
       "es2016",
       "dom"

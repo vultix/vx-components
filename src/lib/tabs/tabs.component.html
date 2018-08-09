@@ -1,10 +1,15 @@
 <div class="container">
   <div class="tabs">
-    <div *ngFor="let tab of _tabs; let idx= index;" (click)="selectTab(idx)" [class.active]="tab.active" class="tab">
+    <div *ngFor="let tab of _tabs; let idx= index;" (click)="selectTab(idx)" [class.active]="selectedTab === idx"
+         class="tab">
       <span>{{tab.label}}</span>
     </div>
   </div>
   <div class="tabContent">
-    <ng-content></ng-content>
+    <vx-pager>
+      <vx-page *ngFor="let tab of _tabs;">
+        <ng-container [ngTemplateOutlet]="tab._template"></ng-container>
+      </vx-page>
+    </vx-pager>
   </div>
 </div>

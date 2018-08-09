@@ -14,4 +14,5 @@ export * from './slider';
 export * from './slide-toggle';
 export * from './button';
 export * from './button-group';
+export * from './pager';
 

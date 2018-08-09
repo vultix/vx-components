@@ -3,8 +3,12 @@
   "compilerOptions": {
     "outDir": "../out-tsc/app",
     "module": "es2015",
-    "baseUrl": "",
-    "types": []
+    "baseUrl": ".",
+    "paths": {
+      "vx-components": [
+        "../lib/"
+      ]
+    }
   },
   "exclude": [
     "test.ts",

@@ -20,6 +20,7 @@ import {MenuDemoComponent} from './menu-demo/menu-demo-component';
 import {SlideToggleDemoComponent} from './slide-toggle-demo/slide-toggle-demo.component';
 import {SliderDemoComponent} from './slider-demo/slider-demo.component';
 import {ButtonGroupDemoComponent} from './button-group-demo/button-group-demo.component';
+import {PagerDemoComponent} from './pager-demo/pager-demo.component';
 
 const routes: Route[] = [
   {path: '', pathMatch: 'full', redirectTo: 'tabs'},
@@ -36,6 +37,7 @@ const routes: Route[] = [
   {path: 'slide-toggle', component: SlideToggleDemoComponent},
   {path: 'slider', component: SliderDemoComponent},
   {path: 'button-group', component: ButtonGroupDemoComponent},
+  {path: 'pager', component: PagerDemoComponent},
   {path: '**', redirectTo: 'tabs'}
 ];
 
@@ -56,7 +58,8 @@ const routes: Route[] = [
     MenuDemoComponent,
     SlideToggleDemoComponent,
     SliderDemoComponent,
-    ButtonGroupDemoComponent
+    ButtonGroupDemoComponent,
+    PagerDemoComponent
   ],
   imports: [
     BrowserModule,

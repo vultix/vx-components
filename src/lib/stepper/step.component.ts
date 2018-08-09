@@ -4,7 +4,7 @@ import {VxStepLabelDirective} from './stepper.directives';
 
 @Component({
   selector: 'vx-step',
-  template: '<ng-template><div #container><ng-content></ng-content></div></ng-template>',
+  template: '<ng-template><ng-content></ng-content></ng-template>',
 })
 export class VxStepComponent {
   @Input() label?: string;
@@ -12,15 +12,7 @@ export class VxStepComponent {
   @Input() invalid = false;
   @ContentChild(VxStepLabelDirective) stepLabel: VxStepLabelDirective;
 
-  @ViewChild(TemplateRef) content: TemplateRef<any>;
-  @ViewChild('container') container: ElementRef;
-
-  /** Whether this tab is the active tab */
-  @HostBinding('class.active') active = false;
-
-  @HostBinding('class.left') left = false;
-  @HostBinding('class.right') right = false;
-  @HostBinding('class.visible') visible: boolean;
+  @ViewChild(TemplateRef) _template: TemplateRef<any>;
 
   valid(): boolean {
     return this.invalid || (this.stepControl ? !!this.stepControl.valid : true);

@@ -1,7 +1,8 @@
-import {AfterViewChecked, Directive, ElementRef, Input, TemplateRef, ViewChild} from '@angular/core';
+import {AfterViewChecked, Directive, ElementRef, Inject, Input, TemplateRef, ViewChild} from '@angular/core';
 import {VxStepperComponent} from './stepper.component';
-import {TabbableController} from '../shared/tabbable-controller';
-import {VxStepComponent} from './step.component';
+import {STEPPER_TOKEN} from './stepper.token';
+
+type Stepper = VxStepperComponent;
 
 @Directive({
   selector: '[vxStepperPrevious], [vxStepperBack]',
@@ -10,7 +11,7 @@ import {VxStepComponent} from './step.component';
   }
 })
 export class VxStepperPreviousDirective {
-  constructor(public _stepper: TabbableController<VxStepComponent>) {
+  constructor(@Inject(STEPPER_TOKEN) public _stepper: Stepper) {
   }
 }
 
@@ -21,7 +22,7 @@ export class VxStepperPreviousDirective {
   }
 })
 export class VxStepperNextDirective {
-  constructor(public _stepper: TabbableController<VxStepComponent>) {
+  constructor(@Inject(STEPPER_TOKEN) public _stepper: Stepper) {
   }
 }
 
