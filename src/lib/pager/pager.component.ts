@@ -1,11 +1,22 @@
-import {AfterContentInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChildren, Input, QueryList} from '@angular/core';
+import {
+  AfterContentInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ContentChildren,
+  forwardRef,
+  Input,
+  QueryList
+} from '@angular/core';
 import {startWith} from 'rxjs/operators';
 import {VxPageComponent} from './page.component';
+import {PAGER_TOKEN} from './pager.token';
 
 @Component({
   selector: 'vx-pager',
   templateUrl: './pager.component.html',
   styleUrls: ['./pager.component.scss'],
+  providers: [{provide: PAGER_TOKEN, useExisting: forwardRef(() => VxPagerComponent)}],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class VxPagerComponent implements AfterContentInit {

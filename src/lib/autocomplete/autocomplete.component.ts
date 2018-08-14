@@ -1,56 +1,53 @@
 import {
-  AfterContentInit,
-  Component,
-  ContentChildren,
-  ElementRef,
-  Input, OnInit,
-  Optional,
-  QueryList, Renderer2,
-  Self,
+  AfterContentInit, AfterViewInit,
+  ChangeDetectionStrategy, ChangeDetectorRef,
+  Component, ContentChildren, DoCheck,
+  ElementRef, EventEmitter,
+  Input, OnDestroy,
+  OnInit, Optional, Output,
+  QueryList, Self,
   ViewChild,
   ViewChildren
 } from '@angular/core';
+import {VxItemComponent, VxMenuComponent} from '../menu';
 import {ControlValueAccessor, FormGroupDirective, NgControl, NgForm} from '@angular/forms';
-import {VxMenuComponent, VxItemComponent} from '../menu';
-import {VxInputDirective} from '../input';
 import {coerceBooleanProperty} from '../shared/util';
+import {VxInputDirective} from '../input';
 import {Subject} from 'rxjs';
+import {startWith, takeUntil} from 'rxjs/operators';
+import * as fuzzysort from 'fuzzysort';
 
 @Component({
   selector: 'vx-autocomplete, vx-select',
   templateUrl: './autocomplete.component.html',
   styleUrls: ['./autocomplete.component.scss'],
-  host: {
-    '[class.invalid]': '_isInvalid()'
-  }
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class VxAutocompleteComponent<T = string> implements ControlValueAccessor, AfterContentInit, OnInit {
-  /** The autocomplete's selected value **/
-  get value(): T | T[] | undefined {
-    if (!this.multiple && this.selectedItem)
-      return this.selectedItem.value;
-    else if (this.multiple && this.selectedItems)
-      return this.selectedItems.map(item => item.value);
-    else
-      return;
-  }
+export class VxAutocompleteComponent<T = string> implements AfterViewInit, AfterContentInit, OnDestroy, DoCheck, ControlValueAccessor {
+  @ViewChild(VxInputDirective) field: VxInputDirective;
+  @ViewChild(VxMenuComponent) menu: VxMenuComponent<T>;
+  @ViewChild('focusEl') focusEl: ElementRef<HTMLDivElement>;
 
-  /** @--internal The selected item */
-  selectedItem?: VxItemComponent<T>;
+  @ContentChildren(VxItemComponent) items: QueryList<VxItemComponent<T>>;
 
-  /** @--internal If multiple, the selected items */
-  selectedItems: VxItemComponent<T>[] = [];
+  /** The text to show when there are no items */
+  @Input() defaultText = 'No results found.';
 
-  /** The placeholder to pass down to the input component */
-  @Input() placeholder: string;
   /** The name to pass down to the input component */
   @Input() name: string;
   /** The tabIndex to forward down to the input component */
   @Input() tabIndex: number;
-  /** Whether or not the component is disabled  */
-  @Input() disabled: boolean;
-  /** The text to show when there are no items */
-  @Input() defaultText = 'No results found.';
+
+  _filteredItems: VxItemComponent<T>[] = [];
+  _focused = false;
+  invalid: boolean;
+
+  _onChange = (_t: T | T[] | undefined) => {
+  };
+  _onTouched = () => {
+  };
+
+  @Input() placeholder: string;
 
   /** Whether or not to allow searching **/
   @Input()
@@ -61,334 +58,293 @@ export class VxAutocompleteComponent<T = string> implements ControlValueAccessor
   set search(value: boolean) {
     value = coerceBooleanProperty(value);
     this._search = value;
+    this.cdr.markForCheck();
   }
 
-  /** @--internal */
-  @ContentChildren(VxItemComponent) items: QueryList<VxItemComponent<T>>;
+  private _search = true;
 
-  /** Whether or not to allow multiple selection */
-  @Input()
-  get multiple(): boolean {
-    return this._multiple;
-  };
+  get _placeholder(): string {
+    if (this.value && !this.multiple) {
+      return this.getItemByValue(this.value as T)!.searchTxt
+    } else {
+      return this.search ? 'Search...' : 'Select...';
+    }
+  }
 
-  set multiple(multiple: boolean) {
-    this._multiple = coerceBooleanProperty(multiple);
-    setTimeout(() => {
-      if (this._multiple) {
-        this.input._elementRef.nativeElement.placeholder = this.search ? 'Search...' : 'Select...';
-        this.selectedItem = undefined;
-      } else {
-        this.input.placeholder = this.placeholder;
-        this.selectedItems = [];
-      }
+  @Output()
+  valueChange = new EventEmitter<T | T[] | undefined>();
 
-      this.input.value = '';
-    });
-  };
+  private onDestroy$ = new Subject<void>();
+  private iqKeyboard: any;
+  private keyedItems: Map<T, VxItemComponent<T>> = new Map();
 
-  /** Whether or not the autocomplete is required */
-  @Input()
+  constructor(
+    private el: ElementRef,
+    private cdr: ChangeDetectorRef,
+    @Optional() @Self() public ngControl: NgControl,
+    @Optional() private _parentForm: NgForm,
+    @Optional() private _parentFormGroup: FormGroupDirective) {
+
+    if (this.ngControl) {
+      this.ngControl.valueAccessor = this;
+    }
+
+    if (this.ngControl && this.ngControl.valueChanges) {
+      this.ngControl.valueChanges.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
+        this.checkIsInvalid();
+      })
+    }
+
+  }
+
+  get _selectedItems(): VxItemComponent<T>[] {
+    if (this.multiple) {
+      return (this.value as T[]).map(value => this.getItemByValue(value)!);
+    } else {
+      return [];
+    }
+  }
+
+  private _required = false;
+
   get required(): boolean {
     return this._required;
   }
 
-  set required(value: boolean) {
-    this._required = coerceBooleanProperty(value);
-  }
-
-  /** @--internal */
-  @ViewChild(VxInputDirective) input: VxInputDirective;
-  /** @--internal */
-  @ViewChild('dropdown') dropdown: VxMenuComponent<T>;
-  /** @--internal */
-  @ViewChildren('button') buttons: QueryList<ElementRef>;
-
-  /** @--internal */
-  _dropdownVisible = false;
-  /** @--internal */
-  _itemsFiltered = new Subject();
-  /** @--internal */
-  _required: boolean;
-  /** @--internal */
-  _multiple = false;
-
-  private _value: T | T[] | undefined;
-  private touched = false;
-  private _search = true;
-
-  constructor(@Optional() private _parentForm: NgForm,
-              @Optional() private _parentFormGroup: FormGroupDirective,
-              @Optional() @Self() public _ngControl: NgControl,
-              private el: ElementRef) {
-    if (_ngControl) {
-      _ngControl.valueAccessor = this;
+  @Input()
+  set required(required: boolean) {
+    required = coerceBooleanProperty(required);
+    if (required !== this._required) {
+      this._required = required;
+      this.cdr.markForCheck();
     }
-    this._itemsFiltered.subscribe(() => {
-      setTimeout(() => this.dropdown.focusedIdx = 0);
-    })
   }
 
-  /** @--internal */
+  private _disabled = false;
+
+  get disabled(): boolean {
+    return this._disabled;
+  }
+
+  @Input()
+  set disabled(disabled: boolean) {
+    disabled = coerceBooleanProperty(disabled);
+    if (disabled !== this._disabled) {
+      this._disabled = disabled;
+      this.cdr.markForCheck();
+    }
+  }
+
+  private _multiple = false;
+
+  get multiple(): boolean {
+    return this._multiple;
+  }
+
+  @Input()
+  set multiple(multiple: boolean) {
+    multiple = coerceBooleanProperty(multiple);
+    if (multiple !== this._multiple) {
+      this._multiple = multiple;
+
+      this.value = multiple ? [] : undefined;
+      this._filter();
+
+      this.cdr.markForCheck();
+    }
+  }
+
+  private _value?: T | T[];
+
+
+  @Input()
+  set value(value: T | T[] | undefined) {
+    if (value !== this._value) {
+      this._value = value;
+
+      this._filter();
+      this._repopulateValue();
+
+      this.cdr.markForCheck();
+    }
+  }
+
+  get value(): T | T[] | undefined {
+    return this._value;
+  }
+
+  ngAfterViewInit(): void {
+    this.field.stateChanges.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
+      this.cdr.markForCheck();
+    });
+  }
+
   ngAfterContentInit(): void {
-    this.items.changes.subscribe(() => {
-      setTimeout(() => this.updateSelectedItem());
-    });
-    setTimeout(() => {
-      this.dropdown.items = this.items;
-    });
-    this.dropdown._resetFocusedOnOpen = false;
+    this.items.changes.pipe(startWith(null)).subscribe(() => {
+      this.keyedItems.clear();
+      this.items.forEach(item => {
+        this.keyedItems.set(item.value, item);
+      });
 
-    this.updateSelectedItem();
+      this._filter();
+    });
   }
 
-  /** @--internal */
-  ngOnInit(): void {
-    const el: HTMLElement = this.el.nativeElement;
-    if (el.tagName === 'VX-SELECT') {
-      this._search = false;
+  _filter(): void {
+    if (!this.items) {
+      return;
     }
-  }
 
-  /** @--internal */
-  _handleInputFocusChange(hasFocus: boolean): void {
-    this.touched = true;
-    this.input.focused = hasFocus;
-    if (hasFocus) {
-      this._showDropdown();
+    const filterText = this.field.value;
+    if (!filterText || !filterText.length) {
+      this._filteredItems = this.items.toArray();
     } else {
-      // Wait until the dropdown can detect if it has focus.  If the dropdown is clicked on
-      // we want the focus to remain on the textField
-      setTimeout(() => {
-        if (!this.dropdown.hasFocus()) {
-          this._dropdownVisible = false;
-          this._repopulateValue();
-        } else {
-          this.input.focused = true;
-        }
-      }, 0);
+      const filtered = fuzzysort.go<VxItemComponent<T>>(filterText, this.items.toArray(), {
+        key: 'searchTxt'
+      });
+      this._filteredItems = filtered.map(item => item.obj);
     }
-  }
-
-  /** @--internal */
-  _onSelectItem(value: any, skipEmit = false): void {
-    if (value === null || value === undefined) {
-      this.selectedItem = undefined;
-      this.input.value = '';
-      this.input.placeholder = this.placeholder;
-
-      return;
-    }
-
-    const item = this.getItemForValue(value);
-    if (!item)
-      return;
 
     if (this.multiple) {
-      this.selectedItems.push(item);
-      this.input.value = '';
-    } else {
-      this.selectedItem = item;
-      this.input.value = item.searchTxt;
-    }
-
-    this.items.forEach(it => it.filtered.next(this.selectedItems.indexOf(it) !== -1));
-    this._itemsFiltered.next();
-
-    if (!skipEmit)
-      this._onChangeFn(this.value);
-
-    setTimeout(() => {
-      if (this.touched)
-        this._focusInput();
-      this._repopulateValue();
-      this._closeDropdown();
-    }, 0);
-
-  }
-
-  /** @--internal */
-  _filter(query: string): void {
-    query = query.toUpperCase();
-    this.items.forEach(item => {
-      const filtered = !(item.searchTxt && item.searchTxt.toUpperCase().indexOf(query) !== -1);
-      // Does the actual search
-      item.filtered.next(filtered);
-      if (this._multiple && !filtered)
-        item.filtered.next(this.selectedItems.indexOf(item) !== -1);
-    });
-    this._itemsFiltered.next();
-  }
-
-  /** @--internal */
-  _onInputChange(value: any): void {
-    this._dropdownVisible = true;
-
-    if (value) {
-      this._filter(value);
-    } else {
-      this.items.forEach(item => item.filtered.next(this.selectedItems.indexOf(item) !== -1));
-      this._itemsFiltered.next();
-    }
-  }
-
-  /** @--internal */
-  _closeDropdown(): void {
-    this._dropdownVisible = false;
-    this._repopulateValue();
-  }
-
-  /** @--internal */
-  _showDropdown(): void {
-    if (this._dropdownVisible)
-      return;
-
-    this._hideValue();
-    this._dropdownVisible = true;
-    this.input.focused = true;
-    if (!this.multiple && this.selectedItem) {
-      const item = this.selectedItem;
-      // Timeout to give allow the dropdown to become visible
-      setTimeout(() => {
-        this.dropdown.focusedIdx = this.items.toArray().indexOf(item);
+      this._filteredItems = this._filteredItems.filter(item => {
+        // Don't show already selected items
+        return (this.value as T[]).indexOf(item.value) === -1;
       })
     }
+
+    this.cdr.markForCheck();
   }
 
-  /** @--internal */
-  _focusInput(): void {
-    this.input.focused = true;
-    this.input._elementRef.nativeElement.focus();
-    if (!this.search)
-      this.input._elementRef.nativeElement.parentElement.focus();
-  }
-
-  /** @--internal */
-  _onChangeFn = (v: any) => v;
-  /** @--internal */
-  _onTouchedFn = () => {
-  };
-
-  /** @--internal Whether the input is in an error state. */
-  _isInvalid(): boolean {
-    const control = this._ngControl;
-    const form = this._parentFormGroup || this._parentForm;
-    if (control) {
-      const isSubmitted = form && form.submitted;
-      return !!(control.invalid && (control.touched || isSubmitted));
-    }
-
-    return false;
-  }
-
-  /** @--internal */
-  _repopulateValue(): void {
-    if (this.selectedItem && !this.multiple)
-      this.input.value = this.selectedItem.searchTxt
-  }
-
-  /** @--internal */
-  _hideValue(): void {
-    if (this.selectedItem && !this.multiple) {
-      const inputEl: HTMLInputElement = this.input._elementRef.nativeElement;
-      inputEl.placeholder = this.selectedItem.searchTxt;
-      inputEl.value = '';
+  _showMenu(): void {
+    if (!this.menu.visible) {
+      this.menu.visible = true;
     }
   }
 
-  /** @--internal */
-  _removeItem(item: VxItemComponent<T>): void {
-    this.selectedItems = this.selectedItems.filter(itm => itm !== item);
-    item.filtered.next(false);
-    this._itemsFiltered.next();
-    this._onChangeFn(this.value);
-    this._value = this.value;
-    this._focusInput();
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 
-  /** @--internal */
-  _arrowClicked(): void {
-    this._focusInput();
+  ngDoCheck(): void {
+    this.checkIsInvalid();
+  }
+
+  _selectItem(value: T): void {
+    this.value = this.multiple ? [...(this.value as T[]), value] : value;
+
+    this.valueChange.emit(this.value);
+    this._onChange(this.value);
+    this._onTouched();
+
+    this.menu.visible = false;
+    this.field.focus();
+  }
+
+  _removeItem(value: T, event?: Event): void {
+    if (this.multiple) {
+      this.value = (this.value as T[]).filter(item => item !== value);
+    }
+
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation()
+    }
+
+    this._onTouched();
+    this.valueChange.emit(this.value);
+    this._onChange(this.value);
+
+    this.menu.visible = false;
+  }
+
+
+  registerOnChange(fn: any): void {
+    this._onChange = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this._onTouched = fn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
+
+  writeValue(obj: T): void {
+    this.value = obj;
+    this.valueChange.emit(this.value);
+  }
+
+  _dropdownVisible(visible: boolean): void {
+    if (!visible) {
+      this._repopulateValue();
+    }
+  }
+
+  _handleTap(): void {
+    if (!this.menu.visible) {
+      this.field.value = '';
+
+      this.menu.visible = true;
+    }
+
+    if (!this.search) {
+      this.focusEl.nativeElement.focus();
+    }
+  }
+
+  _handleBlur(): void {
+    // Timeout to allow the document.activeElement to shift
     setTimeout(() => {
-      this._showDropdown();
+      if (this.menu.hasFocus()) {
+        this._focused = true;
+        this.cdr.markForCheck();
+      } else {
+        this.menu.visible = false;
+      }
     });
   }
 
-  /** @--internal */
   _handleBackspace(): void {
     if (!this.multiple) {
       return;
     }
-    if (!this.input.value && this.selectedItems.length) {
-      this._removeItem(this.selectedItems[this.selectedItems.length - 1]);
+    const val = this.value as T[];
+    if (!this.field.value && val.length) {
+      this._removeItem(val[val.length - 1]);
     }
   }
 
-  /** @--internal */
-  writeValue(obj: any): void {
-    if (this.multiple && obj) {
-      this.selectedItems = [];
-      obj.forEach((val: any) => {
-        this._onSelectItem(val, true);
-      })
-    } else {
-      this._onSelectItem(obj, true);
-    }
-    this._value = obj;
+  _closeDropdown(): void {
+    this.menu.visible = false;
   }
 
-  /** @--internal */
-  registerOnChange(fn: any): void {
-    this._onChangeFn = fn;
+  private getItemByValue(val: T): VxItemComponent<T> | undefined {
+    if (!this.items || !val)
+      return;
+
+    return this.keyedItems.get(val);
   }
 
-  /** @--internal */
-  registerOnTouched(fn: any): void {
-    this._onTouchedFn = fn;
-  }
-
-  private getItemForValue(value: any): VxItemComponent<T> | undefined {
-    if (!this.items)
-      return undefined;
-
-    for (const item of this.items.toArray()) {
-      if (item.value === value) {
-        return item;
-      }
+  /** Whether the input is in an error state. */
+  private checkIsInvalid(): void {
+    let invalid = false;
+    const control = this.ngControl;
+    const form = this._parentFormGroup || this._parentForm;
+    if (control) {
+      const isSubmitted = form && form.submitted;
+      invalid = !!(control.invalid && (control.touched || isSubmitted));
     }
 
-    return;
+    if (invalid !== this.invalid) {
+      this.invalid = invalid;
+      this.cdr.markForCheck();
+    }
   }
 
-  private updateSelectedItem(): void {
-    if (this._value && !this.multiple) {
-      if (!this.getItemForValue(this._value)) {
-        // If the selected value isn't in the new items, remove it
-        this.selectedItem = undefined;
-        this.input.value = '';
-
-        this._onChangeFn(undefined);
-        this._value = undefined;
-      }
-
-      this.items.forEach(item => item.filtered.next(false));
-      this._itemsFiltered.next();
-      this._onSelectItem(this._value);
-    } else if (this._value && this.multiple) {
-      const newItems: VxItemComponent<T>[] = [];
-      (this._value as T[]).forEach((val: any) => {
-        const item = this.getItemForValue(val);
-        if (item) {
-          newItems.push(item)
-        }
-      });
-
-      this.selectedItems = newItems;
-      this._onChangeFn(this.value);
-      this._value = this.value;
-      this.items.forEach(item => item.filtered.next(newItems.indexOf(item) !== -1));
-      this._itemsFiltered.next();
-    }
+  private _repopulateValue(): void {
+    this.field.value = this.value && !this.multiple ? this.getItemByValue(this.value as T)!.searchTxt : '';
   }
 
 }

@@ -4,8 +4,10 @@
       validation.</p>
     <vx-tabs>
       <vx-tab label="Example">
+        <vx-checkbox (checkedChange)="disabled = $event">Disabled</vx-checkbox>
+
         <vx-input-wrapper>
-          <input vxInput placeholder="Username">
+          <input vxInput placeholder="Username" label="Floated Label" ngModel required [disabled]="disabled">
         </vx-input-wrapper>
         <vx-input-wrapper>
           <input vxInput type="password" placeholder="Password">

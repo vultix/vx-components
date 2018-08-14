@@ -1,24 +1,19 @@
-The pager
-<button vx-button (click)="page.selectedPage = 0;">1</button>
-<button vx-button (click)="page.selectedPage = 1;">2</button>
-<button vx-button (click)="page.selectedPage = 2;">3</button>
-<vx-pager #page>
-  <vx-page>
-    Content Tab 1
-  </vx-page>
-  <vx-page>
-    Content Tab 2!
-  </vx-page>
-</vx-pager>
-
 <vx-tabs>
   <vx-tab label="Overview">
-
+    The pager
+    <button vx-button (click)="page.selectedPage = 0;">1</button>
+    <button vx-button (click)="page.selectedPage = 1;">2</button>
+    <button vx-button (click)="page.selectedPage = 2;">3</button>
+    <vx-pager #page>
+      <vx-page>
+        Content Tab 1
+      </vx-page>
+      <vx-page>
+        Content Tab 2!
+      </vx-page>
+    </vx-pager>
 
   </vx-tab>
   <vx-tab label="API">
-    <pre><code vxHighlight>{{importLbl}}</code></pre>
-    <h3>VxStepperComponent</h3>
-    <pre><code vxHighlight>&lt;vx-stepper&gt;...&lt;/vx-stepper&gt;</code></pre>
   </vx-tab>
 </vx-tabs>

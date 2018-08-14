@@ -6,6 +6,7 @@ import {TitleService} from '../title.service';
   styleUrls: ['./input-demo.component.scss']
 })
 export class InputDemoComponent {
+  disabled = false;
   importLbl = `import {VxInputModule} from 'vx-components';`;
 
   basicExample = `

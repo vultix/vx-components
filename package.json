@@ -26,6 +26,7 @@
     "@angular/router": "^6.0.3",
     "@types/highlight.js": "^9.1.10",
     "core-js": "^2.5.1",
+    "fuzzysort": "^1.1.4",
     "gulp-autoprefixer": "^4.0.0",
     "gulp-better-rollup": "^1.1.1",
     "gulp-clean-css": "^3.8.0",

@@ -40,6 +40,9 @@ export class VxStepComponent {
 }
 
 function markAllTouched(control: AbstractControl): void {
+  if (!('markAsTouched' in control))
+    return;
+
   if (control.hasOwnProperty('controls')) {
     control.markAsTouched(); // mark group
     const ctrl = control as any;

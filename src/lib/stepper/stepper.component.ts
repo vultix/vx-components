@@ -1,4 +1,5 @@
 import {
+  AfterContentInit,
   AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -24,7 +25,7 @@ import {STEPPER_TOKEN} from './stepper.token';
   providers: [{provide: STEPPER_TOKEN, useExisting: VxStepperComponent}],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class VxStepperComponent {
+export class VxStepperComponent implements AfterContentInit {
   @ContentChildren(VxStepComponent) steps: QueryList<VxStepComponent>;
 
   @ViewChildren('overflow') overflows: QueryList<ElementRef<HTMLDivElement>>;
@@ -59,7 +60,7 @@ export class VxStepperComponent {
     if (this.steps) {
       const step = this.steps.toArray()[stepIdx];
 
-      if (this._shouldDisable(step, true)) {
+      if (!step || this._shouldDisable(step, true)) {
         return;
       }
     }
@@ -94,6 +95,12 @@ export class VxStepperComponent {
 
   constructor(private cdr: ChangeDetectorRef) {
     this.selectedStep = 0;
+  }
+
+  ngAfterContentInit(): void {
+    this.steps.changes.subscribe(() => {
+      this.cdr.markForCheck();
+    })
   }
 
   next(): void {

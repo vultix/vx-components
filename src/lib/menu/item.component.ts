@@ -1,24 +1,55 @@
-import {Component, ElementRef, EventEmitter, Input, Output} from '@angular/core';
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Inject,
+  Input,
+  Optional,
+  Output,
+  TemplateRef,
+  ViewChild
+} from '@angular/core';
 import {coerceBooleanProperty} from '../shared/util';
 import {BehaviorSubject} from 'rxjs';
+import {VX_MENU_TOKEN} from './menu.token';
+import {VxMenuComponent} from './menu.component';
+import {NgTemplateOutlet} from '@angular/common';
+
+export interface IVxMenuComponent<T> extends VxMenuComponent<T> {
+
+}
 
 @Component({
   selector: 'vx-item',
-  template: '<ng-content></ng-content>',
+  template: '<ng-template><ng-content></ng-content></ng-template> <ng-container *ngTemplateOutlet="_template"></ng-container>',
   styleUrls: ['./item.component.scss'],
   host: {
-    '[class.focused]': 'focused',
-    '[class.active]': 'active',
+    '[class.focused]': '_focused',
+    '[class.active]': '_active',
     '[class.visible]': '!(filtered | async)',
     '[class.disabled]': 'disabled',
     '(click)': 'handleClick()'
-  }
+  },
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class VxItemComponent<T = string> {
-  focused: boolean;
-  active: boolean;
+  _focused: boolean;
+  _active: boolean;
+  test = false;
 
-  @Output() onSelect = new EventEmitter();
+  @Output() select = new EventEmitter();
+
+  /**
+   * @deprectated use (select) instead
+   */
+  @Output() get onSelect(): EventEmitter<any> {
+    console.warn('VxItemComponent (onSelect) output has been deprecated and ' +
+      'renamed to (select).  Support will be dropped in future versions.');
+
+    return this.select;
+  };
+
   @Input() get value(): T {
     const value = this._value;
     if (value !== null && value !== undefined)
@@ -30,13 +61,17 @@ export class VxItemComponent<T = string> {
     this._value = value;
   }
 
-  get searchTxt(): string {
-    return this._searchTxt ? this._searchTxt : this.getSearchText();
-  }
 
   @Input()
   set searchTxt(value: string) {
     this._searchTxt = value;
+  }
+
+  get searchTxt(): string {
+    if (!this._searchTxt) {
+      throw new Error('Trying to search through vx-autocomplete without a set [searchTxt].');
+    }
+    return this._searchTxt;
   }
 
 
@@ -47,23 +82,25 @@ export class VxItemComponent<T = string> {
     return this._disabled;
   }
 
-  /** @--internal */
-  filtered = new BehaviorSubject(false);
+  @ViewChild(TemplateRef)
+  @Input()
+  _template: TemplateRef<any>;
 
   private _searchTxt: string;
   private _disabled: boolean;
   private _value: T;
-  constructor(public _elementRef: ElementRef) {}
+
+  constructor(public _elementRef: ElementRef, @Inject(VX_MENU_TOKEN) @Optional() private menu?: IVxMenuComponent<T>) {
+  }
 
   handleClick(): void {
-    if (!this.disabled)
-      this.onSelect.emit();
+    if (!this.disabled) {
+      if (this.menu) {
+        this.menu._selectItem(this);
+      } else {
+        this.select.emit();
+      }
+    }
   }
 
-
-  getSearchText(): string {
-    if (this._elementRef.nativeElement && this._elementRef.nativeElement.innerText)
-      return this._elementRef.nativeElement.innerText;
-    return '';
-  }
 }

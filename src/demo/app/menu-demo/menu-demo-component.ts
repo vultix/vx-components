@@ -1,9 +1,10 @@
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {TitleService} from '../title.service';
 
 @Component({
   templateUrl: './menu-demo-component.html',
-  styleUrls: ['./menu-demo-component.scss']
+  styleUrls: ['./menu-demo-component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MenuDemoComponent {
   example1 = `<button vx-button [vxMenuTrigger]="menu">Show Menu</button>
@@ -13,6 +14,7 @@ export class MenuDemoComponent {
   <vx-item>Item C</vx-item>
 </vx-menu>`;
 
+  selected?: any;
   constructor(private titleService: TitleService) {
     titleService.title = 'Menu';
   }

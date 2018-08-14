@@ -47,7 +47,7 @@
     "no-debugger": true,
     "no-duplicate-super": true,
     "no-empty": false,
-    "no-empty-interface": true,
+    "no-empty-interface": false,
     "no-eval": true,
     "no-inferrable-types": [
       true,
@@ -113,6 +113,7 @@
     "use-host-property-decorator": false,
     "no-input-rename": false,
     "no-output-rename": true,
+    "no-output-named-after-standard-event": false,
     "use-life-cycle-interface": true,
     "use-pipe-transform-interface": true,
     "component-class-suffix": true,

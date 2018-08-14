@@ -2,7 +2,9 @@ import {AfterViewChecked, Directive, ElementRef, Inject, Input, TemplateRef, Vie
 import {VxStepperComponent} from './stepper.component';
 import {STEPPER_TOKEN} from './stepper.token';
 
-type Stepper = VxStepperComponent;
+export interface IVxStepperComponent extends VxStepperComponent {
+
+}
 
 @Directive({
   selector: '[vxStepperPrevious], [vxStepperBack]',
@@ -11,7 +13,7 @@ type Stepper = VxStepperComponent;
   }
 })
 export class VxStepperPreviousDirective {
-  constructor(@Inject(STEPPER_TOKEN) public _stepper: Stepper) {
+  constructor(@Inject(STEPPER_TOKEN) public _stepper: IVxStepperComponent) {
   }
 }
 
@@ -22,7 +24,7 @@ export class VxStepperPreviousDirective {
   }
 })
 export class VxStepperNextDirective {
-  constructor(@Inject(STEPPER_TOKEN) public _stepper: Stepper) {
+  constructor(@Inject(STEPPER_TOKEN) public _stepper: IVxStepperComponent) {
   }
 }
 

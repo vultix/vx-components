@@ -1,21 +1,27 @@
-import {fromEvent, Subscription, Subject} from 'rxjs';
+import {fromEvent, Subject} from 'rxjs';
 import {startWith, takeUntil} from 'rxjs/operators';
 import {
   AfterContentInit,
-  AfterViewChecked, AfterViewInit,
+  AfterViewChecked,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ContentChildren,
   ElementRef,
   EventEmitter,
+  forwardRef,
   HostListener,
-  Input, NgZone,
+  Input,
+  NgZone,
   OnDestroy,
   Output,
   QueryList
 } from '@angular/core';
-import {coerceBooleanProperty, getHighestZIdx, removeFromArray} from '../shared/util';
+import {coerceBooleanProperty, findInArrayByDirection, getHighestZIdx} from '../shared/util';
 import {VxItemComponent} from './item.component';
 import {OverlayFactory} from '../shared/overlay-factory';
+import {VX_MENU_TOKEN} from './menu.token';
 
 @Component({
   selector: 'vx-menu',
@@ -24,11 +30,47 @@ import {OverlayFactory} from '../shared/overlay-factory';
   host: {
     '[class.visible]': 'visible && _positioned',
     '[attr.tabindex]': 'visible ? 0 : -1'
-  }
+  },
+  providers: [
+    {provide: VX_MENU_TOKEN, useExisting: forwardRef(() => VxMenuComponent)}
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class VxMenuComponent<T = string> implements AfterContentInit, OnDestroy, AfterViewChecked, AfterViewInit {
   /** The dropdown's items */
-  @ContentChildren(VxItemComponent, {descendants: true}) items: QueryList<ItemWithSubscription<T>>;
+  @ContentChildren(VxItemComponent, {descendants: true}) items: QueryList<VxItemComponent<T>>;
+
+  @Input() element?: HTMLElement;
+
+  @Input() offsetLeft = 0;
+  @Input() offsetTop = 10;
+
+  @Input() matchWidth = false;
+
+  /** If true the dropdown will automatically close when an item is chosen, or when clicked off of the dropdown  */
+  @Input() autoClose: boolean | MenuAutoclose = true;
+
+  /** The default text to display if there are no items */
+  @Input() defaultText: string;
+
+  /** Event thrown when the dropdown's visibility changes. The value is the visibility (true or false) */
+  @Output() visibleChange = new EventEmitter<boolean>();
+
+  /** Event thrown when an item is chosen.  Will emit the selected vx-item's value */
+  @Output() itemSelect = new EventEmitter<T>();
+  _positioned = false;
+  _resetFocusedOnOpen = true;
+  private _overlay = OverlayFactory.createOverlay();
+  private ngUnsubscribe: Subject<void> = new Subject<void>();
+  private enterDown: boolean;
+  private focusedItem?: VxItemComponent<T>;
+
+  /** @deprecated renamed to itemSelect */
+  @Output() get itemClick(): EventEmitter<T> {
+    return this.itemSelect;
+  };
+
+  private _visible = false;
 
   /** Whether the dropdown is visible */
   @Input()
@@ -41,40 +83,27 @@ export class VxMenuComponent<T = string> implements AfterContentInit, OnDestroy,
     if (visible !== this._visible) {
       this._visible = visible;
       this.visibleChange.emit(visible);
+
       if (this._resetFocusedOnOpen) {
         // When visibility changes focus the first item;
-        setTimeout(() => this.focusedIdx = 0);
+        this.clearFocusedItem();
       }
+
       if (visible) {
         this._positioned = false;
         this.enterDown = false;
-        setTimeout(() => this._onOpen());
+        this._onOpen();
         this._overlay.showOverlay();
       } else {
         this._overlay.hideOverlay();
       }
+
+      this.cdr.markForCheck();
     }
 
   };
 
-  /** The default text to display if there are no items */
-  @Input() defaultText: string;
-
-  /** If true the dropdown will automatically close when an item is chosen, or when clicked off of the dropdown  */
-  @Input() autoClose: boolean | DropdownAutoclose = true;
-
-  /** Event thrown when the dropdown's visibility changes. The value is the visibility (true or false) */
-  @Output() visibleChange = new EventEmitter<boolean>();
-
-  /** Event thrown when an item is chosen.  Will emit the selected vx-item's value */
-  @Output() itemClick = new EventEmitter<T>();
-
-  @Input() element?: HTMLElement;
-
-  @Input() matchWidth = false;
-
-  @Input() offsetLeft = 0;
-  @Input() offsetTop = 10;
+  private _focusedIdx = -1;
 
   get focusedIdx(): number {
     return this._focusedIdx;
@@ -87,38 +116,25 @@ export class VxMenuComponent<T = string> implements AfterContentInit, OnDestroy,
     else if (value < 0)
       value = 0;
 
-    let idx = -1;
-    let found = false;
-    for (const item of items) {
-      if (item.focused)
-        item.focused = false;
-      if (!item.filtered.getValue() && !item.disabled)
-        idx++;
+    const forward = value >= this.focusedIdx;
+    const foundForward = findInArrayByDirection(items, value, item => !item.disabled, forward);
+    if (foundForward) {
+      this.focusItem(foundForward.item);
+      this._focusedIdx = foundForward.idx;
+      return;
+    }
 
-      if (idx === value && !found) {
-        this.focusItem(item);
-        found = true;
-      }
+    const foundBackward = findInArrayByDirection(items, value, item => !item.disabled, !forward);
+    if (foundBackward) {
+      this.focusItem(foundBackward.item);
+      this._focusedIdx = foundBackward.idx;
+      return;
     }
-    this._focusedIdx = value;
-    if (!found && idx > -1) {
-      this.focusedIdx = idx;
-    }
+
+    this.clearFocusedItem();
   }
 
-  _positioned = false;
-  _visible = false;
-  _resetFocusedOnOpen = true;
-
-  unFilteredItems: any[] = [];
-
-  private _focusedIdx = 0;
-  private _overlay = OverlayFactory.createOverlay();
-  private ngUnsubscribe: Subject<void> = new Subject<void>();
-  private enterDown: boolean;
-  private focusedItem?: VxItemComponent<T>;
-
-  constructor(private _el: ElementRef, private ngZone: NgZone) {
+  constructor(private _el: ElementRef, private cdr: ChangeDetectorRef, private ngZone: NgZone) {
     this._overlay.overlayClick.subscribe(() => {
       this._autoClose('overlay');
     });
@@ -141,16 +157,11 @@ export class VxMenuComponent<T = string> implements AfterContentInit, OnDestroy,
   }
 
   ngAfterContentInit(): void {
-    // Wrapped in a a timeout so that the autocomplete has time to set this.items.
-    setTimeout(() => {
       this.items.changes.pipe(startWith(null)).subscribe(() => {
-        this.updateItemSubscriptions();
-        // TODO: why is this timeout necessary?
-        setTimeout(() => {
-          this.focusedIdx = 0;
-        });
+        this.clearFocusedItem();
+
+        this.cdr.markForCheck();
       });
-    });
   }
 
   ngAfterViewChecked(): void {
@@ -161,39 +172,23 @@ export class VxMenuComponent<T = string> implements AfterContentInit, OnDestroy,
     this.visible = !this.visible;
   }
 
-  updateItemSubscriptions(): void {
-    this.items.forEach(item => {
-      if (!item.subscriptions) {
-        item.subscriptions = [];
-
-        item.subscriptions[0] = item.onSelect.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => {
-          this.itemClick.emit(item.value);
-          this._autoClose('itemSelect');
-        });
-
-        item.subscriptions[1] = item.filtered.subscribe(filtered => {
-          if (filtered) {
-            removeFromArray(this.unFilteredItems, item);
-          } else if (this.unFilteredItems.indexOf(item) === -1) {
-            this.unFilteredItems.push(item);
-          }
-        });
-      }
-    })
-  }
-
-  @HostListener('window:keydown.ArrowDown', ['focusedIdx + 1', '$event'])
-  @HostListener('window:keydown.ArrowUp', ['focusedIdx - 1', '$event'])
-  _onArrowDown(newIdx: number, event: Event): void {
+  @HostListener('window:keydown.ArrowUp', ['true', '$event'])
+  @HostListener('window:keydown.ArrowDown', ['false', '$event'])
+  _onArrowDown(upKey: boolean, event: Event): void {
     if (this.visible) {
-      this.focusedIdx = newIdx;
+      if (this.focusedIdx === -1) {
+        this.focusedIdx = upKey ? this.items.length - 1 : 0;
+      } else {
+        this.focusedIdx += upKey ? -1 : 1;
+      }
+
       event.preventDefault();
     }
   }
 
   @HostListener('window:keydown.escape', ['"escape"'])
   @HostListener('window:keydown.tab', ['"tab"'])
-  _autoClose(type: keyof DropdownAutoclose): void {
+  _autoClose(type: keyof MenuAutoclose): void {
     if (this.autoClose === false) {
       return;
     } else if (this.autoClose === true) {
@@ -206,7 +201,7 @@ export class VxMenuComponent<T = string> implements AfterContentInit, OnDestroy,
   @HostListener('window:keydown.enter', ['$event'])
   _onEnterDown(event: Event): void {
     if (this.visible && this.focusedItem) {
-      this.focusedItem.active = true;
+      this.focusedItem._active = true;
       event.preventDefault();
     }
     this.enterDown = true;
@@ -215,32 +210,13 @@ export class VxMenuComponent<T = string> implements AfterContentInit, OnDestroy,
   @HostListener('window:keyup.enter', ['$event'])
   _onEnterUp(event: Event): void {
     if (this.visible && this.focusedItem && this.enterDown) {
-      this.focusedItem.active = false;
-      this.focusedItem.onSelect.emit();
+      this._selectItem(this.focusedItem);
       event.preventDefault();
-      this._autoClose('itemSelect');
     }
   }
 
   hasFocus(): boolean {
     return document.activeElement === this._el.nativeElement;
-  }
-
-  private _onOpen(): void {
-    if (this.items) {
-      this.items.forEach(item => {
-        item.active = false;
-      });
-    }
-
-    if (!this.element || !(this.element instanceof HTMLElement)) {
-      throw new Error('Dropdown opened without an attached HTMLelement.');
-    }
-
-    this._overlay.container.style.zIndex = `${getHighestZIdx()}`;
-
-    this.repositionDropdown();
-    this._positioned = true;
   }
 
   @HostListener('window:resize')
@@ -258,8 +234,8 @@ export class VxMenuComponent<T = string> implements AfterContentInit, OnDestroy,
       if (this.matchWidth)
         dropdown.style.width = `${elementPosition.width}px`;
 
-      const viewportHeight =  Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-      const viewportWidth =  Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+      const viewportHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+      const viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
       if ((top + dropdown.offsetHeight) > viewportHeight) {
         top = viewportHeight - dropdown.offsetHeight;
       }
@@ -276,26 +252,69 @@ export class VxMenuComponent<T = string> implements AfterContentInit, OnDestroy,
     }
   }
 
+  _hasFocus(): boolean {
+    return document.activeElement === this._el.nativeElement;
+  }
+
+  _selectItem(item: VxItemComponent<T>): void {
+    item._active = false;
+    item.select.emit();
+    this.itemSelect.emit(item.value);
+
+    this._autoClose('itemSelect');
+  }
+
+  private _onOpen(): void {
+    if (this.focusedItem) {
+      this.focusedItem._active = false;
+    }
+
+    if (!this.element || !(this.element instanceof HTMLElement)) {
+      throw new Error('Dropdown opened without an attached HTMLelement.');
+    }
+
+    this._overlay.container.style.zIndex = `${getHighestZIdx()}`;
+
+    this.repositionDropdown();
+    this._positioned = true;
+  }
+
   private focusItem(item: VxItemComponent<T>): void {
+    if (this.focusedItem) {
+      this.focusedItem._focused = false;
+    }
+
     const dropdown = this._el.nativeElement;
 
     const top = item._elementRef.nativeElement.offsetTop;
     dropdown.scrollTop = top - dropdown.offsetHeight / 4;
 
-    item.focused = true;
+    item._focused = true;
     this.focusedItem = item;
+  }
+
+  private clearFocusedItem(): void {
+    this._focusedIdx = -1;
+    if (this.focusedItem) {
+      this.focusedItem._focused = false;
+    }
+    this.focusedItem = undefined;
+
+    this._el.nativeElement.scrollTop = 0;
   }
 }
 
-export interface ItemWithSubscription<T> extends VxItemComponent<T> {
-  subscriptions?: Subscription[];
-}
-
-export interface DropdownAutoclose {
+export interface MenuAutoclose {
   escape?: boolean;
   tab?: boolean;
   itemSelect?: boolean;
   overlay?: boolean;
+}
+
+/**
+ * @deprecated renamed to MenuAutoclose
+ */
+export interface DropdownAutoclose extends MenuAutoclose {
 }
 
 
@@ -308,8 +327,8 @@ export interface DropdownAutoclose {
   styleUrls: ['./menu.component.scss']
 })
 export class VxDropdownComponent<T = string> extends VxMenuComponent<T> {
-  constructor(_el: ElementRef, ngZone: NgZone) {
-    super(_el, ngZone);
+  constructor(_el: ElementRef, cdr: ChangeDetectorRef, ngZone: NgZone) {
+    super(_el, cdr, ngZone);
 
     console.warn('Use of VxDropdownComponent is deprecated and will soon be removed from vx-components. ' +
       'Please change all occurrences of VxDropdownComponent to VxMenuComponent and all uses of <vx-dropdown> to <vx-menu>.');

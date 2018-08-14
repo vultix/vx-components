@@ -5,8 +5,13 @@
 
     <vx-tabs>
       <vx-tab label="Example">
-        <vx-autocomplete placeholder="Choose A Country" #autocomplete>
-          <vx-item *ngFor="let country of countries" [value]="country.value">{{ country.name }}</vx-item>
+        <vx-checkbox #multiple>Multiple</vx-checkbox>
+        <vx-checkbox #search>Search</vx-checkbox>
+        <vx-autocomplete placeholder="Choose A Country" #autocomplete [multiple]="multiple.checked"
+                         [search]="search.checked">
+          <vx-item *ngFor="let country of countries" [value]="country.value" [searchTxt]="country.name">{{ country.name
+            }}
+          </vx-item>
         </vx-autocomplete>
         {{ autocomplete.value }}
       </vx-tab>

@@ -1,27 +1,30 @@
-<vx-input-wrapper [class.invalid]="_isInvalid()" (keydown.ArrowDown)="_showDropdown()"
-                  (focusin)="_handleInputFocusChange(true)"
-                  (focusout)="_handleInputFocusChange(false)" [vxAttachMenu]="dropdown">
-  <button #button vx-button *ngFor="let item of selectedItems" class="chip"
-          (click)="_removeItem(item)" (keydown.backspace)="_removeItem(item)">
+<vx-input-wrapper [vxAttachMenu]="menu" [_invalid]="invalid" (_click)="_handleTap()" [class.focused]="_focused"
+                  (keydown.ArrowDown)="_handleTap()" (keydown.backspace)="_handleBackspace()">
+
+  <button #button vx-button *ngFor="let item of _selectedItems" class="chip"
+          (click)="_removeItem(item.value); $event.stopPropagation()"
+          (keydown.backspace)="_removeItem(item.value); $event.stopPropagation();">
     {{ item.searchTxt }} <span class="delete">X</span>
   </button>
 
-  <div class="noWrap" [tabIndex]="!search ? tabIndex : -1" (click)="_showDropdown()">
-    <input vxInput #input [placeholder]="placeholder" [tabIndex]="tabIndex" [disabled]="disabled"
-           ngModel (ngModelChange)="_onInputChange($event)"
-           [name]="name" (keydown.escape)="_closeDropdown()" [requiredLabel]="_required"
-           (keydown.backspace)="_handleBackspace()" [attr.disabled]="!search || undefined" [class.pointer]="!search">
+  <div class="noWrap" #focusEl [tabIndex]="search ? -1 : tabIndex" (click)="_handleTap()"
+       (focus)="_focused = true; _handleTap()" (blur)="_focused = false">
 
-    <div class="arrowContainer" (click)="_arrowClicked()">
+    <input vxInput [label]="placeholder" [placeholder]="_placeholder" [tabIndex]="tabIndex" [disabled]="disabled"
+           ngModel (ngModelChange)="_filter(); _showMenu()" (focus)="_handleTap()" (blur)="_handleBlur()"
+           [name]="name" [requiredLabel]="required" (click)="_handleTap()"
+           [attr.disabled]="!search || undefined" [class.pointer]="!search">
+
+    <div class="arrowContainer">
       <div class="downArrow"></div>
     </div>
   </div>
 
 </vx-input-wrapper>
 
-<vx-menu #dropdown [(visible)]="_dropdownVisible" (itemClick)="_onSelectItem($event)" [class.invalid]="_isInvalid()"
+<vx-menu #menu (itemClick)="_selectItem($event)"
          (keydown.escape)="_closeDropdown()" [offsetTop]="-2" [matchWidth]="true" class="autocompleteMenu"
-         [defaultText]="defaultText"
-         [autoClose]="false">
-  <ng-content select="vx-item" vx-menu-items></ng-content>
+         [defaultText]="defaultText" (visibleChange)="_dropdownVisible($event)">
+  <vx-item *ngFor="let item of _filteredItems" [disabled]="item.disabled" [_template]="item._template"
+           [value]="item.value"></vx-item>
 </vx-menu>
