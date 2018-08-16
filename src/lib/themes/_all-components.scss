@@ -1,3 +1,4 @@
+@import 'defaults';
 @import 'checkbox';
 @import 'input';
 @import 'tabs';
@@ -7,15 +8,14 @@
 @import 'dialog';
 @import 'radio';
 @import 'toast';
-@import 'defaults';
 @import 'stepper';
 @import 'spinner';
 @import 'slide-toggle';
 @import 'slider';
 @import 'pager';
 
-@mixin vx-load-themes($col) {
-  $colors: prepareColors($col);
+@mixin vx-load-themes($col: ()) {
+  $colors: vx-prepare-colors($col);
   @include vx-checkbox-theme($colors);
   @include vx-tabs-theme($colors);
   @include vx-input-theme($colors);

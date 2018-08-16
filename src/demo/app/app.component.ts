@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {TitleService} from './title.service';
+import {ThemingService} from './theming/theming.service';
 
 @Component({
   selector: 'vx-root',
@@ -9,7 +10,11 @@ import {TitleService} from './title.service';
 export class AppComponent {
 
   opened: boolean;
-  constructor(public titleService: TitleService) {
+
+  constructor(public titleService: TitleService, private themingService: ThemingService) {
+    themingService.loadBundle().subscribe(() => {
+
+    });
   }
 
 }

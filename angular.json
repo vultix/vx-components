@@ -5,7 +5,7 @@
   "projects": {
     "vx-components2": {
       "root": "",
-      "sourceRoot": "src",
+      "sourceRoot": "src/demo",
       "projectType": "application",
       "architect": {
         "build": {
@@ -81,8 +81,15 @@
               "src/demo/assets/github.css"
             ],
             "assets": [
-              "src/demo/assets",
-              "src/demo/favicon.ico"
+              {
+                "glob": "**/*",
+                "input": "src/demo/assets",
+                "output": "/assets"
+              },
+              {
+                "input": "src/favicon.ico",
+                "output": "/favicon.ico"
+              }
             ]
           }
         },

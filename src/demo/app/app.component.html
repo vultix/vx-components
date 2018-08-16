@@ -1,5 +1,5 @@
 <div class="sidebar" [class.opened]="opened">
-  <div class="header inner">
+  <div class="page-header inner">
     Vx Components
   </div>
   <div class="links">
@@ -17,16 +17,17 @@
     <a routerLink="/slider" routerLinkActive="active" (click)="opened = false;">Slider</a>
     <a routerLink="/button-group" routerLinkActive="active" (click)="opened = false;">Button Group</a>
     <a routerLink="/pager" routerLinkActive="active" (click)="opened = false;">Pager</a>
+    <a routerLink="/theming" routerLinkActive="active" (click)="opened = false;">Theming</a>
   </div>
 </div>
 
 <div class="body">
-  <div class="header">
-        <span class="menu" (click)="opened = true;">
+  <div class="page-header">
+        <span class="page-menu" (click)="opened = true;">
         </span>
     <span>{{titleService.title}}</span>
   </div>
-  <div class="overlay" (click)="opened = false;" *ngIf="opened"></div>
+  <div class="page-overlay" (click)="opened = false;" *ngIf="opened"></div>
   <div class="mainContent">
     <div>
       <router-outlet></router-outlet>

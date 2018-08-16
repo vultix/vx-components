@@ -1,19 +1,19 @@
-@import "defaults";
-
-@mixin vx-input-theme($colors) {
-  $colors: prepareColors($colors);
+@mixin vx-input-theme($colors: ()) {
+  $colors: vx-prepare-colors($colors);
   $primary: map-get($colors, primary);
   $background: map-get($colors, background);
   $foreground: map-get($colors, foreground);
   $accent: map-get($colors, accent);
   $error: map-get($colors, error);
 
-  $placeholder: mix($foreground, $background, 30%);
-  $labelColor: mix($foreground, $background, 35%);
+  $darkerBgFg: map-get($colors, darkerBgFg);
+  $lighterBgFg: map-get($colors, lighterBgFg);
+
+  $placeholder: mix($darkerBgFg, $lighterBgFg, 30%);
+  $labelColor: map_get($colors, borderLight);
 
   vx-input-wrapper {
     .container {
-      background: $background;
       border: 1px solid $labelColor;
     }
     .label, .requiredLabel {

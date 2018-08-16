@@ -1,50 +1,48 @@
-@import "vars";
-
 $headerH: 60px;
 $sidebarW: 200px;
 
 .sidebar {
   width: $sidebarW;
-  background: mix($background, $foreground, 35%);
-  color: $background;
   z-index: 9999;
   position: fixed;
   height: 100%;
   left: 0;
   top: 0;
+  display: flex;
+  flex-direction: column;
 
   .links a {
     display: block;
     padding: 15px 10px;
-    border-top: 1px solid mix($background, $foreground, 75%);
-    color: $background;
+    flex: 1;
     text-decoration: none;
 
     &.active {
       font-weight: bold;
     }
   }
+  .links {
+    overflow-y: auto;
+  }
 }
 
-.header {
+.page-header {
   position: fixed;
   top: 0;
   left: $sidebarW;
   right: 0;
   height: $headerH;
-  background: $mainColor;
-  color: $background;
   line-height: $headerH;
   vertical-align: middle;
   border: none;
-  box-shadow: 0 0 10px 1px transparentize($foreground, .5);
+
   font-size: 25px;
   z-index: 100;
+  flex: 0;
   text-align: center;
 
   &.inner {
     position: static;
-    border-right: 2px solid mix($foreground, $mainColor, 35%);
     box-shadow: none;
   }
 }
@@ -72,14 +70,14 @@ $sidebarW: 200px;
   .body {
     margin-left: 0;
   }
-  .header {
+  .page-header {
     left: 0;
     &.inner {
       box-shadow: none;
     }
   }
 
-  .overlay {
+  .page-overlay {
     position: absolute;
     z-index: 9998;
     top: 0;
@@ -89,7 +87,7 @@ $sidebarW: 200px;
     background: rgba(0,0,0, .3);
   }
 
-  .menu {
+  .page-menu {
     $barW: 30px;
     $barH: 4px;
     $space: 4px;
@@ -99,7 +97,6 @@ $sidebarW: 200px;
     height: $barH;
     top: 50%;
     transform: translateY(-50%);
-    background: $background;
     border-radius: 1px;
 
     &:before {
@@ -107,7 +104,6 @@ $sidebarW: 200px;
       position: absolute;
       width: $barW;
       height: $barH;
-      background: $background;
       border-radius: 1px;
       bottom: 100%;
       margin-bottom: $space;
@@ -118,7 +114,6 @@ $sidebarW: 200px;
       position: absolute;
       width: $barW;
       height: $barH;
-      background: $background;
       border-radius: 1px;
       top: 100%;
       margin-top: $space;

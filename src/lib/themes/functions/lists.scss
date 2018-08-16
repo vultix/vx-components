@@ -1,0 +1,3 @@
+@function vx-contains($list,$var) {
+  @return (null != index($list, $var));
+}

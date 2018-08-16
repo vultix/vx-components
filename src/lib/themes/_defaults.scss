@@ -1,13 +1,43 @@
+@import 'functions/colors';
+
 $defaultColors: (
   primary: #3fa0bd,
   background: #fcfcfc,
+  foreground: black,
   error: #bf0000,
   success: #51a351,
   warn: #f89406,
-  foreground: black,
   accent:  #FFCA4F
 );
 
-@function prepareColors($colors) {
-  @return map-merge($defaultColors, $colors);
+$vxPreparedMaps: ();
+@function vx-prepare-colors($colors: ()) {
+  $hash: "#{$colors}";
+  @if map_has_key($vxPreparedMaps, $hash) {
+    @return map_get($vxPreparedMaps, $hash);
+  }
+
+  $colors: map-merge($defaultColors, $colors);
+
+  $primary: map_get($colors, primary);
+  $background: map_get($colors, background);
+  $foreground: map_get($colors, foreground);
+  $error: map_get($colors, error);
+  $success: map_get($colors, success);
+  $warn: map_get($colors, warn);
+  $accent: map_get($colors, accent);
+  $darkerBgFg: vx-darker-color($background, $foreground);
+  $lighterBgFg: vx-lighter-color($background, $foreground);
+  $borderLight: mix($darkerBgFg, $lighterBgFg, 40%);
+  $borderDark: mix($darkerBgFg, $lighterBgFg, 50%);
+
+  $result: map-merge($colors, (
+    darkerBgFg: $darkerBgFg,
+    lighterBgFg: $lighterBgFg,
+    borderLight: $borderLight,
+    borderDark: $borderDark
+  ));
+
+  $vxPreparedMaps: map_merge($vxPreparedMaps, ($hash: $result)) !global;
+  @return $result;
 }

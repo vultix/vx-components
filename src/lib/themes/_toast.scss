@@ -1,6 +1,5 @@
-@import "defaults";
-@mixin vx-toast-theme($colors) {
-  $colors: prepareColors($colors);
+@mixin vx-toast-theme($colors: ()) {
+  $colors: vx-prepare-colors($colors);
 
   $primary: map_get($colors, primary);
   $accent: map_get($colors, accent);

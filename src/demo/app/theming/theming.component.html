@@ -1,0 +1,56 @@
+<button vx-button vx-accent (click)="reset()">Reset</button>
+<button vx-button vx-accent (click)="facebook()">Facebook</button>
+<button vx-button vx-accent (click)="netflix()">Netflix</button>
+
+<vx-spinner *ngIf="compiling"></vx-spinner>
+
+<div class="color">
+  <span class="label">Primary Color</span>
+  <button vx-button [(colorPicker)]="colors.primary" (colorPickerChange)="changes.next()"
+          [style.background]="colors.primary" [value]="colors.primary">{{colors.primary}}
+  </button>
+</div>
+
+<div class="color">
+  <span class="label">Background Color</span>
+  <button vx-button [(colorPicker)]="colors.background" (colorPickerChange)="changes.next()" [style.boxShadow]="shadow"
+          [style.background]="colors.background" [style.color]="colors.foreground" [value]="colors.background">
+    {{colors.background}}
+  </button>
+</div>
+
+<div class="color">
+  <span class="label">Foreground Color</span>
+  <button vx-button [(colorPicker)]="colors.foreground" (colorPickerChange)="changes.next()"
+          [style.background]="colors.foreground" [style.color]="colors.background" [value]="colors.foreground">
+    {{colors.foreground}}
+  </button>
+</div>
+
+<div class="color">
+  <span class="label">Error Color</span>
+  <button vx-button [(colorPicker)]="colors.error" (colorPickerChange)="changes.next()"
+          [style.background]="colors.error" [value]="colors.error">{{colors.error}}
+  </button>
+</div>
+
+<div class="color">
+  <span class="label">Success Color</span>
+  <button vx-button [(colorPicker)]="colors.success" (colorPickerChange)="changes.next()"
+          [style.background]="colors.success" [value]="colors.success">{{colors.success}}
+  </button>
+</div>
+
+<div class="color">
+  <span class="label">Warn Color</span>
+  <button vx-button [(colorPicker)]="colors.warn" (colorPickerChange)="changes.next()"
+          [style.background]="colors.warn" [value]="colors.warn">{{colors.warn}}
+  </button>
+</div>
+
+<div class="color">
+  <span class="label">Accent Color</span>
+  <button vx-button [(colorPicker)]="colors.accent" (colorPickerChange)="changes.next()"
+          [style.background]="colors.accent" [value]="colors.accent">{{colors.accent}}
+  </button>
+</div>

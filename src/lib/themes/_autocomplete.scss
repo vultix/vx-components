@@ -1,17 +1,17 @@
-@import "defaults";
 // Use this mixin to apply colored themes to the checkbox
-@mixin vx-autocomplete-theme($colors) {
-  $colors: prepareColors($colors);
+@mixin vx-autocomplete-theme($colors: ()) {
+  $colors: vx-prepare-colors($colors);
 
   $background: map_get($colors, background);
   $primary: map_get($colors, primary);
   $foreground: map_get($colors, foreground);
   $error: map_get($colors, error);
-  $iconColorDown: mix($foreground, $background, 50%);
+  $darkerBgFg: map_get($colors, darkerBgFg);
+  $iconColorDown: map_get($colors, borderDark);
 
   vx-autocomplete, vx-select {
     .hasFocus .container {
-      box-shadow: 0 -1px 3px 0 rgba(0, 0, 0, 0.25)
+      box-shadow: 0 -1px 3px 0 transparentize($darkerBgFg, 0.75)
     }
 
     .downArrow {
@@ -22,7 +22,7 @@
   }
 
   .autocompleteMenu {
-    box-shadow: 0 3px 3px 0 transparentize($foreground, .75);
+    box-shadow: 0 3px 3px 0 transparentize($darkerBgFg, .75);
     border: 1px solid $primary;
   }
   .autocompleteMenu.invalid {

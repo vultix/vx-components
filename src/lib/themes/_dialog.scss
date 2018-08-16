@@ -1,19 +1,20 @@
-@import "defaults";
-@mixin vx-dialog-theme($colors) {
-  $colors: prepareColors($colors);
+@mixin vx-dialog-theme($colors: ()) {
+  $colors: vx-prepare-colors($colors);
   $primary: map_get($colors, primary);
   $accent: map_get($colors, accent);
   $background: map_get($colors, background);
   $foreground: map_get($colors, foreground);
+  $lighterBgFg: map_get($colors, lighterBgFg);
+  $darkerBgFg: map_get($colors, darkerBgFg);
 
   .vxDialog {
     .overlay {
-      background: transparentize($foreground, .8);
+      background: transparentize($darkerBgFg, .8);
     }
     .content {
       background-color: $background;
       color: $foreground;
-      box-shadow: 0 10px 20px 3px transparentize($foreground, .9), 0 10px 45px 8px transparentize($foreground, .9);
+      box-shadow: 0 10px 20px 3px transparentize($darkerBgFg, .9), 0 10px 45px 8px transparentize($darkerBgFg, .9);
     }
     [vx-dialog-content] {
       display: block;

@@ -6,10 +6,10 @@
         <button vx-button (click)="showToast()">Show Toast!</button>
 
         <vx-autocomplete placeholder="Toast Position" [(ngModel)]="toastPos">
-          <vx-item *ngFor="let position of toastPositions">{{position}}</vx-item>
+          <vx-item *ngFor="let position of toastPositions" [searchTxt]="position">{{position}}</vx-item>
         </vx-autocomplete>
         <vx-autocomplete placeholder="Toast Type" [(ngModel)]="toastType">
-          <vx-item *ngFor="let type of toastTypes">{{type}}</vx-item>
+          <vx-item *ngFor="let type of toastTypes" [searchTxt]="type">{{type}}</vx-item>
         </vx-autocomplete>
 
         <vx-input-wrapper>

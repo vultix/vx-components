@@ -21,6 +21,10 @@ import {SlideToggleDemoComponent} from './slide-toggle-demo/slide-toggle-demo.co
 import {SliderDemoComponent} from './slider-demo/slider-demo.component';
 import {ButtonGroupDemoComponent} from './button-group-demo/button-group-demo.component';
 import {PagerDemoComponent} from './pager-demo/pager-demo.component';
+import {ThemingComponent} from './theming/theming.component';
+import {HttpClientModule} from '@angular/common/http';
+import {ThemingService} from './theming/theming.service';
+import {ColorPickerModule} from 'ngx-color-picker';
 
 const routes: Route[] = [
   {path: '', pathMatch: 'full', redirectTo: 'tabs'},
@@ -38,6 +42,7 @@ const routes: Route[] = [
   {path: 'slider', component: SliderDemoComponent},
   {path: 'button-group', component: ButtonGroupDemoComponent},
   {path: 'pager', component: PagerDemoComponent},
+  {path: 'theming', component: ThemingComponent},
   {path: '**', redirectTo: 'tabs'}
 ];
 
@@ -59,16 +64,19 @@ const routes: Route[] = [
     SlideToggleDemoComponent,
     SliderDemoComponent,
     ButtonGroupDemoComponent,
-    PagerDemoComponent
+    PagerDemoComponent,
+    ThemingComponent
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     FormsModule,
     VxComponentsModule,
+    ColorPickerModule,
     RouterModule.forRoot(routes)
   ],
   entryComponents: [DialogDemoDialogComponent],
-  providers: [TitleService],
+  providers: [TitleService, ThemingService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
