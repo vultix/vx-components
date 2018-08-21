@@ -12,7 +12,7 @@ $defaultColors: (
 
 $vxPreparedMaps: ();
 @function vx-prepare-colors($colors: ()) {
-  $hash: "#{$colors}";
+  $hash: inspect($colors);
   @if map_has_key($vxPreparedMaps, $hash) {
     @return map_get($vxPreparedMaps, $hash);
   }
@@ -38,6 +38,8 @@ $vxPreparedMaps: ();
     borderDark: $borderDark
   ));
 
-  $vxPreparedMaps: map_merge($vxPreparedMaps, ($hash: $result)) !global;
+  $newHash: inspect($result);
+
+  $vxPreparedMaps: map_merge($vxPreparedMaps, ($hash: $result, $newHash: $result)) !global;
   @return $result;
 }
