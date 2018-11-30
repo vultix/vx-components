@@ -1,0 +1,64 @@
+.vx-form-field {
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+}
+
+.vx-form-field-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  border-radius: 3px;
+  overflow: hidden;
+  line-height: 30px;
+  transition: border-color .3s ease;
+}
+
+
+.vx-form-field-label {
+  font-size: 12px;
+  overflow: hidden;
+  padding-bottom: 2px;
+  padding-right: 10px;
+  transition: color .3s ease;
+}
+
+.vx-form-field-required-label {
+  transition: color .3s ease;
+}
+
+.vx-form-field-input {
+  border: 0;
+  font-size: 16px;
+  outline: none;
+  background: none;
+  flex-grow: 1;
+  max-width: 100%;
+  margin: 0;
+  width: 100px;
+  height: 20px;
+  padding: 7px;
+  -webkit-opacity: 1;
+  transition: color .3s ease;
+
+  // Placeholder color
+  &::-webkit-input-placeholder {
+    transition: color .3s ease;
+  }
+
+  // Numeric Inputs
+  &[type=number] {
+    -moz-appearance: textfield;
+
+    &::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
+}
+//
+//span[vxPrefix], i[vxPrefix] {
+//  margin-left: 5px;
+//  line-height: 34px;
+//}

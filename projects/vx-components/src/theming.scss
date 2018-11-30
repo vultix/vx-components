@@ -1,0 +1,7 @@
+@import "./themes/defaults";
+@import "./themes/form-field";
+
+@mixin vx-all-components($colors: ()) {
+  $colors: vx-prepare-colors($colors);
+  @include vx-form-field-theme($colors);
+}

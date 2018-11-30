@@ -16,6 +16,26 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "vx-components": [
+        "dist/vx-components"
+      ],
+      "vx-components/*": [
+        "dist/vx-components/*"
+      ],
+      "vx-ns-components": [
+        "dist/vx-ns-components"
+      ],
+      "vx-ns-components/*": [
+        "dist/vx-ns-components/*"
+      ],
+      "vx-components-base": [
+        "dist/vx-components-base"
+      ],
+      "vx-components-base/*": [
+        "dist/vx-components-base/*"
+      ]
+    }
   }
 }
