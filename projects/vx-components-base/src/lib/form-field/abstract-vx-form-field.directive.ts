@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, DoCheck, ElementRef, Input, OnChanges, OnDestroy, Optional, Self} from '@angular/core';
+import {ChangeDetectorRef, DoCheck, ElementRef, Input} from '@angular/core';
 import {FormGroupDirective, NgControl, NgForm} from '@angular/forms';
 import {coerceBooleanProperty, ErrorStateMatcher, VxFormComponent} from '../shared';
 
@@ -85,8 +85,6 @@ export abstract class AbstractVxFormFieldDirective<T> extends VxFormComponent<st
 
   protected handlePlaceholder(): void {
     this.setNativePlaceholder((this.label && this.placeholder) ? this.placeholder : '');
-    // TODO: mobile hide hint
-    // this._showHint = !!this.placeholder && !!this.label;
     this.cdr.markForCheck();
   }
 

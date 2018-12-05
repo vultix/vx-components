@@ -11,7 +11,8 @@ import {VxFormFieldDirective} from './vx-form-field.directive';
   host: {
     '[class.vx-form-field]': 'true',
     '[class.vx-error]': 'field.errorState',
-    '[class.vx-focused]': 'field.focused'
+    '[class.vx-focused]': 'field.focused',
+    '[class.vx-disabled]': 'field.disabled'
   }
 })
 export class VxFormFieldComponent extends AbstractVxFormFieldComponent {

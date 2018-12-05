@@ -1,0 +1,80 @@
+// Use this mixin to apply colored themes to the dropdown
+@mixin vx-ns-form-field-theme($colors) {
+  $colors: vx-ns-prepare-colors($colors);
+  $background: map_get($colors, background);
+  $foreground: map_get($colors, foreground);
+  $primary: map_get($colors, primary);
+  $error: map_get($colors, error);
+  $accent: map_get($colors, accent);
+  $border: map_get($colors, borderLight);
+
+  $darkerBgFg: map-get($colors, darkerBgFg);
+  $lighterBgFg: map-get($colors, lighterBgFg);
+
+  $placeholder: mix($darkerBgFg, $lighterBgFg, 30%);
+  $darkerPlaceholder: mix($darkerBgFg, $lighterBgFg, 50%);
+  $labelColor: map_get($colors, borderLight);
+
+  // Initial Colors
+  .vx-ns-form-field-container {
+    border-color: $border;
+  }
+
+  .vx-ns-form-field-label, .vx-ns-form-field-required-label {
+    color: $labelColor;
+  }
+
+  .vx-ns-form-field-input {
+    color: $foreground;
+    placeholder-color: transparent;
+
+    &.vx-ns-show-placeholder {
+      placeholder-color: $placeholder;
+    }
+  }
+
+  // Focused Colors
+  .vx-ns-form-field.vx-ns-focused {
+    .vx-ns-form-field-container {
+      border-color: $primary;
+    }
+
+    .vx-ns-form-field-label {
+      color: $primary;
+    }
+    .vx-ns-form-field-required-label {
+      color: $accent;
+    }
+
+    .vx-ns-form-field-input.vx-ns-show-placeholder {
+      placeholder-color: $darkerPlaceholder;
+    }
+  }
+
+  // Error Colors
+  .vx-ns-form-field.vx-ns-error {
+    .vx-ns-form-field-container {
+      border-color: $error;
+    }
+
+    .vx-ns-form-field-label {
+      color: $error;
+    }
+
+    .vx-ns-form-field-required-label {
+      color: mix($accent, $error);
+    }
+
+    .vx-ns-form-field-input.vx-ns-show-placeholder {
+      placeholder-color: mix($error, $placeholder, 20%);
+    }
+  }
+
+  // Error and Focused Colors
+  .vx-ns-form-field.vx-ns-error.vx-ns-focused {
+    .vx-ns-form-field-input.vx-ns-show-placeholder {
+      placeholder-color: mix($error, $darkerPlaceholder, 30%);
+    }
+  }
+
+}

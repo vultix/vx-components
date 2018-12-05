@@ -1,0 +1,5 @@
+<ListView [items]="routes">
+    <ng-template let-item="item" let-i="index" let-odd="odd" let-even="even">
+        <Label [text]="item.name" [nsRouterLink]="item.route"></Label>
+    </ng-template>
+</ListView>

@@ -1,0 +1,47 @@
+@import 'functions/colors';
+
+$defaultColors: (
+        primary: #3fa0bd,
+        background: #fcfcfc,
+        foreground: black,
+        error: #bf0000,
+        success: #51a351,
+        warn: #f89406,
+        accent:  #FFCA4F
+);
+
+$_vxNsPreparedMaps: ();
+@function vx-ns-prepare-colors($colors: ()) {
+  $hash: inspect($colors);
+
+  @if map_has_key($_vxNsPreparedMaps, $hash) {
+    @return map_get($_vxNsPreparedMaps, $hash);
+  }
+
+
+  $colors: map-merge($defaultColors, $colors);
+
+  $primary: map_get($colors, primary);
+  $background: map_get($colors, background);
+  $foreground: map_get($colors, foreground);
+  $error: map_get($colors, error);
+  $success: map_get($colors, success);
+  $warn: map_get($colors, warn);
+  $accent: map_get($colors, accent);
+  $darkerBgFg: vx-ns-darker-color($background, $foreground);
+  $lighterBgFg: vx-ns-lighter-color($background, $foreground);
+  $borderLight: mix($darkerBgFg, $lighterBgFg, 40%);
+  $borderDark: mix($darkerBgFg, $lighterBgFg, 50%);
+
+  $result: map-merge($colors, (
+          darkerBgFg: $darkerBgFg,
+          lighterBgFg: $lighterBgFg,
+          borderLight: $borderLight,
+          borderDark: $borderDark
+  ));
+
+  $newHash: inspect($result);
+
+  $_vxNsPreparedMaps: map_merge($_vxNsPreparedMaps, ($hash: $result, $newHash: $result))!global;
+  @return $result;
+}

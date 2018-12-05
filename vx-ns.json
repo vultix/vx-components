@@ -1,0 +1,39 @@
+{
+  "defaultProject": "vx-ns-components-demo",
+  "projects": {
+    "vx-ns-components-demo": {
+      "root": "projects/vx-ns-components-demo",
+      "main": "projects/vx-ns-components-demo/app/main.ts",
+      "tsconfig": "projects/vx-ns-components-demo/tsconfig.app.json",
+      "outputPath": "dist/vx-ns-components-demo",
+      "defaultConfiguration": "dev",
+      "configurations": {
+        "dev": {
+          "forDevice": false
+        },
+        "production": {
+          "uglify": true,
+          "bo": false,
+          "clean": true,
+          "aot": true,
+          "forDevice": true,
+          "fileReplacements": [
+          ]
+
+        }
+      },
+      "android": {
+        "v8Flags": "--expose_gc"
+      },
+      "nativescript": {
+        "id": "vx.ns.components.demo",
+        "tns-ios": {
+          "version": "4.2.0"
+        },
+        "tns-android": {
+          "version": "4.2.0"
+        }
+      }
+    }
+  }
+}

@@ -74,7 +74,7 @@ export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDest
 
   protected onTouchFn = () => {
   };
-  protected onChangeFn = (val: T) => {
+  protected onChangeFn = (_: T) => {
   };
 
   constructor(
@@ -87,7 +87,7 @@ export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDest
 
   }
 
-  checkErrorState(): void {
+  protected checkErrorState(): void {
     const oldState = this.errorState;
     const parent = this.parentFormGroup || this.parentForm;
     const control = this.ngControl ? this.ngControl.control as FormControl : null;
@@ -96,6 +96,7 @@ export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDest
     if (newState !== oldState) {
       this.errorState = newState;
       this.stateChanges.next();
+      this.cdr.markForCheck();
     }
   }
 

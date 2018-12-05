@@ -1,0 +1,10 @@
+<Label class="vx-ns-form-field-label" *ngIf="field.showLabel">
+  <FormattedString>
+    <Span [text]="field.label || field.placeholder"></Span>
+    <Span class="vx-ns-form-field-required-label" text="*" *ngIf="field.required && !field.hideRequiredMarker"></Span>
+  </FormattedString>
+</Label>
+<FlexboxLayout class="vx-ns-form-field-container">
+  <ng-content></ng-content>
+</FlexboxLayout>
+

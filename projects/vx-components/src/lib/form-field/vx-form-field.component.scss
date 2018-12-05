@@ -2,6 +2,12 @@
   display: inline-block;
   position: relative;
   vertical-align: middle;
+
+  &.vx-disabled {
+    opacity: 0.65;
+    pointer-events: none;
+    cursor: auto;
+  }
 }
 
 .vx-form-field-container {
@@ -36,7 +42,7 @@
   flex-grow: 1;
   max-width: 100%;
   margin: 0;
-  width: 100px;
+  width: 150px;
   height: 20px;
   padding: 7px;
   -webkit-opacity: 1;
