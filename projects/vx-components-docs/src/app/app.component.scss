@@ -1,0 +1,125 @@
+@import "vars";
+
+$headerH: 60px;
+$sidebarW: 200px;
+
+.sidebar {
+  width: $sidebarW;
+  z-index: 9999;
+  position: fixed;
+  height: 100%;
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+
+  .links a {
+    display: block;
+    padding: 15px 10px;
+    flex: 1;
+    text-decoration: none;
+
+    &.active {
+      font-weight: bold;
+    }
+  }
+  .links {
+    overflow-y: auto;
+  }
+}
+
+.page-header {
+  position: fixed;
+  top: 0;
+  left: $sidebarW;
+  right: 0;
+  height: $headerH;
+  line-height: $headerH;
+  vertical-align: middle;
+  border: none;
+
+  font-size: 25px;
+  z-index: 100;
+  flex: 0;
+  text-align: center;
+
+  &.inner {
+    position: static;
+    box-shadow: none;
+  }
+}
+
+.body {
+  margin-top: $headerH;
+  margin-left: $sidebarW;
+}
+
+.mainContent {
+  padding: 13px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+@media screen and (max-width: 475px) {
+  .sidebar {
+    transition: transform .3s;
+    transform: translateX(-$sidebarW);
+
+    &.opened {
+      transform: translateX(0);
+    }
+  }
+  .body {
+    margin-left: 0;
+  }
+  .page-header {
+    left: 0;
+    &.inner {
+      box-shadow: none;
+    }
+  }
+
+  .page-overlay {
+    position: absolute;
+    z-index: 9998;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0,0,0, .3);
+  }
+
+  .page-menu {
+    $barW: 30px;
+    $barH: 4px;
+    $space: 4px;
+    position: absolute;
+    left: 15px;
+    width: $barW;
+    height: $barH;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 1px;
+
+    &:before {
+      content: '';
+      position: absolute;
+      width: $barW;
+      height: $barH;
+      border-radius: 1px;
+      bottom: 100%;
+      margin-bottom: $space;
+      left: 0;
+    }
+    &:after {
+      content: '';
+      position: absolute;
+      width: $barW;
+      height: $barH;
+      border-radius: 1px;
+      top: 100%;
+      margin-top: $space;
+      left: 0;
+    }
+  }
+}

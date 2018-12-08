@@ -1,0 +1,17 @@
+@import "../../../vx-components/src/theming";
+
+$colors: ();
+
+$colors: vx-prepare-colors($colors);
+
+$primary: map_get($colors, primary);
+$background: map_get($colors, background);
+$foreground: map_get($colors, foreground);
+$error: map_get($colors, error);
+$success: map_get($colors, success);
+$warn: map_get($colors, warn);
+$accent: map_get($colors, accent);
+$darkerBgFg: map_get($colors, darkerBgFg);
+$lighterBgFg: map_get($colors, lighterBgFg);
+$borderLight: map_get($colors, borderLight);
+$borderDark: map_get($colors, borderDark);

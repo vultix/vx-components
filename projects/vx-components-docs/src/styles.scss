@@ -1,0 +1,36 @@
+@import "vars";
+
+@include vx-all-components($colors);
+
+body {
+  background: $background;
+  color: $foreground;
+  font-family: sans-serif;
+  margin: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.sidebar {
+  background: mix($lighterBgFg, $darkerBgFg, 30%);
+
+  .links a {
+    border-top: 1px solid mix($background, $foreground, 75%);
+    color: white;
+  }
+}
+
+.page-header {
+  background: $primary;
+  color: $background;
+  box-shadow: 0 0 10px 1px transparentize($foreground, .5);
+  &.inner {
+    border-right: 2px solid mix($foreground, $primary, 35%);
+  }
+}
+
+@media screen and (max-width: 475px) {
+  .page-menu, .page-menu:before, .page-menu:after {
+    background: $background;
+  }
+}

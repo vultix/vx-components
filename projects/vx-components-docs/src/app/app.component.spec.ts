@@ -16,16 +16,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'vx-components-demo'`, () => {
+  it(`should have as title 'vx-components-docs'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('vx-components-demo');
+    expect(app.title).toEqual('vx-components-docs');
   });
 
   it('should render title in a h1 tag', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to vx-components-demo!');
+    expect(compiled.querySelector('h1').textContent).toContain('Welcome to vx-components-docs!');
   });
 });

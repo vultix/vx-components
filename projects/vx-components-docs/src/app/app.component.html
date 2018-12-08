@@ -1,0 +1,37 @@
+<div class="sidebar" [class.opened]="opened">
+  <div class="page-header inner">
+    Vx Components
+  </div>
+  <div class="links">
+    <a routerLink="/form-field" routerLinkActive="active" (click)="opened = false;">Form Field</a>
+    <!--<a routerLink="/input" routerLinkActive="active" (click)="opened = false;">Input</a>-->
+    <!--<a routerLink="/checkbox" routerLinkActive="active" (click)="opened = false;">Checkbox</a>-->
+    <!--<a routerLink="/radio" routerLinkActive="active" (click)="opened = false;">Radio</a>-->
+    <!--<a routerLink="/autocomplete" routerLinkActive="active" (click)="opened = false;">Autocomplete / Select</a>-->
+    <!--<a routerLink="/dialog" routerLinkActive="active" (click)="opened = false;">Dialog</a>-->
+    <!--<a routerLink="/toast" routerLinkActive="active" (click)="opened = false;">Toast</a>-->
+    <!--<a routerLink="/stepper" routerLinkActive="active" (click)="opened = false;">Stepper</a>-->
+    <!--<a routerLink="/spinner" routerLinkActive="active" (click)="opened = false;">Spinner</a>-->
+    <!--<a routerLink="/menu" routerLinkActive="active" (click)="opened = false;">Menu</a>-->
+    <!--<a routerLink="/slide-toggle" routerLinkActive="active" (click)="opened = false;">Slide Toggle</a>-->
+    <!--<a routerLink="/slider" routerLinkActive="active" (click)="opened = false;">Slider</a>-->
+    <!--<a routerLink="/button-group" routerLinkActive="active" (click)="opened = false;">Button Group</a>-->
+    <!--<a routerLink="/pager" routerLinkActive="active" (click)="opened = false;">Pager</a>-->
+    <!--<a routerLink="/theming" routerLinkActive="active" (click)="opened = false;">Theming</a>-->
+  </div>
+</div>
+
+<div class="body">
+  <div class="page-header">
+        <span class="page-menu" (click)="opened = true;">
+        </span>
+    <span>{{titleService.getTitle()}}</span>
+  </div>
+  <div class="page-overlay" (click)="opened = false;" *ngIf="opened"></div>
+  <div class="mainContent">
+    <div>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+

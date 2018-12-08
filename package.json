@@ -2,12 +2,11 @@
   "name": "vx-c",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "watchBase": "ng build --project vx-components-base --watch",
+    "watchVx": "ng build --project vx-components --watch",
+    "watchVxns": "ng build --project vx-ns-components --watch",
+    "vxNsDemo": "vx-ns run ios",
+    "start": "ng serve --project vx-components-docs"
   },
   "private": true,
   "dependencies": {
