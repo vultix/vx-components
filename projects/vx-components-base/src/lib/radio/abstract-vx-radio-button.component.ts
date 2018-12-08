@@ -1,11 +1,11 @@
-import {ChangeDetectorRef, EventEmitter, Inject, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {ChangeDetectorRef, EventEmitter, Inject, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
 import {coerceBooleanProperty} from '../shared';
 import {AbstractVxRadioGroupComponent} from './abstract-vx-radio-group.component';
 import {VX_RADIO_GROUP_TOKEN} from './vx-radio-group.token';
 import {Subject} from 'rxjs';
 import {startWith, takeUntil} from 'rxjs/operators';
 
-export abstract class AbstractVxRadioButtonComponent<T> implements OnDestroy, OnInit {
+export abstract class AbstractVxRadioButtonComponent<T> implements OnDestroy, OnInit, OnChanges {
   protected abstract componentName: string;
 
   /** Whether the radio button is disabled */
@@ -75,5 +75,14 @@ export abstract class AbstractVxRadioButtonComponent<T> implements OnDestroy, On
   ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if ('checked' in changes) {
+      // In case the checked input was set before the value input.
+      if (this.checked !== changes.checked.currentValue) {
+        this.checked = changes.checked.currentValue;
+      }
+    }
   }
 }
