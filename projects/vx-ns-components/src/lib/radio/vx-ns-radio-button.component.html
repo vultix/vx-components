@@ -1,0 +1,10 @@
+<FlexboxLayout class="vx-ns-radio-button-outline" row="0" col="0">
+  <StackLayout class="vx-ns-radio-button-fill" [class.checked]="group.value === value">
+
+  </StackLayout>
+</FlexboxLayout>
+
+<StackLayout class="vx-ns-radio-button-content" row="0" col="1">
+  <Label [text]="text" row="0" col="1" *ngIf="text"></Label>
+  <ng-content></ng-content>
+</StackLayout>

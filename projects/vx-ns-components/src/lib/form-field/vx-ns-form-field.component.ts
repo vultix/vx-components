@@ -21,7 +21,7 @@ export class VxNsFormFieldComponent extends AbstractVxFormFieldComponent {
   protected componentName = 'vx-ns-form-field';
   protected fieldDirectiveName = 'vxNsFormField';
 
-  @ContentChild(VxNsFormFieldDirective) field: VxNsFormFieldDirective;
+  @ContentChild(VxNsFormFieldDirective) field!: VxNsFormFieldDirective;
 
   constructor(cdr: ChangeDetectorRef) {
     super(cdr);

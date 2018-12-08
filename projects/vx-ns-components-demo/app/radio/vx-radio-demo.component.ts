@@ -1,5 +1,4 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {Title} from '@angular/platform-browser';
 
 @Component({
   templateUrl: 'vx-radio-demo.component.html',
@@ -7,12 +6,6 @@ import {Title} from '@angular/platform-browser';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class VxRadioDemoComponent implements OnInit {
-  constructor(private title: Title) {
-    title.setTitle('Radio Group');
-  }
+export class VxRadioDemoComponent {
 
-
-  ngOnInit() {
-  }
 }

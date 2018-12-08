@@ -1,0 +1,28 @@
+@mixin vx-ns-radio-theme($colors) {
+  $colors: vx-ns-prepare-colors($colors);
+  $primary: map_get($colors, primary);
+  $foreground: map_get($colors, foreground);
+  $background: map_get($colors, background);
+  $accent: map_get($colors, accent);
+  $error: map_get($colors, error);
+  $border: map_get($colors, borderLight);
+
+  .vx-ns-radio-button-fill {
+    background: $primary;
+  }
+
+  .vx-ns-radio-button-outline {
+    border-color: $primary;
+  }
+
+  // Error state
+  .vx-ns-radio-button.vx-ns-error {
+    .vx-ns-radio-button-fill {
+      background: $error;
+    }
+
+    .vx-ns-radio-button-outline {
+      border-color: $error;
+    }
+  }
+}

@@ -1,0 +1,12 @@
+<StackLayout>
+  <StackLayout vx-ns-radio-group #group ngModel>
+    <GridLayout vx-ns-radio-button text="Button 1" [value]="1">
+    </GridLayout>
+    <GridLayout vx-ns-radio-button text="Button 2" [value]="2">
+    </GridLayout>
+    <GridLayout vx-ns-radio-button text="Button 3" [value]="3">
+    </GridLayout>
+  </StackLayout>
+
+  <Label [text]="group.value"></Label>
+</StackLayout>

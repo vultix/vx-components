@@ -48,7 +48,7 @@ export abstract class AbstractVxRadioButtonComponent<T> implements OnDestroy, On
 
   private onDestroy$ = new Subject<void>();
   private wasChecked = false;
-  constructor(protected cdr: ChangeDetectorRef, @Inject(VX_RADIO_GROUP_TOKEN) public group: AbstractVxRadioGroupComponent<T>) {
+  constructor(protected cdr: ChangeDetectorRef, public group: AbstractVxRadioGroupComponent<T>) {
   }
 
   ngOnInit(): void {

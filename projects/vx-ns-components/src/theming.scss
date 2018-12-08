@@ -1,7 +1,9 @@
 @import "./themes/defaults";
 @import "./themes/form-field";
+@import "./themes/radio";
 
 @mixin vx-ns-all-components($colors: ()) {
   $colors: vx-ns-prepare-colors($colors);
   @include vx-ns-form-field-theme($colors);
+  @include vx-ns-radio-theme($colors);
 }

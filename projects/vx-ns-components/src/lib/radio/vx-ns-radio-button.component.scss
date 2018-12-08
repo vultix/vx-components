@@ -1,0 +1,43 @@
+.vx-ns-radio-button {
+  margin-top: 10dip;
+}
+
+.vx-ns-radio-button-outline {
+  border-radius: 50%;
+  border-width: 2dip;
+  width: 20dip;
+  height: 20dip;
+  align-items: center;
+  justify-content: center;
+}
+
+.vx-ns-radio-button-content {
+  margin-left: 8dip;
+}
+
+.vx-ns-radio-button-fill {
+  border-radius: 50%;
+  width: 10dip;
+  height: 10dip;
+  opacity: 0;
+}
+
+.vx-ns-radio-button.vx-ns-checked .vx-ns-radio-button-fill {
+  animation-name: checkAnimation;
+  animation-duration: .3s;
+  animation-fill-mode: forwards;
+  animation-delay: 10ms;
+}
+
+@keyframes checkAnimation {
+  0% {
+    transform: scale(0, 0);
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1, 1);
+  }
+  //100% {
+  //}
+}

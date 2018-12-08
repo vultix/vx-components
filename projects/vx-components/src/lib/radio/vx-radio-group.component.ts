@@ -3,12 +3,15 @@ import {
   ChangeDetectorRef,
   Component,
   ContentChildren,
-  forwardRef, Injector,
-  OnInit, Optional,
-  QueryList, Self,
+  forwardRef,
+  InjectFlags,
+  Injector,
+  OnInit,
+  Optional,
+  QueryList,
   ViewEncapsulation
 } from '@angular/core';
-import {AbstractVxRadioGroupComponent, VX_RADIO_GROUP_TOKEN, ErrorStateMatcher} from 'vx-components-base';
+import {AbstractVxRadioGroupComponent, ErrorStateMatcher, VX_RADIO_GROUP_TOKEN} from 'vx-components-base';
 import {VxRadioButtonComponent} from './vx-radio-button.component';
 import {FormGroupDirective, NG_VALUE_ACCESSOR, NgControl, NgForm} from '@angular/forms';
 
@@ -54,6 +57,8 @@ export class VxRadioGroupComponent<T> extends AbstractVxRadioGroupComponent<T> i
   }
 
   ngOnInit(): void {
-    this.ngControl = this.injector.get(NgControl);
+    try {
+      this.ngControl = this.injector.get(NgControl);
+    } catch (e) {}
   }
 }

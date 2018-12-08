@@ -7,12 +7,17 @@ import {AppRoutingModule} from './app-routing.module';
 import {HomeComponent} from './home/home.component';
 import {VxNsComponentsModule} from 'vx-ns-components';
 import {VxNsFormFieldDemoComponent} from './form-field/vx-ns-form-field-demo.component';
+import {VxRadioDemoComponent} from './radio/vx-radio-demo.component';
 
 registerElement('PreviousNextView', () => require('nativescript-iqkeyboardmanager').PreviousNextView);
 
 @NgModule({
   imports: [NativeScriptModule, NativeScriptFormsModule, AppRoutingModule, VxNsComponentsModule],
-  declarations: [AppComponent, HomeComponent, VxNsFormFieldDemoComponent],
+  declarations: [AppComponent,
+    HomeComponent,
+    VxNsFormFieldDemoComponent,
+    VxRadioDemoComponent
+  ],
   bootstrap: [AppComponent],
   providers: [{provide: ErrorHandler, useClass: CustomErrorHandler}],
   schemas: [NO_ERRORS_SCHEMA]

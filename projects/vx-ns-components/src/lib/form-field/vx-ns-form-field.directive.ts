@@ -28,12 +28,12 @@ export class VxNsFormFieldDirective extends AbstractVxFormFieldDirective<TextFie
   constructor(
     elementRef: ElementRef<TextField>,
     cdr: ChangeDetectorRef,
+    errorStateMatcher: ErrorStateMatcher,
     @Optional() @Self() ngControl: NgControl,
     @Optional() parentForm: NgForm,
     @Optional() parentFormGroup: FormGroupDirective,
-    errorStateMatcher: ErrorStateMatcher,
   ) {
-    super(elementRef, cdr, ngControl, parentForm, parentFormGroup, errorStateMatcher);
+    super(elementRef, cdr, errorStateMatcher, ngControl, parentForm, parentFormGroup);
 
     if (this.ngControl && this.ngControl.valueChanges) {
       this.ngControl.valueChanges.pipe(takeUntil(this.onDestroy$)).subscribe(value => {
