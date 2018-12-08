@@ -20,7 +20,7 @@ export interface FormComponentMixinRequirements {
 
 export function formComponentMixin<T extends Constructor<FormComponentMixinRequirements>>(classToMix: T): FormComponentMixingCtor & T {
   return class extends classToMix {
-    errorState: boolean;
+    errorState = false;
 
     readonly stateChanges = new Subject<void>();
 
@@ -30,7 +30,7 @@ export function formComponentMixin<T extends Constructor<FormComponentMixinRequi
       const oldState = this.errorState;
       const parent = that._parentFormGroup || that._parentForm;
       const matcher = that.errorStateMatcher;
-      const control = that.ngControl ? that.ngControl.control as FormControl : null;
+      const control = that.ngControl ? that.ngControl.control as FormControl : undefined;
       const newState = matcher.isErrorState(control, parent);
 
       if (newState !== oldState) {

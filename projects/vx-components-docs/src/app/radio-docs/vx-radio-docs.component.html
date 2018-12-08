@@ -1,0 +1,10 @@
+<form action="">
+  <vx-radio-group #group #model="ngModel" ngModel name="sweet" required>
+    <vx-radio-button value="1">Hello!</vx-radio-button>
+    <vx-radio-button value="2">Hello!</vx-radio-button>
+    <vx-radio-button value="3">Hello!</vx-radio-button>
+  </vx-radio-group>
+  <button>Submit</button>
+</form>
+
+{{group.value}} {{model.value}}

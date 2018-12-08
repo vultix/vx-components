@@ -17,12 +17,12 @@ export class VxFormFieldDirective extends AbstractVxFormFieldDirective<HTMLInput
   constructor(
     elementRef: ElementRef<HTMLInputElement>,
     cdr: ChangeDetectorRef,
+    errorStateMatcher: ErrorStateMatcher,
     @Optional() @Self() ngControl: NgControl,
     @Optional() parentForm: NgForm,
     @Optional() parentFormGroup: FormGroupDirective,
-    errorStateMatcher: ErrorStateMatcher,
   ) {
-    super(elementRef, cdr, ngControl, parentForm, parentFormGroup, errorStateMatcher);
+    super(elementRef, cdr, errorStateMatcher, ngControl, parentForm, parentFormGroup);
   }
 
   protected getNativeValue(): string {

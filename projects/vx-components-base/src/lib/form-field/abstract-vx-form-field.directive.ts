@@ -1,8 +1,9 @@
 import {ChangeDetectorRef, DoCheck, ElementRef, Input} from '@angular/core';
 import {FormGroupDirective, NgControl, NgForm} from '@angular/forms';
 import {coerceBooleanProperty, ErrorStateMatcher, VxFormComponent} from '../shared';
+import {Subject} from 'rxjs';
 
-export abstract class AbstractVxFormFieldDirective<T> extends VxFormComponent<string> implements DoCheck {
+export abstract class AbstractVxFormFieldDirective<T> extends VxFormComponent<string> {
   @Input()
   get placeholder(): string {
     return this._placeholder;
@@ -13,7 +14,7 @@ export abstract class AbstractVxFormFieldDirective<T> extends VxFormComponent<st
     this.handlePlaceholder();
   }
 
-  protected _placeholder: string;
+  protected _placeholder = '';
 
   @Input()
   get label(): string {
@@ -25,7 +26,7 @@ export abstract class AbstractVxFormFieldDirective<T> extends VxFormComponent<st
     this.handlePlaceholder();
   }
 
-  protected _label: string;
+  protected _label = '';
 
   @Input()
   get showLabel(): boolean {
@@ -56,30 +57,27 @@ export abstract class AbstractVxFormFieldDirective<T> extends VxFormComponent<st
   }
   private _hideRequiredMarker = false;
 
+  /**
+   * Notifies that our state may have changed, so that the parent field may respond accordingly
+   */
+  readonly stateChanges = new Subject<void>();
+
   constructor(
     protected elementRef: ElementRef<T>,
     cdr: ChangeDetectorRef,
+    errorStateMatcher: ErrorStateMatcher,
     ngControl: NgControl,
     parentForm: NgForm,
     parentFormGroup: FormGroupDirective,
-    errorStateMatcher: ErrorStateMatcher,
   ) {
-    super(cdr, ngControl, parentForm, parentFormGroup, errorStateMatcher);
-  }
+    super(cdr, errorStateMatcher, ngControl, parentForm, parentFormGroup);
 
-  ngDoCheck(): void {
-    if (this.ngControl) {
-      // We need to re-evaluate this on every change detection cycle, because there are some
-      // error triggers that we can't subscribe to (e.g. parent form submissions). This means
-      // that whatever logic is in here has to be super lean or we risk destroying the performance.
-      this.checkErrorState();
+    // Every time the cdr is told to check for changes we notify that our state may have changed
+    const oldCheck = cdr.markForCheck.bind(cdr);
+    cdr.markForCheck = () => {
+      this.stateChanges.next();
+      oldCheck();
     }
-
-    // We need to dirty-check the native element's value, because there are some cases where
-    // we won't be notified when it changes (e.g. the consumer isn't using forms or they're
-    // updating the value using `emitEvent: false`).
-    // TODO:
-    // this._dirtyCheckNativeValue();
   }
 
 
@@ -88,5 +86,5 @@ export abstract class AbstractVxFormFieldDirective<T> extends VxFormComponent<st
     this.cdr.markForCheck();
   }
 
-  protected abstract setNativePlaceholder(placeholder: string);
+  protected abstract setNativePlaceholder(placeholder: string): void;
 }

@@ -12,7 +12,7 @@ export abstract class AbstractVxFormFieldComponent implements OnInit, OnDestroy 
 
   protected readonly onDestroy$ = new Subject<void>();
 
-  constructor(protected cdr: ChangeDetectorRef) {
+  protected constructor(protected cdr: ChangeDetectorRef) {
 
   }
 

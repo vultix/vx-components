@@ -1,0 +1,45 @@
+@mixin vx-radio-theme($colors) {
+  $colors: vx-prepare-colors($colors);
+  $primary: map_get($colors, primary);
+  $foreground: map_get($colors, foreground);
+  $background: map_get($colors, background);
+  $accent: map_get($colors, accent);
+  $error: map_get($colors, error);
+  $border: map_get($colors, borderLight);
+
+  .vx-radio-button-fill {
+    background: $primary;
+  }
+
+  .vx-radio-button-outline {
+    border: 2px solid $primary;
+  }
+
+  .vx-radio-button {
+    &:hover .vx-radio-button-outline {
+      background: mix($foreground, $background, 3%)
+    }
+    &:active .vx-radio-button-outline {
+      background: mix($foreground, $background, 10%)
+    }
+
+    &.vx-focused .vx-radio-button-outline {
+      box-shadow: 0 0 2px 1px transparentize($primary, .5);
+    }
+  }
+
+  // Error state
+  .vx-radio-button.vx-error {
+    .vx-radio-button-fill {
+      background: $error;
+    }
+
+    .vx-radio-button-outline {
+      border-color: $error;
+    }
+
+    &.vx-focused .vx-radio-button-outline {
+      box-shadow: 0 0 2px 1px transparentize($error, .5);
+    }
+  }
+}

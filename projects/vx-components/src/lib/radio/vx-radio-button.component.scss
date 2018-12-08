@@ -1,0 +1,51 @@
+.vx-radio-button {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  font-size: 16px;
+  outline: none;
+  transition: background .3s ease;
+
+  &.vx-disabled {
+    pointer-events: none;
+    opacity: .65;
+  }
+}
+
+.vx-radio-button-outline {
+  display: inline-flex;
+  width: 20px;
+  height: 20px;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  border-radius: 50%;
+  transition: border-color .3s ease;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.vx-radio-button-fill {
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  box-sizing: border-box;
+  transform: scale(0);
+  transition: transform .25s ease;
+}
+
+.vx-checked .vx-radio-button-fill {
+  transform: scale(1);
+}
+
+.vx-radio-button-content {
+  display: inline-block;
+  line-height: inherit;
+  padding-left: 8px;
+  padding-right: 0;
+}

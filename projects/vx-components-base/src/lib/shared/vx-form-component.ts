@@ -1,10 +1,10 @@
 import {Subject} from 'rxjs';
 import {ControlValueAccessor, FormControl, FormGroupDirective, NgControl, NgForm} from '@angular/forms';
-import {ChangeDetectorRef, EventEmitter, Input, OnDestroy, Output} from '@angular/core';
+import {ChangeDetectorRef, DoCheck, EventEmitter, Input, OnDestroy, Output} from '@angular/core';
 import {coerceBooleanProperty} from './coercion';
 import {ErrorStateMatcher} from './error-options';
 
-export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDestroy {
+export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDestroy, DoCheck {
   errorState = false;
 
   focused = false;
@@ -31,7 +31,6 @@ export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDest
         this.onChangeFn(value);
       }
 
-      this.stateChanges.next();
       this.cdr.markForCheck();
     }
   }
@@ -44,7 +43,6 @@ export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDest
     if (value !== this._disabled) {
       this._disabled = value;
       this.cdr.markForCheck();
-      this.stateChanges.next();
     }
   }
   protected _disabled = false;
@@ -57,7 +55,6 @@ export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDest
     if (value !== this._required) {
       this._required = value;
       this.cdr.markForCheck();
-      this.stateChanges.next();
     }
   }
   protected _required = false;
@@ -65,10 +62,8 @@ export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDest
   @Output()
   readonly valueChange = new EventEmitter<T>();
 
-  readonly stateChanges = new Subject<void>();
-
   /** Stores the last known value of the ngControl, known through writeValue and the onChangeFn **/
-  protected lastRegisteredValue: T;
+  protected lastRegisteredValue?: T;
 
   protected readonly onDestroy$ = new Subject<void>();
 
@@ -79,10 +74,10 @@ export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDest
 
   constructor(
     protected cdr: ChangeDetectorRef,
-    protected ngControl: NgControl,
-    protected parentForm: NgForm,
-    protected parentFormGroup: FormGroupDirective,
     protected errorStateMatcher: ErrorStateMatcher,
+    protected ngControl?: NgControl,
+    protected parentForm?: NgForm,
+    protected parentFormGroup?: FormGroupDirective,
   ) {
 
   }
@@ -90,12 +85,11 @@ export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDest
   protected checkErrorState(): void {
     const oldState = this.errorState;
     const parent = this.parentFormGroup || this.parentForm;
-    const control = this.ngControl ? this.ngControl.control as FormControl : null;
+    const control = this.ngControl ? this.ngControl.control as FormControl : undefined;
     const newState = this.errorStateMatcher.isErrorState(control, parent);
 
     if (newState !== oldState) {
       this.errorState = newState;
-      this.stateChanges.next();
       this.cdr.markForCheck();
     }
   }
@@ -127,12 +121,25 @@ export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDest
   _setHasFocus(hasFocus: boolean): void {
     this.focused = hasFocus;
     this.cdr.markForCheck();
-    this.stateChanges.next();
   }
 
   ngOnDestroy(): void {
-    this.stateChanges.complete();
     this.onDestroy$.next();
     this.onDestroy$.complete();
+  }
+
+  ngDoCheck(): void {
+    if (this.ngControl) {
+      // We need to re-evaluate this on every change detection cycle, because there are some
+      // error triggers that we can't subscribe to (e.g. parent form submissions). This means
+      // that whatever logic is in here has to be super lean or we risk destroying the performance.
+      this.checkErrorState();
+    }
+
+    // We need to dirty-check the native element's value, because there are some cases where
+    // we won't be notified when it changes (e.g. the consumer isn't using forms or they're
+    // updating the value using `emitEvent: false`).
+    // TODO:
+    // this._dirtyCheckNativeValue();
   }
 }

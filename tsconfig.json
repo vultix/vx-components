@@ -5,6 +5,8 @@
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
+    "strict": true,
+    "skipLibCheck": true,
     "module": "es2015",
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,

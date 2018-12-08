@@ -16,11 +16,10 @@ import {VxFormFieldDirective} from './vx-form-field.directive';
   }
 })
 export class VxFormFieldComponent extends AbstractVxFormFieldComponent {
-
   protected componentName = 'vx-form-field';
   protected fieldDirectiveName = 'vxFormField';
 
-  @ContentChild(VxFormFieldDirective) field: VxFormFieldDirective;
+  @ContentChild(VxFormFieldDirective) field!: VxFormFieldDirective;
 
   constructor(cdr: ChangeDetectorRef) {
     super(cdr);
