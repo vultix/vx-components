@@ -6,7 +6,7 @@
     "watchVx": "ng build --project vx-components --watch",
     "watchVxns": "ng build --project vx-ns-components --watch",
     "vxNsDemo": "vx-ns run ios",
-    "start": "ng serve --project vx-components-docs"
+    "start": "ng serve --project vx-components-docs --host 0.0.0.0 --disable-host-check"
   },
   "private": true,
   "dependencies": {

@@ -1,0 +1,40 @@
+// Use this mixin to apply colored themes to the dropdown
+@mixin vx-menu-theme($colors) {
+  $colors: vx-prepare-colors($colors);
+  $background: map_get($colors, background);
+  $foreground: map_get($colors, foreground);
+  $primary: map_get($colors, primary);
+  $border: map_get($colors, borderLight);
+  $focused: mix($foreground, $background, 6%);
+
+  .vx-menu {
+    color: $foreground;
+    border: 1px solid $border;
+    box-shadow: 0 2px 10px 0 transparentize($foreground, .75);
+    background: $background;
+  }
+
+  .vx-item {
+    background: $background;
+
+    &:not(:first-child) {
+      border-top: 1px solid $border;
+    }
+
+    &:hover {
+      background: $focused;
+    }
+
+    &:focus, &.vx-focused {
+      outline: none;
+      background: $focused;
+      font-weight: bold;
+    }
+
+    &:active, &.vx-active {
+      background: $primary;
+      color: $background;
+    }
+  }
+
+}

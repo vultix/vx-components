@@ -1,0 +1,16 @@
+.vx-item {
+  display: block;
+  width: 100%;
+  border: none;
+  padding: 15px;
+  font-size: 14px;
+  text-align: left;
+  font-family: inherit;
+  box-sizing: border-box;
+  cursor: pointer;
+
+  &.vx-disabled {
+    opacity: .65;
+    pointer-events: none;
+  }
+}

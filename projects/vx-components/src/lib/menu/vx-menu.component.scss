@@ -1,0 +1,26 @@
+.vx-menu {
+  position: relative;
+  z-index: 1000;
+  overflow: auto;
+  margin-right: 7px;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 3px;
+  font-size: 13px;
+  display: inline-block;
+  outline: none;
+  transform-origin: top;
+  //transform: scale(1, 0);
+  opacity: 0;
+  box-sizing: border-box;
+  //transition: transform .2s ease, opacity .2s ease;
+
+  &.vx-menu-visible {
+    //transform: scale(1, 1);
+    opacity: 1;
+  }
+}
+
+.vx-menu-default-text {
+  padding: 10px;
+  display: inline-block;
+}

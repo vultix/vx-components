@@ -1,9 +1,55 @@
 @import "./themes/defaults";
 @import "./themes/form-field";
 @import "./themes/radio";
+@import "./themes/menu";
 
 @mixin vx-all-components($colors: ()) {
   $colors: vx-prepare-colors($colors);
+
   @include vx-form-field-theme($colors);
   @include vx-radio-theme($colors);
+  @include vx-menu-theme($colors);
+}
+
+
+.vx-visually-hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+.vx-overlay-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.vx-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 999;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.vx-overlay-container {
+  position: fixed;
+  overflow: visible;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
 }
