@@ -1,0 +1,28 @@
+// Use this mixin to apply colored themes to the menu
+@mixin vx-ns-menu-theme($colors) {
+  $colors: vx-ns-prepare-colors($colors);
+  $background: map_get($colors, background);
+  $foreground: map_get($colors, foreground);
+  $primary: map_get($colors, primary);
+  $border: map_get($colors, borderLight);
+  $focused: mix($foreground, $background, 6%);
+
+  .vx-ns-menu {
+    color: $foreground;
+    border-width: 1;
+    border-color: $border;
+    background: $background;
+  }
+
+  .vx-ns-item {
+    background: $background;
+    border-top-width: 1dip;
+    border-color: $border;
+
+    &.vx-ns-active {
+      background: $primary;
+      color: $background;
+    }
+  }
+
+}

@@ -1,0 +1,16 @@
+<ScrollView>
+  <StackLayout>
+    <StackLayout background="red" height="600"></StackLayout>
+    <Button text="Open the Menu!" [vxNsAttachMenu]="menu" (tap)="test()" horizontalAlignment="center" background="green"></Button>
+    <StackLayout background="red" height="600"></StackLayout>
+
+    <vx-ns-menu #menu>
+      <StackLayout vx-ns-item text="Item A"></StackLayout>
+      <StackLayout vx-ns-item text="Item B"></StackLayout>
+      <StackLayout vx-ns-item text="Item C"></StackLayout>
+      <StackLayout vx-ns-item text="Item D"></StackLayout>
+      <StackLayout vx-ns-item text="Item E"></StackLayout>
+      <StackLayout vx-ns-item text="Item F"></StackLayout>
+    </vx-ns-menu>
+  </StackLayout>
+</ScrollView>

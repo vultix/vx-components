@@ -30,7 +30,6 @@ import {fromEvent, merge} from 'rxjs';
     '[class.vx-menu-visible]': 'visible'
   }
 })
-
 export class VxMenuComponent<T> extends AbstractVxMenuComponent<T, HTMLElement> implements OnDestroy, AfterViewInit {
 
   @ContentChildren(VxItemComponent)

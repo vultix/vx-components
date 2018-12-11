@@ -7,7 +7,8 @@ import {Component} from '@angular/core';
 export class HomeComponent {
   routes = [
     {name: 'Form Field', route: '/form-field'},
-    {name: 'Radio', route: '/radio'}
+    {name: 'Radio', route: '/radio'},
+    {name: 'Menu', route: '/menu'}
   ];
 }
 

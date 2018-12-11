@@ -1,9 +1,17 @@
 @import "./themes/defaults";
 @import "./themes/form-field";
 @import "./themes/radio";
+@import "./themes/menu";
 
 @mixin vx-ns-all-components($colors: ()) {
   $colors: vx-ns-prepare-colors($colors);
   @include vx-ns-form-field-theme($colors);
   @include vx-ns-radio-theme($colors);
+  @include vx-ns-menu-theme($colors);
+}
+
+.vx-ns-hidden {
+  width: 0;
+  height: 0;
+  border-radius: 1;
 }
