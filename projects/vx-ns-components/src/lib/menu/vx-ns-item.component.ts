@@ -1,6 +1,8 @@
 import {AbstractVxItemComponent, AbstractVxMenuComponent, VX_MENU_TOKEN} from 'vx-components-base';
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, Optional, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, Input, Optional, ViewEncapsulation} from '@angular/core';
 import {TouchGestureEventData} from 'tns-core-modules/ui/gestures';
+import {View} from 'tns-core-modules/ui/core/view';
+import {Label} from 'tns-core-modules/ui/label';
 
 @Component({
   selector: '[vx-ns-item]',
@@ -21,12 +23,16 @@ export class VxNsItemComponent<T> extends AbstractVxItemComponent<T> {
 
   @Input() text!: string;
 
-  constructor(cdr: ChangeDetectorRef, @Inject(VX_MENU_TOKEN) @Optional() _menu?: AbstractVxMenuComponent<T, any>) {
+  constructor(private _el: ElementRef<View>, cdr: ChangeDetectorRef,
+              @Inject(VX_MENU_TOKEN) @Optional() _menu?: AbstractVxMenuComponent<T, any>) {
     super(cdr, _menu);
   }
 
   getTextContent(): string {
-    return '';
+    if (this._child) {
+      return this._child.getTextContent();
+    }
+    return this.getTextFromView(this._el.nativeElement);
   }
 
   handleTouch(event: TouchGestureEventData): void {
@@ -36,5 +42,22 @@ export class VxNsItemComponent<T> extends AbstractVxItemComponent<T> {
     }
 
     this._active = event.action === 'down' || event.action === 'move';
+  }
+
+  private getTextFromView(el: View): string {
+    if (el instanceof Label) {
+      return el.text;
+    } else {
+      let text = '';
+      el.eachChildView((child) => {
+        const childText = this.getTextFromView(child);
+        if (childText.length) {
+          text += childText + ' ';
+        }
+        return true;
+      });
+
+      return text.trim();
+    }
   }
 }

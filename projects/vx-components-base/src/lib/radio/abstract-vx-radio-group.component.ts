@@ -1,10 +1,11 @@
-import {VxFormComponent} from '../shared';
-import {Input, OnChanges, QueryList, SimpleChanges} from '@angular/core';
+import {ErrorStateMatcher, VxFormComponent} from '../shared';
+import {ChangeDetectorRef, Injector, Input, OnChanges, OnInit, QueryList, SimpleChanges} from '@angular/core';
 import {AbstractVxRadioButtonComponent} from './abstract-vx-radio-button.component';
+import {FormGroupDirective, NgControl, NgForm} from '@angular/forms';
 
 let uniqueId = 0;
 
-export abstract class AbstractVxRadioGroupComponent<T> extends VxFormComponent<T> implements OnChanges {
+export abstract class AbstractVxRadioGroupComponent<T> extends VxFormComponent<T> implements OnChanges, OnInit {
 
   abstract buttons: QueryList<AbstractVxRadioButtonComponent<T>>;
 
@@ -18,6 +19,18 @@ export abstract class AbstractVxRadioGroupComponent<T> extends VxFormComponent<T
   }
   private _name = `vxradio-${++uniqueId}`;
 
+  constructor(
+    cdr: ChangeDetectorRef,
+    errorStateMatcher: ErrorStateMatcher,
+    control?: NgControl,
+    parentForm?: NgForm,
+    parentFormGroup?: FormGroupDirective,
+  ) {
+    super(cdr, errorStateMatcher, control, parentForm, parentFormGroup);
+    if (control) {
+      control.valueAccessor = this;
+    }
+  }
 
   private _value!: T;
   protected getNativeValue(): T {
@@ -37,7 +50,7 @@ export abstract class AbstractVxRadioGroupComponent<T> extends VxFormComponent<T
     } else {
       selectedIndex++;
     }
-    this.value = buttons[selectedIndex].value;
+    this._handleButtonSelect(buttons[selectedIndex].value);
   }
 
   _previous(): void {
@@ -48,7 +61,7 @@ export abstract class AbstractVxRadioGroupComponent<T> extends VxFormComponent<T
     } else {
       selectedIndex--;
     }
-    this.value = buttons[selectedIndex].value;
+    this._handleButtonSelect(buttons[selectedIndex].value);
   }
 
   protected getSelectedIndex(): number {
@@ -66,5 +79,9 @@ export abstract class AbstractVxRadioGroupComponent<T> extends VxFormComponent<T
       // Ensures all changes to the group component are reflected on the underlying buttons
       this.buttons.forEach(button => button._markForCheck());
     }
+  }
+
+  _handleButtonSelect(value: T): void {
+    this.setValueFromNative(value);
   }
 }

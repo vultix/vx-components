@@ -2,6 +2,7 @@
 @import "./themes/form-field";
 @import "./themes/radio";
 @import "./themes/menu";
+@import "./themes/autocomplete";
 
 @mixin vx-all-components($colors: ()) {
   $colors: vx-prepare-colors($colors);
@@ -9,6 +10,7 @@
   @include vx-form-field-theme($colors);
   @include vx-radio-theme($colors);
   @include vx-menu-theme($colors);
+  @include vx-autocomplete-theme($colors);
 }
 
 

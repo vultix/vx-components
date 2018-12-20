@@ -45,11 +45,11 @@
   width: 150px;
   height: 20px;
   padding: 7px;
-  -webkit-opacity: 1;
+  opacity: 1;
   transition: color .3s ease;
 
   // Placeholder color
-  &::-webkit-input-placeholder {
+  &::placeholder {
     transition: color .3s ease;
   }
 

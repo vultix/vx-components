@@ -1,0 +1,6 @@
+<div style="height: 800px"></div>
+<vx-autocomplete label="You rock!" multiple [(ngModel)]="selectedStates" searchable="false">
+  <vx-item *ngFor="let state of states" [value]="state.value">{{state.name}}</vx-item>
+</vx-autocomplete>
+{{selectedStates | json}}
+<div style="height: 800px"></div>

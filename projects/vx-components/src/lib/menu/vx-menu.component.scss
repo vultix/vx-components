@@ -1,22 +1,32 @@
 .vx-menu {
-  position: relative;
-  z-index: 1000;
   overflow: auto;
-  margin-right: 7px;
   -webkit-overflow-scrolling: touch;
   border-radius: 3px;
   font-size: 13px;
   display: inline-block;
   outline: none;
   transform-origin: top;
-  //transform: scale(1, 0);
+  transform: scale(1, 0);
   opacity: 0;
   box-sizing: border-box;
-  //transition: transform .2s ease, opacity .2s ease;
+  transition: transform .2s ease, opacity .2s ease;
 
   &.vx-menu-visible {
-    //transform: scale(1, 1);
+    transform: scale(1, 1);
     opacity: 1;
+  }
+}
+
+.vx-menu-positioner {
+  position: relative;
+  transform: translate(0, 0);
+  z-index: 1000;
+  display: block;
+}
+
+@keyframes vx-menu-scale-animation {
+  from {
+    transform: scale(0, 0)
   }
 }
 

@@ -9,6 +9,8 @@ import {ErrorStateMatcher} from 'vx-components-base';
   host: {
     '(blur)': '_setHasFocus(false)',
     '(focus)': '_setHasFocus(true)',
+    '(input)': '_onChange()',
+    '[placeholder]': 'placeholder',
     '[class.vx-form-field-input]': 'true'
   }
 })
@@ -29,12 +31,15 @@ export class VxFormFieldDirective extends AbstractVxFormFieldDirective<HTMLInput
     return this.elementRef.nativeElement.value;
   }
 
-  protected setNativePlaceholder(placeholder: string) {
-    this.elementRef.nativeElement.placeholder = placeholder;
-  }
-
   protected setNativeValue(val: string): void {
     this.elementRef.nativeElement.value = val;
   }
 
+  _onChange(): void {
+    this._dirtyCheckNativeValue();
+  }
+
+  focus(): void {
+    this.elementRef.nativeElement.focus();
+  }
 }

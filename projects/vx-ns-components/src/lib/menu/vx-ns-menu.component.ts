@@ -7,7 +7,7 @@ import {
   ContentChildren,
   ElementRef,
   forwardRef,
-  Input,
+  Input, OnDestroy,
   QueryList,
   ViewChild,
   ViewEncapsulation
@@ -31,29 +31,26 @@ declare const android: any;
     {
       provide: VX_MENU_TOKEN, useExisting: forwardRef(() => VxNsMenuComponent)
     }
-  ],
-  host: {
-    '[class.vx-ns-menu]': 'true',
-    '[class.vx-ns-menu-visible]': 'visible'
-  }
+  ]
 })
-export class VxNsMenuComponent<T> extends AbstractVxMenuComponent<T, View> {
+export class VxNsMenuComponent<T> extends AbstractVxMenuComponent<T, View> implements OnDestroy {
   @ContentChildren(VxNsItemComponent)
-  set _vxNsItems(items: QueryList<VxNsItemComponent<T>>) {
-    this.items = items;
-  }
+  items!: QueryList<VxNsItemComponent<T>>;
 
 
   _screenWidth = screen.mainScreen.widthDIPs;
   _screenHeight = screen.mainScreen.heightDIPs;
   _ios = isIOS;
+  get _classString(): string {
+    return `vx-ns-menu ${this.visible ? 'vx-ns-menu-visible' : ''} ${this._positionStrategyClass || ''}`;
+  }
 
   @Input() autoClose: boolean | VxNsMenuAutoClose = true;
 
   @ViewChild('menu') menu!: ElementRef<ScrollView>;
   @ViewChild('container') container!: ElementRef<AbsoluteLayout>;
 
-  private popupWindow: any;
+  private popupWindow?: any;
   private _hiding = false;
   constructor(cdr: ChangeDetectorRef) {
     super(cdr);
@@ -75,7 +72,7 @@ export class VxNsMenuComponent<T> extends AbstractVxMenuComponent<T, View> {
     setTimeout(() => {
       if (isIOS) {
         this.container.nativeElement.ios.removeFromSuperview();
-      } else {
+      } else if (this.popupWindow) {
         this.popupWindow.dismiss();
       }
       this._hiding = false;
@@ -88,6 +85,8 @@ export class VxNsMenuComponent<T> extends AbstractVxMenuComponent<T, View> {
     }
 
     const container = this.container.nativeElement;
+    const menu = this.menu.nativeElement;
+    menu.scrollToVerticalOffset(0, false);
 
     if (isIOS) {
       const window = application.ios.window;
@@ -118,10 +117,10 @@ export class VxNsMenuComponent<T> extends AbstractVxMenuComponent<T, View> {
 
     this.position();
 
-    this.menu.nativeElement.opacity = 0;
-    this.menu.nativeElement.originY = 0;
-    this.menu.nativeElement.scaleY = 0;
-    this.menu.nativeElement.animate({
+    menu.opacity = 0;
+    menu.originY = 0;
+    menu.scaleY = 0;
+    menu.animate({
       scale: {x: 1, y: 1},
       opacity: 1,
       duration: 200
@@ -134,6 +133,17 @@ export class VxNsMenuComponent<T> extends AbstractVxMenuComponent<T, View> {
       // this.position();
       // this.cdr.markForCheck();
     }, 300);
+  }
+
+  ngOnDestroy(): void {
+    super.ngOnDestroy();
+    if (this.visible) {
+      if (isIOS) {
+        this.container.nativeElement.ios.removeFromSuperview();
+      } else if (this.popupWindow) {
+        this.popupWindow.dismiss();
+      }
+    }
   }
 
   protected setNativePosition(pos: Pos, autoWidth: boolean): void {

@@ -33,7 +33,7 @@ export class VxRadioButtonComponent<T> extends AbstractVxRadioButtonComponent<T>
 
   _handleSelect(event: Event): void {
     if (!this.checked) {
-      this.checked = true;
+      this.group._handleButtonSelect(this.value);
       event.stopPropagation();
     }
   }

@@ -23,12 +23,16 @@ export class VxItemComponent<T> extends AbstractVxItemComponent<T> {
     return !!this._menu && (this._menu as VxMenuComponent<T>).focusedItem === this;
   }
 
-  constructor(cdr: ChangeDetectorRef, @Inject(VX_MENU_TOKEN) @Optional() menu: AbstractVxMenuComponent<T, any>, public _el: ElementRef) {
+  constructor(cdr: ChangeDetectorRef, @Inject(VX_MENU_TOKEN) @Optional() menu: AbstractVxMenuComponent<T, any>,
+              public _el: ElementRef<HTMLElement>) {
     super(cdr, menu);
   }
 
   getTextContent(): string {
-    return '';
+    if (this._child) {
+      return this._child.getTextContent();
+    }
+    return this._el.nativeElement.textContent || '';
   }
 
   _markForCheck(): void {

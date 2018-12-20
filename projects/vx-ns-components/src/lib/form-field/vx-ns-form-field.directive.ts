@@ -10,6 +10,7 @@ import {takeUntil} from 'rxjs/operators';
   host: {
     '(blur)': '_setHasFocus(false)',
     '(focus)': '_setHasFocus(true)',
+    '[hint]': 'placeholder || label',
     '[class.vx-ns-form-field-input]': 'true',
     '[class.vx-ns-show-placeholder]': '_showPlaceholder'
   }
@@ -23,7 +24,9 @@ export class VxNsFormFieldDirective extends AbstractVxFormFieldDirective<TextFie
     return this.placeholder;
   }
 
-  _showPlaceholder = false;
+  get _showPlaceholder(): boolean {
+    return !!this.placeholder;
+  }
 
   constructor(
     elementRef: ElementRef<TextField>,
@@ -46,20 +49,11 @@ export class VxNsFormFieldDirective extends AbstractVxFormFieldDirective<TextFie
     return this.elementRef.nativeElement.text;
   }
 
-  protected setNativePlaceholder(placeholder: string) {
-    this.elementRef.nativeElement.hint = placeholder;
-  }
-
   protected setNativeValue(val: string): void {
     this.elementRef.nativeElement.text = val;
   }
 
-  protected handlePlaceholder(): void {
-    // Overridden from the parent so that the placeholder is always there but hidden.
-    // This is for the benefit of iqkeyboardmanager.
-    this.setNativePlaceholder(this.placeholder || this.label || '');
-    this._showPlaceholder = !!this.placeholder && !!this.label;
-    this.cdr.markForCheck();
+  focus(): void {
+    this.elementRef.nativeElement.focus();
   }
-
 }

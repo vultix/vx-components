@@ -1,6 +1,6 @@
-<Label class="vx-ns-form-field-label" *ngIf="field.showLabel">
+<Label class="vx-ns-form-field-label" *ngIf="field.label">
   <FormattedString>
-    <Span [text]="field.label || field.placeholder"></Span>
+    <Span [text]="field.label"></Span>
     <Span class="vx-ns-form-field-required-label" text="*" *ngIf="field.required && !field.hideRequiredMarker"></Span>
   </FormattedString>
 </Label>

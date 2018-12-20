@@ -14,7 +14,7 @@ import {AbstractVxRadioButtonComponent, AbstractVxRadioGroupComponent, VX_RADIO_
     '[class.vx-ns-error]': 'group.errorState',
     '[class.vx-ns-disabled]': 'disabled',
     '[class.vx-ns-checked]': 'checked',
-    '(tap)': 'checked = true'
+    '(tap)': '_handleTap()'
   }
 })
 
@@ -25,5 +25,9 @@ export class VxNsRadioButtonComponent<T> extends AbstractVxRadioButtonComponent<
 
   constructor(cdr: ChangeDetectorRef, @Inject(VX_RADIO_GROUP_TOKEN) group: AbstractVxRadioGroupComponent<T>) {
     super(cdr, group);
+  }
+
+  _handleTap(): void {
+    this.group._handleButtonSelect(this.value);
   }
 }

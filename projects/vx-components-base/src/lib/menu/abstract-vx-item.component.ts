@@ -15,8 +15,10 @@ import {takeUntil} from 'rxjs/operators';
 import {coerceBooleanProperty} from '../shared';
 import {AbstractVxMenuComponent} from './abstract-vx-menu.component';
 
-export abstract class AbstractVxItemComponent<T> {
+let _vxItemIdCounter = 0;
+export abstract class AbstractVxItemComponent<T> implements OnDestroy, AfterViewInit {
   @ViewChild(TemplateRef) _template!: TemplateRef<any>;
+  @ViewChild('container', {read: ViewContainerRef}) container!: ViewContainerRef;
 
   /**
    * Emits when the item is selected
@@ -25,7 +27,7 @@ export abstract class AbstractVxItemComponent<T> {
 
   @Input()
   get value(): T {
-    return this._value;
+    return this._parent ? this._parent.value : this._value;
   }
 
   set value(value: T) {
@@ -49,10 +51,53 @@ export abstract class AbstractVxItemComponent<T> {
       this.cdr.markForCheck();
     }
   }
-
   private _disabled = false;
 
+  @Input()
+  set _parent(parent: AbstractVxItemComponent<T> | undefined) {
+    if (!parent) {
+      return;
+    }
+
+    parent._child = this;
+    this._template = parent._template;
+    this.__parent = parent;
+    this.select.pipe(takeUntil(this.onDestroy$)).subscribe((value: T) => parent._handleSelect());
+  }
+
+  get _parent(): AbstractVxItemComponent<T> | undefined {
+    return this.__parent;
+  }
+
+  embeddedView?: EmbeddedViewRef<any>;
+
+  _id = `vx-item-${_vxItemIdCounter++}`;
+
+  protected _child?: AbstractVxItemComponent<T>;
+  protected __parent?: AbstractVxItemComponent<T>;
+  protected onDestroy$ = new Subject<void>();
+
+
   protected constructor(protected cdr: ChangeDetectorRef, public _menu?: AbstractVxMenuComponent<T, any>) {
+
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
+  }
+
+  ngAfterViewInit(): void {
+    if (this._child) {
+      return; // Do not render
+    }
+
+    if (this.__parent && this.__parent.embeddedView && !this.__parent.embeddedView.destroyed) {
+      this.container.insert(this.__parent.embeddedView, 0);
+    } else {
+      this.embeddedView = this._template.createEmbeddedView(null);
+      this.container.insert(this.embeddedView, 0);
+    }
 
   }
 

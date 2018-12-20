@@ -5,6 +5,10 @@
     "watchBase": "ng build --project vx-components-base --watch",
     "watchVx": "ng build --project vx-components --watch",
     "watchVxns": "ng build --project vx-ns-components --watch",
+    "buildBase": "ng build --project vx-components-base",
+    "buildVx": "ng build --project vx-components",
+    "buildVxns": "ng build --project vx-ns-components",
+    "buildAll": "npm run buildBase && npm run buildVx && npm run buildVxns",
     "vxNsDemo": "vx-ns run ios",
     "start": "ng serve --project vx-components-docs --host 0.0.0.0 --disable-host-check"
   },
@@ -23,8 +27,8 @@
     "nativescript-angular": "^7.0.2",
     "nativescript-iqkeyboardmanager": "^1.3.0",
     "rxjs": "~6.3.3",
-    "zone.js": "~0.8.26",
-    "tns-core-modules": "^5.0.5"
+    "tns-core-modules": "^5.0.5",
+    "zone.js": "~0.8.26"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.10.0",

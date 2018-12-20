@@ -1,25 +1,44 @@
-import {ChangeDetectorRef, ContentChildren, ElementRef, EventEmitter, Input, OnDestroy, Output, QueryList} from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  ContentChildren,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  Output,
+  QueryList
+} from '@angular/core';
 import {AbstractVxItemComponent} from './abstract-vx-item.component';
 import {coerceBooleanProperty} from '../shared';
 import {Subject} from 'rxjs';
 import {startWith, takeUntil} from 'rxjs/operators';
-import {AttachedPositionStrategy} from './position-strategy';
+import {AttachedPosition, AttachedPositionStrategy} from './position-strategy';
 
-export abstract class AbstractVxMenuComponent<T, E> implements OnDestroy {
-  get items(): QueryList<AbstractVxItemComponent<T>> {
-    return this._items;
-  }
+export abstract class AbstractVxMenuComponent<T, E> implements OnDestroy, AfterViewInit {
+  _positionStrategyClass?: string;
 
-  set items(value: QueryList<AbstractVxItemComponent<T>>) {
-    if (value !== this._items) {
-      this._items = value;
-      value.changes.pipe(startWith(null), takeUntil(this.onDestroy$)).subscribe(() => {
-        this.onItemsChanged();
-      })
+  @Input('class') set menuClass(classes: string) {
+    if (classes && classes.length) {
+      this._classList = classes.split(' ').reduce((obj: any, className: string) => {
+        obj[className] = true;
+        return obj;
+      }, {});
+
+      if (this._positionStrategyClass) {
+        this._classList[this._positionStrategyClass] = true;
+      }
+    } else {
+      this._classList = {};
     }
-  }
-  private _items!: QueryList<AbstractVxItemComponent<T>>;
 
+    this.cdr.markForCheck();
+  }
+  _classList: {[key: string]: boolean} = {};
+
+  abstract items: QueryList<AbstractVxItemComponent<T>>;
+
+  @Input()
   get defaultText(): string {
     return this._defaultText;
   }
@@ -108,6 +127,7 @@ export abstract class AbstractVxMenuComponent<T, E> implements OnDestroy {
   private _attachedTo!: E;
 
 
+  _active = false;
   protected onDestroy$ = new Subject<void>();
   constructor(protected cdr: ChangeDetectorRef) {
 
@@ -142,6 +162,7 @@ export abstract class AbstractVxMenuComponent<T, E> implements OnDestroy {
       return;
     }
 
+    let foundStrategy: AttachedPosition | undefined;
     let foundPosition: Pos | undefined;
     let isAutoWidth = false;
     let positionOverlap: number | undefined;
@@ -179,6 +200,7 @@ export abstract class AbstractVxMenuComponent<T, E> implements OnDestroy {
 
       // If this strategy has less overlap than the previous strategy use this
       if (!foundPosition || !positionOverlap || overlap < positionOverlap) {
+        foundStrategy = strategy;
         foundPosition = {x: xPos, y: yPos, width: desiredWidth, height: desiredHeight};
         isAutoWidth = strategy.width === 'auto';
         positionOverlap = overlap;
@@ -192,6 +214,11 @@ export abstract class AbstractVxMenuComponent<T, E> implements OnDestroy {
 
     if (foundPosition) {
       this.setNativePosition(foundPosition, isAutoWidth);
+    }
+
+    if (foundStrategy && foundStrategy.className !== this._positionStrategyClass) {
+      this._positionStrategyClass = foundStrategy.className;
+      this.cdr.detectChanges();
     }
   }
 
@@ -212,6 +239,12 @@ export abstract class AbstractVxMenuComponent<T, E> implements OnDestroy {
   ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();
+  }
+
+  ngAfterViewInit(): void {
+    this.items.changes.pipe(startWith(null), takeUntil(this.onDestroy$)).subscribe(() => {
+      this.onItemsChanged();
+    });
   }
 }
 

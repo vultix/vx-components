@@ -8,7 +8,7 @@ import {
   Injector,
   OnInit,
   Optional,
-  QueryList,
+  QueryList, Self,
   ViewEncapsulation
 } from '@angular/core';
 import {AbstractVxRadioGroupComponent, ErrorStateMatcher, VX_RADIO_GROUP_TOKEN} from 'vx-components-base';
@@ -32,11 +32,6 @@ import {FormGroupDirective, NG_VALUE_ACCESSOR, NgControl, NgForm} from '@angular
   },
   providers: [
     {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => VxRadioGroupComponent),
-      multi: true
-    },
-    {
       provide: VX_RADIO_GROUP_TOKEN,
       useExisting: forwardRef(() => VxRadioGroupComponent)
     }
@@ -46,19 +41,12 @@ export class VxRadioGroupComponent<T> extends AbstractVxRadioGroupComponent<T> i
   @ContentChildren(VxRadioButtonComponent) buttons!: QueryList<VxRadioButtonComponent<T>>;
 
   constructor(
-    protected injector: Injector,
     cdr: ChangeDetectorRef,
     errorStateMatcher: ErrorStateMatcher,
+    @Optional() @Self() ngControl: NgControl,
     @Optional() parentForm: NgForm,
     @Optional() parentFormGroup: FormGroupDirective,
   ) {
-    super(cdr, errorStateMatcher, undefined, parentForm, parentFormGroup);
-
-  }
-
-  ngOnInit(): void {
-    try {
-      this.ngControl = this.injector.get(NgControl);
-    } catch (e) {}
+    super(cdr, errorStateMatcher, ngControl, parentForm, parentFormGroup);
   }
 }

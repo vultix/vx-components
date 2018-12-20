@@ -1,10 +1,10 @@
 <form action="">
-  <vx-radio-group #group name="sweet" required>
-    <vx-radio-button value="1" checked>Hello!</vx-radio-button>
+  <vx-radio-group #group name="sweet" [(ngModel)]="value" required>
+    <vx-radio-button value="1">Hello!</vx-radio-button>
     <vx-radio-button value="2">Hello!</vx-radio-button>
     <vx-radio-button value="3">Hello!</vx-radio-button>
   </vx-radio-group>
   <button>Submit</button>
 </form>
 
-{{group.value}}
+{{value}}

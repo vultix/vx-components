@@ -1,0 +1,33 @@
+.vx-autocomplete-input-wrapper {
+  flex-grow: 1;
+  display: flex;
+  flex-wrap: nowrap;
+  outline: none;
+}
+
+$triangleWidth: 4px;
+$triangleHeight: 7px;
+.vx-autocomplete-down-arrow {
+  width: 30px;
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+
+  &::before {
+    content: '';
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: $triangleHeight $triangleWidth 0 $triangleWidth;
+    position: absolute;
+    pointer-events: none;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.vx-menu.vx-autocomplete-menu-top {
+  transform-origin: bottom center;
+}

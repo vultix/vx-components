@@ -1,5 +1,7 @@
-<ng-content></ng-content>
+<div #panel class="vx-menu {{_positionStrategyClass || ''}}" [class.vx-menu-visible]="visible" [ngClass]="_classList">
+  <ng-content></ng-content>
 
-<span *ngIf="defaultText && (!items.length)" class="vx-menu-default-text">
-  {{defaultText}}
-</span>
+  <span *ngIf="defaultText && (!items.length)" class="vx-menu-default-text">
+    {{defaultText}}
+  </span>
+</div>

@@ -1,13 +1,16 @@
 import {Subject} from 'rxjs';
 import {ControlValueAccessor, FormControl, FormGroupDirective, NgControl, NgForm} from '@angular/forms';
-import {ChangeDetectorRef, DoCheck, EventEmitter, Input, OnDestroy, Output} from '@angular/core';
+import {ChangeDetectorRef, DoCheck, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {coerceBooleanProperty} from './coercion';
 import {ErrorStateMatcher} from './error-options';
 
-export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDestroy, DoCheck {
+export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDestroy, DoCheck, OnInit {
+  protected _lastNativeValue?: T;
+
   errorState = false;
 
   focused = false;
+  @Output() focusedChange = new EventEmitter<boolean>();
 
   // TODO:: readonly
   // /** Whether the element is readonly. */
@@ -22,17 +25,7 @@ export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDest
   @Input()
   get value(): T { return this.getNativeValue(); }
   set value(value: T) {
-    if (value !== this.value) {
-      this.setNativeValue(value);
-      this.valueChange.emit(value);
-
-      // If the ngControl isn't aware of this value make it aware
-      if (this.lastRegisteredValue !== value) {
-        this.onChangeFn(value);
-      }
-
-      this.cdr.markForCheck();
-    }
+    this.handleValueSet(value);
   }
 
   /** Whether the component is disabled */
@@ -99,6 +92,7 @@ export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDest
 
   registerOnChange(fn: any): void {
     this.onChangeFn = (obj: T) => {
+      debugger;
       this.lastRegisteredValue = obj;
       fn(obj);
     }
@@ -115,12 +109,17 @@ export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDest
 
   writeValue(obj: T): void {
     this.lastRegisteredValue = obj;
-    this.value = obj;
+    this.setValueFromNative(obj);
   }
 
   _setHasFocus(hasFocus: boolean): void {
     this.focused = hasFocus;
+    this.focusedChange.emit(hasFocus);
     this.cdr.markForCheck();
+  }
+
+  ngOnInit(): void {
+    // this._lastNativeValue = this.value;
   }
 
   ngOnDestroy(): void {
@@ -139,7 +138,35 @@ export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDest
     // We need to dirty-check the native element's value, because there are some cases where
     // we won't be notified when it changes (e.g. the consumer isn't using forms or they're
     // updating the value using `emitEvent: false`).
-    // TODO:
-    // this._dirtyCheckNativeValue();
+    this._dirtyCheckNativeValue();
+  }
+
+  protected setValueFromNative(value: T): void {
+    this.value = value;
+    this.valueChange.emit(value);
+    this.onTouchFn();
+  }
+
+  protected _dirtyCheckNativeValue(): void {
+    const val = this.value;
+
+    if (this._lastNativeValue !== val) {
+      this._lastNativeValue = val;
+      this.setValueFromNative(val);
+    }
+  }
+
+  protected handleValueSet(value: T): void {
+    if (value !== this.value) {
+      this._lastNativeValue = value;
+      this.setNativeValue(value);
+
+      // If the ngControl isn't aware of this value make it aware
+      if (this.lastRegisteredValue !== value) {
+        this.onChangeFn(value);
+      }
+
+      this.cdr.markForCheck();
+    }
   }
 }

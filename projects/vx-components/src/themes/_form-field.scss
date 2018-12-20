@@ -27,7 +27,7 @@
   .vx-form-field-input {
     color: $foreground;
 
-    &::-webkit-input-placeholder {
+    &::placeholder {
       color: $placeholder;
     }
   }
@@ -45,7 +45,7 @@
       color: $accent;
     }
 
-    .vx-form-field-input::-webkit-input-placeholder {
+    .vx-form-field-input::placeholder {
       color: $darkerPlaceholder;
     }
   }
@@ -64,14 +64,14 @@
       color: mix($accent, $error);
     }
 
-    .vx-form-field-input::-webkit-input-placeholder {
+    .vx-form-field-input::placeholder {
       color: mix($error, $placeholder, 20%);
     }
   }
 
   // Error and Focused Colors
   .vx-form-field.vx-error.vx-focused {
-    .vx-form-field-input::-webkit-input-placeholder {
+    .vx-form-field-input::placeholder {
       color: mix($error, $darkerPlaceholder, 30%);
     }
   }

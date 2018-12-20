@@ -8,6 +8,7 @@ import {Title} from '@angular/platform-browser';
 })
 
 export class VxRadioDocsComponent implements OnInit {
+  value = '1';
   constructor(private title: Title) {
     title.setTitle('Radio Group');
   }

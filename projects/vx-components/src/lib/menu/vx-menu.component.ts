@@ -5,7 +5,7 @@ import {
   Component,
   ContentChildren,
   ElementRef, forwardRef, HostListener, Input, NgZone, OnDestroy,
-  QueryList,
+  QueryList, ViewChild,
   ViewEncapsulation
 } from '@angular/core';
 import {AbstractVxMenuComponent, Pos, Size, VX_MENU_TOKEN, findInArrayByDirection} from 'vx-components-base';
@@ -26,19 +26,34 @@ import {fromEvent, merge} from 'rxjs';
     }
   ],
   host: {
-    '[class.vx-menu]': 'true',
-    '[class.vx-menu-visible]': 'visible'
+    '[class.vx-menu-positioner]': 'true'
   }
 })
 export class VxMenuComponent<T> extends AbstractVxMenuComponent<T, HTMLElement> implements OnDestroy, AfterViewInit {
+  // set _positionStrategyClass(c: string | undefined) {
+  //   let newClassName = this.el.nativeElement.className;
+  //
+  //   if (this.oldPositionStrategyClass) {
+  //     newClassName = newClassName.replace(this.oldPositionStrategyClass, c || '');
+  //   } else if (c) {
+  //     newClassName += ' ' + c;
+  //   }
+  //
+  //   this.el.nativeElement.className = newClassName;
+  //   this.oldPositionStrategyClass = c;
+  // }
+  // get _positionStrategyClass(): string | undefined {
+  //   return this.oldPositionStrategyClass;
+  // }
+  // private oldPositionStrategyClass?: string;
 
   @ContentChildren(VxItemComponent)
-  set _vxItems(items: QueryList<VxItemComponent<T>>) {
-    this.items = items;
-  }
+  items!: QueryList<VxItemComponent<T>>;
 
   /** If setting to true or false is the same as setting all properties of VxMenuAutoClose to true or false */
   @Input() autoClose: boolean | VxMenuAutoClose = true;
+
+  @ViewChild('panel') panel!: ElementRef<HTMLElement>;
 
   get focusedItem(): VxItemComponent<T> | undefined {
     return this._focusedItem;
@@ -53,10 +68,12 @@ export class VxMenuComponent<T> extends AbstractVxMenuComponent<T, HTMLElement> 
       this._focusedItem = value;
       if (value) {
         value._markForCheck();
-        const dropdown = this.el.nativeElement;
+        const dropdown = this.panel.nativeElement;
 
         const top = value._el.nativeElement.offsetTop;
         dropdown.scrollTop = top - dropdown.offsetHeight / 4;
+      } else {
+        this.panel.nativeElement.scrollTop = 0;
       }
     }
   }
@@ -118,6 +135,7 @@ export class VxMenuComponent<T> extends AbstractVxMenuComponent<T, HTMLElement> 
   }
 
   ngAfterViewInit(): void {
+    super.ngAfterViewInit();
     this.overlay.container.appendChild(this.el.nativeElement);
   }
 
@@ -126,6 +144,8 @@ export class VxMenuComponent<T> extends AbstractVxMenuComponent<T, HTMLElement> 
       this.visible = false;
       return;  // return because setting visible will re-call hide.
     }
+
+    this._active = false;
 
     this.clearFocus();
     this.overlay.hideOverlay();
@@ -156,7 +176,6 @@ export class VxMenuComponent<T> extends AbstractVxMenuComponent<T, HTMLElement> 
   @HostListener('window:keydown.ArrowUp', ['true', '$event'])
   @HostListener('window:keydown.ArrowDown', ['false', '$event'])
   _onArrowDown(upKey: boolean, event: Event): void {
-    console.log('Got in here!');
     if (this.visible) {
       if (this.focusedIdx === -1) {
         this.focusedIdx = upKey ? this.items.length - 1 : 0;
@@ -186,10 +205,21 @@ export class VxMenuComponent<T> extends AbstractVxMenuComponent<T, HTMLElement> 
     }
   }
 
+  @HostListener('window:keydown.escape', ['"escape"'])
+  @HostListener('window:keydown.tab', ['"tab"'])
   _autoClose(reason: keyof VxMenuAutoClose) {
     if (this._shouldAutoclose(reason)) {
       this.visible = false;
     }
+  }
+
+
+  @HostListener('mousedown', ['true'])
+  @HostListener('touchstart', ['true'])
+  @HostListener('window:mouseup', ['false'])
+  @HostListener('window:touchend', ['false'])
+  _setActive(active: boolean) {
+    this._active = active;
   }
 
   protected _shouldAutoclose(reason: keyof VxMenuAutoClose): boolean {
@@ -214,12 +244,12 @@ export class VxMenuComponent<T> extends AbstractVxMenuComponent<T, HTMLElement> 
       return;
     }
 
-    const rect = this.el.nativeElement.getBoundingClientRect();
+    const rect = this.panel.nativeElement.getBoundingClientRect();
     return {
       x: rect.left,
       y: rect.top,
       width: rect.width || this.el.nativeElement.offsetWidth,
-      height: rect.height || this.el.nativeElement.offsetHeight
+      height: this.panel.nativeElement.scrollHeight + 2 // added 2 for the border
     };
   }
 
@@ -238,14 +268,18 @@ export class VxMenuComponent<T> extends AbstractVxMenuComponent<T, HTMLElement> 
     // el.style.left = `${pos.x}px`;
     // el.style.top = `${pos.y}px`;
     el.style.transform = `translate(${pos.x}px, ${pos.y}px)`;
-    el.style.maxHeight = `${pos.height}px`;
-    el.style.width = autoWidth ? 'auto' : `${pos.width}px`;
-    el.style.maxWidth = autoWidth ? 'none' : `${pos.width}px`;
+
+    const panelEl = this.panel.nativeElement;
+    panelEl.style.maxHeight = `${pos.height}px`;
+    panelEl.style.width = autoWidth ? 'auto' : `${pos.width}px`;
+    panelEl.style.maxWidth = autoWidth ? 'none' : `${pos.width}px`;
   }
 
   private clearFocus(): void {
-    this._focusedIdx = -1;
-    this.focusedItem = undefined;
+    if (this.focusedIdx !== -1) {
+      this._focusedIdx = -1;
+      this.focusedItem = undefined;
+    }
   }
 
   protected onItemsChanged(): void {

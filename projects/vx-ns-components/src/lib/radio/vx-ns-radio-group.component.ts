@@ -6,7 +6,7 @@ import {
   forwardRef,
   Injector,
   OnInit, Optional,
-  QueryList
+  QueryList, Self
 } from '@angular/core';
 import {FormGroupDirective, NG_VALUE_ACCESSOR, NgControl, NgForm} from '@angular/forms';
 import {
@@ -23,11 +23,6 @@ import {VxNsRadioButtonComponent} from './vx-ns-radio-button.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => VxNsRadioGroupComponent),
-      multi: true
-    },
-    {
       provide: VX_RADIO_GROUP_TOKEN,
       useExisting: forwardRef(() => VxNsRadioGroupComponent)
     }
@@ -38,22 +33,17 @@ import {VxNsRadioButtonComponent} from './vx-ns-radio-button.component';
     '[class.vx-ns-disabled]': 'disabled',
   }
 })
-export class VxNsRadioGroupComponent<T> extends AbstractVxRadioGroupComponent<T> implements OnInit {
+export class VxNsRadioGroupComponent<T> extends AbstractVxRadioGroupComponent<T> {
   @ContentChildren(VxNsRadioButtonComponent) buttons!: QueryList<AbstractVxRadioButtonComponent<T>>;
 
   constructor(
-    protected injector: Injector,
     cdr: ChangeDetectorRef,
     errorStateMatcher: ErrorStateMatcher,
+    @Optional() @Self() ngControl: NgControl,
     @Optional() parentForm: NgForm,
     @Optional() parentFormGroup: FormGroupDirective,
   ) {
-    super(cdr, errorStateMatcher, undefined, parentForm, parentFormGroup);
-  }
+    super(cdr, errorStateMatcher, ngControl, parentForm, parentFormGroup);
 
-  ngOnInit(): void {
-    try {
-      this.ngControl = this.injector.get(NgControl);
-    } catch (e) {}
   }
 }

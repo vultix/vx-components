@@ -2,6 +2,7 @@ import {ChangeDetectorRef, DoCheck, ElementRef, Input} from '@angular/core';
 import {FormGroupDirective, NgControl, NgForm} from '@angular/forms';
 import {coerceBooleanProperty, ErrorStateMatcher, VxFormComponent} from '../shared';
 import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 export abstract class AbstractVxFormFieldDirective<T> extends VxFormComponent<string> {
   @Input()
@@ -11,7 +12,8 @@ export abstract class AbstractVxFormFieldDirective<T> extends VxFormComponent<st
 
   set placeholder(value: string) {
     this._placeholder = value;
-    this.handlePlaceholder();
+    this.stateChanges.next();
+    this.cdr.markForCheck();
   }
 
   protected _placeholder = '';
@@ -23,27 +25,11 @@ export abstract class AbstractVxFormFieldDirective<T> extends VxFormComponent<st
 
   set label(value: string) {
     this._label = value;
-    this.handlePlaceholder();
+    this.stateChanges.next();
+    this.cdr.markForCheck();
   }
 
   protected _label = '';
-
-  @Input()
-  get showLabel(): boolean {
-    return this._showLabel;
-  }
-
-  set showLabel(value: boolean) {
-    value = coerceBooleanProperty(value);
-
-    if (value !== this.showLabel) {
-      this._showLabel = value;
-      this.cdr.markForCheck();
-      this.stateChanges.next();
-    }
-  }
-
-  protected _showLabel = true;
 
   /** Whether or not to hide the required marker */
   @Input()
@@ -80,11 +66,5 @@ export abstract class AbstractVxFormFieldDirective<T> extends VxFormComponent<st
     }
   }
 
-
-  protected handlePlaceholder(): void {
-    this.setNativePlaceholder((this.label && this.placeholder) ? this.placeholder : '');
-    this.cdr.markForCheck();
-  }
-
-  protected abstract setNativePlaceholder(placeholder: string): void;
+  abstract focus(): void;
 }
