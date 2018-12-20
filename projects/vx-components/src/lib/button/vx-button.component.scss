@@ -8,6 +8,8 @@
   -webkit-tap-highlight-color: transparent;
   cursor: pointer;
 
+  transition: background .2s ease;
+
   &.vx-disabled {
     cursor: auto;
     opacity: .65;

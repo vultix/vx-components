@@ -15,6 +15,9 @@ export abstract class AbstractVxMenuComponent<T, E> implements OnDestroy, AfterV
   @Output() itemSelect = new EventEmitter<T>();
   _active = false;
   protected onDestroy$ = new Subject<void>();
+
+  protected lastPosition?: AttachedPosition;
+
   private _defaultText = '';
   private _visible = false;
   private _positionStrategy: AttachedPositionStrategy = [{
@@ -216,6 +219,7 @@ export abstract class AbstractVxMenuComponent<T, E> implements OnDestroy, AfterV
 
     if (foundStrategy && foundStrategy.className !== this._positionStrategyClass) {
       this._positionStrategyClass = foundStrategy.className;
+      this.lastPosition = foundStrategy;
       this.cdr.detectChanges();
     }
   }

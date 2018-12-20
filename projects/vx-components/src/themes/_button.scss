@@ -124,20 +124,20 @@
   .vx-button-stroked {
     background: transparent;
     &:hover {
-      background: rgba($darkerBgFg, .07);
+      background: rgba($foreground, .08);
     }
     &:active {
-      background: rgba($darkerBgFg, .13);
+      background: rgba($foreground, .14);
     }
 
     &.vx-button-light {
       border-color: $borderLight;
-      color: $darkerBgFg;
+      color: $foreground;
     }
 
     &.vx-button-dark {
       border-color: $darkColor;
-      color: $darkerBgFg;
+      color: $foreground;
     }
 
     &.vx-button-primary {

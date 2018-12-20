@@ -8,7 +8,8 @@ export class HomeComponent {
   routes = [
     {name: 'Form Field', route: '/form-field'},
     {name: 'Radio', route: '/radio'},
-    {name: 'Menu', route: '/menu'}
+    {name: 'Menu', route: '/menu'},
+    {name: 'Autocomplete', route: '/autocomplete'}
   ];
 }
 

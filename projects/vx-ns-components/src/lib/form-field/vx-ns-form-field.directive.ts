@@ -6,11 +6,12 @@ import { AbstractVxFormFieldDirective, ErrorStateMatcher } from 'vx-components-b
 
 @Directive({
   selector: '[vxNsFormField]',
-  exportAs: 'vxFormField',
+  exportAs: 'vxNsFormField',
   host: {
     '(blur)': '_setHasFocus(false)',
     '(focus)': '_setHasFocus(true)',
     '[hint]': 'placeholder || label',
+    '(textChange)': '_handleChange()',
     '[class.vx-ns-form-field-input]': 'true',
     '[class.vx-ns-show-placeholder]': '_showPlaceholder'
   }
@@ -48,6 +49,10 @@ export class VxNsFormFieldDirective extends AbstractVxFormFieldDirective<TextFie
 
   focus(): void {
     this.elementRef.nativeElement.focus();
+  }
+
+  _handleChange(): void {
+    this._dirtyCheckNativeValue();
   }
 
   protected getNativeValue(): string {

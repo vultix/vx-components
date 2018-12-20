@@ -31,3 +31,35 @@ $triangleHeight: 7px;
 .vx-menu.vx-autocomplete-menu-top {
   transform-origin: bottom center;
 }
+
+
+.vx-button.vx-autocomplete-chip {
+  font-size: 12px;
+  padding: 7px;
+  border-radius: 8px;
+  margin: 2px 2px 2px 3px;
+  vertical-align: middle;
+  animation: vx-chip-entrance .3s ease;
+
+  @keyframes vx-chip-entrance {
+    from {
+      transform: scale(0, 0);
+    }
+    to {
+      transform: scale(1, 1);
+    }
+  }
+}
+
+
+.vx-autocomplete-chip-delete {
+  margin-left: 2px;
+  font-weight: bold;
+}
+
+
+.vx-menu.vx-autocomplete-menu-bottom {
+  border-top-width: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}

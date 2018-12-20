@@ -21,6 +21,27 @@ import { AbstractVxMenuComponent, Pos, Size, VX_MENU_TOKEN } from 'vx-components
 import { VxNsItemComponent } from './vx-ns-item.component';
 
 declare const android: any;
+declare const UIKeyboardWillShowNotification: any;
+declare const UIKeyboardFrameEndUserInfoKey: any;
+declare const UIKeyboardWillHideNotification: any;
+
+let keyboardHeight = 0;
+if (isIOS) {
+  // func keyboardWillShow(notification: NSNotification) {
+  //   let userInfo: NSDictionary = notification.userInfo!
+  //   let keyboardFrame: NSValue = userInfo.valueForKey(UIKeyboardFrameEndUserInfoKey) as! NSValue
+  //   let keyboardRectangle = keyboardFrame.CGRectValue()
+  //   let keyboardHeight = keyboardRectangle.height
+  // }
+  application.ios.addNotificationObserver(UIKeyboardWillShowNotification, function(e: any) {
+    const frame = e.userInfo.valueForKey(UIKeyboardFrameEndUserInfoKey);
+    const rect = frame.CGRectValue;
+    keyboardHeight = rect.size.height;
+  });
+  application.ios.addNotificationObserver(UIKeyboardWillHideNotification, function() {
+    keyboardHeight = 0;
+  });
+}
 
 @Component({
   selector: 'vx-ns-menu',
@@ -67,16 +88,16 @@ export class VxNsMenuComponent<T> extends AbstractVxMenuComponent<T, View> imple
       scale: {x: 1, y: 0},
       opacity: 0,
       duration: 200
-    });
-
-    setTimeout(() => {
+    }).then(() => {
       if (isIOS) {
         this.container.nativeElement.ios.removeFromSuperview();
       } else if (this.popupWindow) {
         this.popupWindow.dismiss();
       }
       this._hiding = false;
-    }, 250);
+    });
+
+
   }
 
   show(): void {
@@ -115,23 +136,23 @@ export class VxNsMenuComponent<T> extends AbstractVxMenuComponent<T, View> imple
       this.popupWindow = popupWindow;
     }
 
-    this.position();
-
     menu.opacity = 0;
-    menu.originY = 0;
     menu.scaleY = 0;
-    menu.animate({
-      scale: {x: 1, y: 1},
-      opacity: 1,
-      duration: 200
-    });
 
-
-    // // Kludge to allow the android textfield to be repositioned
+    // Wait some time for the text field to open up
     setTimeout(() => {
-      // this.position();
-      // this.cdr.markForCheck();
-    }, 300);
+      this.position();
+
+      if (this.lastPosition) {
+        menu.originY = this.lastPosition.menuY === 'top' ? 0 : this.lastPosition.menuY === 'center' ? 0.5 : 1;
+      }
+      menu.animate({
+        scale: {x: 1, y: 1},
+        opacity: 1,
+        duration: 200
+      });
+
+    }, 30);
   }
 
   ngOnDestroy(): void {
@@ -183,16 +204,16 @@ export class VxNsMenuComponent<T> extends AbstractVxMenuComponent<T, View> imple
     }
 
     const pos = this.menu.nativeElement.getLocationInWindow();
-    const size = this.menu.nativeElement.content.getActualSize();
-    // const size = {
-    //   width: this.menu.nativeElement.content.getMeasuredWidth() / screen.mainScreen.scale,
-    //   height: this.menu.nativeElement.content.getMeasuredHeight() / screen.mainScreen.scale
-    // }
+    const size = {
+      width: this.menu.nativeElement.content.getMeasuredWidth() / screen.mainScreen.scale,
+      height: this.menu.nativeElement.content.getMeasuredHeight() / screen.mainScreen.scale
+    };
     return pos && size ? {...size, ...pos} : undefined;
   }
 
   protected getViewportSize(): Size | undefined {
-    return {width: this._screenWidth, height: this._screenHeight};
+    const window = application.ios.window as any;
+    return {width: this._screenWidth, height: this._screenHeight - keyboardHeight};
   }
 
   protected _shouldAutoclose(reason: keyof VxNsMenuAutoClose): boolean {

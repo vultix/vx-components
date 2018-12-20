@@ -56,7 +56,14 @@ export class VxAutocompleteComponent<T> extends AbstractVxAutocompleteComponent<
     }
   }
 
-  test(event: any) {
-    console.log(event);
+  _handleBackspace(event: KeyboardEvent): void {
+    const val = this.value;
+    if (!this.multiple || !(val instanceof Array)) {
+      return;
+    }
+    if (!this._field.value && val.length) {
+      this._removeItem(val[val.length - 1]);
+      event.stopPropagation();
+    }
   }
 }

@@ -1,10 +1,12 @@
-<vx-form-field [vxAttachMenu]="menu" (click)="focus()" [class.vx-focused]="menu.visible || field.focused">
+<vx-form-field [vxAttachMenu]="menu" (click)="focus()"
+               [class.vx-focused]="menu.visible || field.focused" (keyup.backspace)="_handleBackspace($event)">
 
-  <button *ngFor="let item of _selectedItems" class="vx-autocomplete-chip"
+  <button vx-button color="primary" *ngFor="let item of _selectedItems" class="vx-autocomplete-chip"
           (click)="_removeItem(item.value); $event.stopPropagation()"
           (keydown.backspace)="_removeItem(item.value); $event.stopPropagation();">
     <ng-container *ngTemplateOutlet="item._template"></ng-container>
-    <span class="delete">X</span>
+
+    <span class="vx-autocomplete-chip-delete">X</span>
   </button>
 
   <div class="vx-autocomplete-input-wrapper" #focusEl [tabIndex]="searchable ? -1 : tabIndex"

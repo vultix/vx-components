@@ -1,0 +1,20 @@
+<StackLayout vx-ns-form-field [vxNsAttachMenu]="menu" (tap)="focus()">
+
+  <Label *ngFor="let item of _selectedItems" class="vx-ns-autocomplete-chip" (tap)="_removeItem(item.value)">
+    <FormattedString>
+      <Span [text]="item.getTextContent()"></Span>
+      <Span text="  "></Span>
+      <Span text="X" class="vx-ns-autocomplete-chip-x"></Span>
+    </FormattedString>
+  </Label>
+
+  <TextField vxNsFormField #field="vxNsFormField" [label]="label" [placeholder]="placeholder" [disabled]="disabled"></TextField>
+
+  <Label text="▼" class="vx-ns-autocomplete-down-arrow"></Label>
+</StackLayout>
+
+<vx-ns-menu #menu [positionStrategy]="_positionStrategy" [defaultText]="defaultText" class="vx-ns-autocomplete-menu">
+  <StackLayout vx-ns-item *ngFor="let item of _filteredItems" [_parent]="item">
+
+  </StackLayout>
+</vx-ns-menu>

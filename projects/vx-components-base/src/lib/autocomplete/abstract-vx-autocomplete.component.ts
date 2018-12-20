@@ -34,7 +34,7 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
     height: 200,
     width: 'match',
     offsetX: 0,
-    offsetY: -2,
+    offsetY: -2.5,
     className: 'vx-autocomplete-menu-bottom'
   }, {
     menuX: 'left',
@@ -44,7 +44,7 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
     height: 200,
     width: 'match',
     offsetX: 0,
-    offsetY: -2,
+    offsetY: -2.5,
     className: 'vx-autocomplete-menu-top'
   }];
   protected _defaultText = 'No results found.';
@@ -219,9 +219,7 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
 
   ngDoCheck(): void {
     // Before running change detection, if we need to filter we should filter.
-    console.log('Checking');
     if (this.needsFilter) {
-      console.log('Filtering');
       this.filter(true);
     }
 

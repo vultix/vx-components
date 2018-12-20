@@ -32,7 +32,7 @@ import { VxItemComponent } from './vx-item.component';
     }
   ],
   host: {
-    '[class.vx-menu-positioner]': 'true'
+    '[attr.class]': '"vx-menu-positioner"'
   }
 })
 export class VxMenuComponent<T> extends AbstractVxMenuComponent<T, HTMLElement> implements OnDestroy, AfterViewInit {

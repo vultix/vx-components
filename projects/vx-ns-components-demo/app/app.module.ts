@@ -4,6 +4,7 @@ import { NativeScriptModule } from 'nativescript-angular/nativescript.module';
 import { VxNsComponentsModule } from 'vx-ns-components';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { VxNsAutocompleteDemoComponent } from './autocomplete/vx-ns-autocomplete-demo.component';
 import { CustomErrorHandler } from './custom-error-handler';
 import { VxNsFormFieldDemoComponent } from './form-field/vx-ns-form-field-demo.component';
 import { HomeComponent } from './home/home.component';
@@ -18,7 +19,8 @@ registerElement('PreviousNextView', () => require('nativescript-iqkeyboardmanage
     HomeComponent,
     VxNsFormFieldDemoComponent,
     VxNsRadioDemoComponent,
-    VxNsMenuDemoComponent
+    VxNsMenuDemoComponent,
+    VxNsAutocompleteDemoComponent
   ],
   bootstrap: [AppComponent],
   providers: [{provide: ErrorHandler, useClass: CustomErrorHandler}],
