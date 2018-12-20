@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import {VxComponentsModule} from 'vx-components';
 import {FormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
+import { VxButtonDocsComponent } from './button-docs/vx-button-docs.component';
 import {VxFormFieldDocsComponent} from './form-field-docs/vx-form-field-docs.component';
 import {TitleService} from './title.service';
 import {VxRadioDocsComponent} from './radio-docs/vx-radio-docs.component';
@@ -16,7 +17,8 @@ const routes: Routes = [
   {path: 'form-field', component: VxFormFieldDocsComponent},
   {path: 'radio', component: VxRadioDocsComponent},
   {path: 'menu', component: VxMenuDocsComponent},
-  {path: 'autocomplete', component: VxAutocompleteDocsComponent}
+  {path: 'autocomplete', component: VxAutocompleteDocsComponent},
+  {path: 'button', component: VxButtonDocsComponent}
 ];
 
 @NgModule({
@@ -25,7 +27,8 @@ const routes: Routes = [
     VxFormFieldDocsComponent,
     VxRadioDocsComponent,
     VxMenuDocsComponent,
-    VxAutocompleteDocsComponent
+    VxAutocompleteDocsComponent,
+    VxButtonDocsComponent
   ],
   imports: [
     BrowserModule,

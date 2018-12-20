@@ -1,0 +1,176 @@
+// Use this mixin to apply colored themes to the dropdown
+@mixin vx-button-theme($colors) {
+  $colors: vx-prepare-colors($colors);
+  $background: map_get($colors, background);
+  $foreground: map_get($colors, foreground);
+  $darkerBgFg: map_get($colors, darkerBgFg);
+  $lighterBgFg: map_get($colors, lighterBgFg);
+  $borderLight: map_get($colors, borderLight);
+  $borderDark: map_get($colors, borderDark);
+  $primary: map_get($colors, primary);
+  $error: map_get($colors, error);
+  $accent: map_get($colors, accent);
+  $success: map_get($colors, success);
+  $warn: map_get($colors, warn);
+
+
+  $lightColor: mix($darkerBgFg, $lighterBgFg, 8%);
+  $lightColorHover: mix($darkerBgFg, $lighterBgFg, 13%);
+  $lightColorActive: mix($darkerBgFg, $lighterBgFg, 28%);
+
+  $darkColor: mix($lighterBgFg, $darkerBgFg, 18%);
+  $darkColorHover: mix($lighterBgFg, $darkerBgFg, 25%);
+  $darkColorActive: mix($lighterBgFg, $darkerBgFg, 30%);
+
+  $primaryColor: $primary;
+  $primaryColorHover: mix($darkerBgFg, $primary, 8%);
+  $primaryColorActive: mix($darkerBgFg, $primary, 13%);
+
+  $accentColor: $accent;
+  $accentColorHover: mix($darkerBgFg, $accent, 8%);
+  $accentColorActive: mix($darkerBgFg, $accent, 13%);
+
+  $errorColor: $error;
+  $errorColorHover: mix($darkerBgFg, $error, 8%);
+  $errorColorActive: mix($darkerBgFg, $error, 13%);
+
+  $successColor: $success;
+  $successColorHover: mix($darkerBgFg, $success, 8%);
+  $successColorActive: mix($darkerBgFg, $success, 13%);
+
+  $warnColor: $warn;
+  $warnColorHover: mix($darkerBgFg, $warn, 8%);
+  $warnColorActive: mix($darkerBgFg, $warn, 13%);
+
+
+  .vx-button-flat, .vx-button-raised {
+    &.vx-button-light {
+      background: $lightColor;
+      color: $darkerBgFg;
+
+      &:hover {
+        background: $lightColorHover;
+      }
+      &:active {
+        background: $lightColorActive;
+      }
+    }
+
+    &.vx-button-dark {
+      background: $darkColor;
+      color: $lighterBgFg;
+      &:hover {
+        background: $darkColorHover;
+      }
+      &:active {
+        background: $darkColorActive;
+      }
+    }
+
+    &.vx-button-primary {
+      background: $primaryColor;
+      color: $lighterBgFg;
+      &:hover {
+        background: $primaryColorHover;
+      }
+      &:active {
+        background: $primaryColorActive;
+      }
+    }
+
+    &.vx-button-accent {
+      background: $accentColor;
+      color: $lighterBgFg;
+      &:hover {
+        background: $accentColorHover;
+      }
+      &:active {
+        background: $accentColorActive;
+      }
+    }
+
+    &.vx-button-error {
+      background: $errorColor;
+      color: $lighterBgFg;
+      &:hover {
+        background: $errorColorHover;
+      }
+      &:active {
+        background: $errorColorActive;
+      }
+    }
+
+    &.vx-button-success {
+      background: $successColor;
+      color: $lighterBgFg;
+      &:hover {
+        background: $successColorHover;
+      }
+      &:active {
+        background: $successColorActive;
+      }
+    }
+
+    &.vx-button-warn {
+      background: $warnColor;
+      color: $lighterBgFg;
+      &:hover {
+        background: $warnColorHover;
+      }
+      &:active {
+        background: $warnColorActive;
+      }
+    }
+  }
+
+  .vx-button-stroked {
+    background: transparent;
+    &:hover {
+      background: rgba($darkerBgFg, .07);
+    }
+    &:active {
+      background: rgba($darkerBgFg, .13);
+    }
+
+    &.vx-button-light {
+      border-color: $borderLight;
+      color: $darkerBgFg;
+    }
+
+    &.vx-button-dark {
+      border-color: $darkColor;
+      color: $darkerBgFg;
+    }
+
+    &.vx-button-primary {
+      border-color: $primaryColor;
+      color: $primaryColor;
+    }
+
+    &.vx-button-accent {
+      border-color: $accent;
+      color: $accent;
+    }
+
+    &.vx-button-error {
+      border-color: $error;
+      color: $error;
+    }
+
+    &.vx-button-success {
+      border-color: $success;
+      color: $success;
+    }
+
+    &.vx-button-warn {
+      border-color: $warn;
+      color: $warn;
+    }
+
+  }
+
+  .vx-button-raised {
+    box-shadow: 0 3px 1px -2px rgba($darkerBgFg, .2), 0 2px 2px 0 rgba($darkerBgFg,.14), 0 1px 5px 0 rgba($darkerBgFg,.12)
+  }
+
+}

@@ -3,6 +3,7 @@
 @import "./themes/radio";
 @import "./themes/menu";
 @import "./themes/autocomplete";
+@import "./themes/button";
 
 @mixin vx-all-components($colors: ()) {
   $colors: vx-prepare-colors($colors);
@@ -11,6 +12,7 @@
   @include vx-radio-theme($colors);
   @include vx-menu-theme($colors);
   @include vx-autocomplete-theme($colors);
+  @include vx-button-theme($colors);
 }
 
 
