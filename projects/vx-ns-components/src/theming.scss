@@ -2,12 +2,16 @@
 @import "./themes/form-field";
 @import "./themes/radio";
 @import "./themes/menu";
+@import "./themes/button";
+@import "./themes/autocomplete";
 
 @mixin vx-ns-all-components($colors: ()) {
   $colors: vx-ns-prepare-colors($colors);
   @include vx-ns-form-field-theme($colors);
   @include vx-ns-radio-theme($colors);
   @include vx-ns-menu-theme($colors);
+  @include vx-ns-button-theme($colors);
+  @include vx-ns-autocomplete-theme($colors);
 }
 
 .vx-ns-hidden {

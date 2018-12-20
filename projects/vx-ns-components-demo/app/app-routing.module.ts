@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes } from '@angular/router';
 import { NativeScriptRouterModule } from 'nativescript-angular';
 import { VxNsAutocompleteDemoComponent } from './autocomplete/vx-ns-autocomplete-demo.component';
+import { VxNsButtonDemoComponent } from './button/vx-ns-button-demo.compnent';
 import { VxNsFormFieldDemoComponent } from './form-field/vx-ns-form-field-demo.component';
 import { HomeComponent } from './home/home.component';
 import { VxNsMenuDemoComponent } from './menu/vx-ns-menu-demo.component';
@@ -14,7 +15,8 @@ const routes: Routes = [
   {path: 'form-field', component: VxNsFormFieldDemoComponent},
   {path: 'radio', component: VxNsRadioDemoComponent},
   {path: 'menu', component: VxNsMenuDemoComponent},
-  {path: 'autocomplete', component: VxNsAutocompleteDemoComponent}
+  {path: 'autocomplete', component: VxNsAutocompleteDemoComponent},
+  {path: 'button', component: VxNsButtonDemoComponent}
 ];
 
 @NgModule({

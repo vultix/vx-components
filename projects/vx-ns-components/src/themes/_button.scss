@@ -1,0 +1,140 @@
+// Use this mixin to apply colored themes to the dropdown
+@mixin vx-ns-button-theme($colors) {
+  $colors: vx-ns-prepare-colors($colors);
+  $background: map_get($colors, background);
+  $foreground: map_get($colors, foreground);
+  $darkerBgFg: map_get($colors, darkerBgFg);
+  $lighterBgFg: map_get($colors, lighterBgFg);
+  $borderLight: map_get($colors, borderLight);
+  $borderDark: map_get($colors, borderDark);
+  $primary: map_get($colors, primary);
+  $error: map_get($colors, error);
+  $accent: map_get($colors, accent);
+  $success: map_get($colors, success);
+  $warn: map_get($colors, warn);
+
+  $lightColor: mix($darkerBgFg, $lighterBgFg, 8%);
+  $lightColorHover: mix($darkerBgFg, $lighterBgFg, 13%);
+  $lightColorActive: mix($darkerBgFg, $lighterBgFg, 28%);
+
+  $darkColor: mix($lighterBgFg, $darkerBgFg, 18%);
+  $darkColorActive: mix($lighterBgFg, $darkerBgFg, 30%);
+
+  $primaryColor: $primary;
+  $primaryColorActive: mix($darkerBgFg, $primary, 13%);
+
+  $accentColor: $accent;
+  $accentColorActive: mix($darkerBgFg, $accent, 13%);
+
+  $errorColor: $error;
+  $errorColorActive: mix($darkerBgFg, $error, 13%);
+
+  $successColor: $success;
+  $successColorActive: mix($darkerBgFg, $success, 13%);
+
+  $warnColor: $warn;
+  $warnColorActive: mix($darkerBgFg, $warn, 13%);
+
+  .vx-ns-button-flat {
+    &.vx-ns-button-light {
+      background: $lightColor;
+      color: $darkerBgFg;
+
+      &.vx-ns-active {
+        background: $lightColorActive;
+      }
+    }
+
+    &.vx-ns-button-dark {
+      background: $darkColor;
+      color: $lighterBgFg;
+      &.vx-ns-active {
+        background: $darkColorActive;
+      }
+    }
+
+    &.vx-ns-button-primary {
+      background: $primaryColor;
+      color: $lighterBgFg;
+      &.vx-ns-active {
+        background: $primaryColorActive;
+      }
+    }
+
+    &.vx-ns-button-accent {
+      background: $accentColor;
+      color: $lighterBgFg;
+      &.vx-ns-active {
+        background: $accentColorActive;
+      }
+    }
+
+    &.vx-ns-button-error {
+      background: $errorColor;
+      color: $lighterBgFg;
+      &.vx-ns-active {
+        background: $errorColorActive;
+      }
+    }
+
+    &.vx-ns-button-success {
+      background: $successColor;
+      color: $lighterBgFg;
+      &.vx-ns-active {
+        background: $successColorActive;
+      }
+    }
+
+    &.vx-ns-button-warn {
+      background: $warnColor;
+      color: $lighterBgFg;
+      &.vx-ns-active {
+        background: $warnColorActive;
+      }
+    }
+  }
+
+  .vx-ns-button-stroked {
+    background: transparent;
+    &.vx-ns-active {
+      background: rgba($foreground, .14);
+    }
+
+    &.vx-ns-button-light {
+      border-color: $borderLight;
+      color: $foreground;
+    }
+
+    &.vx-ns-button-dark {
+      border-color: $darkColor;
+      color: $foreground;
+    }
+
+    &.vx-ns-button-primary {
+      border-color: $primaryColor;
+      color: $primaryColor;
+    }
+
+    &.vx-ns-button-accent {
+      border-color: $accent;
+      color: $accent;
+    }
+
+    &.vx-ns-button-error {
+      border-color: $error;
+      color: $error;
+    }
+
+    &.vx-ns-button-success {
+      border-color: $success;
+      color: $success;
+    }
+
+    &.vx-ns-button-warn {
+      border-color: $warn;
+      color: $warn;
+    }
+
+  }
+
+}

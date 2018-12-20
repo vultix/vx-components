@@ -1,0 +1,17 @@
+.vx-ns-button {
+  padding: 10dip 15dip;
+  border-radius: 3dip;
+  text-align: center;
+
+  &.vx-ns-disabled {
+    opacity: .65;
+  }
+
+  &.vx-ns-button-flat, &.vx-ns-button-raised {
+    border-width: 0;
+  }
+
+  &.vx-ns-button-stroked {
+    border-width: 1dip;
+  }
+}
