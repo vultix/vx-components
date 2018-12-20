@@ -2,21 +2,24 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ContentChildren, ElementRef,
+  ContentChildren,
+  ElementRef,
   Inject,
-  Injector, Input, NgZone,
+  Input,
   Optional,
-  QueryList, Self, ViewChild,
+  QueryList,
+  Self,
+  ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import {VxItemComponent, VxMenuComponent} from '../menu';
-import {FormGroupDirective, NgControl, NgForm} from '@angular/forms';
+import { FormGroupDirective, NgControl, NgForm } from '@angular/forms';
 import {
   AbstractVxAutocompleteComponent,
   AUTOCOMPLETE_FILTER_FUNCTION,
   AutocompleteFilterFunction,
   ErrorStateMatcher
 } from 'vx-components-base';
+import { VxItemComponent } from '../menu';
 
 @Component({
   selector: 'vx-autocomplete',

@@ -1,6 +1,6 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {Title} from '@angular/platform-browser';
-import {AttachedPositionStrategy} from 'vx-components';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
+import { AttachedPositionStrategy } from 'vx-components';
 
 @Component({
   selector: 'vx-menu-docs',
@@ -11,8 +11,8 @@ import {AttachedPositionStrategy} from 'vx-components';
 
 export class VxMenuDocsComponent implements OnInit {
 
-  positionStrategy: AttachedPositionStrategy = [
-  ];
+  positionStrategy: AttachedPositionStrategy = [];
+
   constructor(private title: Title) {
     this.title.setTitle('vx-menu');
   }

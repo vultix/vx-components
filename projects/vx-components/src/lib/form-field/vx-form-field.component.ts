@@ -1,6 +1,6 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ViewEncapsulation} from '@angular/core';
-import {AbstractVxFormFieldComponent} from 'vx-components-base';
-import {VxFormFieldDirective} from './vx-form-field.directive';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ViewEncapsulation } from '@angular/core';
+import { AbstractVxFormFieldComponent } from 'vx-components-base';
+import { VxFormFieldDirective } from './vx-form-field.directive';
 
 @Component({
   selector: 'vx-form-field',
@@ -16,10 +16,9 @@ import {VxFormFieldDirective} from './vx-form-field.directive';
   }
 })
 export class VxFormFieldComponent extends AbstractVxFormFieldComponent {
+  @ContentChild(VxFormFieldDirective) field!: VxFormFieldDirective;
   protected componentName = 'vx-form-field';
   protected fieldDirectiveName = 'vxFormField';
-
-  @ContentChild(VxFormFieldDirective) field!: VxFormFieldDirective;
 
   constructor(cdr: ChangeDetectorRef) {
     super(cdr);

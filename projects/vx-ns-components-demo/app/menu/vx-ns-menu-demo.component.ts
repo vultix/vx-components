@@ -1,5 +1,5 @@
-import {ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
-import {VxNsMenuComponent} from 'vx-ns-components';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { VxNsMenuComponent } from 'vx-ns-components';
 
 @Component({
   templateUrl: 'vx-ns-menu-demo.component.html',
@@ -8,7 +8,8 @@ import {VxNsMenuComponent} from 'vx-ns-components';
 })
 
 export class VxNsMenuDemoComponent {
-  @ViewChild('menu')  menu!: VxNsMenuComponent<any>;
+  @ViewChild('menu') menu!: VxNsMenuComponent<any>;
+
   test(): void {
     if (this.menu) {
       this.menu.toggle();

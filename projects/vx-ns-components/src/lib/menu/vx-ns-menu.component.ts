@@ -1,5 +1,3 @@
-import {AbstractVxMenuComponent, Pos, Size, VX_MENU_TOKEN} from 'vx-components-base';
-import {AbsoluteLayout} from 'tns-core-modules/ui/layouts/absolute-layout';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -7,17 +5,20 @@ import {
   ContentChildren,
   ElementRef,
   forwardRef,
-  Input, OnDestroy,
+  Input,
+  OnDestroy,
   QueryList,
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import {isIOS, screen} from 'tns-core-modules/platform';
-import {View} from 'tns-core-modules/ui/core/view';
-import {ScrollView} from 'tns-core-modules/ui/scroll-view';
 import * as application from 'tns-core-modules/application';
-import {topmost} from 'tns-core-modules/ui/frame';
-import {VxNsItemComponent} from './vx-ns-item.component';
+import { isIOS, screen } from 'tns-core-modules/platform';
+import { View } from 'tns-core-modules/ui/core/view';
+import { topmost } from 'tns-core-modules/ui/frame';
+import { AbsoluteLayout } from 'tns-core-modules/ui/layouts/absolute-layout';
+import { ScrollView } from 'tns-core-modules/ui/scroll-view';
+import { AbstractVxMenuComponent, Pos, Size, VX_MENU_TOKEN } from 'vx-components-base';
+import { VxNsItemComponent } from './vx-ns-item.component';
 
 declare const android: any;
 
@@ -41,19 +42,18 @@ export class VxNsMenuComponent<T> extends AbstractVxMenuComponent<T, View> imple
   _screenWidth = screen.mainScreen.widthDIPs;
   _screenHeight = screen.mainScreen.heightDIPs;
   _ios = isIOS;
-  get _classString(): string {
-    return `vx-ns-menu ${this.visible ? 'vx-ns-menu-visible' : ''} ${this._positionStrategyClass || ''}`;
-  }
-
   @Input() autoClose: boolean | VxNsMenuAutoClose = true;
-
   @ViewChild('menu') menu!: ElementRef<ScrollView>;
   @ViewChild('container') container!: ElementRef<AbsoluteLayout>;
-
   private popupWindow?: any;
   private _hiding = false;
+
   constructor(cdr: ChangeDetectorRef) {
     super(cdr);
+  }
+
+  get _classString(): string {
+    return `vx-ns-menu ${this.visible ? 'vx-ns-menu-visible' : ''} ${this._positionStrategyClass || ''}`;
   }
 
   hide(): void {
@@ -76,7 +76,7 @@ export class VxNsMenuComponent<T> extends AbstractVxMenuComponent<T, View> imple
         this.popupWindow.dismiss();
       }
       this._hiding = false;
-    }, 250)
+    }, 250);
   }
 
   show(): void {
@@ -127,7 +127,6 @@ export class VxNsMenuComponent<T> extends AbstractVxMenuComponent<T, View> imple
     });
 
 
-
     // // Kludge to allow the android textfield to be repositioned
     setTimeout(() => {
       // this.position();
@@ -143,6 +142,12 @@ export class VxNsMenuComponent<T> extends AbstractVxMenuComponent<T, View> imple
       } else if (this.popupWindow) {
         this.popupWindow.dismiss();
       }
+    }
+  }
+
+  _autoClose(reason: keyof VxNsMenuAutoClose) {
+    if (this._shouldAutoclose(reason)) {
+      this.visible = false;
     }
   }
 
@@ -188,12 +193,6 @@ export class VxNsMenuComponent<T> extends AbstractVxMenuComponent<T, View> imple
 
   protected getViewportSize(): Size | undefined {
     return {width: this._screenWidth, height: this._screenHeight};
-  }
-
-  _autoClose(reason: keyof VxNsMenuAutoClose) {
-    if (this._shouldAutoclose(reason)) {
-      this.visible = false;
-    }
   }
 
   protected _shouldAutoclose(reason: keyof VxNsMenuAutoClose): boolean {

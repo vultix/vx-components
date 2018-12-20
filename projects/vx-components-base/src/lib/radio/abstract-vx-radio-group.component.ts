@@ -1,30 +1,22 @@
-import {ErrorStateMatcher, VxFormComponent} from '../shared';
-import {ChangeDetectorRef, Injector, Input, OnChanges, OnInit, QueryList, SimpleChanges} from '@angular/core';
-import {AbstractVxRadioButtonComponent} from './abstract-vx-radio-button.component';
-import {FormGroupDirective, NgControl, NgForm} from '@angular/forms';
+import { ChangeDetectorRef, Input, OnChanges, OnInit, QueryList, SimpleChanges } from '@angular/core';
+import { FormGroupDirective, NgControl, NgForm } from '@angular/forms';
+import { ErrorStateMatcher, VxFormComponent } from '../shared';
+import { AbstractVxRadioButtonComponent } from './abstract-vx-radio-button.component';
 
 let uniqueId = 0;
 
 export abstract class AbstractVxRadioGroupComponent<T> extends VxFormComponent<T> implements OnChanges, OnInit {
 
   abstract buttons: QueryList<AbstractVxRadioButtonComponent<T>>;
-
-  @Input()
-  set name(value: string) {
-    this._name = value;
-    this.cdr.markForCheck();
-  }
-  get name(): string {
-    return this._name;
-  }
   private _name = `vxradio-${++uniqueId}`;
+  private _value!: T;
 
   constructor(
     cdr: ChangeDetectorRef,
     errorStateMatcher: ErrorStateMatcher,
     control?: NgControl,
     parentForm?: NgForm,
-    parentFormGroup?: FormGroupDirective,
+    parentFormGroup?: FormGroupDirective
   ) {
     super(cdr, errorStateMatcher, control, parentForm, parentFormGroup);
     if (control) {
@@ -32,14 +24,15 @@ export abstract class AbstractVxRadioGroupComponent<T> extends VxFormComponent<T
     }
   }
 
-  private _value!: T;
-  protected getNativeValue(): T {
-    return this._value;
-  }
-  protected setNativeValue(val: T): void {
-    this._value = val;
+  get name(): string {
+    return this._name;
   }
 
+  @Input()
+  set name(value: string) {
+    this._name = value;
+    this.cdr.markForCheck();
+  }
 
   _next(): void {
     const buttons = this.buttons.toArray();
@@ -64,16 +57,6 @@ export abstract class AbstractVxRadioGroupComponent<T> extends VxFormComponent<T
     this._handleButtonSelect(buttons[selectedIndex].value);
   }
 
-  protected getSelectedIndex(): number {
-    const buttons = this.buttons.toArray();
-    for (let i = 0; i < buttons.length; i++) {
-      if (buttons[i].value === this.value) {
-        return i;
-      }
-    }
-    return -1;
-  }
-
   ngOnChanges(changes: SimpleChanges): void {
     if (this.buttons) {
       // Ensures all changes to the group component are reflected on the underlying buttons
@@ -83,5 +66,23 @@ export abstract class AbstractVxRadioGroupComponent<T> extends VxFormComponent<T
 
   _handleButtonSelect(value: T): void {
     this.setValueFromNative(value);
+  }
+
+  protected getNativeValue(): T {
+    return this._value;
+  }
+
+  protected setNativeValue(val: T): void {
+    this._value = val;
+  }
+
+  protected getSelectedIndex(): number {
+    const buttons = this.buttons.toArray();
+    for (let i = 0; i < buttons.length; i++) {
+      if (buttons[i].value === this.value) {
+        return i;
+      }
+    }
+    return -1;
   }
 }

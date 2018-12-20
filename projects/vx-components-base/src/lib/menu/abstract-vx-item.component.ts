@@ -1,21 +1,22 @@
 import {
-  AfterViewInit, ChangeDetectorRef,
+  AfterViewInit,
+  ChangeDetectorRef,
   EmbeddedViewRef,
   EventEmitter,
   Input,
   OnDestroy,
-  OnInit,
   Output,
   TemplateRef,
   ViewChild,
   ViewContainerRef
 } from '@angular/core';
-import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
-import {coerceBooleanProperty} from '../shared';
-import {AbstractVxMenuComponent} from './abstract-vx-menu.component';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { coerceBooleanProperty } from '../shared';
+import { AbstractVxMenuComponent } from './abstract-vx-menu.component';
 
 let _vxItemIdCounter = 0;
+
 export abstract class AbstractVxItemComponent<T> implements OnDestroy, AfterViewInit {
   @ViewChild(TemplateRef) _template!: TemplateRef<any>;
   @ViewChild('container', {read: ViewContainerRef}) container!: ViewContainerRef;
@@ -24,6 +25,17 @@ export abstract class AbstractVxItemComponent<T> implements OnDestroy, AfterView
    * Emits when the item is selected
    */
   @Output() select = new EventEmitter<T>();
+  embeddedView?: EmbeddedViewRef<any>;
+  _id = `vx-item-${_vxItemIdCounter++}`;
+  protected _child?: AbstractVxItemComponent<T>;
+  protected __parent?: AbstractVxItemComponent<T>;
+  protected onDestroy$ = new Subject<void>();
+  private _value!: T;
+  private _disabled = false;
+
+  protected constructor(protected cdr: ChangeDetectorRef, public _menu?: AbstractVxMenuComponent<T, any>) {
+
+  }
 
   @Input()
   get value(): T {
@@ -37,8 +49,6 @@ export abstract class AbstractVxItemComponent<T> implements OnDestroy, AfterView
     }
   }
 
-  private _value!: T;
-
   @Input()
   get disabled(): boolean {
     return this._disabled;
@@ -51,7 +61,10 @@ export abstract class AbstractVxItemComponent<T> implements OnDestroy, AfterView
       this.cdr.markForCheck();
     }
   }
-  private _disabled = false;
+
+  get _parent(): AbstractVxItemComponent<T> | undefined {
+    return this.__parent;
+  }
 
   @Input()
   set _parent(parent: AbstractVxItemComponent<T> | undefined) {
@@ -63,23 +76,6 @@ export abstract class AbstractVxItemComponent<T> implements OnDestroy, AfterView
     this._template = parent._template;
     this.__parent = parent;
     this.select.pipe(takeUntil(this.onDestroy$)).subscribe((value: T) => parent._handleSelect());
-  }
-
-  get _parent(): AbstractVxItemComponent<T> | undefined {
-    return this.__parent;
-  }
-
-  embeddedView?: EmbeddedViewRef<any>;
-
-  _id = `vx-item-${_vxItemIdCounter++}`;
-
-  protected _child?: AbstractVxItemComponent<T>;
-  protected __parent?: AbstractVxItemComponent<T>;
-  protected onDestroy$ = new Subject<void>();
-
-
-  protected constructor(protected cdr: ChangeDetectorRef, public _menu?: AbstractVxMenuComponent<T, any>) {
-
   }
 
   ngOnDestroy(): void {

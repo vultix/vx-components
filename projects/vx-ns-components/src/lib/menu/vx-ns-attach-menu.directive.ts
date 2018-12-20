@@ -1,7 +1,7 @@
-import {AbstractVxAttachMenuDirective} from 'vx-components-base';
-import {Directive, ElementRef, Input} from '@angular/core';
-import {VxNsMenuComponent} from './vx-ns-menu.component';
-import {View} from 'tns-core-modules/ui/core/view';
+import { Directive, ElementRef, Input } from '@angular/core';
+import { View } from 'tns-core-modules/ui/core/view';
+import { AbstractVxAttachMenuDirective } from 'vx-components-base';
+import { VxNsMenuComponent } from './vx-ns-menu.component';
 
 @Directive({
   selector: '[vxNsAttachMenu]'

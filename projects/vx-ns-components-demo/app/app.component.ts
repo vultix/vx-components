@@ -1,20 +1,20 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 
 @Component({
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
-    value?: string;
-    show: any = {};
+  value?: string;
+  show: any = {};
 
-    constructor(private cdr: ChangeDetectorRef) {
-    }
+  constructor(private cdr: ChangeDetectorRef) {
+  }
 
 
-    onChange(e: any, num: number): void {
-        this.show[num] = e.value;
-        this.cdr.markForCheck();
-    }
+  onChange(e: any, num: number): void {
+    this.show[num] = e.value;
+    this.cdr.markForCheck();
+  }
 }

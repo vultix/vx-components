@@ -1,7 +1,7 @@
-import {AbstractVxFormFieldDirective} from './abstract-vx-form-field.directive';
-import {AfterContentInit, ChangeDetectorRef, ContentChild, OnDestroy, OnInit, Type} from '@angular/core';
-import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import { ChangeDetectorRef, OnDestroy, OnInit } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { AbstractVxFormFieldDirective } from './abstract-vx-form-field.directive';
 
 export abstract class AbstractVxFormFieldComponent implements OnInit, OnDestroy {
   abstract field: AbstractVxFormFieldDirective<any>;
@@ -22,7 +22,7 @@ export abstract class AbstractVxFormFieldComponent implements OnInit, OnDestroy 
     }
     this.field.stateChanges.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
       this.cdr.markForCheck();
-    })
+    });
   }
 
   ngOnDestroy(): void {

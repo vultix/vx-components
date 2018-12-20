@@ -1,22 +1,18 @@
-import {AbstractVxFormFieldDirective} from '../form-field';
-import {AbstractVxItemComponent, AbstractVxMenuComponent, AttachedPositionStrategy} from '../menu';
 import {
   AfterContentInit,
-  AfterViewChecked,
   AfterViewInit,
   ChangeDetectorRef,
   DoCheck,
-  Injector,
   Input,
-  NgZone,
-  OnInit,
   QueryList,
   ViewChild
 } from '@angular/core';
-import {coerceBooleanProperty, ErrorStateMatcher, VxFormComponent} from '../shared';
-import {FormGroupDirective, NgControl, NgForm} from '@angular/forms';
-import {startWith, takeUntil} from 'rxjs/operators';
-import {AutocompleteFilterFunction, defaultAutocompleteFilterFunction} from './autocomplete-filter-function';
+import { FormGroupDirective, NgControl, NgForm } from '@angular/forms';
+import { startWith, takeUntil } from 'rxjs/operators';
+import { AbstractVxFormFieldDirective } from '../form-field';
+import { AbstractVxItemComponent, AbstractVxMenuComponent, AttachedPositionStrategy } from '../menu';
+import { coerceBooleanProperty, ErrorStateMatcher, VxFormComponent } from '../shared';
+import { AutocompleteFilterFunction, defaultAutocompleteFilterFunction } from './autocomplete-filter-function';
 
 export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxItemComponent<T>>
   extends VxFormComponent<T | T[]> implements AfterViewInit, DoCheck, AfterContentInit {
@@ -51,6 +47,45 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
     offsetY: -2,
     className: 'vx-autocomplete-menu-top'
   }];
+  protected _defaultText = 'No results found.';
+  protected _multiple = false;
+  protected _filterFunction: AutocompleteFilterFunction<T> = defaultAutocompleteFilterFunction;
+  protected _placeholder!: string;
+  protected _label = '';
+  protected _searchable = true;
+  protected searchText = '';
+  protected _value!: T | T[];
+  protected keyedItems: Map<T, I> = new Map();
+  /**
+   * There are a number of things that can cause the need to filter,
+   * so this flag tells us we need to filter this round.
+   */
+  protected needsFilter = false;
+  /**
+   * If set to true means we should verify the value is an array and that all of the items exist,
+   * or if not multiple verify we have an item for the value.
+   */
+  protected shouldVerifyValue = false;
+
+  constructor(
+    cdr: ChangeDetectorRef,
+    errorStateMatcher: ErrorStateMatcher,
+    ngControl?: NgControl,
+    parentForm?: NgForm,
+    parentFormGroup?: FormGroupDirective,
+    filterFunction?: AutocompleteFilterFunction<T>
+  ) {
+    super(cdr, errorStateMatcher, ngControl, parentForm, parentFormGroup);
+
+    if (ngControl) {
+      ngControl.valueAccessor = this;
+    }
+
+    if (filterFunction) {
+      this.filterFunction = filterFunction;
+    }
+
+  }
 
   /** The text to show when there are no items */
   @Input()
@@ -64,7 +99,6 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
       this.cdr.markForCheck();
     }
   }
-  private _defaultText = 'No results found.';
 
   @Input()
   get multiple(): boolean {
@@ -80,7 +114,6 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
       this.filter();
     }
   }
-  private _multiple = false;
 
   @Input()
   get filterFunction(): AutocompleteFilterFunction<T> {
@@ -93,7 +126,6 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
       this.filter();
     }
   }
-  private _filterFunction: AutocompleteFilterFunction<T> = defaultAutocompleteFilterFunction;
 
   @Input()
   get placeholder(): string {
@@ -115,20 +147,18 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
       this.cdr.markForCheck();
     }
   }
-  private _placeholder!: string;
 
   @Input()
   get label(): string {
     return this._label;
   }
+
   set label(value: string) {
     if (value !== this.label) {
       this._label = value;
       this.cdr.markForCheck();
     }
   }
-  private _label = '';
-
 
   @Input()
   get searchable(): boolean {
@@ -154,43 +184,6 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
     } else {
       return [];
     }
-  }
-
-  private _searchable = true;
-
-  private searchText = '';
-  private _value!: T | T[];
-  private keyedItems: Map<T, I> = new Map();
-
-  /**
-   * There are a number of things that can cause the need to filter,
-   * so this flag tells us we need to filter this round.
-   */
-  private needsFilter = false;
-
-  /**
-   * If set to true means we should verify the value is an array and that all of the items exist,
-   * or if not multiple verify we have an item for the value.
-   */
-  private shouldVerifyValue = false;
-  constructor(
-    cdr: ChangeDetectorRef,
-    errorStateMatcher: ErrorStateMatcher,
-    ngControl?: NgControl,
-    parentForm?: NgForm,
-    parentFormGroup?: FormGroupDirective,
-    filterFunction?: AutocompleteFilterFunction<T>
-  ) {
-    super(cdr, errorStateMatcher, ngControl, parentForm, parentFormGroup);
-
-    if (ngControl) {
-      ngControl.valueAccessor = this;
-    }
-
-    if (filterFunction) {
-      this.filterFunction = filterFunction;
-    }
-
   }
 
   ngAfterContentInit(): void {
@@ -221,7 +214,7 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
 
     this._menu.visibleChange.pipe(takeUntil(this.onDestroy$)).subscribe(val => {
       this.handleMenuVisibilityChange(val);
-    })
+    });
   }
 
   ngDoCheck(): void {
@@ -259,6 +252,19 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
       this.setValueFromNative(existing);
     }
   }
+
+  _handleFieldFocusChange(focused: boolean): void {
+    if (focused && !this._menu.visible) {
+      this._showMenu();
+      this._field.value = '';
+    } else if (!focused && !this._menu._active && this._menu.visible) {
+      this._hideMenu();
+    } else if (!focused && this._menu._active) {
+      this._field.focus();
+    }
+  }
+
+  abstract focus(): void;
 
   protected filter(runImmediately = false): void {
     if (!runImmediately) {
@@ -341,17 +347,6 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
     }
   }
 
-  _handleFieldFocusChange(focused: boolean): void {
-    if (focused && !this._menu.visible) {
-      this._showMenu();
-      this._field.value = '';
-    } else if (!focused && !this._menu._active && this._menu.visible) {
-      this._hideMenu();
-    } else if (!focused && this._menu._active) {
-      this._field.focus();
-    }
-  }
-
   protected handleMenuVisibilityChange(visible: boolean): void {
     if (!visible) {
       this._repopulateValue();
@@ -385,6 +380,4 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
       this.cdr.markForCheck();
     }
   }
-
-  abstract focus(): void;
 }

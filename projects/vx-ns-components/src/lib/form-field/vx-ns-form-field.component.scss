@@ -7,27 +7,27 @@
 .vx-ns-form-field-container {
   align-items: center;
   flex-wrap: wrap;
-  border-radius: 3dip;
-  border-width: 1dip;
+  border-radius: 3 dip;
+  border-width: 1 dip;
 }
 
-
 .vx-ns-form-field-label {
-  font-size: 12dip;
-  padding-bottom: 2dip;
-  padding-right: 10dip;
+  font-size: 12 dip;
+  padding-bottom: 2 dip;
+  padding-right: 10 dip;
 }
 
 .vx-ns-form-field-input {
   border-width: 0;
   border-color: transparent;
   border-radius: 1;
-  font-size: 16dip;
+  font-size: 16 dip;
   flex-grow: 1;
-  width: 150dip;
+  width: 150 dip;
   //height: 20dip;
-  padding: 7dip;
+  padding: 7 dip;
 }
+
 //
 //span[vxPrefix], i[vxPrefix] {
 //  margin-left: 5px;

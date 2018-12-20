@@ -1,7 +1,6 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ElementRef, ViewEncapsulation} from '@angular/core';
-import {AbstractVxFormFieldComponent} from 'vx-components-base';
-import {VxNsFormFieldDirective} from './vx-ns-form-field.directive';
-import {StackLayout} from 'tns-core-modules/ui/layouts/stack-layout';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ViewEncapsulation } from '@angular/core';
+import { AbstractVxFormFieldComponent } from 'vx-components-base';
+import { VxNsFormFieldDirective } from './vx-ns-form-field.directive';
 
 @Component({
   selector: 'StackLayout[vx-ns-form-field]',
@@ -18,10 +17,9 @@ import {StackLayout} from 'tns-core-modules/ui/layouts/stack-layout';
 })
 export class VxNsFormFieldComponent extends AbstractVxFormFieldComponent {
 
+  @ContentChild(VxNsFormFieldDirective) field!: VxNsFormFieldDirective;
   protected componentName = 'vx-ns-form-field';
   protected fieldDirectiveName = 'vxNsFormField';
-
-  @ContentChild(VxNsFormFieldDirective) field!: VxNsFormFieldDirective;
 
   constructor(cdr: ChangeDetectorRef) {
     super(cdr);

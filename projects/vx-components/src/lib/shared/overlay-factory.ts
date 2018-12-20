@@ -1,5 +1,5 @@
-import {fromEvent, Observable, Subject, Subscription} from 'rxjs';
-import {getNextHighestZIndex} from './util';
+import { fromEvent, Observable, Subject, Subscription } from 'rxjs';
+import { getNextHighestZIndex } from './util';
 
 export class OverlayRef {
   container: HTMLDivElement;

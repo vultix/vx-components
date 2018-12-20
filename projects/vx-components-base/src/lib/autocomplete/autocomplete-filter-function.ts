@@ -1,5 +1,5 @@
-import {AbstractVxItemComponent} from '../menu';
-import {InjectionToken} from '@angular/core';
+import { InjectionToken } from '@angular/core';
+import { AbstractVxItemComponent } from '../menu';
 
 export const AUTOCOMPLETE_FILTER_FUNCTION = new InjectionToken<AutocompleteFilterFunction<any>>('AUTOCOMPLETE_FILTER_FUNCTION');
 
@@ -9,7 +9,7 @@ export type AutocompleteFilterFunction<T> =
 
 export const defaultAutocompleteFilterFunction: AutocompleteFilterFunction<any> = (items, searchText, selectedItems) => {
   searchText = searchText.toUpperCase();
-  const scores: {[itemId: string]: number} = {};
+  const scores: { [itemId: string]: number } = {};
 
   // The scores are negative based.  The lower the score the worse you did
   return items.filter(item => {

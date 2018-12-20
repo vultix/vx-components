@@ -26,24 +26,23 @@ import { coerceBooleanProperty } from 'vx-components-base';
 export class VxButtonComponent<T = any> {
   @Input() value!: T;
   @Input() color: VxButtonColor = 'light';
+  private _variation: VxButtonVariations = 'flat';
+  private _disabled = false;
 
   constructor(private cdr: ChangeDetectorRef) {
   }
-
-  private _variation: VxButtonVariations = 'flat';
 
   @Input('vx-button')
   get variation(): VxButtonVariations {
     return this._variation;
   }
+
   set variation(value: VxButtonVariations) {
     if (!value) {
       value = 'flat';
     }
     this._variation = value;
   }
-
-  private _disabled = false;
 
   @Input()
   get disabled(): boolean {

@@ -1,22 +1,48 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  ContentChildren,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  Output,
-  QueryList
-} from '@angular/core';
-import {AbstractVxItemComponent} from './abstract-vx-item.component';
-import {coerceBooleanProperty} from '../shared';
-import {Subject} from 'rxjs';
-import {startWith, takeUntil} from 'rxjs/operators';
-import {AttachedPosition, AttachedPositionStrategy} from './position-strategy';
+import { AfterViewInit, ChangeDetectorRef, EventEmitter, Input, OnDestroy, Output, QueryList } from '@angular/core';
+import { Subject } from 'rxjs';
+import { startWith, takeUntil } from 'rxjs/operators';
+import { coerceBooleanProperty } from '../shared';
+import { AbstractVxItemComponent } from './abstract-vx-item.component';
+import { AttachedPosition, AttachedPositionStrategy } from './position-strategy';
 
 export abstract class AbstractVxMenuComponent<T, E> implements OnDestroy, AfterViewInit {
   _positionStrategyClass?: string;
+  _classList: { [key: string]: boolean } = {};
+  abstract items: QueryList<AbstractVxItemComponent<T>>;
+  /** Event thrown when the menu's visibility changes. The value is the visibility (true or false) */
+  @Output() visibleChange = new EventEmitter<boolean>();
+  /** Event thrown when one of the menu's items are selected.  The value is the item's value*/
+  @Output() itemSelect = new EventEmitter<T>();
+  _active = false;
+  protected onDestroy$ = new Subject<void>();
+  private _defaultText = '';
+  private _visible = false;
+  private _positionStrategy: AttachedPositionStrategy = [{
+    menuX: 'left',
+    menuY: 'top',
+    attachedX: 'left',
+    attachedY: 'bottom',
+    height: 200,
+    width: 'auto',
+    offsetX: 0,
+    offsetY: 10
+  },
+    {
+      menuX: 'left',
+      menuY: 'bottom',
+      attachedX: 'left',
+      attachedY: 'top',
+      height: 200,
+      width: 'auto',
+      offsetX: 0,
+      offsetY: -10
+    }
+  ];
+  private _attachedTo!: E;
+
+  constructor(protected cdr: ChangeDetectorRef) {
+
+  }
 
   @Input('class') set menuClass(classes: string) {
     if (classes && classes.length) {
@@ -34,9 +60,6 @@ export abstract class AbstractVxMenuComponent<T, E> implements OnDestroy, AfterV
 
     this.cdr.markForCheck();
   }
-  _classList: {[key: string]: boolean} = {};
-
-  abstract items: QueryList<AbstractVxItemComponent<T>>;
 
   @Input()
   get defaultText(): string {
@@ -49,8 +72,6 @@ export abstract class AbstractVxMenuComponent<T, E> implements OnDestroy, AfterV
       this.cdr.markForCheck();
     }
   }
-
-  private _defaultText = '';
 
   /** Whether the dropdown is visible */
   @Input()
@@ -73,7 +94,6 @@ export abstract class AbstractVxMenuComponent<T, E> implements OnDestroy, AfterV
     }
 
   };
-  private _visible = false;
 
   @Input()
   get positionStrategy(): AttachedPositionStrategy {
@@ -86,33 +106,10 @@ export abstract class AbstractVxMenuComponent<T, E> implements OnDestroy, AfterV
       this.position();
     }
   }
-  private _positionStrategy: AttachedPositionStrategy = [{
-      menuX: 'left',
-      menuY: 'top',
-      attachedX: 'left',
-      attachedY: 'bottom',
-      height: 200,
-      width: 'auto',
-      offsetX: 0,
-      offsetY: 10
-    },
-    {
-      menuX: 'left',
-      menuY: 'bottom',
-      attachedX: 'left',
-      attachedY: 'top',
-      height: 200,
-      width: 'auto',
-      offsetX: 0,
-      offsetY: -10
-    }
-  ];
 
-  /** Event thrown when the menu's visibility changes. The value is the visibility (true or false) */
-  @Output() visibleChange = new EventEmitter<boolean>();
-
-  /** Event thrown when one of the menu's items are selected.  The value is the item's value*/
-  @Output() itemSelect = new EventEmitter<T>();
+  get attachedTo(): E {
+    return this._attachedTo;
+  }
 
   @Input()
   set attachedTo(value: E) {
@@ -121,24 +118,25 @@ export abstract class AbstractVxMenuComponent<T, E> implements OnDestroy, AfterV
       this.position();
     }
   }
-  get attachedTo(): E {
-    return this._attachedTo;
-  }
-  private _attachedTo!: E;
-
-
-  _active = false;
-  protected onDestroy$ = new Subject<void>();
-  constructor(protected cdr: ChangeDetectorRef) {
-
-  }
 
   public toggle(): void {
     this.visible = !this.visible;
   }
 
   abstract show(): void;
+
   abstract hide(): void;
+
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
+  }
+
+  ngAfterViewInit(): void {
+    this.items.changes.pipe(startWith(null), takeUntil(this.onDestroy$)).subscribe(() => {
+      this.onItemsChanged();
+    });
+  }
 
   protected position(retry = 0): void {
     if (retry === 5) {
@@ -232,20 +230,12 @@ export abstract class AbstractVxMenuComponent<T, E> implements OnDestroy, AfterV
   }
 
   protected abstract setNativePosition(pos: Pos, autoWidth: boolean): void;
+
   protected abstract getAttachedPosition(): Pos | undefined;
+
   protected abstract getMenuPosition(): Pos | undefined;
+
   protected abstract getViewportSize(): Size | undefined;
-
-  ngOnDestroy(): void {
-    this.onDestroy$.next();
-    this.onDestroy$.complete();
-  }
-
-  ngAfterViewInit(): void {
-    this.items.changes.pipe(startWith(null), takeUntil(this.onDestroy$)).subscribe(() => {
-      this.onItemsChanged();
-    });
-  }
 }
 
 export interface Point {

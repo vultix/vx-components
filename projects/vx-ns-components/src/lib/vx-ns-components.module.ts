@@ -1,7 +1,7 @@
-import {NgModule} from '@angular/core';
-import {VxNsFormFieldModule} from './form-field';
-import {VxNsRadioModule} from './radio';
-import {VxNsMenuModule} from './menu/vx-ns-menu.module';
+import { NgModule } from '@angular/core';
+import { VxNsFormFieldModule } from './form-field';
+import { VxNsMenuModule } from './menu/vx-ns-menu.module';
+import { VxNsRadioModule } from './radio';
 
 @NgModule({
   imports: [VxNsFormFieldModule, VxNsRadioModule, VxNsMenuModule],

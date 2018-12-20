@@ -1,5 +1,6 @@
 <AbsoluteLayout class="vx-ns-hidden">
-  <AbsoluteLayout #container [width]="_screenWidth" [height]="_screenHeight" class="vx-ns-menu-overlay" (tap)="_autoClose('overlay')">
+  <AbsoluteLayout #container [width]="_screenWidth" [height]="_screenHeight" class="vx-ns-menu-overlay"
+                  (tap)="_autoClose('overlay')">
     <ScrollView #menu [class.vx-ns-menu]="_ios" [class.vx-ns-visible]="visible" [ngClass]="_ios ? _classList : {}">
       <StackLayout [class.vx-ns-menu]="!_ios" [ngClass]="_ios ? {} : _classList">
         <ng-content></ng-content>

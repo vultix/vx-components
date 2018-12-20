@@ -1,10 +1,10 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'vx-autocomplete-docs',
   templateUrl: 'vx-autocomplete-docs.component.html',
   styleUrls: ['vx-autocomplete-docs.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class VxAutocompleteDocsComponent {

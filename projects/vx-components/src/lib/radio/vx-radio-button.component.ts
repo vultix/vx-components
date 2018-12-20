@@ -1,5 +1,9 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, ViewEncapsulation} from '@angular/core';
-import {AbstractVxRadioButtonComponent, AbstractVxRadioGroupComponent, VX_RADIO_GROUP_TOKEN} from 'vx-components-base';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, ViewEncapsulation } from '@angular/core';
+import {
+  AbstractVxRadioButtonComponent,
+  AbstractVxRadioGroupComponent,
+  VX_RADIO_GROUP_TOKEN
+} from 'vx-components-base';
 
 @Component({
   selector: 'vx-radio-button',
@@ -22,14 +26,13 @@ import {AbstractVxRadioButtonComponent, AbstractVxRadioGroupComponent, VX_RADIO_
 })
 
 export class VxRadioButtonComponent<T> extends AbstractVxRadioButtonComponent<T> {
-  protected componentName = 'vx-radio-button';
   focused = false;
+  @Input() tabIndex = 0;
+  protected componentName = 'vx-radio-button';
 
   constructor(cdr: ChangeDetectorRef, @Inject(VX_RADIO_GROUP_TOKEN) group: AbstractVxRadioGroupComponent<T>) {
     super(cdr, group);
   }
-
-  @Input() tabIndex = 0;
 
   _handleSelect(event: Event): void {
     if (!this.checked) {

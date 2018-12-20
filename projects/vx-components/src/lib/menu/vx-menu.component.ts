@@ -4,15 +4,21 @@ import {
   ChangeDetectorRef,
   Component,
   ContentChildren,
-  ElementRef, forwardRef, HostListener, Input, NgZone, OnDestroy,
-  QueryList, ViewChild,
+  ElementRef,
+  forwardRef,
+  HostListener,
+  Input,
+  NgZone,
+  OnDestroy,
+  QueryList,
+  ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import {AbstractVxMenuComponent, Pos, Size, VX_MENU_TOKEN, findInArrayByDirection} from 'vx-components-base';
-import {VxItemComponent} from './vx-item.component';
-import {OverlayRef} from '../shared/overlay-factory';
-import {takeUntil} from 'rxjs/operators';
-import {fromEvent, merge} from 'rxjs';
+import { fromEvent, merge } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { AbstractVxMenuComponent, findInArrayByDirection, Pos, Size, VX_MENU_TOKEN } from 'vx-components-base';
+import { OverlayRef } from '../shared/overlay-factory';
+import { VxItemComponent } from './vx-item.component';
 
 @Component({
   selector: 'vx-menu',
@@ -54,6 +60,31 @@ export class VxMenuComponent<T> extends AbstractVxMenuComponent<T, HTMLElement> 
   @Input() autoClose: boolean | VxMenuAutoClose = true;
 
   @ViewChild('panel') panel!: ElementRef<HTMLElement>;
+  private _focusedItem?: VxItemComponent<T>;
+  private _focusedIdx = -1;
+  private overlay = new OverlayRef(['vx-menu-overlay']);
+  private enterDown = false;
+
+  constructor(cdr: ChangeDetectorRef, private el: ElementRef<HTMLElement>, private zone: NgZone) {
+    super(cdr);
+
+    this.overlay.overlayClick.subscribe(() => {
+      this._autoClose('overlay');
+    });
+
+    this.itemSelect.pipe(takeUntil(this.onDestroy$)).subscribe(val => {
+      this._autoClose('itemSelect');
+    });
+
+    this.zone.runOutsideAngular(() => {
+      merge(
+        fromEvent(window, 'scroll', {capture: true}),
+        fromEvent(window, 'resize', {capture: true})
+      ).pipe(takeUntil(this.onDestroy$)).subscribe(() => {
+        this.position();
+      });
+    });
+  }
 
   get focusedItem(): VxItemComponent<T> | undefined {
     return this._focusedItem;
@@ -77,9 +108,7 @@ export class VxMenuComponent<T> extends AbstractVxMenuComponent<T, HTMLElement> 
       }
     }
   }
-  private _focusedItem?: VxItemComponent<T>;
 
-  private _focusedIdx = -1;
   get focusedIdx(): number {
     return this._focusedIdx;
   }
@@ -109,29 +138,6 @@ export class VxMenuComponent<T> extends AbstractVxMenuComponent<T, HTMLElement> 
     }
 
     this.focusedItem = undefined;
-  }
-
-  private overlay = new OverlayRef(['vx-menu-overlay']);
-  private enterDown = false;
-  constructor(cdr: ChangeDetectorRef, private el: ElementRef<HTMLElement>, private zone: NgZone) {
-    super(cdr);
-
-    this.overlay.overlayClick.subscribe(() => {
-      this._autoClose('overlay');
-    });
-
-    this.itemSelect.pipe(takeUntil(this.onDestroy$)).subscribe(val => {
-      this._autoClose('itemSelect');
-    });
-
-    this.zone.runOutsideAngular(() => {
-      merge(
-        fromEvent(window, 'scroll', {capture: true}),
-        fromEvent(window, 'resize', {capture: true})
-      ).pipe(takeUntil(this.onDestroy$)).subscribe(() => {
-        this.position();
-      });
-    })
   }
 
   ngAfterViewInit(): void {
@@ -275,16 +281,16 @@ export class VxMenuComponent<T> extends AbstractVxMenuComponent<T, HTMLElement> 
     panelEl.style.maxWidth = autoWidth ? 'none' : `${pos.width}px`;
   }
 
+  protected onItemsChanged(): void {
+    super.onItemsChanged();
+    this.clearFocus();
+  }
+
   private clearFocus(): void {
     if (this.focusedIdx !== -1) {
       this._focusedIdx = -1;
       this.focusedItem = undefined;
     }
-  }
-
-  protected onItemsChanged(): void {
-    super.onItemsChanged();
-    this.clearFocus();
   }
 }
 

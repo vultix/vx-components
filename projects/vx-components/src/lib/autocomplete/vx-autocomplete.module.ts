@@ -1,8 +1,8 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {VxAutocompleteComponent} from './vx-autocomplete.component';
-import {VxItemComponent, VxMenuModule} from '../menu';
-import {VxFormFieldModule} from '../form-field';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { VxFormFieldModule } from '../form-field';
+import { VxItemComponent, VxMenuModule } from '../menu';
+import { VxAutocompleteComponent } from './vx-autocomplete.component';
 
 @NgModule({
   imports: [CommonModule, VxMenuModule, VxFormFieldModule],

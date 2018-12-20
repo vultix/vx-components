@@ -1,6 +1,6 @@
-import {AbstractVxAttachMenuDirective} from 'vx-components-base';
-import {Directive, ElementRef, Input} from '@angular/core';
-import {VxMenuComponent} from './vx-menu.component';
+import { Directive, ElementRef, Input } from '@angular/core';
+import { AbstractVxAttachMenuDirective } from 'vx-components-base';
+import { VxMenuComponent } from './vx-menu.component';
 
 @Directive({
   selector: '[vxAttachMenu]'

@@ -1,16 +1,36 @@
-import {ChangeDetectorRef, EventEmitter, Inject, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
-import {coerceBooleanProperty} from '../shared';
-import {AbstractVxRadioGroupComponent} from './abstract-vx-radio-group.component';
-import {VX_RADIO_GROUP_TOKEN} from './vx-radio-group.token';
-import {Subject} from 'rxjs';
-import {startWith, takeUntil} from 'rxjs/operators';
+import {
+  ChangeDetectorRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges
+} from '@angular/core';
+import { Subject } from 'rxjs';
+import { startWith, takeUntil } from 'rxjs/operators';
+import { coerceBooleanProperty } from '../shared';
+import { AbstractVxRadioGroupComponent } from './abstract-vx-radio-group.component';
 
 export abstract class AbstractVxRadioButtonComponent<T> implements OnDestroy, OnInit, OnChanges {
+  @Output() checkedChange = new EventEmitter<boolean>();
+  @Input() value!: T;
   protected abstract componentName: string;
+  protected _disabled = false;
+  private _name = '';
+  private onDestroy$ = new Subject<void>();
+  private wasChecked = false;
+
+  constructor(protected cdr: ChangeDetectorRef, public group: AbstractVxRadioGroupComponent<T>) {
+  }
 
   /** Whether the radio button is disabled */
   @Input()
-  get disabled(): boolean { return this._disabled || this.group.disabled; }
+  get disabled(): boolean {
+    return this._disabled || this.group.disabled;
+  }
+
   set disabled(value: boolean) {
     value = coerceBooleanProperty(value);
     if (value !== this._disabled) {
@@ -18,11 +38,13 @@ export abstract class AbstractVxRadioButtonComponent<T> implements OnDestroy, On
       this.cdr.markForCheck();
     }
   }
-  protected _disabled = false;
 
   /** Whether the radio button is disabled */
   @Input()
-  get checked(): boolean { return this.value === this.group.value }
+  get checked(): boolean {
+    return this.value === this.group.value;
+  }
+
   set checked(value: boolean) {
     value = coerceBooleanProperty(value);
     if (value && value !== this.checked) {
@@ -32,10 +54,6 @@ export abstract class AbstractVxRadioButtonComponent<T> implements OnDestroy, On
     }
   }
 
-  @Output() checkedChange = new EventEmitter<boolean>();
-
-  @Input() value!: T;
-
   @Input()
   get name(): string {
     return this._name || this.group.name;
@@ -43,12 +61,6 @@ export abstract class AbstractVxRadioButtonComponent<T> implements OnDestroy, On
 
   set name(value: string) {
     this._name = value;
-  }
-  private _name = '';
-
-  private onDestroy$ = new Subject<void>();
-  private wasChecked = false;
-  constructor(protected cdr: ChangeDetectorRef, public group: AbstractVxRadioGroupComponent<T>) {
   }
 
   ngOnInit(): void {

@@ -1,8 +1,17 @@
-import {AbstractVxItemComponent, AbstractVxMenuComponent, VX_MENU_TOKEN} from 'vx-components-base';
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, Input, Optional, ViewEncapsulation} from '@angular/core';
-import {TouchGestureEventData} from 'tns-core-modules/ui/gestures';
-import {View} from 'tns-core-modules/ui/core/view';
-import {Label} from 'tns-core-modules/ui/label';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Inject,
+  Input,
+  Optional,
+  ViewEncapsulation
+} from '@angular/core';
+import { View } from 'tns-core-modules/ui/core/view';
+import { TouchGestureEventData } from 'tns-core-modules/ui/gestures';
+import { Label } from 'tns-core-modules/ui/label';
+import { AbstractVxItemComponent, AbstractVxMenuComponent, VX_MENU_TOKEN } from 'vx-components-base';
 
 @Component({
   selector: '[vx-ns-item]',

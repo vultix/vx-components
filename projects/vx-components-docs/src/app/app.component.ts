@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {Title} from '@angular/platform-browser';
+import { Component } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-root',
+  selector: 'vx-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })

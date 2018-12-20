@@ -1,11 +1,12 @@
-import {FormControl, FormGroupDirective, NgControl, NgForm} from '@angular/forms';
-import {Subject} from 'rxjs';
-import {ErrorStateMatcher} from '../error-options';
-import {Constructor} from './constructor';
+import { FormControl, FormGroupDirective, NgControl, NgForm } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { ErrorStateMatcher } from '../error-options';
+import { Constructor } from './constructor';
 
 export interface FormComponentMixin {
   readonly stateChanges: Subject<void>;
   errorState: boolean;
+
   checkErrorState(): void;
 }
 

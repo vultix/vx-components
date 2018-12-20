@@ -1,5 +1,5 @@
-import {Directive, ElementRef, Input, OnInit} from '@angular/core';
-import {AbstractVxMenuComponent} from './abstract-vx-menu.component';
+import { ElementRef, OnInit } from '@angular/core';
+import { AbstractVxMenuComponent } from './abstract-vx-menu.component';
 
 export abstract class AbstractVxAttachMenuDirective<E> implements OnInit {
   protected abstract menu: AbstractVxMenuComponent<any, E>;

@@ -1,5 +1,9 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, ViewEncapsulation} from '@angular/core';
-import {AbstractVxRadioButtonComponent, AbstractVxRadioGroupComponent, VX_RADIO_GROUP_TOKEN} from 'vx-components-base';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, ViewEncapsulation } from '@angular/core';
+import {
+  AbstractVxRadioButtonComponent,
+  AbstractVxRadioGroupComponent,
+  VX_RADIO_GROUP_TOKEN
+} from 'vx-components-base';
 
 @Component({
   selector: 'GridLayout[vx-ns-radio-button]',
@@ -19,9 +23,8 @@ import {AbstractVxRadioButtonComponent, AbstractVxRadioGroupComponent, VX_RADIO_
 })
 
 export class VxNsRadioButtonComponent<T> extends AbstractVxRadioButtonComponent<T> {
-  protected componentName = 'vx-ns-radio-button';
-
   @Input() text!: string;
+  protected componentName = 'vx-ns-radio-button';
 
   constructor(cdr: ChangeDetectorRef, @Inject(VX_RADIO_GROUP_TOKEN) group: AbstractVxRadioGroupComponent<T>) {
     super(cdr, group);

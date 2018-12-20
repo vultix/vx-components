@@ -1,16 +1,16 @@
-import {BrowserModule, Title} from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { BrowserModule, Title } from '@angular/platform-browser';
+import { RouterModule, Routes } from '@angular/router';
+import { VxComponentsModule } from 'vx-components';
 
 import { AppComponent } from './app.component';
-import {VxComponentsModule} from 'vx-components';
-import {FormsModule} from '@angular/forms';
-import {RouterModule, Routes} from '@angular/router';
+import { VxAutocompleteDocsComponent } from './autocomplete-docs/vx-autocomplete-docs.component';
 import { VxButtonDocsComponent } from './button-docs/vx-button-docs.component';
-import {VxFormFieldDocsComponent} from './form-field-docs/vx-form-field-docs.component';
-import {TitleService} from './title.service';
-import {VxRadioDocsComponent} from './radio-docs/vx-radio-docs.component';
-import {VxMenuDocsComponent} from './menu-docs/vx-menu-docs.component';
-import {VxAutocompleteDocsComponent} from './autocomplete-docs/vx-autocomplete-docs.component';
+import { VxFormFieldDocsComponent } from './form-field-docs/vx-form-field-docs.component';
+import { VxMenuDocsComponent } from './menu-docs/vx-menu-docs.component';
+import { VxRadioDocsComponent } from './radio-docs/vx-radio-docs.component';
+import { TitleService } from './title.service';
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: 'form-field'},
@@ -39,4 +39,5 @@ const routes: Routes = [
   providers: [{provide: Title, useClass: TitleService}],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

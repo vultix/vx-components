@@ -4,18 +4,18 @@ import {
   Component,
   ContentChildren,
   forwardRef,
-  Injector,
-  OnInit, Optional,
-  QueryList, Self
+  Optional,
+  QueryList,
+  Self
 } from '@angular/core';
-import {FormGroupDirective, NG_VALUE_ACCESSOR, NgControl, NgForm} from '@angular/forms';
+import { FormGroupDirective, NgControl, NgForm } from '@angular/forms';
 import {
   AbstractVxRadioButtonComponent,
   AbstractVxRadioGroupComponent,
-  VX_RADIO_GROUP_TOKEN,
-  ErrorStateMatcher
+  ErrorStateMatcher,
+  VX_RADIO_GROUP_TOKEN
 } from 'vx-components-base';
-import {VxNsRadioButtonComponent} from './vx-ns-radio-button.component';
+import { VxNsRadioButtonComponent } from './vx-ns-radio-button.component';
 
 @Component({
   selector: 'StackLayout[vx-ns-radio-group]',
@@ -30,7 +30,7 @@ import {VxNsRadioButtonComponent} from './vx-ns-radio-button.component';
   host: {
     '[class.vx-ns-radio-group]': 'true',
     '[class.vx-ns-error]': 'errorState',
-    '[class.vx-ns-disabled]': 'disabled',
+    '[class.vx-ns-disabled]': 'disabled'
   }
 })
 export class VxNsRadioGroupComponent<T> extends AbstractVxRadioGroupComponent<T> {
@@ -41,7 +41,7 @@ export class VxNsRadioGroupComponent<T> extends AbstractVxRadioGroupComponent<T>
     errorStateMatcher: ErrorStateMatcher,
     @Optional() @Self() ngControl: NgControl,
     @Optional() parentForm: NgForm,
-    @Optional() parentFormGroup: FormGroupDirective,
+    @Optional() parentFormGroup: FormGroupDirective
   ) {
     super(cdr, errorStateMatcher, ngControl, parentForm, parentFormGroup);
 
