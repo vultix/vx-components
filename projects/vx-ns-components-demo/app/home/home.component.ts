@@ -10,7 +10,8 @@ export class HomeComponent {
     {name: 'Radio', route: '/radio'},
     {name: 'Menu', route: '/menu'},
     {name: 'Autocomplete', route: '/autocomplete'},
-    {name: 'Button', route: '/button'}
+    {name: 'Button', route: '/button'},
+    {name: 'Pager', route: '/pager'}
   ];
 }
 

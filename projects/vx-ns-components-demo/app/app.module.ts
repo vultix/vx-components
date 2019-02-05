@@ -10,6 +10,7 @@ import { CustomErrorHandler } from './custom-error-handler';
 import { VxNsFormFieldDemoComponent } from './form-field/vx-ns-form-field-demo.component';
 import { HomeComponent } from './home/home.component';
 import { VxNsMenuDemoComponent } from './menu/vx-ns-menu-demo.component';
+import { VxNsPagerDemoComponent } from './pager/vx-ns-pager-demo.component';
 import { VxNsRadioDemoComponent } from './radio/vx-ns-radio-demo.component';
 
 registerElement('PreviousNextView', () => require('nativescript-iqkeyboardmanager').PreviousNextView);
@@ -22,7 +23,8 @@ registerElement('PreviousNextView', () => require('nativescript-iqkeyboardmanage
     VxNsRadioDemoComponent,
     VxNsMenuDemoComponent,
     VxNsAutocompleteDemoComponent,
-    VxNsButtonDemoComponent
+    VxNsButtonDemoComponent,
+    VxNsPagerDemoComponent
   ],
   bootstrap: [AppComponent],
   providers: [{provide: ErrorHandler, useClass: CustomErrorHandler}],

@@ -5,7 +5,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styleUrls: ['vx-ns-radio-demo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-
 export class VxNsRadioDemoComponent {
 
 }

@@ -6,6 +6,7 @@ import { VxNsButtonDemoComponent } from './button/vx-ns-button-demo.compnent';
 import { VxNsFormFieldDemoComponent } from './form-field/vx-ns-form-field-demo.component';
 import { HomeComponent } from './home/home.component';
 import { VxNsMenuDemoComponent } from './menu/vx-ns-menu-demo.component';
+import { VxNsPagerDemoComponent } from './pager/vx-ns-pager-demo.component';
 import { VxNsRadioDemoComponent } from './radio/vx-ns-radio-demo.component';
 
 
@@ -16,7 +17,8 @@ const routes: Routes = [
   {path: 'radio', component: VxNsRadioDemoComponent},
   {path: 'menu', component: VxNsMenuDemoComponent},
   {path: 'autocomplete', component: VxNsAutocompleteDemoComponent},
-  {path: 'button', component: VxNsButtonDemoComponent}
+  {path: 'button', component: VxNsButtonDemoComponent},
+  {path: 'pager', component: VxNsPagerDemoComponent}
 ];
 
 @NgModule({

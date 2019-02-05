@@ -16,6 +16,7 @@ import { isIOS, screen } from 'tns-core-modules/platform';
 import { View } from 'tns-core-modules/ui/core/view';
 import { topmost } from 'tns-core-modules/ui/frame';
 import { AbsoluteLayout } from 'tns-core-modules/ui/layouts/absolute-layout';
+import { StackLayout } from 'tns-core-modules/ui/layouts/stack-layout';
 import { ScrollView } from 'tns-core-modules/ui/scroll-view';
 import { AbstractVxMenuComponent, Pos, Size, VX_MENU_TOKEN } from 'vx-components-base';
 import { VxNsItemComponent } from './vx-ns-item.component';
@@ -71,10 +72,6 @@ export class VxNsMenuComponent<T> extends AbstractVxMenuComponent<T, View> imple
 
   constructor(cdr: ChangeDetectorRef) {
     super(cdr);
-  }
-
-  get _classString(): string {
-    return `vx-ns-menu ${this.visible ? 'vx-ns-menu-visible' : ''} ${this._positionStrategyClass || ''}`;
   }
 
   hide(): void {
@@ -212,7 +209,6 @@ export class VxNsMenuComponent<T> extends AbstractVxMenuComponent<T, View> imple
   }
 
   protected getViewportSize(): Size | undefined {
-    const window = application.ios.window as any;
     return {width: this._screenWidth, height: this._screenHeight - keyboardHeight};
   }
 

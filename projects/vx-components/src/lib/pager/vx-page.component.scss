@@ -1,0 +1,29 @@
+.vx-page {
+  position: absolute;
+  width: 100%;
+  transition: transform .35s;
+  top: 0;
+  left: 0;
+  display: block;
+  overflow: auto;
+  padding: 15px;
+  box-sizing: border-box;
+  max-height: 100%;
+  -webkit-overflow-scrolling: touch;
+
+  &.vx-page-current {
+    position: relative;
+    transform: translateX(0%);
+  }
+  &.vx-page-left {
+    transform: translateX(-100%);
+    pointer-events: none;
+  }
+  &.vx-page-right {
+    transform: translateX(100%);
+    pointer-events: none;
+  }
+  &.vx-skip-transition {
+    transition: none;
+  }
+}

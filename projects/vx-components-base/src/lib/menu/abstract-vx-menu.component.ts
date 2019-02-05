@@ -217,15 +217,23 @@ export abstract class AbstractVxMenuComponent<T, E> implements OnDestroy, AfterV
       this.setNativePosition(foundPosition, isAutoWidth);
     }
 
-    if (foundStrategy && foundStrategy.className !== this._positionStrategyClass) {
-      this._positionStrategyClass = foundStrategy.className;
+    if (foundStrategy) {
       this.lastPosition = foundStrategy;
-      this.cdr.detectChanges();
+
+      if (foundStrategy.className !== this._positionStrategyClass) {
+        this._positionStrategyClass = foundStrategy.className;
+        this.cdr.detectChanges();
+      }
     }
+
   }
 
   protected onItemsChanged(): void {
     this.cdr.markForCheck();
+
+    if (!this.visible) {
+      return;
+    }
 
     // Wait some time to allow the re-render, then reposition.
     setTimeout(() => {

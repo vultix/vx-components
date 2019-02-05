@@ -1,0 +1,21 @@
+<form #form="ngForm">
+  {{form.invalid}}
+<vx-pager #pager>
+  <vx-page>
+    <input placeholder="A" [(ngModel)]="a" required name="A">
+    <div>
+      <button type="button" vx-button vxPagerNext>Next</button>
+    </div>
+  </vx-page>
+  <vx-page>
+    <input placeholder="B" ngModel required name="B">
+    <button type="button" vx-button vxPagerPrevious>Prev</button>
+    <button type="button" vx-button vxPagerNext>Next</button>
+  </vx-page>
+  <vx-page>
+    <input placeholder="C" [(ngModel)]="c" required name="C">
+    <button type="button" vx-button vxPagerPrevious>Prev</button>
+  </vx-page>
+</vx-pager>
+
+</form>
