@@ -1,0 +1,86 @@
+$tabWidth: 70px;
+$tabHeight: 35px;
+$borderRadius: 5px;
+
+$tabLabelBorderRadius: 8px;
+$tabLabelVerticalPadding: 5px;
+$tabLabelBoxSize: 6px;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  max-height: inherit;
+  max-width: inherit;
+}
+
+.vx-tab-labels {
+  height: $tabHeight;
+  overflow: auto;
+  white-space: nowrap;
+  position: relative;
+  padding-left: 5px;
+  padding-top: 5px;
+  border-top-left-radius: $borderRadius;
+  border-top-right-radius: $borderRadius;
+  flex-shrink: 0;
+}
+
+.vx-tab-label {
+  display: inline-block;
+  padding: $tabLabelVerticalPadding 18px;
+  box-sizing: border-box;
+  line-height: $tabHeight - ($tabLabelVerticalPadding * 2);
+  transition: background-color .3s ease;
+
+  border-top-left-radius: $tabLabelBorderRadius;
+  border-top-right-radius: $tabLabelBorderRadius;
+
+  min-width: $tabWidth;
+  height: $tabHeight;
+
+  position: relative;
+  top: 0;
+  text-align: center;
+  cursor: pointer;
+
+  user-select: none;
+
+  -webkit-tap-highlight-color: transparent;
+
+  &::before, &::after {
+    position: absolute;
+    width: $tabLabelBoxSize;
+    height: $tabLabelBoxSize;
+    left: calc(100% - #{$tabLabelBoxSize / 2});
+    bottom: -$tabLabelBoxSize / 2;
+    transform: rotate(45deg);
+  }
+
+  &::before {
+    left: -$tabLabelBoxSize / 2;
+  }
+
+  // only show pseudo elements when active
+  &.vx-active {
+    &::before, &::after {
+      content: '';
+    }
+  }
+}
+
+.vx-tab {
+  border-bottom-left-radius: $borderRadius;
+  border-bottom-right-radius: $borderRadius;
+  z-index: 30;
+  overflow: hidden;
+}
+
+$tabLabelSeparatorHeight: 16px;
+.vx-tab-label-separator {
+  position: absolute;
+  width: 1px;
+  height: $tabLabelSeparatorHeight;
+  left: 0;
+  top: 50%;
+  margin-top: -$tabLabelSeparatorHeight / 2;
+}

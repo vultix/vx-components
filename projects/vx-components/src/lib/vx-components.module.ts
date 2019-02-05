@@ -5,10 +5,13 @@ import { VxFormFieldModule } from './form-field';
 import { VxMenuModule } from './menu';
 import { VxPagerModule } from './pager';
 import { VxRadioModule } from './radio';
+import { VxTabsModule } from './tabs';
 
 @NgModule({
-  imports: [VxFormFieldModule, VxRadioModule, VxMenuModule, VxAutocompleteModule, VxButtonModule, VxPagerModule],
-  exports: [VxFormFieldModule, VxRadioModule, VxMenuModule, VxAutocompleteModule, VxButtonModule, VxPagerModule]
+  imports: [VxFormFieldModule, VxRadioModule, VxMenuModule, VxAutocompleteModule,
+    VxButtonModule, VxPagerModule, VxTabsModule],
+  exports: [VxFormFieldModule, VxRadioModule, VxMenuModule, VxAutocompleteModule,
+    VxButtonModule, VxPagerModule, VxTabsModule]
 })
 export class VxComponentsModule {
 

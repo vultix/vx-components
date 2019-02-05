@@ -1,0 +1,15 @@
+<div class="vx-tab-labels">
+  <div *ngFor="let tab of _tabs; let idx= index; let first=first;" (click)="selectTab(idx)" [class.vx-active]="selectedTab === idx"
+       class="vx-tab-label">
+    <span class="vx-tab-label-separator" *ngIf="!first && (selectedTab > idx || idx > (selectedTab + 1))"></span>
+
+    {{tab.label}}
+  </div>
+</div>
+<div class="vx-tab">
+  <vx-pager>
+    <vx-page *ngFor="let tab of _tabs;">
+      <ng-container [ngTemplateOutlet]="tab._template"></ng-container>
+    </vx-page>
+  </vx-pager>
+</div>

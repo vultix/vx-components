@@ -11,6 +11,7 @@ import { VxFormFieldDocsComponent } from './form-field-docs/vx-form-field-docs.c
 import { VxMenuDocsComponent } from './menu-docs/vx-menu-docs.component';
 import { VxPagerDocsComponent } from './pager-docs/vx-pager-docs.component';
 import { VxRadioDocsComponent } from './radio-docs/vx-radio-docs.component';
+import { VxTabsDemoComponent } from './tabs-docs/vx-tabs-demo.component';
 import { TitleService } from './title.service';
 
 const routes: Routes = [
@@ -20,7 +21,8 @@ const routes: Routes = [
   {path: 'menu', component: VxMenuDocsComponent},
   {path: 'autocomplete', component: VxAutocompleteDocsComponent},
   {path: 'button', component: VxButtonDocsComponent},
-  {path: 'pager', component: VxPagerDocsComponent}
+  {path: 'pager', component: VxPagerDocsComponent},
+  {path: 'tabs', component: VxTabsDemoComponent}
 ];
 
 @NgModule({
@@ -31,7 +33,8 @@ const routes: Routes = [
     VxMenuDocsComponent,
     VxAutocompleteDocsComponent,
     VxButtonDocsComponent,
-    VxPagerDocsComponent
+    VxPagerDocsComponent,
+    VxTabsDemoComponent
   ],
   imports: [
     BrowserModule,

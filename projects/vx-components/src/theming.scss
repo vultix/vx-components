@@ -4,6 +4,7 @@
 @import "./themes/menu";
 @import "./themes/autocomplete";
 @import "./themes/button";
+@import "./themes/tabs";
 
 @mixin vx-all-components($colors: ()) {
   $colors: vx-prepare-colors($colors);
@@ -13,6 +14,7 @@
   @include vx-menu-theme($colors);
   @include vx-autocomplete-theme($colors);
   @include vx-button-theme($colors);
+  @include vx-tabs-theme($colors);
 }
 
 .vx-visually-hidden {

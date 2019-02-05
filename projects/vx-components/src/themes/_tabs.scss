@@ -1,0 +1,57 @@
+@mixin vx-tabs-theme($colors) {
+  $colors: vx-prepare-colors($colors);
+  $primary: map_get($colors, primary);
+  $foreground: map_get($colors, foreground);
+  $background: map_get($colors, background);
+  $accent: map_get($colors, accent);
+  $error: map_get($colors, error);
+  $border: map_get($colors, borderLight);
+
+  $darkerBgFg: map-get($colors, darkerBgFg);
+  $lighterBgFg: map-get($colors, lighterBgFg);
+
+  $colorBehindLabels: mix($darkerBgFg, $lighterBgFg, 8%);
+  $tabColorHover: mix($darkerBgFg, $lighterBgFg, 4%);
+  $tabColorActive: mix($darkerBgFg, $lighterBgFg, 2%);
+
+  .vx-tabs {
+    color: $foreground;
+  }
+
+  .vx-tab-labels {
+    background-color: $colorBehindLabels;
+    border: 1px solid $border;
+    border-bottom: none;
+  }
+
+  .vx-tab-label {
+    &.vx-active {
+      background-color: $background;
+    }
+
+    &:not(.vx-active):hover {
+      background-color: $tabColorHover;
+    }
+
+    &:not(.vx-active):active {
+      background-color: $tabColorActive;
+    }
+
+    &:after {
+      background-color: $background;
+    }
+    &:before {
+      background-color: $background;
+    }
+  }
+
+  .vx-tab-label-separator {
+    background-color: $border;
+  }
+
+  .vx-tab {
+    background-color: $background;
+    border: 1px solid $border;
+    border-top-width: 0;
+  }
+}
