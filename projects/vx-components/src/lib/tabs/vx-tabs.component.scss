@@ -27,7 +27,7 @@ $tabLabelBoxSize: 6px;
 
 .vx-tab-label {
   display: inline-block;
-  padding: $tabLabelVerticalPadding 18px;
+  padding: $tabLabelVerticalPadding 15px;
   box-sizing: border-box;
   line-height: $tabHeight - ($tabLabelVerticalPadding * 2);
   transition: background-color .3s ease;

@@ -5,6 +5,7 @@
 @import "./themes/autocomplete";
 @import "./themes/button";
 @import "./themes/tabs";
+@import "./themes/checkbox";
 
 @mixin vx-all-components($colors: ()) {
   $colors: vx-prepare-colors($colors);
@@ -15,6 +16,7 @@
   @include vx-autocomplete-theme($colors);
   @include vx-button-theme($colors);
   @include vx-tabs-theme($colors);
+  @include vx-checkbox-theme($colors);
 }
 
 .vx-visually-hidden {

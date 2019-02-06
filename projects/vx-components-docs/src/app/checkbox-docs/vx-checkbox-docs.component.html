@@ -1,0 +1,8 @@
+<form #form="ngForm">
+  {{form.invalid}}
+  <vx-checkbox name="Hello!" #checkbox [disabled]="disable.checked" ngModel="f">Check me!</vx-checkbox>
+  {{checkbox.checked}}
+
+  <vx-checkbox ngModel name="first!" #disable>Disable</vx-checkbox>
+
+</form>

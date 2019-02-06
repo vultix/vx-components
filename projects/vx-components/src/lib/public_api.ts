@@ -6,3 +6,4 @@ export * from './autocomplete/public_api';
 export * from './button/public_api';
 export * from './pager/public_api';
 export * from './tabs/public_api';
+export * from './checkbox/public_api';

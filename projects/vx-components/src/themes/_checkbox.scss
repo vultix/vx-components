@@ -1,0 +1,35 @@
+@mixin vx-checkbox-theme($colors) {
+  $colors: vx-prepare-colors($colors);
+  $primary: map_get($colors, primary);
+  $foreground: map_get($colors, foreground);
+  $background: map_get($colors, background);
+  $accent: map_get($colors, accent);
+  $error: map_get($colors, error);
+  $border: map_get($colors, borderLight);
+
+  $darkerBgFg: map-get($colors, darkerBgFg);
+  $lighterBgFg: map-get($colors, lighterBgFg);
+
+  .vx-checkbox {
+    &:hover .vx-checkbox-box {
+      background: mix($darkerBgFg, $lighterBgFg, 3%)
+    }
+    &:active .vx-checkbox-box {
+      background: mix($darkerBgFg, $lighterBgFg, 10%)
+    }
+
+    &.vx-focused .vx-checkbox-box {
+      box-shadow: 0 0 2px 1px transparentize($primary, .5);
+    }
+
+    .vx-checkbox-box {
+      border: 1px solid $border;
+
+      &:after {
+        border-right: 4px solid $primary;
+        border-top: 4px solid $primary;
+      }
+    }
+
+  }
+}

@@ -4,6 +4,9 @@ import { Subject } from 'rxjs';
 import { coerceBooleanProperty } from './coercion';
 import { ErrorStateMatcher } from './error-options';
 
+// A counter for the unique id for the form element
+let _idCounter = 0;
+
 export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDestroy, DoCheck, OnInit {
   errorState = false;
   focused = false;
@@ -17,9 +20,12 @@ export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDest
   // get readonly(): boolean { return this._readonly; }
   // set readonly(value: boolean) { this._readonly = coerceBooleanProperty(value); }
   // protected _readonly = false;
+
   protected _lastNativeValue?: T;
   protected _disabled = false;
   protected _required = false;
+  protected _id = `vx-form-element-${_idCounter++}`;
+
   /** Stores the last known value of the ngControl, known through writeValue and the onChangeFn **/
   protected lastRegisteredValue?: T;
   protected readonly onDestroy$ = new Subject<void>();
@@ -36,6 +42,16 @@ export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDest
     protected parentFormGroup?: FormGroupDirective
   ) {
 
+  }
+  @Input()
+  set id(id: string) {
+    if (id !== this._id) {
+      this._id = id;
+      this.cdr.markForCheck();
+    }
+  }
+  get id(): string {
+    return this._id;
   }
 
   /**

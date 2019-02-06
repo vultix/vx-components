@@ -7,11 +7,12 @@ import { VxComponentsModule } from 'vx-components';
 import { AppComponent } from './app.component';
 import { VxAutocompleteDocsComponent } from './autocomplete-docs/vx-autocomplete-docs.component';
 import { VxButtonDocsComponent } from './button-docs/vx-button-docs.component';
+import { VxCheckboxDocsComponent } from './checkbox-docs/vx-checkbox-docs.component';
 import { VxFormFieldDocsComponent } from './form-field-docs/vx-form-field-docs.component';
 import { VxMenuDocsComponent } from './menu-docs/vx-menu-docs.component';
 import { VxPagerDocsComponent } from './pager-docs/vx-pager-docs.component';
 import { VxRadioDocsComponent } from './radio-docs/vx-radio-docs.component';
-import { VxTabsDemoComponent } from './tabs-docs/vx-tabs-demo.component';
+import { VxTabsDocsComponent } from './tabs-docs/vx-tabs-docs.component';
 import { TitleService } from './title.service';
 
 const routes: Routes = [
@@ -22,7 +23,8 @@ const routes: Routes = [
   {path: 'autocomplete', component: VxAutocompleteDocsComponent},
   {path: 'button', component: VxButtonDocsComponent},
   {path: 'pager', component: VxPagerDocsComponent},
-  {path: 'tabs', component: VxTabsDemoComponent}
+  {path: 'tabs', component: VxTabsDocsComponent},
+  {path: 'checkbox', component: VxCheckboxDocsComponent}
 ];
 
 @NgModule({
@@ -34,7 +36,8 @@ const routes: Routes = [
     VxAutocompleteDocsComponent,
     VxButtonDocsComponent,
     VxPagerDocsComponent,
-    VxTabsDemoComponent
+    VxTabsDocsComponent,
+    VxCheckboxDocsComponent
   ],
   imports: [
     BrowserModule,

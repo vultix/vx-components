@@ -8,3 +8,4 @@ export * from './lib/radio/public_api';
 export * from './lib/menu/public_api';
 export * from './lib/autocomplete/public_api';
 export * from './lib/pager/public_api';
+export * from './lib/checkbox/public_api';
