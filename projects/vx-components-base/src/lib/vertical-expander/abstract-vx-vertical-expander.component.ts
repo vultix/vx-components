@@ -1,7 +1,7 @@
-import { ChangeDetectorRef, Input } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Input } from '@angular/core';
 import { coerceBooleanProperty } from '../shared';
 
-export abstract class AbstractVxVerticalExpanderComponent {
+export abstract class AbstractVxVerticalExpanderComponent implements AfterViewInit {
 
   private _expanded = false;
   constructor(protected cdr: ChangeDetectorRef) {
@@ -25,5 +25,10 @@ export abstract class AbstractVxVerticalExpanderComponent {
     this.expanded = !this.expanded;
   }
 
+  ngAfterViewInit(): void {
+    this.initialize();
+  }
+
   protected abstract animateExpansion(): void;
+  protected abstract initialize(): void;
 }

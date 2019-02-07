@@ -11,7 +11,9 @@ export class HomeComponent {
     {name: 'Menu', route: '/menu'},
     {name: 'Autocomplete', route: '/autocomplete'},
     {name: 'Button', route: '/button'},
-    {name: 'Pager', route: '/pager'}
+    {name: 'Pager', route: '/pager'},
+    {name: 'Vertical Expander', route: '/vertical-expander'},
+    {name: 'Stepper', route: '/stepper'}
   ];
 }
 

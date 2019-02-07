@@ -46,7 +46,4 @@ export class VxStepperComponent extends AbstractVxStepperComponent {
   get vertical(): boolean {
     return this._vertical;
   }
-
-  protected animateStepChange(fromStep: number, toStep: number): void {
-  }
 }

@@ -1,0 +1,18 @@
+.vx-ns-step-header {
+  padding: 24dip;
+  z-index: 2;
+  &.vx-ns-disabled {
+    opacity: .55;
+  }
+}
+
+.vx-ns-stepper-circle {
+  border-radius: 50%;
+  height: 24dip;
+  width: 24dip;
+  margin-right: 8dip;
+  transition: background .5s;
+  align-items: center;
+  justify-content: center;
+}
+

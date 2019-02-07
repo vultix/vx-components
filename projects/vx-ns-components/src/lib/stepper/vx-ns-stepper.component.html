@@ -1,0 +1,7 @@
+<StackLayout *ngFor="let step of _steps; let last = last; let i = index;">
+  <vx-ns-step-header [step]="step" [number]="i + 1" (tap)="selectedStep = i"
+                     [active]="selectedStep === i"
+                     [disabled]="_shouldDisable(step)"></vx-ns-step-header>
+
+  <vx-ns-step-body [step]="step" [active]="selectedStep === i" [last]="last"></vx-ns-step-body>
+</StackLayout>

@@ -33,7 +33,7 @@ export class VxVerticalExpanderComponent extends AbstractVxVerticalExpanderCompo
     if (!this.content) {
       return;
     }
-    // TODO: Angular universal support here?
+    // TODO: Angular universal support here (and in this.initialize())?
 
     this.timeouts.forEach(clearTimeout);
 
@@ -57,6 +57,10 @@ export class VxVerticalExpanderComponent extends AbstractVxVerticalExpanderCompo
     }, 300);
 
     this.timeouts = [firstTimeout, secondTimeout];
+  }
+
+  protected initialize(): void {
+    this.element.nativeElement.style.height = this.expanded ? 'auto' : '0';
   }
 
 }

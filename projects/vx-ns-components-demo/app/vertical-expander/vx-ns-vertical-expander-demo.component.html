@@ -1,0 +1,11 @@
+<StackLayout>
+  <Label text="Expand" (tap)="expander.toggle()"></Label>
+  <Switch #expand></Switch>
+
+  <ScrollView vx-ns-vertical-expander class="mTop10" #expander expanded>
+    <StackLayout style="background: red; height: 300dip">
+      <Label text="It worked!"></Label>
+    </StackLayout>
+  </ScrollView>
+
+</StackLayout>

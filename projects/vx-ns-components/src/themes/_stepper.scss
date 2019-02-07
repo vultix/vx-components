@@ -1,0 +1,25 @@
+@mixin vx-ns-stepper-theme($colors) {
+  $colors: vx-ns-prepare-colors($colors);
+  $primary: map_get($colors, primary);
+  $foreground: map_get($colors, foreground);
+  $background: map_get($colors, background);
+  $accent: map_get($colors, accent);
+  $error: map_get($colors, error);
+  $border: map_get($colors, borderLight);
+
+  .vx-ns-stepper-line {
+    background: $border;
+  }
+
+  .vx-ns-stepper-circle {
+    background: $border;
+    color: $background;
+    &.active {
+      background: $primary;
+    }
+  }
+
+  .vx-ns-stepper-highlighted {
+    background: transparentize($foreground, 0.88);
+  }
+}

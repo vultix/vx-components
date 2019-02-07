@@ -1,0 +1,7 @@
+<GridLayout class="vx-ns-step-header" rows="auto" columns="auto, *" (touch)="handleTouch($event)" (tap)="tap.next()"
+            [class.vx-ns-stepper-highlighted]="fingerDown" [class.vx-ns-disabled]="disabled">
+  <FlexboxLayout class="vx-ns-stepper-circle" row="0" col="0" [class.active]="active">
+    <Label [text]="number"></Label>
+  </FlexboxLayout>
+  <Label class="vx-ns-stepper-label" row="0" col="1" [text]="step.label"></Label>
+</GridLayout>

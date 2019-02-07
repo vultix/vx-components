@@ -8,6 +8,8 @@ import { HomeComponent } from './home/home.component';
 import { VxNsMenuDemoComponent } from './menu/vx-ns-menu-demo.component';
 import { VxNsPagerDemoComponent } from './pager/vx-ns-pager-demo.component';
 import { VxNsRadioDemoComponent } from './radio/vx-ns-radio-demo.component';
+import { VxNsStepperDemoComponent } from './stepper/vx-ns-stepper-demo.component';
+import { VxNsVerticalExpanderDemoComponent } from './vertical-expander/vx-ns-vertical-expander-demo.component';
 
 
 const routes: Routes = [
@@ -18,7 +20,9 @@ const routes: Routes = [
   {path: 'menu', component: VxNsMenuDemoComponent},
   {path: 'autocomplete', component: VxNsAutocompleteDemoComponent},
   {path: 'button', component: VxNsButtonDemoComponent},
-  {path: 'pager', component: VxNsPagerDemoComponent}
+  {path: 'pager', component: VxNsPagerDemoComponent},
+  {path: 'vertical-expander', component: VxNsVerticalExpanderDemoComponent},
+  {path: 'stepper', component: VxNsStepperDemoComponent}
 ];
 
 @NgModule({

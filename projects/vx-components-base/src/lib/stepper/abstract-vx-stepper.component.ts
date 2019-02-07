@@ -48,7 +48,6 @@ export abstract class AbstractVxStepperComponent implements AfterContentInit {
           return;
         }
 
-        this.animateStepChange(this.selectedStep, stepIdx);
         this._selectedStep = stepIdx;
         this.selectedStepChange.emit(stepIdx);
         step.userSeenStep = true;
@@ -89,5 +88,4 @@ export abstract class AbstractVxStepperComponent implements AfterContentInit {
     this.selectedStep = 0;
   }
 
-  protected abstract animateStepChange(fromStep: number, toStep: number): void;
 }

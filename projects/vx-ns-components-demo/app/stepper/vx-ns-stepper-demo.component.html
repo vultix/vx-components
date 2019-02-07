@@ -1,0 +1,12 @@
+<StackLayout>
+  <StackLayout vx-ns-stepper linear>
+    <vx-ns-step label="Step one" [stepControl]="name">
+        <StackLayout vx-ns-form-field>
+          <TextField vxNsFormField label="Enter Name" ngModel required #name="ngModel"></TextField>
+        </StackLayout>
+    </vx-ns-step>
+    <vx-ns-step label="Step two">
+      <Label text="small step"></Label>
+    </vx-ns-step>
+  </StackLayout>
+</StackLayout>

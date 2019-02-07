@@ -4,6 +4,7 @@
 @import "./themes/menu";
 @import "./themes/button";
 @import "./themes/autocomplete";
+@import "./themes/stepper";
 
 @mixin vx-ns-all-components($colors: ()) {
   $colors: vx-ns-prepare-colors($colors);
@@ -12,6 +13,7 @@
   @include vx-ns-menu-theme($colors);
   @include vx-ns-button-theme($colors);
   @include vx-ns-autocomplete-theme($colors);
+  @include vx-ns-stepper-theme($colors);
 }
 
 .vx-ns-hidden {
