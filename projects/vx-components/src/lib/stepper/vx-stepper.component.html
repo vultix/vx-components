@@ -1,0 +1,34 @@
+<ng-container *ngIf="!vertical">
+  <!--HORIZONTAL -->
+  <div class="vx-horizontal-step-headers">
+    <ng-container *ngFor="let step of _steps; let last = last; let idx = index;">
+      <vx-step-header [step]="step" [number]="idx + 1" (click)="selectedStep = idx;"
+                      [disabled]="_shouldDisable(step)" [active]="selectedStep === idx"></vx-step-header>
+      <div class="vx-step-header-line" *ngIf="!last"></div>
+    </ng-container>
+  </div>
+
+  <vx-pager [selectedPage]="selectedStep">
+    <vx-page *ngFor="let step of _steps;">
+      <ng-container [ngTemplateOutlet]="step._template"></ng-container>
+    </vx-page>
+  </vx-pager>
+</ng-container>
+
+<ng-container *ngIf="vertical">
+  <ng-container *ngFor="let step of _steps; let idx = index; let last = last;">
+
+    <vx-step-header [step]="step" [number]="idx + 1" (click)="selectedStep = idx;"
+                    [disabled]="_shouldDisable(step)" [active]="selectedStep === idx"></vx-step-header>
+
+
+    <div class="vx-step" [class.vx-last-step]="last">
+      <vx-vertical-expander [expanded]="selectedStep === idx">
+        <div class="vx-vertical-step-content">
+          <ng-container [ngTemplateOutlet]="step._template"></ng-container>
+        </div>
+      </vx-vertical-expander>
+    </div>
+
+  </ng-container>
+</ng-container>

@@ -1,7 +1,7 @@
-<div class="vx-form-field-label" *ngIf="field.label">
+<label class="vx-form-field-label" *ngIf="field.label" [attr.for]="field.id">
   {{ field.label }}
   <span *ngIf="field.required && !field.hideRequiredMarker" class="vx-form-field-required-label">*</span>
-</div>
+</label>
 <div class="vx-form-field-container">
   <ng-content></ng-content>
 </div>

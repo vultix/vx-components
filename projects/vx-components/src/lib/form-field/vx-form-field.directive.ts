@@ -10,7 +10,8 @@ import { AbstractVxFormFieldDirective, ErrorStateMatcher } from 'vx-components-b
     '(focus)': '_setHasFocus(true)',
     '(input)': '_onChange()',
     '[placeholder]': 'placeholder',
-    '[class.vx-form-field-input]': 'true'
+    '[class.vx-form-field-input]': 'true',
+    '[attr.id]': 'id'
   }
 })
 export class VxFormFieldDirective extends AbstractVxFormFieldDirective<HTMLInputElement> {

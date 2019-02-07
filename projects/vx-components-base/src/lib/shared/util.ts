@@ -10,3 +10,7 @@ export function findInArrayByDirection<T>(items: T[], startIndex: number, testFu
 
   return;
 }
+
+export function clampNumber(numToClamp: number, min: number, max: number): number {
+  return Math.max(Math.min(numToClamp, max), min);
+}

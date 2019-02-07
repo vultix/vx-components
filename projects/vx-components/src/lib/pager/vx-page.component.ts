@@ -3,7 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  forwardRef,
+  forwardRef, Renderer2,
   ViewEncapsulation
 } from '@angular/core';
 import { AbstractVxPageComponent } from 'vx-components-base';
@@ -17,25 +17,30 @@ import { AbstractVxPageComponent } from 'vx-components-base';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    'class': 'vx-page',
-    '[class.vx-page-current]': '_isCurrent',
-    '[class.vx-page-left]': '_left',
-    '[class.vx-page-right]': '_right',
-    '[class.vx-skip-transition]': '_skipTransition'
+    'class': 'vx-page'
   }
 })
 export class VxPageComponent extends AbstractVxPageComponent<HTMLElement> {
-  _isCurrent = false;
-  _skipTransition =  false;
   _visible = false;
 
-  constructor(el: ElementRef<HTMLElement>, cdr: ChangeDetectorRef) {
+  constructor(el: ElementRef<HTMLElement>, cdr: ChangeDetectorRef, private renderer: Renderer2) {
     super(el, cdr);
   }
 
   position(current: boolean, skipTransition: boolean): void {
-    this._isCurrent = current;
-    this._skipTransition = skipTransition;
+    const el = this.el.nativeElement;
+    if (!el) {
+      return;
+    }
+
+    // This is a kludgy way to set these classes because hostBinding doesn't work.
+    // see https://github.com/angular/angular/issues/22560 for why
+    // TODO: needs a better work-around.
+    this.setClass(el, 'vx-skip-transition', skipTransition);
+    this.setClass(el, 'vx-page-current', current);
+    this.setClass(el, 'vx-page-left', this._left);
+    this.setClass(el, 'vx-page-right', this._right);
+
     this._visible = true;
 
     // If we are animating away
@@ -52,4 +57,11 @@ export class VxPageComponent extends AbstractVxPageComponent<HTMLElement> {
     }
   }
 
+  private setClass(el: HTMLElement, className: string, shouldHaveClass: boolean): void {
+    if (shouldHaveClass) {
+      this.renderer.addClass(el, className);
+    } else {
+      this.renderer.removeClass(el, className)
+    }
+  }
 }

@@ -12,8 +12,10 @@ import { VxFormFieldDocsComponent } from './form-field-docs/vx-form-field-docs.c
 import { VxMenuDocsComponent } from './menu-docs/vx-menu-docs.component';
 import { VxPagerDocsComponent } from './pager-docs/vx-pager-docs.component';
 import { VxRadioDocsComponent } from './radio-docs/vx-radio-docs.component';
+import { VxStepperDocsComponent } from './stepper-docs/vx-stepper-docs.component';
 import { VxTabsDocsComponent } from './tabs-docs/vx-tabs-docs.component';
 import { TitleService } from './title.service';
+import { VxVerticalExpanderDocsComponent } from './vertical-expander-docs/vx-vertical-expander-docs.component';
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: 'form-field'},
@@ -24,7 +26,9 @@ const routes: Routes = [
   {path: 'button', component: VxButtonDocsComponent},
   {path: 'pager', component: VxPagerDocsComponent},
   {path: 'tabs', component: VxTabsDocsComponent},
-  {path: 'checkbox', component: VxCheckboxDocsComponent}
+  {path: 'checkbox', component: VxCheckboxDocsComponent},
+  {path: 'stepper', component: VxStepperDocsComponent},
+  {path: 'vertical-expander', component: VxVerticalExpanderDocsComponent}
 ];
 
 @NgModule({
@@ -37,7 +41,9 @@ const routes: Routes = [
     VxButtonDocsComponent,
     VxPagerDocsComponent,
     VxTabsDocsComponent,
-    VxCheckboxDocsComponent
+    VxCheckboxDocsComponent,
+    VxStepperDocsComponent,
+    VxVerticalExpanderDocsComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,40 @@
+@mixin vx-stepper-theme($colors) {
+  $colors: vx-prepare-colors($colors);
+  $primary: map_get($colors, primary);
+  $foreground: map_get($colors, foreground);
+  $background: map_get($colors, background);
+  $accent: map_get($colors, accent);
+  $error: map_get($colors, error);
+  $border: map_get($colors, borderLight);
+
+  $hover: transparentize($foreground, .95);
+  $active: transparentize($foreground, .88);
+  $gray: mix($foreground, $background, 37%);
+
+  .vx-step-header-line {
+    border-color: $border;
+  }
+  .vx-step-header {
+    &:hover {
+      background: $hover;
+    }
+    &:active {
+      background: $active;
+    }
+  }
+
+  .vx-step-status {
+    color: $background;
+    background: $gray;
+  }
+
+
+  .vx-step-header.vx-active {
+    .vx-step-status {
+        background: $primary;
+    }
+  }
+  .vx-stepper-vertical .vx-step:before {
+    border-left: 1px solid $border;
+  }
+}

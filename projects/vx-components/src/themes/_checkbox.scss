@@ -7,15 +7,12 @@
   $error: map_get($colors, error);
   $border: map_get($colors, borderLight);
 
-  $darkerBgFg: map-get($colors, darkerBgFg);
-  $lighterBgFg: map-get($colors, lighterBgFg);
-
   .vx-checkbox {
     &:hover .vx-checkbox-box {
-      background: mix($darkerBgFg, $lighterBgFg, 3%)
+      background: mix($foreground, $background, 3%)
     }
     &:active .vx-checkbox-box {
-      background: mix($darkerBgFg, $lighterBgFg, 10%)
+      background: mix($foreground, $background, 10%)
     }
 
     &.vx-focused .vx-checkbox-box {

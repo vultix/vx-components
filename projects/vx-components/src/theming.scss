@@ -6,6 +6,7 @@
 @import "./themes/button";
 @import "./themes/tabs";
 @import "./themes/checkbox";
+@import "./themes/stepper";
 
 @mixin vx-all-components($colors: ()) {
   $colors: vx-prepare-colors($colors);
@@ -17,6 +18,7 @@
   @include vx-button-theme($colors);
   @include vx-tabs-theme($colors);
   @include vx-checkbox-theme($colors);
+  @include vx-stepper-theme($colors);
 }
 
 .vx-visually-hidden {

@@ -1,0 +1,18 @@
+<vx-checkbox #vertical>Vertical</vx-checkbox>
+<br>
+<vx-checkbox #linear>Linear</vx-checkbox>
+
+
+<vx-stepper [vertical]="vertical.checked" [linear]="linear.checked">
+  <vx-step label="Enter name" [stepControl]="name">
+    <vx-form-field>
+      <input type="text" placeholder="enter your name!" vxFormField ngModel required #name="ngModel">
+    </vx-form-field>
+  </vx-step>
+  <vx-step label="Do number two">
+    number two!
+  </vx-step>
+  <vx-step label="Done">
+    All Finished!
+  </vx-step>
+</vx-stepper>

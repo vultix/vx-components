@@ -1,0 +1,37 @@
+.vx-step-header {
+  overflow: hidden;
+  outline: 0;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  &.vx-disabled {
+    opacity: .55;
+  }
+}
+
+.vx-stepper-vertical {
+  .vx-step-header {
+    padding: 24px;
+  }
+}
+
+.vx-step-status {
+  border-radius: 50%;
+  height: 24px;
+  width: 24px;
+  margin-right: 8px;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  transition: background .5s;
+}
+
+.vx-step-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 50px;
+}

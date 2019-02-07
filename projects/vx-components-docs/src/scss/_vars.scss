@@ -1,6 +1,14 @@
 @import "../../../vx-components/src/theming";
 
-$colors: ();
+$colors: (
+  primary: #3fa0bd,
+  background: #fcfcfc,
+  foreground: #111111,
+  error: #bf0000,
+  success: #51a351,
+  warn: #f89406,
+  accent: #FFCA4F
+);
 
 $colors: vx-prepare-colors($colors);
 

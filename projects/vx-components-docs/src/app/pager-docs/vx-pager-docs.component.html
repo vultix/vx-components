@@ -1,6 +1,6 @@
 <form #form="ngForm">
   {{form.invalid}}
-<vx-pager #pager>
+<vx-pager #pager selectedPage="1">
   <vx-page>
     <input placeholder="A" [(ngModel)]="a" required name="A">
     <div>

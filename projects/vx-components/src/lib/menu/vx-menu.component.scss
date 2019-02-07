@@ -10,6 +10,7 @@
   opacity: 0;
   box-sizing: border-box;
   transition: transform .2s ease, opacity .2s ease;
+  transform-origin: top center;
 
   &.vx-menu-visible {
     transform: scale(1, 1);

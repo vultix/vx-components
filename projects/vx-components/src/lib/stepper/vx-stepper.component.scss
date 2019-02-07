@@ -1,0 +1,43 @@
+:host {
+  display: block;
+}
+
+.vx-horizontal-step-headers {
+  display: flex;
+  white-space: nowrap;
+  align-items: center;
+}
+
+.vx-step-header-line {
+  border-top-width: 1px;
+  border-top-style: solid;
+  flex: auto;
+  height: 0;
+  margin: 0 -8px;
+  min-width: 20px;
+}
+
+.vx-stepper-vertical .vx-step {
+  position: relative;
+  margin-left: 36px;
+
+  &:not(.vx-last-step):before {
+    content: ' ';
+    position: absolute;
+    left: 0;
+    top: -16px;
+    bottom: -16px;
+  }
+}
+
+.vx-stepper .vx-pager {
+  border: 0;
+}
+
+.vx-stepper .vx-page {
+  padding: 0 15px 15px;
+}
+
+.vx-vertical-step-content {
+  padding: 0 20px 20px;
+}

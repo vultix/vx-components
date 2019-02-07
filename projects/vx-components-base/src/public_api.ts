@@ -9,3 +9,5 @@ export * from './lib/menu/public_api';
 export * from './lib/autocomplete/public_api';
 export * from './lib/pager/public_api';
 export * from './lib/checkbox/public_api';
+export * from './lib/vertical-expander/public_api';
+export * from './lib/stepper/public_api';

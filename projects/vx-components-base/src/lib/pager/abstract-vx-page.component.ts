@@ -10,7 +10,7 @@ export abstract class AbstractVxPageComponent<E> {
       this.position(current, this.__current === undefined);
       this.__current = current;
     }
-    this.cdr.markForCheck();
+    this.cdr.detectChanges();
   };
 
   private __current?: boolean;

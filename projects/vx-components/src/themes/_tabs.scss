@@ -7,12 +7,9 @@
   $error: map_get($colors, error);
   $border: map_get($colors, borderLight);
 
-  $darkerBgFg: map-get($colors, darkerBgFg);
-  $lighterBgFg: map-get($colors, lighterBgFg);
-
-  $colorBehindLabels: mix($darkerBgFg, $lighterBgFg, 8%);
-  $tabColorHover: mix($darkerBgFg, $lighterBgFg, 4%);
-  $tabColorActive: mix($darkerBgFg, $lighterBgFg, 2%);
+  $colorBehindLabels: mix($foreground, $background, 8%);
+  $tabColorHover: mix($foreground, $background, 4%);
+  $tabColorActive: mix($foreground, $background, 2%);
 
   .vx-tabs {
     color: $foreground;
