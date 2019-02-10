@@ -1,4 +1,4 @@
-let zIndex = 1000;
+let zIndex = 10000;
 
 export function getNextHighestZIndex(): number {
   return zIndex++;

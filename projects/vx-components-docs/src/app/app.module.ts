@@ -8,6 +8,8 @@ import { AppComponent } from './app.component';
 import { VxAutocompleteDocsComponent } from './autocomplete-docs/vx-autocomplete-docs.component';
 import { VxButtonDocsComponent } from './button-docs/vx-button-docs.component';
 import { VxCheckboxDocsComponent } from './checkbox-docs/vx-checkbox-docs.component';
+import { AnimalDialogComponent } from './dialog-docs/animal-dialog.component';
+import { VxDialogDocsComponent } from './dialog-docs/vx-dialog-docs.component';
 import { VxFormFieldDocsComponent } from './form-field-docs/vx-form-field-docs.component';
 import { VxMenuDocsComponent } from './menu-docs/vx-menu-docs.component';
 import { VxPagerDocsComponent } from './pager-docs/vx-pager-docs.component';
@@ -28,7 +30,8 @@ const routes: Routes = [
   {path: 'tabs', component: VxTabsDocsComponent},
   {path: 'checkbox', component: VxCheckboxDocsComponent},
   {path: 'stepper', component: VxStepperDocsComponent},
-  {path: 'vertical-expander', component: VxVerticalExpanderDocsComponent}
+  {path: 'vertical-expander', component: VxVerticalExpanderDocsComponent},
+  {path: 'dialog', component: VxDialogDocsComponent}
 ];
 
 @NgModule({
@@ -43,7 +46,12 @@ const routes: Routes = [
     VxTabsDocsComponent,
     VxCheckboxDocsComponent,
     VxStepperDocsComponent,
-    VxVerticalExpanderDocsComponent
+    VxVerticalExpanderDocsComponent,
+    VxDialogDocsComponent,
+    AnimalDialogComponent
+  ],
+  entryComponents: [
+    AnimalDialogComponent
   ],
   imports: [
     BrowserModule,

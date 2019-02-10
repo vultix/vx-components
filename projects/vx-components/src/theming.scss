@@ -7,6 +7,7 @@
 @import "./themes/tabs";
 @import "./themes/checkbox";
 @import "./themes/stepper";
+@import "./themes/dialog";
 
 @mixin vx-all-components($colors: ()) {
   $colors: vx-prepare-colors($colors);
@@ -19,6 +20,7 @@
   @include vx-tabs-theme($colors);
   @include vx-checkbox-theme($colors);
   @include vx-stepper-theme($colors);
+  @include vx-dialog-theme($colors);
 }
 
 .vx-visually-hidden {
@@ -50,7 +52,6 @@
   left: 0;
   bottom: 0;
   right: 0;
-  z-index: 999;
   -webkit-tap-highlight-color: transparent;
 }
 

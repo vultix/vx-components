@@ -14,7 +14,7 @@ import {
   AutocompleteFilterFunction,
   ErrorStateMatcher
 } from 'vx-components-base';
-import { VxNsItemComponent } from '../menu';
+import { VxNsItemComponent } from '../menu/vx-ns-item.component';
 
 @Component({
   selector: 'StackLayout[vx-ns-autocomplete]',

@@ -19,7 +19,7 @@ import {
   AutocompleteFilterFunction,
   ErrorStateMatcher
 } from 'vx-components-base';
-import { VxItemComponent } from '../menu';
+import { VxItemComponent } from '../menu/vx-item.component';
 
 @Component({
   selector: 'vx-autocomplete',

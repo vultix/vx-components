@@ -10,7 +10,7 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import { VxPagerComponent } from '../pager';
+import { VxPagerComponent } from '../pager/vx-pager.component';
 import { VxTabComponent } from './vx-tab.component';
 
 @Component({

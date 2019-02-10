@@ -1,0 +1,44 @@
+.vx-dialog-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+}
+
+.vx-dialog {
+  position: relative;
+  max-width: 90vw;
+  -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
+  padding: 20px;
+  z-index: 2;
+  border-radius: 5px;
+  animation: vx-dialog-animation .3s ease;
+
+  &.vx-dialog-closing {
+    animation: vx-dialog-animation-closing .3s ease forwards;
+  }
+
+  @keyframes vx-dialog-animation {
+    from {
+      transform: scale(0, 0);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1, 1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes vx-dialog-animation-closing {
+    from {
+      transform: scale(1, 1);
+      opacity: 1;
+    }
+    to {
+      transform: scale(0, 0);
+      opacity: 0;
+    }
+  }
+}

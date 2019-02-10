@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { VxPagerModule } from '../pager';
+import { VxPagerModule } from '../pager/vx-pager.module';
 import { VxTabComponent } from './vx-tab.component';
 import { VxTabsComponent } from './vx-tabs.component';
 
