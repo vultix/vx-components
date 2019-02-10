@@ -6,6 +6,9 @@
   display: flex;
   align-items: center;
   padding: 15px;
+  opacity: 1;
+  transition: opacity .3s ease;
+
   &.vx-disabled {
     opacity: .55;
   }

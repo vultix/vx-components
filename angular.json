@@ -114,10 +114,13 @@
       "prefix": "lib",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "ng-cli-packagr-tasks:build",
           "options": {
             "tsConfig": "projects/vx-ns-components/tsconfig.lib.json",
-            "project": "projects/vx-ns-components/ng-package.json"
+            "project": "projects/vx-ns-components/ng-package.json",
+            "tasks": {
+              "config": "projects/vx-ns-components/ng-packagr.transformers.ts"
+            }
           }
         },
         "test": {
@@ -149,10 +152,13 @@
       "prefix": "lib",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "ng-cli-packagr-tasks:build",
           "options": {
             "tsConfig": "projects/vx-components/tsconfig.lib.json",
-            "project": "projects/vx-components/ng-package.json"
+            "project": "projects/vx-components/ng-package.json",
+            "tasks": {
+              "config": "projects/vx-components/ng-packagr.transformers.ts"
+            }
           }
         },
         "test": {
