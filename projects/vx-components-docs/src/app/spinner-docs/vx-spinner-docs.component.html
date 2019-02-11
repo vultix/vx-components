@@ -1,0 +1,19 @@
+<vx-radio-group #group>
+  <vx-radio-button value="primary" checked>Primary</vx-radio-button>
+  <vx-radio-button value="light">Light</vx-radio-button>
+  <vx-radio-button value="dark">Dark</vx-radio-button>
+  <vx-radio-button value="error">Error</vx-radio-button>
+  <vx-radio-button value="success">Success</vx-radio-button>
+  <vx-radio-button value="warn">Warn</vx-radio-button>
+  <vx-radio-button value="accent">Accent</vx-radio-button>
+</vx-radio-group>
+
+<div [class.darkBg]="group.value === 'light'">
+  <vx-spinner style="width: 20px; height: 20px;" [color]="group.value"></vx-spinner>
+  <br>
+  <vx-spinner style="width: 50px; height: 50px;" [color]="group.value"></vx-spinner>
+  <br>
+  <vx-spinner style="width: 100px; height: 100px;" [color]="group.value"></vx-spinner>
+  <br>
+  <vx-spinner style="width: 150px; height: 150px;" [color]="group.value"></vx-spinner>
+</div>

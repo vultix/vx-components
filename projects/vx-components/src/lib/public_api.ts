@@ -10,3 +10,5 @@ export * from './checkbox/public_api';
 export * from './vertical-expander/public_api';
 export * from './stepper/public_api';
 export * from './dialog/public_api';
+export * from './shared/public_api';
+export * from './spinner/public-api';

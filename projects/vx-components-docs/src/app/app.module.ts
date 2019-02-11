@@ -14,6 +14,7 @@ import { VxFormFieldDocsComponent } from './form-field-docs/vx-form-field-docs.c
 import { VxMenuDocsComponent } from './menu-docs/vx-menu-docs.component';
 import { VxPagerDocsComponent } from './pager-docs/vx-pager-docs.component';
 import { VxRadioDocsComponent } from './radio-docs/vx-radio-docs.component';
+import { VxSpinnerDocsComponent } from './spinner-docs/vx-spinner-docs.component';
 import { VxStepperDocsComponent } from './stepper-docs/vx-stepper-docs.component';
 import { VxTabsDocsComponent } from './tabs-docs/vx-tabs-docs.component';
 import { TitleService } from './title.service';
@@ -31,7 +32,8 @@ const routes: Routes = [
   {path: 'checkbox', component: VxCheckboxDocsComponent},
   {path: 'stepper', component: VxStepperDocsComponent},
   {path: 'vertical-expander', component: VxVerticalExpanderDocsComponent},
-  {path: 'dialog', component: VxDialogDocsComponent}
+  {path: 'dialog', component: VxDialogDocsComponent},
+  {path: 'spinner', component: VxSpinnerDocsComponent}
 ];
 
 @NgModule({
@@ -48,7 +50,8 @@ const routes: Routes = [
     VxStepperDocsComponent,
     VxVerticalExpanderDocsComponent,
     VxDialogDocsComponent,
-    AnimalDialogComponent
+    AnimalDialogComponent,
+    VxSpinnerDocsComponent
   ],
   entryComponents: [
     AnimalDialogComponent

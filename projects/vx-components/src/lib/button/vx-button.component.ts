@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, ViewEncapsulation } from '@angular/core';
 import { coerceBooleanProperty } from 'vx-components-base';
+import { VxThemeColor } from '../shared/vx-theme-color';
 
 @Component({
   selector: '[vx-button]', // tslint:disable-line
@@ -25,7 +26,8 @@ import { coerceBooleanProperty } from 'vx-components-base';
 })
 export class VxButtonComponent<T = any> {
   @Input() value!: T;
-  @Input() color: VxButtonColor = 'light';
+  @Input() color: VxThemeColor = 'light';
+
   private _variation: VxButtonVariations = 'flat';
   private _disabled = false;
 
@@ -58,5 +60,4 @@ export class VxButtonComponent<T = any> {
   }
 }
 
-export type VxButtonColor = 'light' | 'dark' | 'primary' | 'error' | 'success' | 'warn' | 'accent';
 export type VxButtonVariations = 'flat' | 'raised' | 'stroked';

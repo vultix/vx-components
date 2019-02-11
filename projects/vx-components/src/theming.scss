@@ -8,6 +8,7 @@
 @import "./themes/checkbox";
 @import "./themes/stepper";
 @import "./themes/dialog";
+@import "./themes/spinner";
 
 @mixin vx-all-components($colors: ()) {
   $colors: vx-prepare-colors($colors);
@@ -21,6 +22,7 @@
   @include vx-checkbox-theme($colors);
   @include vx-stepper-theme($colors);
   @include vx-dialog-theme($colors);
+  @include vx-spinner-theme($colors);
 }
 
 .vx-visually-hidden {

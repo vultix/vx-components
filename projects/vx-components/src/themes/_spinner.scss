@@ -1,0 +1,40 @@
+@mixin vx-spinner-theme($colors) {
+  $colors: vx-prepare-colors($colors);
+  $primary: map_get($colors, primary);
+  $primary: map_get($colors, primary);
+  $error: map_get($colors, error);
+  $accent: map_get($colors, accent);
+  $success: map_get($colors, success);
+  $warn: map_get($colors, warn);
+
+  $darkerBgFg: map-get($colors, darkerBgFg);
+  $lighterBgFg: map-get($colors, lighterBgFg);
+
+  .vx-spinner-primary .vx-spinner-circle:before {
+      background-color: $primary;
+  }
+
+  .vx-spinner-light .vx-spinner-circle:before {
+    background-color: $lighterBgFg;
+  }
+
+  .vx-spinner-dark .vx-spinner-circle:before {
+    background-color: $darkerBgFg;
+  }
+
+  .vx-spinner-error .vx-spinner-circle:before {
+    background-color: $error;
+  }
+
+  .vx-spinner-success .vx-spinner-circle:before {
+    background-color: $success;
+  }
+
+  .vx-spinner-warn .vx-spinner-circle:before {
+    background-color: $warn;
+  }
+
+  .vx-spinner-accent .vx-spinner-circle:before {
+    background-color: $accent;
+  }
+}

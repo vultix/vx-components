@@ -3,5 +3,8 @@
   "dest": "../../dist/vx-components",
   "lib": {
     "entryFile": "src/public_api.ts"
-  }
+  },
+  "whitelistedNonPeerDependencies": [
+    "vx-components-base"
+  ]
 }
