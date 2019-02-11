@@ -13,12 +13,6 @@ export class VxNsDialogDemoComponent {
   }
 
   open(): void {
-    console.log('Opening!');
-    this.dialog.open(VxNsAnimalsDialogComponent, 'cat');
-
-    setTimeout(() => {
-      this.dialog.open(VxNsAnimalsDialogComponent, 'dog');
-    }, 2000)
-
+    const ref = this.dialog.open(VxNsAnimalsDialogComponent, 'cat');
   }
 }

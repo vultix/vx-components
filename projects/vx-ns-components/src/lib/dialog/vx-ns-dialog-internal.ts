@@ -1,4 +1,4 @@
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import * as application from 'tns-core-modules/application';
 import { isAndroid, View } from 'tns-core-modules/ui/core/view';
 import { Constructor } from 'vx-components-base';
@@ -67,7 +67,6 @@ if (isAndroid) {
     onCreateView(inflater: android.view.LayoutInflater, container: android.view.ViewGroup,
                  savedInstanceState: android.os.Bundle): android.view.View {
       const view = this.view;
-      (view as any)._setupAsRootView(this.getActivity());
       view._isAddedToNativeVisualTree = true;
 
       return view.nativeViewProtected;
@@ -132,7 +131,44 @@ if (isAndroid) {
 
   test = CustomDialogFragmentImpl;
 } else {
+  class VxNsDialogInternalIOS implements VxNsDialogInternal {
+    constructor(private view: View, backButtonSubject: Subject<void>) {
+      backButtonSubject.complete();
+    }
 
+    open(): void {
+      setTimeout(() => {
+        const view = this.view;
+
+        const window = application.ios.window;
+        window.addSubview(view.nativeViewProtected);
+        view._isAddedToNativeVisualTree = true;
+
+        if (!view.isLoaded) {
+          (view as any).callLoaded();
+        }
+      }, 150);
+    }
+
+    close(): void {
+      const view = this.view;
+
+      if (view) {
+        const viewController = view.ios as UIViewController;
+        const v = view.nativeViewProtected as UIView;
+        v.removeFromSuperview();
+        viewController.removeFromParentViewController();
+
+        if (view.isLoaded) {
+          (view as any).callUnloaded();
+        }
+
+        view._isAddedToNativeVisualTree = false;
+        view._tearDownUI(true);
+      }
+    }
+  }
+  test = VxNsDialogInternalIOS;
 }
 
 export function createVxNsDialogInternal(view: View, backButtonSubject: Subject<void>): VxNsDialogInternal {

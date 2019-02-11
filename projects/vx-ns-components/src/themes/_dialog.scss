@@ -1,0 +1,43 @@
+@mixin vx-ns-dialog-theme($colors) {
+  $colors: vx-ns-prepare-colors($colors);
+  $primary: map_get($colors, primary);
+  $foreground: map_get($colors, foreground);
+  $background: map_get($colors, background);
+  $accent: map_get($colors, accent);
+  $error: map_get($colors, error);
+  $darkerBgFg: map_get($colors, darkerBgFg);
+  $border: map_get($colors, borderLight);
+
+  .vx-ns-dialog-overlay {
+    background: transparentize($darkerBgFg, .8);
+  }
+
+  .vx-ns-dialog {
+    background-color: $background;
+    color: $foreground;
+  }
+
+  //[vx-dialog-content] {
+  //  display: block;
+  //  overflow: auto;
+  //  flex: 1;
+  //  margin: 0 -20px;
+  //  padding: 0 20px;
+  //  max-height: 65vh;
+  //}
+  //[vx-dialog-title] {
+  //  margin: 0 0 15px;
+  //  font-weight: 500;
+  //  display: block;
+  //}
+  //[vx-dialog-actions] {
+  //  margin: 15px -8px -5px 0;
+  //  flex-wrap: wrap;
+  //  display: flex;
+  //  justify-content: flex-end;
+  //
+  //  button {
+  //    margin-right: 8px;
+  //  }
+  //}
+}

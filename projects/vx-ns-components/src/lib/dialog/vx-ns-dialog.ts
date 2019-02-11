@@ -6,7 +6,8 @@ import {
   Injector,
   TemplateRef
 } from '@angular/core';
-import { AbstractVxDialog, Constructor } from 'vx-components-base';
+import { Page } from 'tns-core-modules/ui/page';
+import { AbstractVxDialog, Constructor, AbstractVxDialogComponent } from 'vx-components-base';
 import { DialogCloseDataType, DialogDataType, VxNsDialogDef } from './vx-ns-dialog-def';
 import { VxNsDialogRef } from './vx-ns-dialog-ref';
 import { VxNsDialogComponent } from './vx-ns-dialog.component';

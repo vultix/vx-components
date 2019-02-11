@@ -7,7 +7,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Color, isAndroid, View, ViewBase } from 'tns-core-modules/ui/core/view';
+import { Color, isAndroid, isIOS, View, ViewBase } from 'tns-core-modules/ui/core/view';
 import { Page } from 'tns-core-modules/ui/page';
 import { AbstractVxDialogComponent } from 'vx-components-base';
 import { DialogCloseDataType, DialogDataType, VxNsDialogDef } from './vx-ns-dialog-def';
@@ -32,6 +32,7 @@ export class VxNsDialogComponent<ComponentType = VxNsDialogDef<any, any>,
   @ViewChild('container', {read: ViewContainerRef})
   _contentViewContainer!: ViewContainerRef;
 
+  page!: Page;
   protected refType = VxNsDialogRef;
   private dialogInternal?: VxNsDialogInternal;
   private _cancelOverlayTap = false;
@@ -43,19 +44,37 @@ export class VxNsDialogComponent<ComponentType = VxNsDialogDef<any, any>,
   open(): void {
     const ref = this._selfComponentRef;
     const componentView = ref.location.nativeElement as View;
-    if (componentView.parent) {
-      componentView.parent._removeView(componentView);
-    }
+    // if (componentView.parent) {
+    //   componentView.parent._removeView(componentView);
+    // }
 
     const page = new Page();
-    page.content = ref.location.nativeElement;
+    (page as any)._setupAsRootView({});
     page.style.backgroundColor = new Color(0, 0, 0, 0);
+
+    if (isIOS) {
+      ref.changeDetectorRef.detectChanges();
+
+      if (this.contentComponentRef) {
+        this.contentComponentRef.changeDetectorRef.detectChanges();
+      }
+    }
+    page.content = componentView;
 
     this.dialogInternal = createVxNsDialogInternal(page, this.backButtonPressed);
     this.dialogInternal.open();
+
   }
 
-  _overlayTapped(): void {
+  _overlayTapped(fromIOS = false): void {
+    // On ios we need to wait because the events propagate from parent to child.
+    if (isIOS && !fromIOS) {
+      setTimeout(() => {
+        this._overlayTapped(true);
+      }, 0);
+      return;
+    }
+
     if (this._cancelOverlayTap) {
       this._cancelOverlayTap = false;
       return;

@@ -1,6 +1,6 @@
 .vx-ns-dialog {
-  background-color: white;
   border-radius: 10dip;
+  padding: 15dip;
 
   animation-name: vx-ns-dialog-enter;
   animation-duration: .3s;
@@ -8,21 +8,22 @@
   animation-fill-mode: forwards;
 
   &.vx-ns-dialog-closing {
-    animation-name: vx-ns-dialog-enter;
-    animation-direction: reverse;
+    animation-name: vx-ns-dialog-exit;
+    //animation-direction: reverse;
     animation-duration: .35s;
     animation-timing-function: ease;
     animation-fill-mode: forwards;
   }
 
+  // TODO: The transform animation on ios breaks the view.  Find out why!
   @keyframes vx-ns-dialog-enter {
     from {
       opacity: 0;
-      transform: scale(0)
+      //transform: scale(0)
     }
     to {
       opacity: 1;
-      transform: scale(1);
+      //transform: scale(1);
     }
   }
 
@@ -39,7 +40,6 @@
 }
 
 .vx-ns-dialog-overlay {
-  background-color: rgba(0, 0, 0, 0.55);
   align-items: center;
   justify-content: center;
 }
