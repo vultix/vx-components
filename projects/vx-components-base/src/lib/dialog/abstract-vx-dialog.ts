@@ -17,6 +17,7 @@ export abstract class AbstractVxDialog<ContainerType> {
     dialogRef.instance._init(data);
     dialogRef.instance._selfComponentRef = dialogRef;
     this.appRef.attachView(dialogRef.hostView);
+    // dialogRef.changeDetectorRef.detectChanges();
 
     const result = dialogRef.instance._setContent(component);
 

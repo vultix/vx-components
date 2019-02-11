@@ -27,5 +27,5 @@ export class AnimalDialogComponent extends VxDialogDef<AnimalName, boolean> {
 
 }
 
-// let x: VxDialogRef<AnimalDialogComponent>;
+// let x: VxNsDialogRef<AnimalDialogComponent>;
 // x.data

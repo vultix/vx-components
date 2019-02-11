@@ -7,3 +7,4 @@ export * from './button/public_api';
 export * from './pager/public_api';
 export * from './vertical-expander/public_api';
 export * from './stepper/public_api';
+export * from './dialog/public_api';

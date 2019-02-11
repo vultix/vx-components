@@ -3,6 +3,7 @@ import { Routes } from '@angular/router';
 import { NativeScriptRouterModule } from 'nativescript-angular';
 import { VxNsAutocompleteDemoComponent } from './autocomplete/vx-ns-autocomplete-demo.component';
 import { VxNsButtonDemoComponent } from './button/vx-ns-button-demo.compnent';
+import { VxNsDialogDemoComponent } from './dialog/vx-ns-dialog-demo.component';
 import { VxNsFormFieldDemoComponent } from './form-field/vx-ns-form-field-demo.component';
 import { HomeComponent } from './home/home.component';
 import { VxNsMenuDemoComponent } from './menu/vx-ns-menu-demo.component';
@@ -22,7 +23,8 @@ const routes: Routes = [
   {path: 'button', component: VxNsButtonDemoComponent},
   {path: 'pager', component: VxNsPagerDemoComponent},
   {path: 'vertical-expander', component: VxNsVerticalExpanderDemoComponent},
-  {path: 'stepper', component: VxNsStepperDemoComponent}
+  {path: 'stepper', component: VxNsStepperDemoComponent},
+  {path: 'dialog', component: VxNsDialogDemoComponent}
 ];
 
 @NgModule({

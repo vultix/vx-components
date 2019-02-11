@@ -10,8 +10,9 @@
     "inlineSources": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "importHelpers": true,
-    "types": [],
+    "importHelpers": false,
+    "noEmitHelpers": true,
+    "types": ["tns-platform-declarations/android", "tns-platform-declarations/ios"],
     "lib": [
       "dom",
       "es2018"

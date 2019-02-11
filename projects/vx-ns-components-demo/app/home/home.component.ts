@@ -13,7 +13,8 @@ export class HomeComponent {
     {name: 'Button', route: '/button'},
     {name: 'Pager', route: '/pager'},
     {name: 'Vertical Expander', route: '/vertical-expander'},
-    {name: 'Stepper', route: '/stepper'}
+    {name: 'Stepper', route: '/stepper'},
+    {name: 'Dialog', route: '/dialog'}
   ];
 }
 

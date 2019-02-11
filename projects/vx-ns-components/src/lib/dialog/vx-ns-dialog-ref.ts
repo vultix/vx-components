@@ -1,20 +1,22 @@
 import { Observable } from 'rxjs';
 import { AbstractVxDialogRef } from 'vx-components-base';
-import { DialogCloseDataType, DialogDataType, VxDialogDef } from './vx-dialog-def';
-import { VxDialogComponent } from './vx-dialog.component';
+import { DialogCloseDataType, DialogDataType, VxNsDialogDef } from './vx-ns-dialog-def';
+import { VxNsDialogComponent } from './vx-ns-dialog.component';
 
-export class VxDialogRef
-<ComponentType = VxDialogDef<any, any>,
+export class VxNsDialogRef
+<ComponentType = VxNsDialogDef<any, any>,
   DataType extends DialogDataType<ComponentType> = DialogDataType<ComponentType>,
   CloseDataType extends DialogCloseDataType<ComponentType> = DialogCloseDataType<ComponentType>>
   extends AbstractVxDialogRef<ComponentType, DataType, CloseDataType> {
 
-  overlayClick: Observable<Event>;
+  overlayTap: Observable<void>;
+  backButtonPress: Observable<void>;
 
-  constructor(dialog: VxDialogComponent<ComponentType, DataType, CloseDataType>) {
+  constructor(dialog: VxNsDialogComponent<ComponentType, DataType, CloseDataType>) {
     super(dialog);
 
-    this.overlayClick = dialog.overlay.overlayClick;
+    this.overlayTap = dialog.overlayTap.asObservable();
+    this.backButtonPress = dialog.backButtonPressed.asObservable();
   }
 }
 

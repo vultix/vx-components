@@ -7,6 +7,8 @@ import { AppComponent } from './app.component';
 import { VxNsAutocompleteDemoComponent } from './autocomplete/vx-ns-autocomplete-demo.component';
 import { VxNsButtonDemoComponent } from './button/vx-ns-button-demo.compnent';
 import { CustomErrorHandler } from './custom-error-handler';
+import { VxNsAnimalsDialogComponent } from './dialog/vx-ns-animals-dialog.component';
+import { VxNsDialogDemoComponent } from './dialog/vx-ns-dialog-demo.component';
 import { VxNsFormFieldDemoComponent } from './form-field/vx-ns-form-field-demo.component';
 import { HomeComponent } from './home/home.component';
 import { VxNsMenuDemoComponent } from './menu/vx-ns-menu-demo.component';
@@ -28,8 +30,11 @@ registerElement('PreviousNextView', () => require('nativescript-iqkeyboardmanage
     VxNsButtonDemoComponent,
     VxNsPagerDemoComponent,
     VxNsVerticalExpanderDemoComponent,
-    VxNsStepperDemoComponent
+    VxNsStepperDemoComponent,
+    VxNsDialogDemoComponent,
+    VxNsAnimalsDialogComponent
   ],
+  entryComponents: [VxNsAnimalsDialogComponent],
   bootstrap: [AppComponent],
   providers: [{provide: ErrorHandler, useClass: CustomErrorHandler}],
   schemas: [NO_ERRORS_SCHEMA]
