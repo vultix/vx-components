@@ -90,20 +90,15 @@ export abstract class AbstractVxItemComponent<T> implements OnDestroy, AfterView
 
     if (this.__parent && this.__parent.embeddedView) {
       this.__parent.embeddedView.destroy();
-
-      this.__parent.embeddedView = this.__parent._template.createEmbeddedView(null);
-      this.__parent.embeddedView.detectChanges();
-      this.container.insert(this.__parent.embeddedView, 0);
-    } else {
-      if (this.embeddedView) {
-        this.embeddedView.destroy();
-      }
-
-      this.embeddedView = this._template.createEmbeddedView(null);
-      this.embeddedView.detectChanges();
-      this.container.insert(this.embeddedView, 0);
+      this.__parent.embeddedView = undefined;
     }
 
+    if (this.embeddedView) {
+      this.embeddedView.destroy();
+    }
+
+    this.embeddedView = this.container.createEmbeddedView(this._template, null, 0);
+    // this.embeddedView.detectChanges();
   }
 
   _handleSelect(): void {

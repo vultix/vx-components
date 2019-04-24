@@ -4,7 +4,8 @@
   <button vx-button color="primary" *ngFor="let item of _selectedItems" class="vx-autocomplete-chip"
           (click)="_removeItem(item.value); $event.stopPropagation()"
           (keydown.backspace)="_removeItem(item.value); $event.stopPropagation();">
-    <ng-container *ngTemplateOutlet="item._template"></ng-container>
+    <!--<ng-container *ngTemplateOutlet="item._template"></ng-container>-->
+    {{item.getTextContent()}}
 
     <span class="vx-autocomplete-chip-delete">X</span>
   </button>
