@@ -18,7 +18,9 @@ export class AbstractVxDialogRef<ComponentType, DataType, CloseDataType> {
 
   }
 
-  close(data: CloseDataType): void {
-    this.dialog.close(data);
+  // This is confusing but essentially makes the data parameter optional if the CloseDataType is optional.
+  // Watch https://github.com/Microsoft/TypeScript/issues/12400 to remove this need.
+  close(...data: CloseDataType extends undefined ? [undefined] : [CloseDataType]): void {
+    this.dialog.close(data[0] as CloseDataType);
   }
 }

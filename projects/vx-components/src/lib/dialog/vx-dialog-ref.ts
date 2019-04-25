@@ -1,4 +1,5 @@
-import { Observable } from 'rxjs';
+import { merge, Observable } from 'rxjs';
+import { map, mapTo } from 'rxjs/operators';
 import { AbstractVxDialogRef } from 'vx-components-base';
 import { DialogCloseDataType, DialogDataType, VxDialogDef } from './vx-dialog-def';
 import { VxDialogComponent } from './vx-dialog.component';
@@ -9,12 +10,15 @@ export class VxDialogRef
   CloseDataType extends DialogCloseDataType<ComponentType> = DialogCloseDataType<ComponentType>>
   extends AbstractVxDialogRef<ComponentType, DataType, CloseDataType> {
 
-  overlayClick: Observable<Event>;
+  onCancel: Observable<'overlay' | 'escape'>;
 
   constructor(dialog: VxDialogComponent<ComponentType, DataType, CloseDataType>) {
     super(dialog);
 
-    this.overlayClick = dialog.overlay.overlayClick;
+    this.onCancel = merge(
+      dialog.overlay.overlayClick.pipe(map(() => 'overlay')) as Observable<'overlay'>,
+      dialog.escapePress.pipe(map(() => 'escape')) as Observable<'escape'>
+    );
   }
 }
 

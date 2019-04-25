@@ -1,6 +1,6 @@
-import { Constructor } from 'vx-components-base';
+import { Component } from '@angular/core';
 
-export class VxDialogDef<DataType, CloseDataType> {
+export class VxDialogDef<DataType = undefined, CloseDataType = undefined> {
      __D?: DataType;
      __C?: CloseDataType;
 

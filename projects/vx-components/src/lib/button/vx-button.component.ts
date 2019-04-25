@@ -1,6 +1,16 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Inject, InjectionToken,
+  Input,
+  Optional,
+  ViewEncapsulation
+} from '@angular/core';
 import { coerceBooleanProperty } from 'vx-components-base';
 import { VxThemeColor } from '../shared/vx-theme-color';
+import { VxButtonVariation } from './vx-button-variation';
+import { VX_BUTTON_DEFAULT_COLOR, VX_BUTTON_DEFAULT_VARIATION } from './vx-button.tokens';
 
 @Component({
   selector: '[vx-button]', // tslint:disable-line
@@ -26,20 +36,24 @@ import { VxThemeColor } from '../shared/vx-theme-color';
 })
 export class VxButtonComponent<T = any> {
   @Input() value!: T;
-  @Input() color: VxThemeColor = 'light';
+  @Input() color: VxThemeColor;
 
-  private _variation: VxButtonVariations = 'flat';
+  private _variation: VxButtonVariation;
   private _disabled = false;
 
-  constructor(private cdr: ChangeDetectorRef) {
+  constructor(private cdr: ChangeDetectorRef,
+              @Inject(VX_BUTTON_DEFAULT_COLOR) @Optional() defaultColor?: VxThemeColor,
+              @Inject(VX_BUTTON_DEFAULT_VARIATION) @Optional() defaultVariation?: VxButtonVariation) {
+    this.color = defaultColor || 'light';
+    this._variation = defaultVariation || 'flat';
   }
 
   @Input('vx-button')
-  get variation(): VxButtonVariations {
+  get variation(): VxButtonVariation {
     return this._variation;
   }
 
-  set variation(value: VxButtonVariations) {
+  set variation(value: VxButtonVariation) {
     if (!value) {
       value = 'flat';
     }
@@ -59,5 +73,3 @@ export class VxButtonComponent<T = any> {
     }
   }
 }
-
-export type VxButtonVariations = 'flat' | 'raised' | 'stroked';

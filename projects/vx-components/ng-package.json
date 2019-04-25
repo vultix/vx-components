@@ -5,6 +5,6 @@
     "entryFile": "src/public_api.ts"
   },
   "whitelistedNonPeerDependencies": [
-    "vx-components-base"
+    "vx-components-base", "@angular/cdk"
   ]
 }

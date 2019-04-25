@@ -7,13 +7,18 @@ type AnimalName = 'dog' | 'cat';
 
 @Component({
   template: `
-    <h2>Your Animal: {{dialog.data}}</h2>
-    <button vx-button (click)="dialog.close(true)">Close True</button>
-    <button vx-button (click)="dialog.close(false)">Close false</button>
+    <h2 vxDialogTitle>Your Animal: {{dialog.data}}</h2>
+    <div vxDialogContent>
+      Here is my super duper long content that should scroll!
+      <a href="google.com">Go to google!</a>
+    </div>
+    <div vxDialogActions>
+      <button vx-button (click)="dialog.close(true)">Close True</button>
+      <button vx-button (click)="dialog.close(false)">Close false</button>
+    </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-
 export class AnimalDialogComponent extends VxDialogDef<AnimalName, boolean> {
   cat: AnimalName;
 
@@ -22,7 +27,7 @@ export class AnimalDialogComponent extends VxDialogDef<AnimalName, boolean> {
     // this.test()
 
     this.cat = this.dialog.data;
-    dialog.overlayClick.subscribe(() => dialog.close(false));
+    dialog.onCancel.subscribe(() => dialog.close(false));
   }
 
 }

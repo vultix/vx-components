@@ -13,39 +13,50 @@
   $success: map_get($colors, success);
   $warn: map_get($colors, warn);
 
-  $lightColor: mix($darkerBgFg, $lighterBgFg, 8%);
-  $lightColorHover: mix($darkerBgFg, $lighterBgFg, 13%);
+  $lightColor: mix($darkerBgFg, $lighterBgFg, 11%);
+  $lightColorFocus: mix($darkerBgFg, $lighterBgFg, 13%);
+  $lightColorHover: mix($darkerBgFg, $lighterBgFg, 16%);
   $lightColorActive: mix($darkerBgFg, $lighterBgFg, 28%);
 
   $darkColor: mix($lighterBgFg, $darkerBgFg, 18%);
-  $darkColorHover: mix($lighterBgFg, $darkerBgFg, 25%);
-  $darkColorActive: mix($lighterBgFg, $darkerBgFg, 30%);
+  $darkColorFocus: mix($lighterBgFg, $darkerBgFg, 25%);
+  $darkColorHover: mix($lighterBgFg, $darkerBgFg, 28%);
+  $darkColorActive: mix($lighterBgFg, $darkerBgFg, 40%);
 
   $primaryColor: $primary;
-  $primaryColorHover: mix($darkerBgFg, $primary, 8%);
-  $primaryColorActive: mix($darkerBgFg, $primary, 13%);
+  $primaryColorFocus: mix($darkerBgFg, $primary, 8%);
+  $primaryColorHover: mix($darkerBgFg, $primary, 12%);
+  $primaryColorActive: mix($darkerBgFg, $primary, 16%);
 
   $accentColor: $accent;
-  $accentColorHover: mix($darkerBgFg, $accent, 8%);
-  $accentColorActive: mix($darkerBgFg, $accent, 13%);
+  $accentColorFocus: mix($darkerBgFg, $accent, 8%);
+  $accentColorHover: mix($darkerBgFg, $accent, 12%);
+  $accentColorActive: mix($darkerBgFg, $accent, 16%);
 
   $errorColor: $error;
-  $errorColorHover: mix($darkerBgFg, $error, 8%);
-  $errorColorActive: mix($darkerBgFg, $error, 13%);
+  $errorColorFocus: mix($darkerBgFg, $error, 8%);
+  $errorColorHover: mix($darkerBgFg, $error, 12%);
+  $errorColorActive: mix($darkerBgFg, $error, 16%);
 
   $successColor: $success;
-  $successColorHover: mix($darkerBgFg, $success, 8%);
-  $successColorActive: mix($darkerBgFg, $success, 13%);
+  $successColorFocus: mix($darkerBgFg, $success, 8%);
+  $successColorHover: mix($darkerBgFg, $success, 12%);
+  $successColorActive: mix($darkerBgFg, $success, 16%);
 
   $warnColor: $warn;
-  $warnColorHover: mix($darkerBgFg, $warn, 8%);
-  $warnColorActive: mix($darkerBgFg, $warn, 13%);
+  $warnColorFocus: mix($darkerBgFg, $warn, 8%);
+  $warnColorHover: mix($darkerBgFg, $warn, 12%);
+  $warnColorActive: mix($darkerBgFg, $warn, 16%);
 
   .vx-button-flat, .vx-button-raised {
     &.vx-button-light {
       background: $lightColor;
       color: $darkerBgFg;
 
+
+      &:focus {
+       background: $lightColorFocus;
+      }
       &:hover {
         background: $lightColorHover;
       }
@@ -57,6 +68,10 @@
     &.vx-button-dark {
       background: $darkColor;
       color: $lighterBgFg;
+
+      &:focus {
+       background: $darkColorFocus;
+      }
       &:hover {
         background: $darkColorHover;
       }
@@ -68,6 +83,10 @@
     &.vx-button-primary {
       background: $primaryColor;
       color: $lighterBgFg;
+
+      &:focus {
+       background: $primaryColorFocus;
+      }
       &:hover {
         background: $primaryColorHover;
       }
@@ -79,6 +98,10 @@
     &.vx-button-accent {
       background: $accentColor;
       color: $lighterBgFg;
+
+      &:focus {
+       background: $accentColorFocus;
+      }
       &:hover {
         background: $accentColorHover;
       }
@@ -90,6 +113,10 @@
     &.vx-button-error {
       background: $errorColor;
       color: $lighterBgFg;
+
+      &:focus {
+       background: $errorColorFocus;
+      }
       &:hover {
         background: $errorColorHover;
       }
@@ -101,6 +128,10 @@
     &.vx-button-success {
       background: $successColor;
       color: $lighterBgFg;
+
+      &:focus {
+       background: $successColorFocus;
+      }
       &:hover {
         background: $successColorHover;
       }
@@ -112,6 +143,10 @@
     &.vx-button-warn {
       background: $warnColor;
       color: $lighterBgFg;
+
+      &:focus {
+       background: $warnColorFocus;
+      }
       &:hover {
         background: $warnColorHover;
       }
@@ -123,8 +158,12 @@
 
   .vx-button-stroked {
     background: transparent;
+
+    &:focus {
+      background: rgba($foreground, .03);
+    }
     &:hover {
-      background: rgba($foreground, .08);
+      background: rgba($foreground, .09);
     }
     &:active {
       background: rgba($foreground, .14);

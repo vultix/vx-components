@@ -20,10 +20,14 @@ export class VxDialog extends AbstractVxDialog<HTMLElement> {
     super(resolver, injector, appRef);
   }
 
-  open<ComponentType = VxDialogDef<any, any>>
-  (component: Constructor<ComponentType> | TemplateRef<ComponentType>, data: DialogDataType<ComponentType>):
+  // This is confusing but essentially makes the data parameter optional if the DataType is optional.
+  // Watch https://github.com/Microsoft/TypeScript/issues/12400 to remove this need.
+  open<
+    ComponentType extends VxDialogDef<any, any>,
+    DataType extends DialogDataType<ComponentType>
+    >(component: Constructor<ComponentType> | TemplateRef<ComponentType>, ...data: DataType extends undefined ? [undefined?] : [DataType]):
     VxDialogRef<ComponentType> {
-    return super.open(component, data) as any;
+    return super.open(component, data[0]) as VxDialogRef<ComponentType>;
   }
 
 }

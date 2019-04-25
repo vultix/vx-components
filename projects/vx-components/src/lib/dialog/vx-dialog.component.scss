@@ -1,3 +1,4 @@
+$dialogPadding: 20px;
 .vx-dialog-container {
   display: flex;
   width: 100vw;
@@ -11,7 +12,7 @@
   max-width: 90vw;
   -webkit-overflow-scrolling: touch;
   box-sizing: border-box;
-  padding: 20px;
+  padding: $dialogPadding;
   z-index: 2;
   border-radius: 5px;
   animation: vx-dialog-animation .3s ease;
@@ -40,5 +41,35 @@
       transform: scale(0, 0);
       opacity: 0;
     }
+  }
+}
+
+
+// Directives
+.vx-dialog-title {
+  margin: 0 0 $dialogPadding;
+  display: block;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.vx-dialog-content {
+  overflow: auto;
+  max-width: 100%;
+  max-height: 65vh;
+  display: block;
+  margin: 0 #{-$dialogPadding};
+  padding: 0 $dialogPadding;
+}
+
+.vx-dialog-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: $dialogPadding;
+
+  .vx-button {
+    margin-left: 10px;
   }
 }
