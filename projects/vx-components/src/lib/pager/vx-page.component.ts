@@ -23,6 +23,7 @@ import { AbstractVxPageComponent } from 'vx-components-base';
 export class VxPageComponent extends AbstractVxPageComponent<HTMLElement> {
   _visible = false;
 
+  timeout?: number;
   constructor(el: ElementRef<HTMLElement>, cdr: ChangeDetectorRef, private renderer: Renderer2) {
     super(el, cdr);
   }
@@ -32,6 +33,8 @@ export class VxPageComponent extends AbstractVxPageComponent<HTMLElement> {
     if (!el) {
       return;
     }
+
+    clearTimeout(this.timeout);
 
     // This is a kludgy way to set these classes because hostBinding doesn't work.
     // see https://github.com/angular/angular/issues/22560 for why
@@ -49,7 +52,7 @@ export class VxPageComponent extends AbstractVxPageComponent<HTMLElement> {
       if (skipTransition) {
         this._visible = false;
       } else {
-        setTimeout(() => {
+        this.timeout = setTimeout(() => {
           this._visible = false;
           this.cdr.markForCheck();
         }, 350)

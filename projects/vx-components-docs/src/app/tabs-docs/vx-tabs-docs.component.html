@@ -1,11 +1,13 @@
+<input type="text" #input (keyup.enter)="tabs.push(input.value)">
+
 <vx-tabs>
-  <vx-tab label="Tab number one!">
-    This is some content for the first tab!
-  </vx-tab>
   <vx-tab label="Tab number Two!">
     This is some content for the second tab!
   </vx-tab>
   <vx-tab label="Tab number Three!">
     This is some content for the third tab!
+  </vx-tab>
+  <vx-tab *ngFor="let tab of tabs" [label]="tab">
+    This is some content for the first tab!
   </vx-tab>
 </vx-tabs>

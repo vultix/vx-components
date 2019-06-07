@@ -1,4 +1,4 @@
-<vx-form-field [vxAttachMenu]="menu" (click)="focus()"
+<vx-form-field [vxAttachMenu]="menu" (click)="focus()" class="vx-autocomplete-form-field"
                [class.vx-focused]="menu.visible || field.focused" (keyup.backspace)="_handleBackspace($event)">
 
   <button vx-button color="primary" *ngFor="let item of _selectedItems" class="vx-autocomplete-chip"
@@ -13,7 +13,7 @@
   <div class="vx-autocomplete-input-wrapper" #focusEl [tabIndex]="searchable ? -1 : tabIndex"
        (blur)="searchable ? null : _handleFieldFocusChange(false)"
        (focus)="searchable ? null : _handleFieldFocusChange(true)">
-    <input vxFormField [label]="label" [placeholder]="placeholder" #field="vxFormField"
+    <input vxFormField [label]="label" [placeholder]="placeholder" #field="vxFormField" autocomplete="off"
            (keydown.ArrowDown)="_showMenu()" [attr.disabled]="!searchable || undefined" [disabled]="disabled">
 
     <div class="vx-autocomplete-down-arrow"></div>

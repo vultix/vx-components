@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 
 @Component({
   selector: 'vx-autocomplete-docs',
@@ -8,7 +8,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 })
 
 export class VxAutocompleteDocsComponent {
-  selectedStates = ['DZ'];
+  selectedStates = [];
+  myStates: any[] = [];
   states = [
     {name: 'Afghanistan', value: 'AF'},
     {name: 'Åland Islands', value: 'AX'},

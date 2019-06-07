@@ -1,3 +1,12 @@
+.vx-autocomplete {
+  display: inline-flex;
+  align-items: stretch;
+}
+
+.vx-autocomplete-form-field {
+  flex: 1
+}
+
 .vx-autocomplete-input-wrapper {
   flex-grow: 1;
   display: flex;
@@ -26,10 +35,6 @@ $triangleHeight: 7px;
     top: 50%;
     transform: translate(-50%, -50%);
   }
-}
-
-.vx-menu.vx-autocomplete-menu-top {
-  transform-origin: bottom center;
 }
 
 

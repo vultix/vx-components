@@ -25,6 +25,10 @@
   display: block;
 }
 
+.vx-menu-attached-top {
+  transform-origin: bottom center;
+}
+
 @keyframes vx-menu-scale-animation {
   from {
     transform: scale(0, 0)

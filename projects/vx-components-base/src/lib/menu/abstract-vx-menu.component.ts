@@ -38,7 +38,8 @@ export abstract class AbstractVxMenuComponent<T, E> implements OnDestroy, AfterV
       height: 200,
       width: 'auto',
       offsetX: 0,
-      offsetY: -10
+      offsetY: -10,
+      className: 'vx-menu-attached-top'
     }
   ];
   private _attachedTo!: E;

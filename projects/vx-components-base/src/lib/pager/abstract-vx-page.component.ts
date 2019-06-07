@@ -6,10 +6,15 @@ export abstract class AbstractVxPageComponent<E> {
 
 
   set _current(current: boolean) {
+    let skipTransition = this.__current === undefined;
+
     if (current !== this.__current) {
-      this.position(current, this.__current === undefined);
       this.__current = current;
+    } else {
+      skipTransition = true
     }
+
+    this.position(current, skipTransition);
     this.cdr.detectChanges();
   };
 
@@ -19,9 +24,10 @@ export abstract class AbstractVxPageComponent<E> {
   }
 
   /**
-   * Only called when the page changes from current to no longer current or from hidden to current.
+   * Called to position pages to prepare for animation
    * @param current whether or not the page is current
    * @param skipTransition will be true on the first call.  Should be no transition when initializing.
+   * Also true when not changing from visible to not visible and vice-versa
    */
   abstract position(current: boolean, skipTransition: boolean): void;
 }

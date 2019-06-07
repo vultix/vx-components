@@ -26,7 +26,10 @@ import { VxItemComponent } from '../menu/vx-item.component';
   templateUrl: 'vx-autocomplete.component.html',
   styleUrls: ['vx-autocomplete.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    'class': 'vx-autocomplete'
+  }
 })
 
 export class VxAutocompleteComponent<T> extends AbstractVxAutocompleteComponent<T, VxItemComponent<T>> {

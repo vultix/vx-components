@@ -5,11 +5,13 @@ import {
   Component,
   ContentChildren,
   Input,
-  OnInit,
+  OnDestroy,
   QueryList,
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { VxPagerComponent } from '../pager/vx-pager.component';
 import { VxTabComponent } from './vx-tab.component';
 
@@ -20,7 +22,6 @@ import { VxTabComponent } from './vx-tab.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-
 export class VxTabsComponent implements AfterViewInit {
   /**
    * The tabs that were passed into the component
@@ -48,6 +49,9 @@ export class VxTabsComponent implements AfterViewInit {
   ngAfterViewInit() {
     // Because our selectedTab bindings depend upon our child pager we need to check bindings after the pager is created.
     this.cdr.detectChanges();
+    this._tabs.changes.subscribe(() => {
+      this.cdr.markForCheck();
+    });
   }
 
   /** Sets the selected tab to be the tabIdx */

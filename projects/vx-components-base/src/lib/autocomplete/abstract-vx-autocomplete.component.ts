@@ -2,8 +2,8 @@ import {
   AfterContentInit,
   AfterViewInit,
   ChangeDetectorRef,
-  DoCheck,
-  Input,
+  DoCheck, EventEmitter,
+  Input, Output,
   QueryList,
   ViewChild
 } from '@angular/core';
@@ -17,6 +17,9 @@ import { AutocompleteFilterFunction, defaultAutocompleteFilterFunction } from '.
 export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxItemComponent<T>>
   extends VxFormComponent<T | T[]> implements AfterViewInit, DoCheck, AfterContentInit {
   abstract _items: QueryList<I>;
+
+  @Output() search = new EventEmitter<string>();
+  @Output() itemSelect = new EventEmitter<T>();
 
   @ViewChild('field')
   _field!: AbstractVxFormFieldDirective<any>;
@@ -45,7 +48,7 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
     width: 'match',
     offsetX: 0,
     offsetY: -2.5,
-    className: 'vx-autocomplete-menu-top'
+    className: 'vx-menu-attached-top'
   }];
   protected _defaultText = 'No results found.';
   protected _multiple = false;
@@ -318,6 +321,8 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
   }
 
   protected handleItemSelect(val: T) {
+    this.itemSelect.emit(val);
+
     if (this.multiple) {
       const existing = this.value;
       (existing as T[]).push(val);
@@ -339,6 +344,8 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
 
   protected handleFieldSearchChange(search: string, showMenu = true) {
     this.searchText = search;
+    this.search.emit(search);
+
     this.filter();
     if (showMenu) {
       this._showMenu();

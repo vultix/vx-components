@@ -7,6 +7,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 })
 
 export class VxTabsDocsComponent implements OnInit {
+  tabs: string[] = [];
   constructor() {
   }
 

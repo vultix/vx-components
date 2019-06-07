@@ -9,7 +9,7 @@ import { VxFormFieldDirective } from './vx-form-field.directive';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   host: {
-    '[class.vx-form-field]': 'true',
+    'class': 'vx-form-field',
     '[class.vx-error]': 'field.errorState',
     '[class.vx-focused]': 'field.focused',
     '[class.vx-disabled]': 'field.disabled'
