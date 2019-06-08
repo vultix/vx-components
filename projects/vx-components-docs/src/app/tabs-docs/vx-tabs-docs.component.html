@@ -7,7 +7,8 @@
   <vx-tab label="Tab number Three!">
     This is some content for the third tab!
   </vx-tab>
-  <vx-tab *ngFor="let tab of tabs" [label]="tab">
+  <vx-tab *ngFor="let tab of tabs; let i = index" [label]="tab">
+    <div *vxTabLabel>New: {{tab}} <span (click)="tabs.splice(index, 1)">X</span></div>
     This is some content for the first tab!
   </vx-tab>
 </vx-tabs>

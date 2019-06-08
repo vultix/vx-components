@@ -1,4 +1,14 @@
-import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ContentChild,
+  ElementRef,
+  Input,
+  OnInit,
+  TemplateRef,
+  ViewChild
+} from '@angular/core';
+import { VxTabLabelDirective } from './vx-tab-label.directive';
 
 @Component({
   selector: 'vx-tab',
@@ -12,6 +22,7 @@ import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, Template
 
 export class VxTabComponent {
   @Input() label = '';
+  @ContentChild(VxTabLabelDirective) tabLabel?: VxTabLabelDirective;
 
   @ViewChild(TemplateRef) _template!: TemplateRef<any>
 }

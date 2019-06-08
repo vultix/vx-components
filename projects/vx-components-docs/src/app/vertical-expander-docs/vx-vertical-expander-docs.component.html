@@ -1,6 +1,20 @@
 <vx-checkbox #expand>Expand</vx-checkbox>
-<vx-vertical-expander [expanded]="expand.checked">
-  <div style="height: 300px; background: red">
-    This is my big content!
-  </div>
-</vx-vertical-expander>
+<form #form="ngForm">
+  {{form.invalid || form.pristine}}
+
+  <button (click)="form.control.markAsDirty()"></button>
+
+  <vx-form-field>
+    <input type="text" vxFormField ngModel required name="myRequired2">
+  </vx-form-field>
+
+  <vx-vertical-expander [expanded]="expand.checked">
+    <div style="height: 300px; background: red">
+      This is my big content!
+    </div>
+    <vx-form-field>
+      <input type="text" vxFormField ngModel required name="myRequired">
+    </vx-form-field>
+  </vx-vertical-expander>
+
+</form>

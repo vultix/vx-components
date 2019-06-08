@@ -23,7 +23,7 @@ import { AbstractVxPageComponent } from 'vx-components-base';
 export class VxPageComponent extends AbstractVxPageComponent<HTMLElement> {
   _visible = false;
 
-  timeout?: number;
+  timeout?: any;
   constructor(el: ElementRef<HTMLElement>, cdr: ChangeDetectorRef, private renderer: Renderer2) {
     super(el, cdr);
   }
