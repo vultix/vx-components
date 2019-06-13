@@ -12,7 +12,7 @@ export class OverlayRef {
   private overlaySubscription: Subscription;
   private overlayClickSubject = new Subject<Event>();
 
-  constructor(overlayClasses: string[] = [], containerClasses: string[] = []) {
+  constructor(overlayClasses: string[] = [], containerClasses: string[] = [], document: Document) {
     overlayClasses.push('vx-overlay');
     containerClasses.push('vx-overlay-container');
 

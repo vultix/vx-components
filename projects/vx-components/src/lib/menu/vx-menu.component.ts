@@ -1,3 +1,4 @@
+import { DOCUMENT } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -6,10 +7,10 @@ import {
   ContentChildren,
   ElementRef,
   forwardRef,
-  HostListener,
+  HostListener, Inject,
   Input,
   NgZone,
-  OnDestroy,
+  OnDestroy, Optional,
   QueryList,
   ViewChild,
   ViewEncapsulation
@@ -62,15 +63,21 @@ export class VxMenuComponent<T> extends AbstractVxMenuComponent<T, HTMLElement> 
   @ViewChild('panel') panel!: ElementRef<HTMLElement>;
   private _focusedItem?: VxItemComponent<T>;
   private _focusedIdx = -1;
-  private overlay = new OverlayRef(['vx-menu-overlay']);
+  private overlay?: OverlayRef;
   private enterDown = false;
 
-  constructor(cdr: ChangeDetectorRef, private el: ElementRef<HTMLElement>, private zone: NgZone) {
+  constructor(cdr: ChangeDetectorRef, private el: ElementRef<HTMLElement>, private zone: NgZone,
+              @Inject(DOCUMENT) @Optional() private document?: Document) {
     super(cdr);
 
-    this.overlay.overlayClick.subscribe(() => {
-      this._autoClose('overlay');
-    });
+    if (document) {
+      this.overlay = new OverlayRef(['vx-menu-overlay'], [], document);
+
+      this.overlay.overlayClick.subscribe(() => {
+        this._autoClose('overlay');
+      });
+    }
+
 
     this.itemSelect.pipe(takeUntil(this.onDestroy$)).subscribe(val => {
       this._autoClose('itemSelect');
@@ -142,7 +149,9 @@ export class VxMenuComponent<T> extends AbstractVxMenuComponent<T, HTMLElement> 
 
   ngAfterViewInit(): void {
     super.ngAfterViewInit();
-    this.overlay.container.appendChild(this.el.nativeElement);
+    if (this.overlay) {
+      this.overlay.container.appendChild(this.el.nativeElement);
+    }
   }
 
   hide(): void {
@@ -154,7 +163,9 @@ export class VxMenuComponent<T> extends AbstractVxMenuComponent<T, HTMLElement> 
     this._active = false;
 
     this.clearFocus();
-    this.overlay.hideOverlay();
+    if (this.overlay) {
+      this.overlay.hideOverlay();
+    }
   }
 
   show(): void {
@@ -167,7 +178,7 @@ export class VxMenuComponent<T> extends AbstractVxMenuComponent<T, HTMLElement> 
       return; // return because setting visible will re-call show
     }
 
-    if (this._shouldAutoclose('overlay')) {
+    if (this._shouldAutoclose('overlay') && this.overlay) {
       this.overlay.showOverlay();
     }
 
@@ -176,7 +187,9 @@ export class VxMenuComponent<T> extends AbstractVxMenuComponent<T, HTMLElement> 
 
   ngOnDestroy(): void {
     super.ngOnDestroy();
-    this.overlay.destroy();
+    if (this.overlay) {
+      this.overlay.destroy();
+    }
   }
 
   @HostListener('window:keydown.ArrowUp', ['true', '$event'])
@@ -260,9 +273,12 @@ export class VxMenuComponent<T> extends AbstractVxMenuComponent<T, HTMLElement> 
   }
 
   protected getViewportSize(): Size | undefined {
-    const viewportHeight = Math.max(document.documentElement ? document.documentElement.clientHeight : 0, window.innerHeight || 0);
-    const viewportWidth = Math.max(document.documentElement ? document.documentElement.clientWidth : 0, window.innerWidth || 0);
-    return {width: viewportWidth, height: viewportHeight};
+    if (this.document) {
+      const viewportHeight = Math.max(this.document.documentElement ? this.document.documentElement.clientHeight : 0,
+        window.innerHeight || 0);
+      const viewportWidth = Math.max(this.document.documentElement ? this.document.documentElement.clientWidth : 0, window.innerWidth || 0);
+      return {width: viewportWidth, height: viewportHeight};
+    }
   }
 
   protected setNativePosition(pos: Pos, autoWidth: boolean): void {
