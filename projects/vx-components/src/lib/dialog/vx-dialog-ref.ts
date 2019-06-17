@@ -15,10 +15,14 @@ export class VxDialogRef
   constructor(dialog: VxDialogComponent<ComponentType, DataType, CloseDataType>) {
     super(dialog);
 
-    this.onCancel = merge(
-      dialog.overlay.overlayClick.pipe(map(() => 'overlay')) as Observable<'overlay'>,
-      dialog.escapePress.pipe(map(() => 'escape')) as Observable<'escape'>
-    );
+    if (dialog.overlay) {
+      this.onCancel = merge(
+        dialog.overlay.overlayClick.pipe(map(() => 'overlay')) as Observable<'overlay'>,
+        dialog.escapePress.pipe(map(() => 'escape')) as Observable<'escape'>
+      );
+    } else {
+      this.onCancel = dialog.escapePress.pipe(map(() => 'escape')) as Observable<'escape'>
+    }
   }
 }
 

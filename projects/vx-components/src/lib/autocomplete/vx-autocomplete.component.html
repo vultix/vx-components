@@ -20,6 +20,6 @@
   </div>
 </vx-form-field>
 
-<vx-menu #menu [positionStrategy]="_positionStrategy" [defaultText]="defaultText" class="vx-autocomplete-menu">
+<vx-menu #menu [positionStrategy]="_positionStrategy" width="match" [defaultText]="defaultText" class="vx-autocomplete-menu">
   <vx-item *ngFor="let item of _filteredItems" [_parent]="item"></vx-item>
 </vx-menu>

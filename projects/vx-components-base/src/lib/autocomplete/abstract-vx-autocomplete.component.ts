@@ -34,8 +34,6 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
     menuY: 'top',
     attachedX: 'left',
     attachedY: 'bottom',
-    height: 200,
-    width: 'match',
     offsetX: 0,
     offsetY: -2.5,
     className: 'vx-autocomplete-menu-bottom'
@@ -44,8 +42,6 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
     menuY: 'bottom',
     attachedX: 'left',
     attachedY: 'top',
-    height: 200,
-    width: 'match',
     offsetX: 0,
     offsetY: -2.5,
     className: 'vx-menu-attached-top'

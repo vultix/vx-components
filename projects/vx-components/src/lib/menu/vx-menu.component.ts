@@ -1,4 +1,4 @@
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -10,8 +10,8 @@ import {
   HostListener, Inject,
   Input,
   NgZone,
-  OnDestroy, Optional,
-  QueryList,
+  OnDestroy, Optional, PLATFORM_ID,
+  QueryList, Renderer2,
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
@@ -33,7 +33,7 @@ import { VxItemComponent } from './vx-item.component';
     }
   ],
   host: {
-    '[attr.class]': '"vx-menu-positioner"'
+    'class': 'vx-menu-positioner'
   }
 })
 export class VxMenuComponent<T> extends AbstractVxMenuComponent<T, HTMLElement> implements OnDestroy, AfterViewInit {
@@ -65,17 +65,32 @@ export class VxMenuComponent<T> extends AbstractVxMenuComponent<T, HTMLElement> 
   private _focusedIdx = -1;
   private overlay?: OverlayRef;
   private enterDown = false;
+  private isPlatformBrowser = false;
 
   constructor(cdr: ChangeDetectorRef, private el: ElementRef<HTMLElement>, private zone: NgZone,
-              @Inject(DOCUMENT) @Optional() private document?: Document) {
+              @Inject(PLATFORM_ID) platformId: Object, private renderer: Renderer2) {
     super(cdr);
 
-    if (document) {
-      this.overlay = new OverlayRef(['vx-menu-overlay'], [], document);
+    this.isPlatformBrowser = isPlatformBrowser(platformId);
+
+    if (this.isPlatformBrowser) {
+      this.overlay = new OverlayRef(['vx-menu-overlay'], []);
 
       this.overlay.overlayClick.subscribe(() => {
         this._autoClose('overlay');
       });
+
+      this.zone.runOutsideAngular(() => {
+        merge(
+          fromEvent(window, 'scroll', {capture: true}),
+          fromEvent(window, 'resize', {capture: true})
+        ).pipe(takeUntil(this.onDestroy$)).subscribe(() => {
+          this.position();
+        });
+      });
+    } else {
+      // Remove the menu element from angular universal builds.
+      this.renderer.removeChild(this.renderer.parentNode(this.el.nativeElement), this.el.nativeElement)
     }
 
 
@@ -83,14 +98,6 @@ export class VxMenuComponent<T> extends AbstractVxMenuComponent<T, HTMLElement> 
       this._autoClose('itemSelect');
     });
 
-    this.zone.runOutsideAngular(() => {
-      merge(
-        fromEvent(window, 'scroll', {capture: true}),
-        fromEvent(window, 'resize', {capture: true})
-      ).pipe(takeUntil(this.onDestroy$)).subscribe(() => {
-        this.position();
-      });
-    });
   }
 
   get focusedItem(): VxItemComponent<T> | undefined {
@@ -163,9 +170,11 @@ export class VxMenuComponent<T> extends AbstractVxMenuComponent<T, HTMLElement> 
     this._active = false;
 
     this.clearFocus();
-    if (this.overlay) {
-      this.overlay.hideOverlay();
-    }
+    setTimeout(() => {
+      if (this.overlay) {
+        this.overlay.hideOverlay();
+      }
+    }, 300)
   }
 
   show(): void {
@@ -273,10 +282,10 @@ export class VxMenuComponent<T> extends AbstractVxMenuComponent<T, HTMLElement> 
   }
 
   protected getViewportSize(): Size | undefined {
-    if (this.document) {
-      const viewportHeight = Math.max(this.document.documentElement ? this.document.documentElement.clientHeight : 0,
+    if (this.isPlatformBrowser) {
+      const viewportHeight = Math.max(document.documentElement ? document.documentElement.clientHeight : 0,
         window.innerHeight || 0);
-      const viewportWidth = Math.max(this.document.documentElement ? this.document.documentElement.clientWidth : 0, window.innerWidth || 0);
+      const viewportWidth = Math.max(document.documentElement ? document.documentElement.clientWidth : 0, window.innerWidth || 0);
       return {width: viewportWidth, height: viewportHeight};
     }
   }
@@ -307,6 +316,20 @@ export class VxMenuComponent<T> extends AbstractVxMenuComponent<T, HTMLElement> 
       this._focusedIdx = -1;
       this.focusedItem = undefined;
     }
+  }
+
+  protected getExpectedHeight(): number {
+    if (this.maxHeight === 'none') {
+      const panel = this.panel.nativeElement;
+      if (!panel) {
+        return 200; // TODO: Is there a better value that could go here?
+      }
+
+
+      return panel.scrollHeight + 2; // Plus 2 for the border
+    }
+
+    return this.maxHeight;
   }
 }
 

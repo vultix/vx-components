@@ -20,23 +20,37 @@ export abstract class AbstractVxMenuComponent<T, E> implements OnDestroy, AfterV
 
   private _defaultText = '';
   private _visible = false;
-  private _positionStrategy: AttachedPositionStrategy = [{
-    menuX: 'left',
-    menuY: 'top',
-    attachedX: 'left',
-    attachedY: 'bottom',
-    height: 200,
-    width: 'auto',
-    offsetX: 0,
-    offsetY: 10
-  },
+  private _positionStrategy: AttachedPositionStrategy = [
+    {
+      menuX: 'left',
+      menuY: 'top',
+      attachedX: 'left',
+      attachedY: 'bottom',
+      offsetX: 0,
+      offsetY: 10
+    },
     {
       menuX: 'left',
       menuY: 'bottom',
       attachedX: 'left',
       attachedY: 'top',
-      height: 200,
-      width: 'auto',
+      offsetX: 0,
+      offsetY: -10,
+      className: 'vx-menu-attached-top'
+    },
+    {
+      menuX: 'right',
+      menuY: 'top',
+      attachedX: 'right',
+      attachedY: 'bottom',
+      offsetX: 0,
+      offsetY: 10
+    },
+    {
+      menuX: 'right',
+      menuY: 'bottom',
+      attachedX: 'right',
+      attachedY: 'top',
       offsetX: 0,
       offsetY: -10,
       className: 'vx-menu-attached-top'
@@ -47,6 +61,38 @@ export abstract class AbstractVxMenuComponent<T, E> implements OnDestroy, AfterV
   constructor(protected cdr: ChangeDetectorRef) {
 
   }
+
+  @Input() set width(width: VxMenuWidth) {
+    const numWidth = +width;
+    if (!isNaN(numWidth)) {
+      width = numWidth;
+    }
+
+    if (width !== this.width) {
+      this._width = width;
+      this.position();
+      this.cdr.markForCheck();
+    }
+  }
+
+  get width(): VxMenuWidth {return this._width}
+  private _width: VxMenuWidth = 'auto';
+
+  @Input() set maxHeight(maxHeight: VxMenuMaxHeight) {
+    const numHeight = +maxHeight;
+    if (!isNaN(numHeight)) {
+      maxHeight = numHeight;
+    }
+
+    if (maxHeight !== this.maxHeight) {
+      this._maxHeight = maxHeight;
+      this.position();
+      this.cdr.markForCheck();
+    }
+  }
+
+  get maxHeight(): VxMenuMaxHeight {return this._maxHeight}
+  private _maxHeight: VxMenuMaxHeight = 200;
 
   @Input('class') set menuClass(classes: string) {
     if (classes && classes.length) {
@@ -164,6 +210,9 @@ export abstract class AbstractVxMenuComponent<T, E> implements OnDestroy, AfterV
       return;
     }
 
+    const desiredHeight = this.getExpectedHeight();
+    const desiredWidth = this.width === 'auto' ? menuPos.width : (this.width === 'match' ? attachedPos.width : this.width);
+
     let foundStrategy: AttachedPosition | undefined;
     let foundPosition: Pos | undefined;
     let isAutoWidth = false;
@@ -171,8 +220,6 @@ export abstract class AbstractVxMenuComponent<T, E> implements OnDestroy, AfterV
     for (const strategy of this.positionStrategy) {
       let xPos = strategy.offsetX;
       let yPos = strategy.offsetY;
-      const desiredHeight = menuPos.height > strategy.height ? strategy.height : menuPos.height;
-      const desiredWidth = strategy.width === 'auto' ? menuPos.width : (strategy.width === 'match' ? attachedPos.width : strategy.width);
 
       // Offset the menu position based on our strategy
       xPos -= strategy.menuX === 'center' ? desiredWidth / 2 : (strategy.menuX === 'right' ? desiredWidth : 0);
@@ -204,7 +251,7 @@ export abstract class AbstractVxMenuComponent<T, E> implements OnDestroy, AfterV
       if (!foundPosition || !positionOverlap || overlap < positionOverlap) {
         foundStrategy = strategy;
         foundPosition = {x: xPos, y: yPos, width: desiredWidth, height: desiredHeight};
-        isAutoWidth = strategy.width === 'auto';
+        isAutoWidth = this.width === 'auto';
         positionOverlap = overlap;
       }
 
@@ -249,7 +296,15 @@ export abstract class AbstractVxMenuComponent<T, E> implements OnDestroy, AfterV
   protected abstract getMenuPosition(): Pos | undefined;
 
   protected abstract getViewportSize(): Size | undefined;
+
+  /**
+   * Should either return the max height, or the height of the scroll area + border and margin.
+   */
+  protected abstract getExpectedHeight(): number;
 }
+
+export type VxMenuWidth = number | 'auto' | 'match';
+export type VxMenuMaxHeight = number | 'none';
 
 export interface Point {
   x: number;

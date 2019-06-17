@@ -1,9 +1,9 @@
 import { FocusTrap, FocusTrapFactory } from '@angular/cdk/a11y/';
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import {
   ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
-  ComponentFactoryResolver, ComponentRef, ElementRef, Inject, Injector, Optional, Renderer2,
+  ComponentFactoryResolver, ComponentRef, ElementRef, Inject, Injector, Optional, PLATFORM_ID, Renderer2,
   ViewChild,
   ViewContainerRef,
   ViewEncapsulation
@@ -33,7 +33,7 @@ export class VxDialogComponent<ComponentType = VxDialogDef<any, any>,
   /** Element that was focused before the dialog was opened. Save this to restore upon close. */
   private _elementFocusedBeforeDialogWasOpened?: HTMLElement;
 
-  overlay: OverlayRef;
+  overlay?: OverlayRef;
 
   escapePress = new Subject<void>();
 
@@ -43,23 +43,29 @@ export class VxDialogComponent<ComponentType = VxDialogDef<any, any>,
   protected refType = VxDialogRef;
 
   private focusTrap?: FocusTrap;
+  private isPlatformBrowser: boolean;
 
   constructor(resolver: ComponentFactoryResolver, injector: Injector,
               private el: ElementRef<HTMLElement>,
               private renderer: Renderer2,
               private focusTrapFactory: FocusTrapFactory,
-              @Optional() @Inject(DOCUMENT) private document: any) {
+              @Inject(PLATFORM_ID) platformId: Object) {
     super(resolver, injector);
 
-    this.overlay = new OverlayRef(['vx-dialog-overlay'], ['vx-dialog-container']);
+    this.isPlatformBrowser = isPlatformBrowser(platformId);
+    if (this.isPlatformBrowser) {
+      this.overlay = new OverlayRef(['vx-dialog-overlay'], ['vx-dialog-container']);
+    }
   }
 
   open(): void {
     this.savePreviouslyFocusedElement();
 
-    this.overlay.container.append(this.el.nativeElement);
+    if (this.overlay) {
+      this.overlay.container.append(this.el.nativeElement);
 
-    this.overlay.showOverlay();
+      this.overlay.showOverlay();
+    }
 
     if (!this.focusTrap) {
       this.focusTrap = this.focusTrapFactory.create(this.el.nativeElement);
@@ -98,8 +104,8 @@ export class VxDialogComponent<ComponentType = VxDialogDef<any, any>,
 
   /** Saves a reference to the element that was focused before the dialog was opened. */
   private savePreviouslyFocusedElement() {
-    if (this.document) {
-      this._elementFocusedBeforeDialogWasOpened = this.document.activeElement as HTMLElement;
+    if (this.isPlatformBrowser) {
+      this._elementFocusedBeforeDialogWasOpened = document.activeElement as HTMLElement;
 
       // if (this._elementFocusedBeforeDialogWasOpened &&
       //   typeof this._elementFocusedBeforeDialogWasOpened.blur === 'function') {

@@ -5,14 +5,14 @@ export class OverlayRef {
   container: HTMLDivElement;
   overlay: HTMLDivElement;
 
-  overlayHidden = false;
+  overlayHidden = true;
   readonly overlayClick: Observable<Event>;
 
-  private overlayDisplay!: string;
+  private overlayDisplay: string;
   private overlaySubscription: Subscription;
   private overlayClickSubject = new Subject<Event>();
 
-  constructor(overlayClasses: string[] = [], containerClasses: string[] = [], document: Document) {
+  constructor(overlayClasses: string[] = [], containerClasses: string[] = []) {
     overlayClasses.push('vx-overlay');
     containerClasses.push('vx-overlay-container');
 
@@ -25,15 +25,13 @@ export class OverlayRef {
     this.container.appendChild(overlay);
     this.overlay = overlay;
 
-    document.body.appendChild(container);
+    this.overlayDisplay = this.overlay.style.display || '';
 
     this.overlaySubscription = fromEvent(this.overlay, 'click').subscribe((event: Event) => {
       this.overlayClickSubject.next(event);
     });
 
     this.overlayClick = this.overlayClickSubject.asObservable();
-
-    this.hideOverlay();
   }
 
   hideOverlay(): void {
@@ -44,8 +42,7 @@ export class OverlayRef {
     this.overlayDisplay = this.overlay.style.display || '';
     this.overlay.style.display = 'none';
     this.overlayHidden = true;
-
-    this.container.style.zIndex = `${getNextHighestZIndex()}`;
+    this.container.remove();
   }
 
   showOverlay(): void {
@@ -53,8 +50,10 @@ export class OverlayRef {
       return;
     }
 
+    document.body.appendChild(this.container);
     this.overlay.style.display = this.overlayDisplay;
     this.overlayHidden = false;
+    this.container.style.zIndex = `${getNextHighestZIndex()}`;
   }
 
   destroy(): void {
