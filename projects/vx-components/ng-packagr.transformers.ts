@@ -11,7 +11,7 @@ const hooks: NgPackagerHooks = {
   writePackage: {
     before: async taskContext => {
       const globalContext = taskContext.context();
-      const workspaceRoot = globalContext.builderContext.workspace.root;
+      const workspaceRoot = globalContext.builderContext.workspaceRoot;
       // const srcRoot = globalContext.builderConfig.sourceRoot;
 
       // Builds the scss

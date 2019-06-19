@@ -29,7 +29,7 @@ export class VxTabsComponent implements AfterViewInit {
   @ContentChildren(VxTabComponent)
   _tabs!: QueryList<VxTabComponent>;
 
-  @ViewChild(VxPagerComponent)
+  @ViewChild(VxPagerComponent, {static: true})
   _pager!: VxPagerComponent;
 
   /** The selected tab */

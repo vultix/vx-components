@@ -36,7 +36,7 @@ export class VxAutocompleteComponent<T> extends AbstractVxAutocompleteComponent<
   @ContentChildren(VxItemComponent)
   _items!: QueryList<VxItemComponent<T>>;
 
-  @ViewChild('focusEl') focusEl!: ElementRef<HTMLElement>;
+  @ViewChild('focusEl', {static: false}) focusEl!: ElementRef<HTMLElement>;
 
   @Input() tabIndex = 0;
 

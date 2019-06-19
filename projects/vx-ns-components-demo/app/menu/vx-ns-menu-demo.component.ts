@@ -8,7 +8,7 @@ import { VxNsMenuComponent } from 'vx-ns-components';
 })
 
 export class VxNsMenuDemoComponent {
-  @ViewChild('menu') menu!: VxNsMenuComponent<any>;
+  @ViewChild('menu', {static: false}) menu!: VxNsMenuComponent<any>;
 
   test(): void {
     if (this.menu) {

@@ -18,8 +18,8 @@ import { AbstractVxMenuComponent } from './abstract-vx-menu.component';
 let _vxItemIdCounter = 0;
 
 export abstract class AbstractVxItemComponent<T> implements OnDestroy, AfterViewInit {
-  @ViewChild(TemplateRef) _template!: TemplateRef<any>;
-  @ViewChild('container', {read: ViewContainerRef}) container!: ViewContainerRef;
+  @ViewChild(TemplateRef, {static: true}) _template!: TemplateRef<any>;
+  @ViewChild('container', {read: ViewContainerRef, static: true}) container!: ViewContainerRef;
 
   /**
    * Emits when the item is selected

@@ -21,10 +21,10 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
   @Output() search = new EventEmitter<string>();
   @Output() itemSelect = new EventEmitter<T>();
 
-  @ViewChild('field')
+  @ViewChild('field', {static: true})
   _field!: AbstractVxFormFieldDirective<any>;
 
-  @ViewChild('menu')
+  @ViewChild('menu', {static: true})
   _menu!: AbstractVxMenuComponent<T, any>;
 
   _filteredItems: I[] = [];

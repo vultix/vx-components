@@ -17,7 +17,7 @@ import { VxNsFormFieldDirective } from './vx-ns-form-field.directive';
 })
 export class VxNsFormFieldComponent extends AbstractVxFormFieldComponent {
 
-  @ContentChild(VxNsFormFieldDirective) field!: VxNsFormFieldDirective;
+  @ContentChild(VxNsFormFieldDirective, {static: false}) field!: VxNsFormFieldDirective;
   protected componentName = 'vx-ns-form-field';
   protected fieldDirectiveName = 'vxNsFormField';
 

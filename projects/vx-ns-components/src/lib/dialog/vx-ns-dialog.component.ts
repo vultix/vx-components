@@ -29,7 +29,7 @@ export class VxNsDialogComponent<ComponentType = VxNsDialogDef<any, any>,
   overlayTap = new Subject<void>();
   backButtonPressed = new Subject<void>();
 
-  @ViewChild('container', {read: ViewContainerRef})
+  @ViewChild('container', {read: ViewContainerRef, static: true})
   _contentViewContainer!: ViewContainerRef;
 
   page!: Page;

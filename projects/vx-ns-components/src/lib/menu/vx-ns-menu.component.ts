@@ -65,8 +65,8 @@ export class VxNsMenuComponent<T> extends AbstractVxMenuComponent<T, View> imple
   _screenHeight = screen.mainScreen.heightDIPs;
   _ios = isIOS;
   @Input() autoClose: boolean | VxNsMenuAutoClose = true;
-  @ViewChild('menu') menu!: ElementRef<ScrollView>;
-  @ViewChild('container') container!: ElementRef<AbsoluteLayout>;
+  @ViewChild('menu', {static: false}) menu!: ElementRef<ScrollView>;
+  @ViewChild('container', {static: false}) container!: ElementRef<AbsoluteLayout>;
   private popupWindow?: any;
   private _hiding = false;
 

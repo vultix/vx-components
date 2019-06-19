@@ -22,7 +22,7 @@ import { AbstractVxVerticalExpanderComponent } from 'vx-components-base';
 })
 
 export class VxVerticalExpanderComponent extends AbstractVxVerticalExpanderComponent {
-  @ViewChild('content') content!: ElementRef<HTMLElement>;
+  @ViewChild('content', {static: false}) content!: ElementRef<HTMLElement>;
   _showContent = false;
 
   private timeouts: any[] = [];

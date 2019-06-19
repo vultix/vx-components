@@ -37,7 +37,7 @@ export class VxDialogComponent<ComponentType = VxDialogDef<any, any>,
 
   escapePress = new Subject<void>();
 
-  @ViewChild('container', {read: ViewContainerRef})
+  @ViewChild('container', {read: ViewContainerRef, static: true})
   _contentViewContainer!: ViewContainerRef;
 
   protected refType = VxDialogRef;

@@ -8,7 +8,7 @@ export abstract class AbstractVxStepComponent extends ErrorStateMatcher implemen
   userSeenStep = false;
   userLeftStep = false;
 
-  @ViewChild(TemplateRef) _template!: TemplateRef<any>;
+  @ViewChild(TemplateRef, {static: false}) _template!: TemplateRef<any>;
 
   @Input() label?: string;
 

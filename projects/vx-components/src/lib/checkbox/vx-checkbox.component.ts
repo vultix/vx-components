@@ -34,7 +34,7 @@ import { AbstractVxCheckboxComponent, ErrorStateMatcher } from 'vx-components-ba
 export class VxCheckboxComponent extends AbstractVxCheckboxComponent {
   @Input() tabIndex = 0;
 
-  @ViewChild('checkbox') _checkbox!: ElementRef<HTMLInputElement>;
+  @ViewChild('checkbox', {static: true}) _checkbox!: ElementRef<HTMLInputElement>;
 
   // TODO: Handle the name in a better way, also ensure that submitting a form submits natively, without angular.
   @Input() name!: string;

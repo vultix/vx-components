@@ -1,9 +1,9 @@
-import { ChangeDetectorRef, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AbstractVxFormFieldDirective } from './abstract-vx-form-field.directive';
 
-export abstract class AbstractVxFormFieldComponent implements OnInit, OnDestroy {
+export abstract class AbstractVxFormFieldComponent implements AfterViewInit, OnDestroy {
   abstract field: AbstractVxFormFieldDirective<any>;
 
   protected abstract fieldDirectiveName: string;
@@ -16,7 +16,7 @@ export abstract class AbstractVxFormFieldComponent implements OnInit, OnDestroy 
 
   }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     if (!this.field) {
       throw new Error(`${this.componentName} without a ${this.fieldDirectiveName} directive`);
     }
