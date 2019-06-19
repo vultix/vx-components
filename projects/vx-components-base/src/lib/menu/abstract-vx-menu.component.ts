@@ -1,4 +1,13 @@
-import { AfterViewInit, ChangeDetectorRef, EventEmitter, Input, OnDestroy, Output, QueryList } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  Output,
+  QueryList,
+  Renderer2
+} from '@angular/core';
 import { Subject } from 'rxjs';
 import { startWith, takeUntil } from 'rxjs/operators';
 import { coerceBooleanProperty } from '../shared';
@@ -7,7 +16,6 @@ import { AttachedPosition, AttachedPositionStrategy } from './position-strategy'
 
 export abstract class AbstractVxMenuComponent<T, E> implements OnDestroy, AfterViewInit {
   _positionStrategyClass?: string;
-  _classList: { [key: string]: boolean } = {};
   abstract items: QueryList<AbstractVxItemComponent<T>>;
   /** Event thrown when the menu's visibility changes. The value is the visibility (true or false) */
   @Output() visibleChange = new EventEmitter<boolean>();
@@ -93,23 +101,6 @@ export abstract class AbstractVxMenuComponent<T, E> implements OnDestroy, AfterV
 
   get maxHeight(): VxMenuMaxHeight {return this._maxHeight}
   private _maxHeight: VxMenuMaxHeight = 200;
-
-  @Input('class') set menuClass(classes: string) {
-    if (classes && classes.length) {
-      this._classList = classes.split(' ').reduce((obj: any, className: string) => {
-        obj[className] = true;
-        return obj;
-      }, {});
-
-      if (this._positionStrategyClass) {
-        this._classList[this._positionStrategyClass] = true;
-      }
-    } else {
-      this._classList = {};
-    }
-
-    this.cdr.markForCheck();
-  }
 
   @Input()
   get defaultText(): string {
@@ -210,7 +201,7 @@ export abstract class AbstractVxMenuComponent<T, E> implements OnDestroy, AfterV
       return;
     }
 
-    const desiredHeight = this.getExpectedHeight();
+    const desiredHeight = this.getExpectedHeight(menuPos);
     const desiredWidth = this.width === 'auto' ? menuPos.width : (this.width === 'match' ? attachedPos.width : this.width);
 
     let foundStrategy: AttachedPosition | undefined;
@@ -300,7 +291,7 @@ export abstract class AbstractVxMenuComponent<T, E> implements OnDestroy, AfterV
   /**
    * Should either return the max height, or the height of the scroll area + border and margin.
    */
-  protected abstract getExpectedHeight(): number;
+  protected abstract getExpectedHeight(menuPosition: Pos): number;
 }
 
 export type VxMenuWidth = number | 'auto' | 'match';

@@ -33,26 +33,28 @@ import { VxItemComponent } from './vx-item.component';
     }
   ],
   host: {
-    'class': 'vx-menu-positioner'
+    'class': 'vx-menu',
+    '[class.vx-menu-visible]': 'visible'
   }
 })
 export class VxMenuComponent<T> extends AbstractVxMenuComponent<T, HTMLElement> implements OnDestroy, AfterViewInit {
-  // set _positionStrategyClass(c: string | undefined) {
-  //   let newClassName = this.el.nativeElement.className;
-  //
-  //   if (this.oldPositionStrategyClass) {
-  //     newClassName = newClassName.replace(this.oldPositionStrategyClass, c || '');
-  //   } else if (c) {
-  //     newClassName += ' ' + c;
-  //   }
-  //
-  //   this.el.nativeElement.className = newClassName;
-  //   this.oldPositionStrategyClass = c;
-  // }
-  // get _positionStrategyClass(): string | undefined {
-  //   return this.oldPositionStrategyClass;
-  // }
-  // private oldPositionStrategyClass?: string;
+
+  set _positionStrategyClass(className: string | undefined) {
+    if (this.el) {
+      if (this.__positionStrategyClass) {
+        this.renderer.removeClass(this.el.nativeElement, this.__positionStrategyClass)
+      }
+      if (className) {
+        this.renderer.addClass(this.el.nativeElement, className)
+      }
+    }
+
+    this.__positionStrategyClass = className;
+  }
+
+  get _positionStrategyClass(): string | undefined {
+    return this.__positionStrategyClass;
+  }
 
   @ContentChildren(VxItemComponent)
   items!: QueryList<VxItemComponent<T>>;
@@ -60,10 +62,11 @@ export class VxMenuComponent<T> extends AbstractVxMenuComponent<T, HTMLElement> 
   /** If setting to true or false is the same as setting all properties of VxMenuAutoClose to true or false */
   @Input() autoClose: boolean | VxMenuAutoClose = true;
 
-  @ViewChild('panel') panel!: ElementRef<HTMLElement>;
+  private __positionStrategyClass?: string;
   private _focusedItem?: VxItemComponent<T>;
   private _focusedIdx = -1;
   private overlay?: OverlayRef;
+  private positioner?: HTMLDivElement;
   private enterDown = false;
   private isPlatformBrowser = false;
 
@@ -79,6 +82,10 @@ export class VxMenuComponent<T> extends AbstractVxMenuComponent<T, HTMLElement> 
       this.overlay.overlayClick.subscribe(() => {
         this._autoClose('overlay');
       });
+
+      this.positioner = document.createElement('div');
+      this.positioner.className = 'vx-menu-positioner';
+      this.overlay.container.appendChild(this.positioner);
 
       this.zone.runOutsideAngular(() => {
         merge(
@@ -113,12 +120,12 @@ export class VxMenuComponent<T> extends AbstractVxMenuComponent<T, HTMLElement> 
       this._focusedItem = value;
       if (value) {
         value._markForCheck();
-        const dropdown = this.panel.nativeElement;
+        const dropdown = this.el.nativeElement;
 
         const top = value._el.nativeElement.offsetTop;
         dropdown.scrollTop = top - dropdown.offsetHeight / 4;
       } else {
-        this.panel.nativeElement.scrollTop = 0;
+        this.el.nativeElement.scrollTop = 0;
       }
     }
   }
@@ -156,8 +163,8 @@ export class VxMenuComponent<T> extends AbstractVxMenuComponent<T, HTMLElement> 
 
   ngAfterViewInit(): void {
     super.ngAfterViewInit();
-    if (this.overlay) {
-      this.overlay.container.appendChild(this.el.nativeElement);
+    if (this.positioner) {
+      this.positioner.appendChild(this.el.nativeElement);
     }
   }
 
@@ -272,12 +279,12 @@ export class VxMenuComponent<T> extends AbstractVxMenuComponent<T, HTMLElement> 
       return;
     }
 
-    const rect = this.panel.nativeElement.getBoundingClientRect();
+    const rect = this.el.nativeElement.getBoundingClientRect();
     return {
       x: rect.left,
       y: rect.top,
       width: rect.width || this.el.nativeElement.offsetWidth,
-      height: this.panel.nativeElement.scrollHeight + 2 // added 2 for the border
+      height: this.el.nativeElement.scrollHeight + 2 // added 2 for the border
     };
   }
 
@@ -291,19 +298,17 @@ export class VxMenuComponent<T> extends AbstractVxMenuComponent<T, HTMLElement> 
   }
 
   protected setNativePosition(pos: Pos, autoWidth: boolean): void {
-    if (!this.el || !this.el.nativeElement) {
+    if (!this.positioner) {
       return;
     }
 
-    const el = this.el.nativeElement;
-    // el.style.left = `${pos.x}px`;
     // el.style.top = `${pos.y}px`;
-    el.style.transform = `translate(${pos.x}px, ${pos.y}px)`;
+    this.positioner.style.transform = `translate(${pos.x}px, ${pos.y}px)`;
 
-    const panelEl = this.panel.nativeElement;
-    panelEl.style.maxHeight = `${pos.height}px`;
-    panelEl.style.width = autoWidth ? 'auto' : `${pos.width}px`;
-    panelEl.style.maxWidth = autoWidth ? 'none' : `${pos.width}px`;
+    const menuEl = this.el.nativeElement;
+    menuEl.style.maxHeight = `${pos.height}px`;
+    menuEl.style.width = autoWidth ? 'auto' : `${pos.width}px`;
+    menuEl.style.maxWidth = autoWidth ? 'none' : `${pos.width}px`;
   }
 
   protected onItemsChanged(): void {
@@ -318,18 +323,18 @@ export class VxMenuComponent<T> extends AbstractVxMenuComponent<T, HTMLElement> 
     }
   }
 
-  protected getExpectedHeight(): number {
+  protected getExpectedHeight(menuPos: Pos): number {
     if (this.maxHeight === 'none') {
-      const panel = this.panel.nativeElement;
-      if (!panel) {
+      const menu = this.el.nativeElement;
+      if (!menu) {
         return 200; // TODO: Is there a better value that could go here?
       }
 
 
-      return panel.scrollHeight + 2; // Plus 2 for the border
+      return menu.scrollHeight + 2; // Plus 2 for the border
     }
 
-    return this.maxHeight;
+    return Math.min(menuPos.height, this.maxHeight);
   }
 }
 
