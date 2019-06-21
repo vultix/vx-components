@@ -17,18 +17,16 @@ import { AbstractVxMenuComponent } from './abstract-vx-menu.component';
 
 let _vxItemIdCounter = 0;
 
-export abstract class AbstractVxItemComponent<T> implements OnDestroy, AfterViewInit {
+export abstract class AbstractVxItemComponent<T> implements OnDestroy {
   @ViewChild(TemplateRef, {static: true}) _template!: TemplateRef<any>;
-  @ViewChild('container', {read: ViewContainerRef, static: true}) container!: ViewContainerRef;
 
   /**
    * Emits when the item is selected
    */
   @Output() select = new EventEmitter<T>();
-  embeddedView?: EmbeddedViewRef<any>;
   _id = `vx-item-${_vxItemIdCounter++}`;
-  protected _child?: AbstractVxItemComponent<T>;
-  protected __parent?: AbstractVxItemComponent<T>;
+  protected _transparentParent?: AbstractVxItemComponent<T>;
+  protected __transparentChild?: AbstractVxItemComponent<T>;
   protected onDestroy$ = new Subject<void>();
   private _value!: T;
   private _disabled = false;
@@ -39,10 +37,14 @@ export abstract class AbstractVxItemComponent<T> implements OnDestroy, AfterView
 
   @Input()
   get value(): T {
-    return this._parent ? this._parent.value : this._value;
+    return this._value;
   }
 
   set value(value: T) {
+    if (this._transparentParent) {
+      this._transparentParent.value = value;
+    }
+
     if (value !== this.value) {
       this._value = value;
       this.cdr.markForCheck();
@@ -56,26 +58,30 @@ export abstract class AbstractVxItemComponent<T> implements OnDestroy, AfterView
 
   set disabled(disabled: boolean) {
     disabled = coerceBooleanProperty(disabled);
+    if (this._transparentParent) {
+      this._transparentParent.disabled = disabled;
+    }
+
     if (disabled !== this.disabled) {
       this._disabled = disabled;
       this.cdr.markForCheck();
     }
   }
 
-  get _parent(): AbstractVxItemComponent<T> | undefined {
-    return this.__parent;
+  get _transparentChild(): AbstractVxItemComponent<T> | undefined {
+    return this.__transparentChild;
   }
 
   @Input()
-  set _parent(parent: AbstractVxItemComponent<T> | undefined) {
-    if (!parent) {
+  set _transparentChild(wrappedItem: AbstractVxItemComponent<T> | undefined) {
+    if (!wrappedItem) {
       return;
     }
 
-    parent._child = this;
-    this._template = parent._template;
-    this.__parent = parent;
-    this.select.pipe(takeUntil(this.onDestroy$)).subscribe((value: T) => parent._handleSelect());
+    this.value = wrappedItem.value;
+    this.disabled = wrappedItem.disabled;
+    wrappedItem._transparentParent = this;
+    this.__transparentChild = wrappedItem;
   }
 
   ngOnDestroy(): void {
@@ -83,25 +89,11 @@ export abstract class AbstractVxItemComponent<T> implements OnDestroy, AfterView
     this.onDestroy$.complete();
   }
 
-  ngAfterViewInit(): void {
-    if (this._child) {
-      return; // Do not render
-    }
-
-    if (this.__parent && this.__parent.embeddedView) {
-      this.__parent.embeddedView.destroy();
-      this.__parent.embeddedView = undefined;
-    }
-
-    if (this.embeddedView) {
-      this.embeddedView.destroy();
-    }
-
-    this.embeddedView = this.container.createEmbeddedView(this._template, null, 0);
-    // this.embeddedView.detectChanges();
-  }
-
   _handleSelect(): void {
+    if (this._transparentChild) {
+      this._transparentChild._handleSelect()
+    }
+
     if (this.disabled) {
       return;
     }

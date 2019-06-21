@@ -1,4 +1,4 @@
 <ng-template>
   <ng-content></ng-content>
 </ng-template>
-<ng-container #container></ng-container>
+<ng-container [ngTemplateOutlet]="_transparentChild?._template || _template"></ng-container>

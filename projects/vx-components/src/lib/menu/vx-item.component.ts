@@ -3,7 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  Inject,
+  Inject, Input,
   Optional,
   ViewEncapsulation
 } from '@angular/core';
@@ -37,8 +37,8 @@ export class VxItemComponent<T> extends AbstractVxItemComponent<T> {
   }
 
   getTextContent(): string {
-    if (this._child) {
-      return this._child.getTextContent();
+    if (this._transparentParent) {
+      return this._transparentParent.getTextContent();
     }
     return this._el.nativeElement.textContent || '';
   }
