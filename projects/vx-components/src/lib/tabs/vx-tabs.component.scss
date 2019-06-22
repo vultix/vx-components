@@ -6,7 +6,7 @@ $tabLabelBorderRadius: 8px;
 $tabLabelVerticalPadding: 5px;
 $tabLabelBoxSize: 6px;
 
-:host {
+.vx-tabs-component {
   display: flex;
   flex-direction: column;
   max-height: inherit;
@@ -15,7 +15,8 @@ $tabLabelBoxSize: 6px;
 
 .vx-tab-labels {
   height: $tabHeight;
-  overflow: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
   white-space: nowrap;
   position: relative;
   padding-left: 5px;
@@ -73,6 +74,7 @@ $tabLabelBoxSize: 6px;
   border-bottom-right-radius: $borderRadius;
   z-index: 30;
   overflow: hidden;
+  flex: 1;
 }
 
 $tabLabelSeparatorHeight: 22px;

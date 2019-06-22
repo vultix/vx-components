@@ -161,9 +161,11 @@ export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDest
   protected abstract getNativeValue(): T;
 
   protected setValueFromNative(value: T): void {
-    this.value = value;
-    this.valueChange.emit(value);
-    this.onTouchFn();
+    if (value !== this.value) {
+      this.value = value;
+      this.valueChange.emit(value);
+      this.onTouchFn();
+    }
   }
 
   protected _dirtyCheckNativeValue(): void {

@@ -20,7 +20,10 @@ import { VxTabComponent } from './vx-tab.component';
   templateUrl: 'vx-tabs.component.html',
   styleUrls: ['vx-tabs.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  host: {
+    'class': 'vx-tabs-component'
+  }
 })
 export class VxTabsComponent implements AfterViewInit {
   /**
