@@ -1,0 +1,17 @@
+<div>
+  <vx-form-field>
+    <input vxFormField [(value)]="max" label="max">
+  </vx-form-field>
+
+  <vx-form-field>
+    <input vxFormField [(value)]="min" label="min">
+  </vx-form-field>
+
+  <vx-form-field>
+    <input vxFormField [(value)]="step" label="step">
+  </vx-form-field>
+
+</div>
+<vx-slider #slider [step]="step" [max]="max" [min]="min"></vx-slider>
+
+{{slider.value}}

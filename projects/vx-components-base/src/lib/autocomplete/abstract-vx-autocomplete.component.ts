@@ -1,3 +1,4 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   AfterContentInit,
   AfterViewInit,
@@ -11,7 +12,7 @@ import { FormGroupDirective, NgControl, NgForm } from '@angular/forms';
 import { startWith, takeUntil } from 'rxjs/operators';
 import { AbstractVxFormFieldDirective } from '../form-field';
 import { AbstractVxItemComponent, AbstractVxMenuComponent, AttachedPositionStrategy } from '../menu';
-import { coerceBooleanProperty, ErrorStateMatcher, VxFormComponent } from '../shared';
+import { ErrorStateMatcher, VxFormComponent } from '../shared';
 import { AutocompleteFilterFunction, defaultAutocompleteFilterFunction } from './autocomplete-filter-function';
 
 export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxItemComponent<T>>

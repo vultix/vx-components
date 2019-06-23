@@ -1,7 +1,8 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { ChangeDetectorRef, Input, OnChanges, OnDestroy, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 import { AbstractControl, AbstractControlDirective, FormControl, FormGroupDirective, NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { coerceBooleanProperty, ErrorStateMatcher } from '../shared';
+import { ErrorStateMatcher } from '../shared';
 import { AbstractVxStepperComponent } from './abstract-vx-stepper.component';
 
 export abstract class AbstractVxStepComponent extends ErrorStateMatcher implements OnChanges, OnDestroy {

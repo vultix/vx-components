@@ -1,6 +1,7 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { ChangeDetectorRef, Input, Output } from '@angular/core';
 import { FormGroupDirective, NgControl, NgForm } from '@angular/forms';
-import { coerceBooleanProperty, ErrorStateMatcher, VxFormComponent } from '../shared';
+import { ErrorStateMatcher, VxFormComponent } from '../shared';
 
 export abstract class AbstractVxCheckboxComponent extends VxFormComponent<boolean> {
   @Output() checkedChange = this.valueChange;

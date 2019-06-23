@@ -9,6 +9,7 @@
 @import "./themes/stepper";
 @import "./themes/dialog";
 @import "./themes/spinner";
+@import "./themes/slider";
 
 @mixin vx-all-components($colors: ()) {
   $colors: vx-prepare-colors($colors);
@@ -23,6 +24,7 @@
   @include vx-stepper-theme($colors);
   @include vx-dialog-theme($colors);
   @include vx-spinner-theme($colors);
+  @include vx-slider-theme($colors);
 }
 
 .vx-visually-hidden {

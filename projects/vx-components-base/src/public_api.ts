@@ -12,3 +12,4 @@ export * from './lib/checkbox/public_api';
 export * from './lib/vertical-expander/public_api';
 export * from './lib/stepper/public_api';
 export * from './lib/dialog/public_api';
+export * from './lib/slider/public_api';

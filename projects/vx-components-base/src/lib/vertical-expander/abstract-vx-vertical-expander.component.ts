@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Input } from '@angular/core';
-import { coerceBooleanProperty } from '../shared';
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 
 export abstract class AbstractVxVerticalExpanderComponent implements AfterViewInit {
 

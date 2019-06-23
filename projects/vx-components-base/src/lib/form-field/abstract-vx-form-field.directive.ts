@@ -1,7 +1,8 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { ChangeDetectorRef, ElementRef, Input } from '@angular/core';
 import { FormGroupDirective, NgControl, NgForm } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { coerceBooleanProperty, ErrorStateMatcher, VxFormComponent } from '../shared';
+import { ErrorStateMatcher, VxFormComponent } from '../shared';
 
 export abstract class AbstractVxFormFieldDirective<T> extends VxFormComponent<string> {
   /**

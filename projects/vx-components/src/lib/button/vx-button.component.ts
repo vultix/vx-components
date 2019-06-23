@@ -1,3 +1,4 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -7,7 +8,6 @@ import {
   Optional,
   ViewEncapsulation
 } from '@angular/core';
-import { coerceBooleanProperty } from 'vx-components-base';
 import { VxThemeColor } from '../shared/vx-theme-color';
 import { VxButtonVariation } from './vx-button-variation';
 import { VX_BUTTON_DEFAULT_COLOR, VX_BUTTON_DEFAULT_VARIATION } from './vx-button.tokens';

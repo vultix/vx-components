@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { coerceBooleanProperty } from '../shared';
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { AbstractVxMenuComponent } from './abstract-vx-menu.component';
 
 let _vxItemIdCounter = 0;

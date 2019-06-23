@@ -12,3 +12,4 @@ export * from './stepper/public_api';
 export * from './dialog/public_api';
 export * from './shared/public_api';
 export * from './spinner/public-api';
+export * from './slider/public-api';

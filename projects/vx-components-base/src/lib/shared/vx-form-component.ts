@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, DoCheck, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormGroupDirective, NgControl, NgForm } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { coerceBooleanProperty } from './coercion';
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { ErrorStateMatcher } from './error-options';
 
 // A counter for the unique id for the form element
@@ -43,6 +43,7 @@ export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDest
   ) {
 
   }
+
   @Input()
   set id(id: string) {
     if (id !== this._id) {
@@ -50,6 +51,7 @@ export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDest
       this.cdr.markForCheck();
     }
   }
+
   get id(): string {
     return this._id;
   }
@@ -122,7 +124,7 @@ export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDest
   }
 
   ngOnInit(): void {
-    // this._lastNativeValue = this.value;
+    this._lastNativeValue = this.value;
   }
 
   ngOnDestroy(): void {
@@ -161,11 +163,9 @@ export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDest
   protected abstract getNativeValue(): T;
 
   protected setValueFromNative(value: T): void {
-    if (value !== this.value) {
-      this.value = value;
-      this.valueChange.emit(value);
-      this.onTouchFn();
-    }
+    this.value = value;
+    this.valueChange.emit(value);
+    this.onTouchFn();
   }
 
   protected _dirtyCheckNativeValue(): void {

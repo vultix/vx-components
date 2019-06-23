@@ -1,3 +1,4 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -6,7 +7,7 @@ import {
   QueryList,
   ViewEncapsulation
 } from '@angular/core';
-import { AbstractVxStepperComponent, VX_STEPPER_TOKEN, coerceBooleanProperty } from 'vx-components-base';
+import { AbstractVxStepperComponent, VX_STEPPER_TOKEN } from 'vx-components-base';
 import { VxStepComponent } from './vx-step.component';
 
 @Component({

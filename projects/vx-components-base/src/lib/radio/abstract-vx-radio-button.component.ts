@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import { startWith, takeUntil } from 'rxjs/operators';
-import { coerceBooleanProperty } from '../shared';
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { AbstractVxRadioGroupComponent } from './abstract-vx-radio-group.component';
 
 export abstract class AbstractVxRadioButtonComponent<T> implements OnDestroy, OnInit, OnChanges {

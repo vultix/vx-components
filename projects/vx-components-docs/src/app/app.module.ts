@@ -3,6 +3,8 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 import { VxComponentsModule } from 'vx-components';
+import { VxSliderComponent } from '../../../vx-components/src/lib/slider/vx-slider.component';
+import { VxSliderModule } from '../../../vx-components/src/lib/slider/vx-slider.module';
 
 import { AppComponent } from './app.component';
 import { VxAutocompleteDocsComponent } from './autocomplete-docs/vx-autocomplete-docs.component';
@@ -14,6 +16,7 @@ import { VxFormFieldDocsComponent } from './form-field-docs/vx-form-field-docs.c
 import { VxMenuDocsComponent } from './menu-docs/vx-menu-docs.component';
 import { VxPagerDocsComponent } from './pager-docs/vx-pager-docs.component';
 import { VxRadioDocsComponent } from './radio-docs/vx-radio-docs.component';
+import { VxSliderDocsComponent } from './slider-docs/vx-slider-docs.component';
 import { VxSpinnerDocsComponent } from './spinner-docs/vx-spinner-docs.component';
 import { VxStepperDocsComponent } from './stepper-docs/vx-stepper-docs.component';
 import { VxTabsDocsComponent } from './tabs-docs/vx-tabs-docs.component';
@@ -33,7 +36,8 @@ const routes: Routes = [
   {path: 'stepper', component: VxStepperDocsComponent},
   {path: 'vertical-expander', component: VxVerticalExpanderDocsComponent},
   {path: 'dialog', component: VxDialogDocsComponent},
-  {path: 'spinner', component: VxSpinnerDocsComponent}
+  {path: 'spinner', component: VxSpinnerDocsComponent},
+  {path: 'slider', component: VxSliderDocsComponent}
 ];
 
 @NgModule({
@@ -51,7 +55,8 @@ const routes: Routes = [
     VxVerticalExpanderDocsComponent,
     VxDialogDocsComponent,
     AnimalDialogComponent,
-    VxSpinnerDocsComponent
+    VxSpinnerDocsComponent,
+    VxSliderDocsComponent
   ],
   entryComponents: [
     AnimalDialogComponent

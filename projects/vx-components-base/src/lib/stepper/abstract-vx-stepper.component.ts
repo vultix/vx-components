@@ -1,5 +1,6 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { AfterContentInit, ChangeDetectorRef, EventEmitter, Input, Output, QueryList } from '@angular/core';
-import { clampNumber, coerceBooleanProperty } from '../shared';
+import { clampNumber } from '../shared';
 import { AbstractVxStepComponent } from './abstract-vx-step.component';
 
 export abstract class AbstractVxStepperComponent implements AfterContentInit {

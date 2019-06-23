@@ -3,6 +3,7 @@
   "version": "2.0.0-alpha.7",
   "peerDependencies": {
     "@angular/common": "^8.0.0",
-    "@angular/core": "^8.0.0"
+    "@angular/core": "^8.0.0",
+    "@angular/cdk": "^8.0.1"
   }
 }

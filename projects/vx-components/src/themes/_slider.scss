@@ -1,0 +1,23 @@
+@mixin vx-slider-theme($colors) {
+  $colors: vx-prepare-colors($colors);
+  $primary: map_get($colors, primary);
+  $foreground: map_get($colors, foreground);
+  $background: map_get($colors, background);
+  $accent: map_get($colors, accent);
+  $error: map_get($colors, error);
+  $border: map_get($colors, borderLight);
+
+  .vx-slider {
+    .vx-slider-bar {
+      background: $border;
+    }
+
+    .vx-slider-bar-fill {
+        background: $primary;
+    }
+
+    .vx-slider-handle {
+      background: $primary;
+    }
+  }
+}

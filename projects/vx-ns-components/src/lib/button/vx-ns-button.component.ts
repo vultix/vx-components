@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { View } from 'tns-core-modules/ui/core/view';
 import { TouchGestureEventData } from 'tns-core-modules/ui/gestures';
-import { coerceBooleanProperty } from 'vx-components-base';
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 
 @Component({
   selector: '[vx-ns-button]', // tslint:disable-line

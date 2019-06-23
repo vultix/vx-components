@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import { startWith, takeUntil } from 'rxjs/operators';
-import { coerceBooleanProperty } from '../shared';
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { AbstractVxItemComponent } from './abstract-vx-item.component';
 import { AttachedPosition, AttachedPositionStrategy } from './position-strategy';
 
