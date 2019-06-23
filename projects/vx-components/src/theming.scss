@@ -10,6 +10,7 @@
 @import "./themes/dialog";
 @import "./themes/spinner";
 @import "./themes/slider";
+@import "./themes/slide-toggle";
 
 @mixin vx-all-components($colors: ()) {
   $colors: vx-prepare-colors($colors);
@@ -25,6 +26,7 @@
   @include vx-dialog-theme($colors);
   @include vx-spinner-theme($colors);
   @include vx-slider-theme($colors);
+  @include vx-slide-toggle-theme($colors);
 }
 
 .vx-visually-hidden {

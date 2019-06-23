@@ -1,5 +1,5 @@
 import { Directive, forwardRef } from '@angular/core';
-import { CheckboxRequiredValidator, NG_VALIDATORS } from '@angular/forms';
+import { AbstractControl, CheckboxRequiredValidator, NG_VALIDATORS, ValidationErrors } from '@angular/forms';
 
 @Directive({
   /* tslint:disable-next-line:directive-selector */
@@ -11,4 +11,8 @@ import { CheckboxRequiredValidator, NG_VALIDATORS } from '@angular/forms';
   }],
   host: {'[attr.required]': 'required ? "" : null'}
 })
-export class VxCheckboxRequiredValidatorDirective extends CheckboxRequiredValidator {}
+export class VxCheckboxRequiredValidatorDirective extends CheckboxRequiredValidator {
+  validate(control: AbstractControl): ValidationErrors | null {
+    return super.validate(control);
+  }
+}

@@ -1,0 +1,8 @@
+<form #form="ngForm">
+  {{form.invalid}}
+  <vx-slide-toggle name="Hello!" #checkbox [disabled]="disable.checked" ngModel required>Check me!</vx-slide-toggle>
+  {{checkbox.checked}}
+
+  <vx-slide-toggle ngModel name="first!" #disable>Disable</vx-slide-toggle>
+
+</form>

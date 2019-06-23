@@ -69,8 +69,4 @@ export class VxTabsComponent implements AfterViewInit {
   previous(): void {
     this.selectedTab--;
   }
-
-  test(tab: VxTabComponent): void {
-    debugger;
-  }
 }

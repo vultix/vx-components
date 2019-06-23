@@ -77,10 +77,6 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
   ) {
     super(cdr, errorStateMatcher, ngControl, parentForm, parentFormGroup);
 
-    if (ngControl) {
-      ngControl.valueAccessor = this;
-    }
-
     if (filterFunction) {
       this.filterFunction = filterFunction;
     }
@@ -247,7 +243,7 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
         existing.splice(idx, 1);
       }
 
-      this.setValueFromNative(existing);
+      this.setValueFromUser(existing);
     }
   }
 
@@ -278,7 +274,7 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
 
     if (this.shouldVerifyValue && this.multiple) {
       if (!this.value || !(this.value instanceof Array)) {
-        this.setValueFromNative([]);
+        this.setValueFromUser([]);
       } else {
         // Ensure the selected value is still in the list of items
         const newVals: T[] = [];
@@ -292,14 +288,14 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
         });
 
         if (changed) {
-          this.setValueFromNative(newVals);
+          this.setValueFromUser(newVals);
         }
       }
     } else if (this.shouldVerifyValue && !this.multiple && this.value) {
       const item = this.getItemByValue(this.value as T);
 
       if (!item) {
-        this.setValueFromNative(undefined as any as T);
+        this.setValueFromUser(undefined as any as T);
       }
     }
 
@@ -323,9 +319,9 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
     if (this.multiple) {
       const existing = this.value;
       (existing as T[]).push(val);
-      this.setValueFromNative(this.value);
+      this.setValueFromUser(this.value);
     } else {
-      this.setValueFromNative(val);
+      this.setValueFromUser(val);
     }
 
     this.handleFieldSearchChange('', false);

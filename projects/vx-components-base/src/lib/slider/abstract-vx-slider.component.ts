@@ -97,14 +97,14 @@ export abstract class AbstractVxSliderComponent extends VxFormComponent<number> 
 
   protected updateValueForTouch(position: number, barWidth: number, barLeft: number, barRight: number) {
     if (position <= barLeft && this.value !== this.min) {
-      this.setValueFromNative(this.min);
+      this.setValueFromUser(this.min);
     } else if (position >= barRight && this.value !== this.max) {
-      this.setValueFromNative(this.max);
+      this.setValueFromUser(this.max);
     } else if (position > barLeft && position < barRight) {
       const pct = (position - barLeft) / barWidth;
       const range = this.max - this.min;
       const newValue = pct * range + this.min;
-      this.setValueFromNative(newValue);
+      this.setValueFromUser(newValue);
     }
 
   }

@@ -1,3 +1,4 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -25,9 +26,9 @@ import { AbstractVxCheckboxComponent, ErrorStateMatcher } from 'vx-components-ba
     '[attr.tabIndex]': 'tabIndex',
     '(focusin)': '_setHasFocus(true)',
     '(focusout)': '_setHasFocus(false)',
-    '(keydown.space)': '_toggleFromNative()',
-    '(keydown.enter)': '_toggleFromNative()',
-    '(click)': '_toggleFromNative()'
+    '(keydown.space)': '_toggleFromUser()',
+    '(keydown.enter)': '_toggleFromUser()',
+    '(click)': '_toggleFromUser()'
   }
 })
 

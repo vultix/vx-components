@@ -1,0 +1,34 @@
+@mixin vx-slide-toggle-theme($colors) {
+  $colors: vx-prepare-colors($colors);
+  $primary: map_get($colors, primary);
+  $foreground: map_get($colors, foreground);
+  $background: map_get($colors, background);
+  $accent: map_get($colors, accent);
+  $error: map_get($colors, error);
+  $border: map_get($colors, borderLight);
+
+  .vx-slide-toggle-bar {
+    background: transparentize($foreground, 0.75);
+  }
+  .vx-slide-toggle-handle {
+    background: $background;
+    box-shadow: 0 2px 1px -1px transparentize($foreground, 0.8),
+    0 1px 1px 0 transparentize($foreground, 0.86),
+    0 1px 3px 0 transparentize($background, 0.88);
+  }
+
+  .vx-slide-toggle.vx-checked {
+    .vx-slide-toggle-bar {
+      background: transparentize($primary, 0.75);
+    }
+    .vx-slide-toggle-handle {
+      background: $primary;
+    }
+  }
+
+  .vx-slide-toggle.vx-error {
+    .vx-slide-toggle-bar {
+      background: transparentize($error, 0.75);
+    }
+  }
+}

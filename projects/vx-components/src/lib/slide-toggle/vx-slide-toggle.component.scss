@@ -1,0 +1,44 @@
+.vx-slide-toggle {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  height: 24px;
+  max-width: 100%;
+  line-height: 24px;
+  user-select: none;
+  outline: 0;
+  cursor: pointer;
+
+  &.vx-disabled {
+    opacity: .65;
+    pointer-events: none;
+  }
+}
+
+.vx-slide-toggle-wrapper {
+  position: relative;
+  margin: 0 10px 0 6px;
+}
+
+.vx-slide-toggle-bar {
+  width: 30px;
+  height: 14px;
+  border-radius: 8px;
+}
+
+.vx-slide-toggle-handle {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  border-radius: 50%;
+  top: -3px;
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
+
+  &.transition {
+    transition: all .3s ease;
+  }
+}

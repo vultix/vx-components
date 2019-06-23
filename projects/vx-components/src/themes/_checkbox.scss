@@ -19,6 +19,16 @@
       box-shadow: 0 0 2px 1px transparentize($primary, .5);
     }
 
+    &.vx-error{
+      .vx-checkbox-box {
+        background: mix($error, $background, 10%)
+      }
+
+      &.vx-focused .vx-checkbox-box {
+        box-shadow: 0 0 2px 1px transparentize($error, .5);
+      }
+    }
+
     .vx-checkbox-box {
       border: 1px solid $border;
 

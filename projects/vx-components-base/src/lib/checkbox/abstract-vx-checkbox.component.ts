@@ -14,9 +14,6 @@ export abstract class AbstractVxCheckboxComponent extends VxFormComponent<boolea
     parentFormGroup?: FormGroupDirective
   ) {
     super(cdr, errorStateMatcher, control, parentForm, parentFormGroup);
-    if (control) {
-      control.valueAccessor = this;
-    }
   }
 
   @Input()
@@ -27,8 +24,8 @@ export abstract class AbstractVxCheckboxComponent extends VxFormComponent<boolea
     return this.value;
   }
 
-  _toggleFromNative(): boolean {
-    this.setValueFromNative(!this.checked);
+  _toggleFromUser(): boolean {
+    this.setValueFromUser(!this.checked);
     return false;
   }
 
@@ -36,4 +33,13 @@ export abstract class AbstractVxCheckboxComponent extends VxFormComponent<boolea
     this.checked = !this.checked;
   }
 
+  writeValue(obj: boolean): void {
+    obj = !!obj;
+    super.writeValue(obj);
+  }
+
+  protected handleValueSet(value: boolean): void {
+    value = coerceBooleanProperty(value);
+    super.handleValueSet(value);
+  }
 }

@@ -7,6 +7,7 @@ import { VxFormFieldModule } from './form-field/vx-form-field.module';
 import { VxMenuModule } from './menu/vx-menu.module';
 import { VxPagerModule } from './pager/vx-pager.module';
 import { VxRadioModule } from './radio/vx-radio.module';
+import { VxSlideToggleModule } from './slide-toggle/vx-slide-toggle.module';
 import { VxSliderModule } from './slider/vx-slider.module';
 import { VxSpinnerModule } from './spinner/vx-spinner.module';
 import { VxStepperModule } from './stepper/vx-stepper.module';
@@ -26,7 +27,8 @@ const modules = [
   VxVerticalExpanderModule,
   VxDialogModule,
   VxSpinnerModule,
-  VxSliderModule
+  VxSliderModule,
+  VxSlideToggleModule
 ];
 
 @NgModule({

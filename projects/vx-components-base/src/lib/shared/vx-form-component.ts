@@ -41,7 +41,9 @@ export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDest
     protected parentForm?: NgForm,
     protected parentFormGroup?: FormGroupDirective
   ) {
-
+    if (ngControl) {
+      ngControl.valueAccessor = this;
+    }
   }
 
   @Input()
@@ -114,12 +116,16 @@ export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDest
 
   writeValue(obj: T): void {
     this.lastRegisteredValue = obj;
-    this.setValueFromNative(obj);
+    this.value = obj;
   }
 
   _setHasFocus(hasFocus: boolean): void {
     this.focused = hasFocus;
     this.focusedChange.emit(hasFocus);
+
+    if (!hasFocus) {
+      this.onTouchFn();
+    }
     this.cdr.markForCheck();
   }
 
@@ -162,7 +168,7 @@ export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDest
 
   protected abstract getNativeValue(): T;
 
-  protected setValueFromNative(value: T): void {
+  protected setValueFromUser(value: T): void {
     this.value = value;
     this.valueChange.emit(value);
     this.onTouchFn();
@@ -173,7 +179,7 @@ export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDest
 
     if (this._lastNativeValue !== val) {
       this._lastNativeValue = val;
-      this.setValueFromNative(val);
+      this.setValueFromUser(val);
     }
   }
 

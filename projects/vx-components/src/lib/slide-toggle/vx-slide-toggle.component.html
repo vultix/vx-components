@@ -1,0 +1,6 @@
+<input type="checkbox" #checkbox [name]="name" [id]="id" hidden>
+
+<div class="vx-slide-toggle-wrapper" [class.checked]="checked">
+  <div class="vx-slide-toggle-bar"></div>
+  <div class="vx-slide-toggle-handle" [class.transition]="_transitionHandle" [style.left.px]="_handleLeft"></div>
+</div>

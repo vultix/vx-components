@@ -16,6 +16,7 @@ import { VxFormFieldDocsComponent } from './form-field-docs/vx-form-field-docs.c
 import { VxMenuDocsComponent } from './menu-docs/vx-menu-docs.component';
 import { VxPagerDocsComponent } from './pager-docs/vx-pager-docs.component';
 import { VxRadioDocsComponent } from './radio-docs/vx-radio-docs.component';
+import { VxSlideToggleDocsComponent } from './slide-toggle-docs/vx-slide-toggle-docs.component';
 import { VxSliderDocsComponent } from './slider-docs/vx-slider-docs.component';
 import { VxSpinnerDocsComponent } from './spinner-docs/vx-spinner-docs.component';
 import { VxStepperDocsComponent } from './stepper-docs/vx-stepper-docs.component';
@@ -37,7 +38,8 @@ const routes: Routes = [
   {path: 'vertical-expander', component: VxVerticalExpanderDocsComponent},
   {path: 'dialog', component: VxDialogDocsComponent},
   {path: 'spinner', component: VxSpinnerDocsComponent},
-  {path: 'slider', component: VxSliderDocsComponent}
+  {path: 'slider', component: VxSliderDocsComponent},
+  {path: 'slide-toggle', component: VxSlideToggleDocsComponent}
 ];
 
 @NgModule({
@@ -56,7 +58,8 @@ const routes: Routes = [
     VxDialogDocsComponent,
     AnimalDialogComponent,
     VxSpinnerDocsComponent,
-    VxSliderDocsComponent
+    VxSliderDocsComponent,
+    VxSlideToggleDocsComponent
   ],
   entryComponents: [
     AnimalDialogComponent

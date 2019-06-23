@@ -19,9 +19,6 @@ export abstract class AbstractVxRadioGroupComponent<T> extends VxFormComponent<T
     parentFormGroup?: FormGroupDirective
   ) {
     super(cdr, errorStateMatcher, control, parentForm, parentFormGroup);
-    if (control) {
-      control.valueAccessor = this;
-    }
   }
 
   get name(): string {
@@ -65,7 +62,7 @@ export abstract class AbstractVxRadioGroupComponent<T> extends VxFormComponent<T
   }
 
   _handleButtonSelect(value: T): void {
-    this.setValueFromNative(value);
+    this.setValueFromUser(value);
   }
 
   protected getNativeValue(): T {
