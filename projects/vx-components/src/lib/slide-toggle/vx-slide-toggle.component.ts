@@ -45,7 +45,7 @@ export class VxSlideToggleComponent extends AbstractVxCheckboxComponent {
   @Input() name!: string;
 
   _transitionHandle = true;
-  _handleLeft = 0;
+  _handleLeft = MIN_HANDLE_LEFT;
 
   private touchX = 0;
   private touchDown = false;

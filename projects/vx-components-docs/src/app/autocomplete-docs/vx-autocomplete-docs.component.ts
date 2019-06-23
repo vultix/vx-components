@@ -8,6 +8,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/
 })
 
 export class VxAutocompleteDocsComponent {
+  selectedState = null;
   selectedStates = [];
   myStates: any[] = [];
   states = [

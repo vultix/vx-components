@@ -15,6 +15,10 @@
 
   .vx-autocomplete-menu {
     border: 1px solid $primary;
+
+    &.vx-error {
+      border: 1px solid $error;
+    }
   }
 
 }

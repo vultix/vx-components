@@ -100,7 +100,7 @@ export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDest
 
   registerOnChange(fn: any): void {
     this.onChangeFn = (obj: T) => {
-      this.lastRegisteredValue = obj;
+      this.lastRegisteredValue = this.cloneValue(obj);
       fn(obj);
     };
   }
@@ -115,7 +115,7 @@ export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDest
   }
 
   writeValue(obj: T): void {
-    this.lastRegisteredValue = obj;
+    this.lastRegisteredValue = this.cloneValue(obj);
     this.value = obj;
   }
 
@@ -195,5 +195,12 @@ export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDest
 
       this.cdr.markForCheck();
     }
+  }
+
+  /**
+   * If T is an array or object this function should be overridden and return a clone.
+   */
+  protected cloneValue(value: T): T {
+    return value;
   }
 }

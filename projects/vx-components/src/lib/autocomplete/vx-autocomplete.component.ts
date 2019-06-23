@@ -3,7 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   ContentChildren,
-  ElementRef,
+  ElementRef, forwardRef,
   Inject,
   Input,
   Optional,
@@ -12,7 +12,7 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import { FormGroupDirective, NgControl, NgForm } from '@angular/forms';
+import { FormGroupDirective, NG_VALUE_ACCESSOR, NgControl, NgForm } from '@angular/forms';
 import {
   AbstractVxAutocompleteComponent,
   AUTOCOMPLETE_FILTER_FUNCTION,

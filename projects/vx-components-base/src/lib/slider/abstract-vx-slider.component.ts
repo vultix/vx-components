@@ -75,7 +75,16 @@ export abstract class AbstractVxSliderComponent extends VxFormComponent<number> 
   }
 
   protected clampValue(value: number): number {
-    return parseFloat(clampNumber(roundTo(value, this.step), this.min, this.max).toFixed(this._decimalCount));
+    if (value <= this.min) {
+      return this.min;
+    }
+    if (value >= this.max) {
+      return this.max;
+    }
+
+    value = roundTo(value - this.min, this.step) + this.min;
+
+    return parseFloat(clampNumber(value, this.min, this.max).toFixed(this._decimalCount));
   }
 
   ngDoCheck(): void {
@@ -95,17 +104,10 @@ export abstract class AbstractVxSliderComponent extends VxFormComponent<number> 
     return this._value;
   }
 
-  protected updateValueForTouch(position: number, barWidth: number, barLeft: number, barRight: number) {
-    if (position <= barLeft && this.value !== this.min) {
-      this.setValueFromUser(this.min);
-    } else if (position >= barRight && this.value !== this.max) {
-      this.setValueFromUser(this.max);
-    } else if (position > barLeft && position < barRight) {
-      const pct = (position - barLeft) / barWidth;
-      const range = this.max - this.min;
-      const newValue = pct * range + this.min;
-      this.setValueFromUser(newValue);
-    }
-
+  protected updateValueForTouch(position: number, barWidth: number, barLeft: number) {
+    const pct = (position - barLeft) / barWidth;
+    const range = this.max - this.min;
+    const newValue = pct * range + this.min;
+    this.setValueFromUser(newValue);
   }
 }

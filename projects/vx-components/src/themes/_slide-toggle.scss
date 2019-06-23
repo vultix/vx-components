@@ -7,9 +7,18 @@
   $error: map_get($colors, error);
   $border: map_get($colors, borderLight);
 
+  .vx-slide-toggle {
+    outline: none;
+
+    &:focus .vx-slide-toggle-handle {
+      box-shadow: 0 0 4px 2px transparentize($primary, .5);
+    }
+  }
+
   .vx-slide-toggle-bar {
     background: transparentize($foreground, 0.75);
   }
+
   .vx-slide-toggle-handle {
     background: $background;
     box-shadow: 0 2px 1px -1px transparentize($foreground, 0.8),
@@ -30,5 +39,10 @@
     .vx-slide-toggle-bar {
       background: transparentize($error, 0.75);
     }
+
+    &:focus .vx-slide-toggle-handle {
+      box-shadow: 0 0 4px 2px transparentize($error, .5);
+    }
   }
+
 }

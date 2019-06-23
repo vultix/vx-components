@@ -1,5 +1,6 @@
 <vx-form-field [vxAttachMenu]="menu" (click)="focus()" class="vx-autocomplete-form-field"
-               [class.vx-focused]="menu.visible || field.focused" (keyup.backspace)="_handleBackspace($event)">
+               [class.vx-focused]="menu.visible || field.focused"
+               (keyup.backspace)="_handleBackspace($event)" [class.vx-error]="errorState">
 
   <button vx-button color="primary" *ngFor="let item of _selectedItems" class="vx-autocomplete-chip"
           (click)="_removeItem(item.value); $event.stopPropagation()"
@@ -20,7 +21,8 @@
   </div>
 </vx-form-field>
 
-<vx-menu #menu [positionStrategy]="_positionStrategy" width="match" [defaultText]="defaultText" class="vx-autocomplete-menu">
+<vx-menu #menu [positionStrategy]="_positionStrategy" width="match" [defaultText]="defaultText"
+         class="vx-autocomplete-menu" [class.vx-error]="errorState">
   <vx-item *ngFor="let item of _filteredItems" [_transparentChild]="item">
   </vx-item>
 </vx-menu>

@@ -12,7 +12,7 @@ import { FormGroupDirective, NgControl, NgForm } from '@angular/forms';
 import { startWith, takeUntil } from 'rxjs/operators';
 import { AbstractVxFormFieldDirective } from '../form-field';
 import { AbstractVxItemComponent, AbstractVxMenuComponent, AttachedPositionStrategy } from '../menu';
-import { ErrorStateMatcher, VxFormComponent } from '../shared';
+import { compareArrays, ErrorStateMatcher, VxFormComponent } from '../shared';
 import { AutocompleteFilterFunction, defaultAutocompleteFilterFunction } from './autocomplete-filter-function';
 
 export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxItemComponent<T>>
@@ -223,13 +223,13 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
   }
 
   _showMenu(): void {
-    this.onTouchFn();
     if (!this._menu.visible) {
       this._menu.visible = true;
     }
   }
 
   _hideMenu(): void {
+    this.onTouchFn();
     if (this._menu.visible) {
       this._menu.visible = false;
     }
@@ -365,6 +365,8 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
       // If the ngControl isn't aware of this value make it aware
       if (this.lastRegisteredValue !== value) {
         this.onChangeFn(value);
+      } else if (this.multiple && !compareArrays(this.lastRegisteredValue as any as T[], value as any as T[])) {
+        this.onChangeFn(value);
       }
 
       this.shouldVerifyValue = true;
@@ -376,6 +378,14 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
       }
 
       this.cdr.markForCheck();
+    }
+  }
+
+  protected cloneValue(value: T[] | T): T[] | T {
+    if (value instanceof Array) {
+      return value.slice(0);
+    } else {
+      return value;
     }
   }
 }

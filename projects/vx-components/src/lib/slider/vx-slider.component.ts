@@ -74,8 +74,8 @@ export class VxSliderComponent extends AbstractVxSliderComponent {
   private updateValue(event: MouseEvent | TouchEvent) {
     const {x} = getTouchPos(event);
     const bar = this._bar.nativeElement as HTMLDivElement;
-    const {left, width, right} = bar.getBoundingClientRect();
-    this.updateValueForTouch(x, width, left, right);
+    const {left, width} = bar.getBoundingClientRect();
+    this.updateValueForTouch(x, width, left);
 
     event.stopPropagation();
     event.preventDefault();
