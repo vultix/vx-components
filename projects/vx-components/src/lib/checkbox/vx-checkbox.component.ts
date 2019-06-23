@@ -23,7 +23,7 @@ import { AbstractVxCheckboxComponent, ErrorStateMatcher } from 'vx-components-ba
     '[class.vx-disabled]': 'disabled',
     '[class.vx-error]': 'errorState',
     '[class.vx-focused]': 'focused',
-    '[attr.tabIndex]': 'tabIndex',
+    '[attr.tabIndex]': 'disabled ? -1 : tabIndex',
     '(focusin)': '_setHasFocus(true)',
     '(focusout)': '_setHasFocus(false)',
     '(keydown.space)': '_toggleFromUser()',

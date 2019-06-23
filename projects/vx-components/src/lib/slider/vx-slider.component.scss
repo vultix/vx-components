@@ -5,6 +5,7 @@ $barHeight: 3px;
   position: relative;
   display: inline-block;
   cursor: pointer;
+  outline: none;
 
   min-width: 150px;
   height: $handleHeight;

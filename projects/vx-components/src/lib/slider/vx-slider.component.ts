@@ -2,7 +2,7 @@ import { isPlatformBrowser } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component, ElementRef, HostListener, Inject,
+  Component, ElementRef, HostListener, Inject, Input,
   Optional, PLATFORM_ID,
   Self, ViewChild,
   ViewEncapsulation
@@ -20,11 +20,13 @@ import { getTouchPos } from '../shared/util';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    'class': 'vx-slider'
+    'class': 'vx-slider',
+    '[attr.tabIndex]': 'disabled ? -1 : tabIndex',
   }
 })
 
 export class VxSliderComponent extends AbstractVxSliderComponent {
+  @Input() tabIndex = 0;
   @ViewChild('bar', {static: false}) _bar!: ElementRef<HTMLElement>;
 
   private touching = false;
@@ -33,7 +35,8 @@ export class VxSliderComponent extends AbstractVxSliderComponent {
     errorStateMatcher: ErrorStateMatcher,
     @Optional() @Self() ngControl: NgControl,
     @Optional() parentForm: NgForm,
-    @Optional() parentFormGroup: FormGroupDirective) {
+    @Optional() parentFormGroup: FormGroupDirective,
+    private el: ElementRef<HTMLElement>) {
     super(cdr, errorStateMatcher, ngControl, parentForm, parentFormGroup);
   }
 
@@ -42,6 +45,7 @@ export class VxSliderComponent extends AbstractVxSliderComponent {
   @HostListener('mousedown', ['$event'])
   handleTouchStart(event: TouchEvent | MouseEvent): boolean {
     this.touching = true;
+    this.el.nativeElement.focus();
     return false;
   }
 
@@ -67,6 +71,20 @@ export class VxSliderComponent extends AbstractVxSliderComponent {
     }
 
     return true;
+  }
+
+  @HostListener('keydown.ArrowLeft', ['false', '1'])
+  @HostListener('keydown.ArrowRight', ['true', '1'])
+  @HostListener('keydown.shift.ArrowLeft', ['false', '10'])
+  @HostListener('keydown.shift.ArrowRight', ['true', '10'])
+  _handleArrow(goUp: boolean, multiplier: number) {
+    const amount = this.step * multiplier;
+
+    if (goUp) {
+      this.value += amount;
+    } else {
+      this.value -= amount;
+    }
   }
 
 

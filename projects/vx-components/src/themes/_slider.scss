@@ -8,16 +8,20 @@
   $border: map_get($colors, borderLight);
 
   .vx-slider {
-    .vx-slider-bar {
-      background: $border;
+    &:focus .vx-slider-handle {
+      box-shadow: 0 0 4px 2px transparentize($primary, .5);
     }
+  }
 
-    .vx-slider-bar-fill {
-        background: $primary;
-    }
+  .vx-slider-bar {
+    background: $border;
+  }
 
-    .vx-slider-handle {
-      background: $primary;
-    }
+  .vx-slider-bar-fill {
+    background: $primary;
+  }
+
+  .vx-slider-handle {
+    background: $primary;
   }
 }
