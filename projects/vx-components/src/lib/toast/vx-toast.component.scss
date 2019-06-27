@@ -1,0 +1,109 @@
+.vx-toast-container {
+
+}
+
+.vx-toast {
+  text-align: left;
+  display: inline-block;
+  overflow: hidden;
+  border-radius: 5px;
+  cursor: pointer;
+  animation: vx-toast-show .3s;
+  transition: max-height .3s ease;
+  margin-left: 6px;
+  margin-right: 6px;
+  position: relative;
+  opacity: .85;
+  //box-sizing: border-box;
+
+  &:hover {
+    opacity: 1;
+  }
+  &.vx-toast-closing {
+    max-height: 0!important;
+  }
+
+  &.vx-show-close {
+    padding-right: 26px;
+  }
+}
+
+.vx-toast-content {
+  padding: 15px;
+}
+
+//.vx-toast {
+//
+//}
+
+.vx-toast-title {
+  font-weight: bold;
+}
+
+.vx-toast-text {
+  font-size: 14px;
+}
+
+.vx-toast-close-button {
+  padding: 0;
+  position: absolute;
+  right: 8px;
+  top: 3px;
+  font-size: 20px;
+  font-weight: 700;
+  text-shadow: 0 1px 0 #fff;
+  opacity: .8;
+  line-height: 1;
+  transition: opacity .3s;
+  &:hover {
+    opacity: 1;
+  }
+}
+
+@keyframes vx-toast-show {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.85;
+  }
+}
+
+
+.vx-toast-positioner {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+
+  &[class*=" top-"] {
+    top: 0;
+    padding-top: 6px;
+    .vx-toast {
+      margin-bottom: 6px;
+    }
+  }
+
+  &[class*=" bottom-"] {
+    bottom: 0;
+
+    padding-bottom: 6px;
+
+    .vx-toast {
+      margin-top: 6px;
+    }
+  }
+
+  &[class*="-left"] {
+    left: 0;
+  }
+
+  &[class*="-right"] {
+    right: 0;
+  }
+
+  &[class*="-middle"] {
+    left: 0;
+    width: 100%;
+    text-align: center;
+  }
+}

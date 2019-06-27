@@ -11,6 +11,7 @@
 @import "./themes/spinner";
 @import "./themes/slider";
 @import "./themes/slide-toggle";
+@import "./themes/toast";
 
 @mixin vx-all-components($colors: ()) {
   $colors: vx-prepare-colors($colors);
@@ -27,6 +28,7 @@
   @include vx-spinner-theme($colors);
   @include vx-slider-theme($colors);
   @include vx-slide-toggle-theme($colors);
+  @include vx-toast-theme($colors);
 }
 
 .vx-visually-hidden {

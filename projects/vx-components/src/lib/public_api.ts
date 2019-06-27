@@ -14,3 +14,4 @@ export * from './shared/public_api';
 export * from './spinner/public-api';
 export * from './slider/public-api';
 export * from './slide-toggle/public_api';
+export * from './toast/public_api';

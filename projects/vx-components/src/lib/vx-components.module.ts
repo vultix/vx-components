@@ -12,6 +12,7 @@ import { VxSliderModule } from './slider/vx-slider.module';
 import { VxSpinnerModule } from './spinner/vx-spinner.module';
 import { VxStepperModule } from './stepper/vx-stepper.module';
 import { VxTabsModule } from './tabs/vx-tabs.module';
+import { VxToastModule } from './toast/vx-toast.module';
 import { VxVerticalExpanderModule } from './vertical-expander/vx-vertical-expander.module';
 
 const modules = [
@@ -28,7 +29,8 @@ const modules = [
   VxDialogModule,
   VxSpinnerModule,
   VxSliderModule,
-  VxSlideToggleModule
+  VxSlideToggleModule,
+  VxToastModule
 ];
 
 @NgModule({

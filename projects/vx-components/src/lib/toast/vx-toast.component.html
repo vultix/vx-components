@@ -1,0 +1,9 @@
+<div class="vx-toast-content">
+  <span class="vx-toast-close-button" *ngIf="_options?.showClose">×</span>
+
+  <div class="vx-toast-title" *ngIf="_options?.title?.length">{{_options?.title}}</div>
+  <div class="vx-toast-text" *ngIf="_options?.text?.length">{{_options?.text}}</div>
+
+  <ng-template #componentContent></ng-template>
+
+</div>

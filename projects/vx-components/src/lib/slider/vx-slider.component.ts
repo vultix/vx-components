@@ -74,9 +74,13 @@ export class VxSliderComponent extends AbstractVxSliderComponent {
   }
 
   @HostListener('keydown.ArrowLeft', ['false', '1'])
-  @HostListener('keydown.ArrowRight', ['true', '1'])
   @HostListener('keydown.shift.ArrowLeft', ['false', '10'])
+  @HostListener('keydown.ArrowDown', ['false', '1'])
+  @HostListener('keydown.shift.ArrowDown', ['false', '10'])
+  @HostListener('keydown.ArrowRight', ['true', '1'])
   @HostListener('keydown.shift.ArrowRight', ['true', '10'])
+  @HostListener('keydown.ArrowUp', ['true', '1'])
+  @HostListener('keydown.shift.ArrowUp', ['true', '10'])
   _handleArrow(goUp: boolean, multiplier: number) {
     const amount = this.step * multiplier;
 

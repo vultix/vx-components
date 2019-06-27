@@ -22,6 +22,7 @@ import { VxSpinnerDocsComponent } from './spinner-docs/vx-spinner-docs.component
 import { VxStepperDocsComponent } from './stepper-docs/vx-stepper-docs.component';
 import { VxTabsDocsComponent } from './tabs-docs/vx-tabs-docs.component';
 import { TitleService } from './title.service';
+import { VxToastDocsComponent } from './toast-docs/vx-toast-docs.component';
 import { VxVerticalExpanderDocsComponent } from './vertical-expander-docs/vx-vertical-expander-docs.component';
 
 const routes: Routes = [
@@ -39,7 +40,8 @@ const routes: Routes = [
   {path: 'dialog', component: VxDialogDocsComponent},
   {path: 'spinner', component: VxSpinnerDocsComponent},
   {path: 'slider', component: VxSliderDocsComponent},
-  {path: 'slide-toggle', component: VxSlideToggleDocsComponent}
+  {path: 'slide-toggle', component: VxSlideToggleDocsComponent},
+  {path: 'toast', component: VxToastDocsComponent}
 ];
 
 @NgModule({
@@ -59,7 +61,8 @@ const routes: Routes = [
     AnimalDialogComponent,
     VxSpinnerDocsComponent,
     VxSliderDocsComponent,
-    VxSlideToggleDocsComponent
+    VxSlideToggleDocsComponent,
+    VxToastDocsComponent
   ],
   entryComponents: [
     AnimalDialogComponent

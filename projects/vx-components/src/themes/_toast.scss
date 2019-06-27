@@ -1,0 +1,32 @@
+@mixin vx-toast-theme($colors) {
+  $colors: vx-prepare-colors($colors);
+  $primary: map_get($colors, primary);
+  $foreground: map_get($colors, foreground);
+  $background: map_get($colors, background);
+  $accent: map_get($colors, accent);
+  $error: map_get($colors, error);
+  $darkerBgFg: map_get($colors, darkerBgFg);
+  $border: map_get($colors, borderLight);
+
+  .vx-toast {
+    background: $error;
+    color: $background;
+    box-shadow: 0 0 12px transparentize($darkerBgFg, .75);
+    &.warn {
+      background: $warn;
+    }
+    &.error {
+      background: $error;
+    }
+    &.info {
+      background: $primary;
+    }
+    &.success {
+      background: $success;
+    }
+  }
+
+  .vx-toast-close-button {
+    text-shadow: 0 1px 0 $background;
+  }
+}

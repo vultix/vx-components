@@ -20,10 +20,6 @@ export function getTouchPos(event: MouseEvent | TouchEvent): { x: number, y: num
 }
 
 
-export function roundTo(toRound: number, round: number): number {
-  if (round <= 0) {
-    return toRound;
-  }
-
-  return round * Math.round(toRound / round);
+export function isDefined(item: any): boolean {
+  return item !== undefined && item !== null;
 }
