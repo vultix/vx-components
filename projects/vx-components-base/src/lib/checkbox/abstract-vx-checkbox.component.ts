@@ -18,7 +18,7 @@ export abstract class AbstractVxCheckboxComponent extends VxFormComponent<boolea
 
   @Input()
   set checked(value: boolean) {
-    this.value = coerceBooleanProperty(value);
+    this.value = value;
   }
   get checked(): boolean {
     return this.value;
@@ -38,8 +38,7 @@ export abstract class AbstractVxCheckboxComponent extends VxFormComponent<boolea
     super.writeValue(obj);
   }
 
-  protected handleValueSet(value: boolean): void {
-    value = coerceBooleanProperty(value);
-    super.handleValueSet(value);
+  protected parseValueInput(value: boolean): boolean {
+    return coerceBooleanProperty(value);
   }
 }

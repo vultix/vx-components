@@ -25,6 +25,14 @@ export function roundTo(toRound: number, round: number): number {
 
 
 export function compareArrays(a: any[], b: any[]): boolean {
+  if (a === b) {
+    return true;
+  }
+
+  if (!a || !b) {
+    return false;
+  }
+
   if (a.length !== b.length) {
     return false;
   }

@@ -170,7 +170,7 @@ export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDest
 
   protected setValueFromUser(value: T): void {
     this.value = value;
-    this.valueChange.emit(value);
+    this.valueChange.emit(this.value);
     this.onTouchFn();
   }
 
@@ -184,14 +184,16 @@ export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDest
   }
 
   protected handleValueSet(value: T): void {
+    value = this.parseValueInput(value);
+
+    // If the ngControl isn't aware of this value make it aware
+    if (this.lastRegisteredValue !== value) {
+      this.onChangeFn(value);
+    }
+
     if (value !== this.value) {
       this._lastNativeValue = value;
       this.setNativeValue(value);
-
-      // If the ngControl isn't aware of this value make it aware
-      if (this.lastRegisteredValue !== value) {
-        this.onChangeFn(value);
-      }
 
       this.cdr.markForCheck();
     }
@@ -203,4 +205,9 @@ export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDest
   protected cloneValue(value: T): T {
     return value;
   }
+
+  /**
+   * Should verify the inputted value and turn it into something we are expecting.
+   */
+  protected abstract parseValueInput(value: T): T;
 }

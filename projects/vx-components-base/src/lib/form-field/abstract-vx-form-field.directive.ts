@@ -67,5 +67,20 @@ export abstract class AbstractVxFormFieldDirective<T> extends VxFormComponent<st
     }
   }
 
+  /**
+   * Allows to transform the inputted user value.  Can be used as a text mask, to prevent certain chars, etc.
+   * @param val the user-inputted value
+   */
+  @Input()
+  transformValue: (val: string) => string = (val) => val;
+
   abstract focus(): void;
+
+  protected parseValueInput(value: string): string {
+    if (!value) {
+      value = '';
+    }
+
+     return this.transformValue(value.toString());
+  }
 }

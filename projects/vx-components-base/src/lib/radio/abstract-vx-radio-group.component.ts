@@ -82,4 +82,9 @@ export abstract class AbstractVxRadioGroupComponent<T> extends VxFormComponent<T
     }
     return -1;
   }
+
+  // Nothing we can do to parse and verify because of the unknown type
+  protected parseValueInput(value: T): T {
+    return value;
+  }
 }

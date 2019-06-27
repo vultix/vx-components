@@ -110,4 +110,12 @@ export abstract class AbstractVxSliderComponent extends VxFormComponent<number> 
     const newValue = pct * range + this.min;
     this.setValueFromUser(newValue);
   }
+
+  protected parseValueInput(value: number): number {
+    if (typeof value !== 'number') {
+      return this.min;
+    } else {
+      return value;
+    }
+  }
 }

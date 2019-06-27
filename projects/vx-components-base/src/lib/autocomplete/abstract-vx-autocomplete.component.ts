@@ -357,17 +357,19 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
   }
 
   // Every time our value is set we need to re filter our items
-  protected handleValueSet(value: T): void {
+  protected handleValueSet(value: T | T[]): void {
+    value = this.parseValueInput(value);
+
+    // If the ngControl isn't aware of this value make it aware
+    if (this.lastRegisteredValue !== value) {
+      this.onChangeFn(value);
+    } else if (this.multiple && !compareArrays(this.lastRegisteredValue as any as T[], value as any as T[])) {
+      this.onChangeFn(value);
+    }
+
     if (value !== this.value || this.multiple) {
       this._lastNativeValue = value;
       this.setNativeValue(value);
-
-      // If the ngControl isn't aware of this value make it aware
-      if (this.lastRegisteredValue !== value) {
-        this.onChangeFn(value);
-      } else if (this.multiple && !compareArrays(this.lastRegisteredValue as any as T[], value as any as T[])) {
-        this.onChangeFn(value);
-      }
 
       this.shouldVerifyValue = true;
       this._repopulateValue();
@@ -384,6 +386,18 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
   protected cloneValue(value: T[] | T): T[] | T {
     if (value instanceof Array) {
       return value.slice(0);
+    } else {
+      return value;
+    }
+  }
+
+  protected parseValueInput(value: T[] | T): T[] | T {
+    if (this.multiple) {
+      if (!value || !(value instanceof Array)) {
+        return [];
+      } else {
+        return value;
+      }
     } else {
       return value;
     }

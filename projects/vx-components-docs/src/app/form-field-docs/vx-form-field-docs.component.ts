@@ -8,6 +8,8 @@ import { Title } from '@angular/platform-browser';
 })
 
 export class VxFormFieldDocsComponent implements OnInit {
+
+  game: {name?: string} = {};
   constructor(private titleService: Title) {
   }
 
