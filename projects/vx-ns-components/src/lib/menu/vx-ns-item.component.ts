@@ -25,7 +25,11 @@ import { AbstractVxItemComponent, AbstractVxMenuComponent, VX_MENU_TOKEN } from 
     '[class.vx-ns-active]': '_active',
     '(tap)': '_handleSelect()',
     '(touch)': 'handleTouch($event)'
-  }
+  },
+  // VX_ITEM_INPUTS
+  inputs: ['value', 'disabled'],
+  // VX_ITEM_OUTPUTS
+  outputs: ['select'],
 })
 export class VxNsItemComponent<T> extends AbstractVxItemComponent<T> {
   _active = false;

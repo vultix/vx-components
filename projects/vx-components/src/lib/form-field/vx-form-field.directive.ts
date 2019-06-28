@@ -5,6 +5,10 @@ import { AbstractVxFormFieldDirective, ErrorStateMatcher } from 'vx-components-b
 @Directive({
   selector: '[vxFormField]',
   exportAs: 'vxFormField',
+  // VX_FORM_FIELD_DIRECTIVE_INPUTS
+  inputs: ['id', 'value', 'disabled', 'required', 'placeholder', 'label', 'hideRequiredMarker'],
+  // VX_FORM_FIELD_DIRECTIVE_OUTPUTS
+  outputs: ['focusedChange', 'valueChange'],
   host: {
     '(blur)': '_setHasFocus(false)',
     '(focus)': '_setHasFocus(true)',

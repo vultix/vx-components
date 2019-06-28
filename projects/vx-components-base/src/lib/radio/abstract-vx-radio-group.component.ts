@@ -5,6 +5,13 @@ import { AbstractVxRadioButtonComponent } from './abstract-vx-radio-button.compo
 
 let uniqueId = 0;
 
+// VX_FORM_INPUTS: 'id', 'value', 'disabled', 'required'
+// VX_RADIO_GROUP_INPUTS: 'name'
+
+
+// VX_FORM_OUTPUTS: 'focusedChange', 'valueChange'
+// VX_RADIO_GROUP_OUTPUTS:
+
 export abstract class AbstractVxRadioGroupComponent<T> extends VxFormComponent<T> implements OnChanges, OnInit {
 
   abstract buttons: QueryList<AbstractVxRadioButtonComponent<T>>;
@@ -25,7 +32,7 @@ export abstract class AbstractVxRadioGroupComponent<T> extends VxFormComponent<T
     return this._name;
   }
 
-  @Input()
+  // @Input()
   set name(value: string) {
     this._name = value;
     this.cdr.markForCheck();

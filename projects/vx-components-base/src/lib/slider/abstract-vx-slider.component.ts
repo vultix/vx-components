@@ -2,6 +2,12 @@ import { coerceNumberProperty } from '@angular/cdk/coercion';
 import { DoCheck, Input } from '@angular/core';
 import { clampNumber, roundTo, VxFormComponent } from '../shared';
 
+// VX_FORM_INPUTS: 'id', 'value', 'disabled', 'required'
+// VX_SLIDER_INPUTS: 'min', 'max', 'step'
+
+// VX_FORM_OUTPUTS: 'focusedChange', 'valueChange'
+// VX_SLIDER_OUTPUTS:
+
 export abstract class AbstractVxSliderComponent extends VxFormComponent<number> implements DoCheck {
   /**
    * Flag that says we need to verify the value's position during this change detection cycle.
@@ -11,7 +17,7 @@ export abstract class AbstractVxSliderComponent extends VxFormComponent<number> 
 
   percentage = 0;
 
-  @Input()
+  // @Input()
   get min(): number {
     return this._min;
   }
@@ -26,7 +32,7 @@ export abstract class AbstractVxSliderComponent extends VxFormComponent<number> 
 
   private _min = 0;
 
-  @Input()
+  // @Input()
   get max(): number {
     return this._max;
   }
@@ -41,7 +47,7 @@ export abstract class AbstractVxSliderComponent extends VxFormComponent<number> 
 
   private _max = 100;
 
-  @Input()
+  // @Input()
   get step(): number {
     return this._step;
   }

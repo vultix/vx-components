@@ -4,6 +4,14 @@ import { FormGroupDirective, NgControl, NgForm } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { ErrorStateMatcher, VxFormComponent } from '../shared';
 
+
+// VX_FORM_INPUTS: 'id', 'value', 'disabled', 'required'
+// VX_FORM_FIELD_DIRECTIVE_INPUTS: 'placeholder', 'label', 'hideRequiredMarker'
+
+// VX_FORM_OUTPUTS: 'focusedChange', 'valueChange'
+// VX_FORM_FIELD_DIRECTIVE_OUTPUTS
+
+
 export abstract class AbstractVxFormFieldDirective<T> extends VxFormComponent<string> {
   /**
    * Notifies that our state may have changed, so that the parent field may respond accordingly
@@ -31,7 +39,7 @@ export abstract class AbstractVxFormFieldDirective<T> extends VxFormComponent<st
     };
   }
 
-  @Input()
+  // @Input()
   get placeholder(): string {
     return this._placeholder;
   }
@@ -42,7 +50,7 @@ export abstract class AbstractVxFormFieldDirective<T> extends VxFormComponent<st
     this.cdr.markForCheck();
   }
 
-  @Input()
+  // @Input()
   get label(): string {
     return this._label;
   }
@@ -54,7 +62,7 @@ export abstract class AbstractVxFormFieldDirective<T> extends VxFormComponent<st
   }
 
   /** Whether or not to hide the required marker */
-  @Input()
+  // @Input()
   get hideRequiredMarker(): boolean {
     return this._hideRequiredMarker;
   }
@@ -67,13 +75,6 @@ export abstract class AbstractVxFormFieldDirective<T> extends VxFormComponent<st
     }
   }
 
-  /**
-   * Allows to transform the inputted user value.  Can be used as a text mask, to prevent certain chars, etc.
-   * @param val the user-inputted value
-   */
-  @Input()
-  transformValue: (val: string) => string = (val) => val;
-
   abstract focus(): void;
 
   protected parseValueInput(value: string): string {
@@ -81,6 +82,6 @@ export abstract class AbstractVxFormFieldDirective<T> extends VxFormComponent<st
       value = '';
     }
 
-     return this.transformValue(value.toString());
+     return value.toString();
   }
 }

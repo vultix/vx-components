@@ -5,13 +5,16 @@ import { Subscription } from 'rxjs';
 import { ErrorStateMatcher } from '../shared';
 import { AbstractVxStepperComponent } from './abstract-vx-stepper.component';
 
+// VX_STEP_INPUTS: 'label', 'stepControl', 'invalid'
+
 export abstract class AbstractVxStepComponent extends ErrorStateMatcher implements OnChanges, OnDestroy {
   userSeenStep = false;
   userLeftStep = false;
 
   @ViewChild(TemplateRef, {static: false}) _template!: TemplateRef<any>;
 
-  @Input() label?: string;
+  // @Input()
+  label?: string;
 
   protected _invalid = false;
   protected _stepControl?: AbstractControlDirective | AbstractControl;
@@ -23,7 +26,7 @@ export abstract class AbstractVxStepComponent extends ErrorStateMatcher implemen
   }
 
   /** The top level abstract control of the step. */
-  @Input()
+  // @Input()
   set stepControl(val: AbstractControlDirective | AbstractControl | undefined) {
     this._stepControl = val;
     if (this.subscription) {
@@ -42,7 +45,7 @@ export abstract class AbstractVxStepComponent extends ErrorStateMatcher implemen
     return this._stepControl;
   }
 
-  @Input()
+  // @Input()
   set invalid(invalid: boolean) {
     invalid = coerceBooleanProperty(invalid);
 

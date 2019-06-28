@@ -16,6 +16,10 @@ import { VxMenuComponent } from './vx-menu.component';
   styleUrls: ['vx-item.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // VX_ITEM_INPUTS
+  inputs: ['value', 'disabled'],
+  // VX_ITEM_OUTPUTS
+  outputs: ['select'],
   host: {
     '[class.vx-item]': 'true',
     '[class.vx-disabled]': 'disabled',

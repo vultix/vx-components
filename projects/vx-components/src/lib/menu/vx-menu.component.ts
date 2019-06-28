@@ -32,6 +32,14 @@ import { VxItemComponent } from './vx-item.component';
       provide: VX_MENU_TOKEN, useExisting: forwardRef(() => VxMenuComponent)
     }
   ],
+  // VX_MENU_INPUTS
+  inputs: [
+    'width', 'maxHeight', 'defaultText', 'visible', 'positionStrategy', 'attachedTo'
+  ],
+  // VX_MENU_OUTPUTS
+  outputs: [
+    'itemSelect', 'visibleChange'
+  ],
   host: {
     'class': 'vx-menu',
     '[class.vx-menu-visible]': 'visible'

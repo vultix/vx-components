@@ -25,6 +25,10 @@ import {
     provide: ErrorStateMatcher,
     useExisting: forwardRef(() => VxStepComponent)
   }],
+  // VX_STEP_INPUTS
+  inputs: [
+    'label', 'stepControl', 'invalid'
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })

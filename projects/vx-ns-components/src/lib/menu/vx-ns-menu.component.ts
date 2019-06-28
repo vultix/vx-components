@@ -54,7 +54,15 @@ if (isIOS) {
     {
       provide: VX_MENU_TOKEN, useExisting: forwardRef(() => VxNsMenuComponent)
     }
-  ]
+  ],
+  // VX_MENU_INPUTS
+  inputs: [
+    'width', 'maxHeight', 'defaultText', 'visible', 'positionStrategy', 'attachedTo'
+  ],
+  // VX_MENU_OUTPUTS
+  outputs: [
+    'itemSelect', 'visibleChange'
+  ],
 })
 export class VxNsMenuComponent<T> extends AbstractVxMenuComponent<T, View> implements OnDestroy {
   @ContentChildren(VxNsItemComponent)

@@ -17,13 +17,16 @@ import { AbstractVxMenuComponent } from './abstract-vx-menu.component';
 
 let _vxItemIdCounter = 0;
 
+// VX_ITEM_INPUTS: 'value', 'disabled',
+// VX_ITEM_OUTPUTS: 'select'
 export abstract class AbstractVxItemComponent<T> implements OnDestroy {
   @ViewChild(TemplateRef, {static: true}) _template!: TemplateRef<any>;
 
   /**
    * Emits when the item is selected
    */
-  @Output() select = new EventEmitter<T>();
+  // @Output()
+  readonly select = new EventEmitter<T>();
   _id = `vx-item-${_vxItemIdCounter++}`;
   protected _transparentParent?: AbstractVxItemComponent<T>;
   protected __transparentChild?: AbstractVxItemComponent<T>;
@@ -35,7 +38,7 @@ export abstract class AbstractVxItemComponent<T> implements OnDestroy {
 
   }
 
-  @Input()
+  // @Input()
   get value(): T {
     return this._value;
   }
@@ -51,7 +54,7 @@ export abstract class AbstractVxItemComponent<T> implements OnDestroy {
     }
   }
 
-  @Input()
+  // @Input()
   get disabled(): boolean {
     return this._disabled;
   }

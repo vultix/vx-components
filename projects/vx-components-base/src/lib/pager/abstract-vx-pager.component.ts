@@ -3,10 +3,11 @@ import { AfterContentInit, ChangeDetectorRef, ContentChildren, Input, QueryList 
 import { startWith } from 'rxjs/operators';
 import { AbstractVxPageComponent } from './abstract-vx-page.component';
 
+// VX_PAGER_INPUTS: 'selectedPage'
 export abstract class AbstractVxPagerComponent<P extends AbstractVxPageComponent<any>> implements AfterContentInit {
   abstract pages: QueryList<P>;
 
-  @Input()
+  // @Input()
   get selectedPage(): number {
     return this._selectedPage;
   }

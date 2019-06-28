@@ -116,8 +116,8 @@
       "check-type"
     ],
     "no-output-on-prefix": true,
-    "no-inputs-metadata-property": true,
-    "no-outputs-metadata-property": true,
+    "no-inputs-metadata-property": false,
+    "no-outputs-metadata-property": false,
     "no-host-metadata-property": false,
     "no-input-rename": true,
     "no-output-rename": true,

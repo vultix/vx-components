@@ -11,6 +11,12 @@ import {
   styleUrls: ['vx-radio-button.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  // VX_RADIO_BUTTON_INPUTS
+  inputs: [
+    'value', 'disabled', 'checked', 'name'
+  ],
+  // VX_RADIO_BUTTON_OUTPUTS
+  outputs: ['checkedChange'],
   host: {
     '[class.vx-radio-button]': 'true',
     '[class.vx-error]': 'group.errorState',

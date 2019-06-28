@@ -14,13 +14,17 @@ import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { AbstractVxItemComponent } from './abstract-vx-item.component';
 import { AttachedPosition, AttachedPositionStrategy } from './position-strategy';
 
+// VX_MENU_INPUTS: 'width', 'maxHeight', 'defaultText', 'visible', 'positionStrategy', 'attachedTo'
+// VX_MENU_OUTPUTS: 'itemSelect', 'visibleChange'
 export abstract class AbstractVxMenuComponent<T, E> implements OnDestroy, AfterViewInit {
   _positionStrategyClass?: string;
   abstract items: QueryList<AbstractVxItemComponent<T>>;
   /** Event thrown when the menu's visibility changes. The value is the visibility (true or false) */
-  @Output() visibleChange = new EventEmitter<boolean>();
+  // @Output()
+  readonly visibleChange = new EventEmitter<boolean>();
   /** Event thrown when one of the menu's items are selected.  The value is the item's value*/
-  @Output() itemSelect = new EventEmitter<T>();
+  // @Output()
+  readonly itemSelect = new EventEmitter<T>();
   _active = false;
   protected onDestroy$ = new Subject<void>();
 
@@ -70,7 +74,8 @@ export abstract class AbstractVxMenuComponent<T, E> implements OnDestroy, AfterV
 
   }
 
-  @Input() set width(width: VxMenuWidth) {
+  // @Input()
+  set width(width: VxMenuWidth) {
     const numWidth = +width;
     if (!isNaN(numWidth)) {
       width = numWidth;
@@ -86,7 +91,8 @@ export abstract class AbstractVxMenuComponent<T, E> implements OnDestroy, AfterV
   get width(): VxMenuWidth {return this._width}
   private _width: VxMenuWidth = 'auto';
 
-  @Input() set maxHeight(maxHeight: VxMenuMaxHeight) {
+  // @Input()
+  set maxHeight(maxHeight: VxMenuMaxHeight) {
     const numHeight = +maxHeight;
     if (!isNaN(numHeight)) {
       maxHeight = numHeight;
@@ -102,7 +108,7 @@ export abstract class AbstractVxMenuComponent<T, E> implements OnDestroy, AfterV
   get maxHeight(): VxMenuMaxHeight {return this._maxHeight}
   private _maxHeight: VxMenuMaxHeight = 200;
 
-  @Input()
+  // @Input()
   get defaultText(): string {
     return this._defaultText;
   }
@@ -115,7 +121,7 @@ export abstract class AbstractVxMenuComponent<T, E> implements OnDestroy, AfterV
   }
 
   /** Whether the dropdown is visible */
-  @Input()
+  // @Input()
   get visible(): boolean {
     return this._visible;
   };
@@ -136,7 +142,7 @@ export abstract class AbstractVxMenuComponent<T, E> implements OnDestroy, AfterV
 
   };
 
-  @Input()
+  // @Input()
   get positionStrategy(): AttachedPositionStrategy {
     return this._positionStrategy;
   }
@@ -152,7 +158,7 @@ export abstract class AbstractVxMenuComponent<T, E> implements OnDestroy, AfterV
     return this._attachedTo;
   }
 
-  @Input()
+  // @Input()
   set attachedTo(value: E) {
     if (value !== this._attachedTo) {
       this._attachedTo = value;

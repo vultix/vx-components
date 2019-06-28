@@ -22,6 +22,8 @@ import { createAnimation, EasingFunctions } from '../shared/animations';
   templateUrl: 'vx-ns-vertical-expander.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  // VX_VERTICAL_EXPANDER_INPUTS
+  inputs: ['expanded'],
   host: {
     'class': 'vx-ns-vertical-expander',
     '[class.vx-ns-expanded]': 'expanded'

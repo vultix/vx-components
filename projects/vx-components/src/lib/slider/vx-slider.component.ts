@@ -19,6 +19,12 @@ import { getTouchPos } from '../shared/util';
   styleUrls: ['vx-slider.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // VX_SLIDER_INPUTS
+  inputs: [
+    'id', 'value', 'disabled', 'required', 'min', 'max', 'step'
+  ],
+  // VX_SLIDER_OUTPUTS
+  outputs: ['focusedChange', 'valueChange'],
   host: {
     'class': 'vx-slider',
     '[attr.tabIndex]': 'disabled ? -1 : tabIndex',

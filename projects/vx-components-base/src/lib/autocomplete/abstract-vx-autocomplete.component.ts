@@ -15,12 +15,21 @@ import { AbstractVxItemComponent, AbstractVxMenuComponent, AttachedPositionStrat
 import { compareArrays, ErrorStateMatcher, VxFormComponent } from '../shared';
 import { AutocompleteFilterFunction, defaultAutocompleteFilterFunction } from './autocomplete-filter-function';
 
+
+// VX_AUTOCOMPLETE_INPUTS: 'multiple', 'filterFunction', 'placeholder', 'label', 'searchable'
+// VX_FORM_INPUTS: 'id', 'value', 'disabled', 'required'
+
+// VX_AUTOCOMPLETE_OUTPUTS: 'search', 'itemSelect'
+// VX_FORM_OUTPUTS: 'focusedChange', 'valueChange'
+
 export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxItemComponent<T>>
   extends VxFormComponent<T | T[]> implements AfterViewInit, DoCheck, AfterContentInit {
   abstract _items: QueryList<I>;
 
-  @Output() search = new EventEmitter<string>();
-  @Output() itemSelect = new EventEmitter<T>();
+  // @Output()
+  readonly search = new EventEmitter<string>();
+  // @Output()
+  readonly itemSelect = new EventEmitter<T>();
 
   @ViewChild('field', {static: true})
   _field!: AbstractVxFormFieldDirective<any>;
@@ -84,7 +93,7 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
   }
 
   /** The text to show when there are no items */
-  @Input()
+  // @Input()
   get defaultText(): string {
     return this._defaultText;
   }
@@ -96,7 +105,7 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
     }
   }
 
-  @Input()
+  // @Input()
   get multiple(): boolean {
     return this._multiple;
   }
@@ -111,7 +120,7 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
     }
   }
 
-  @Input()
+  // @Input()
   get filterFunction(): AutocompleteFilterFunction<T> {
     return this._filterFunction;
   }
@@ -123,7 +132,7 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
     }
   }
 
-  @Input()
+  // @Input()
   get placeholder(): string {
     if (this._placeholder) {
       return this._placeholder;
@@ -144,7 +153,7 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
     }
   }
 
-  @Input()
+  // @Input()
   get label(): string {
     return this._label;
   }
@@ -156,7 +165,7 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
     }
   }
 
-  @Input()
+  // @Input()
   get searchable(): boolean {
     return this._searchable;
   }

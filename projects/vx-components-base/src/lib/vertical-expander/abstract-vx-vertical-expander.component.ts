@@ -1,6 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Input } from '@angular/core';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 
+// VX_VERTICAL_EXPANDER_INPUTS: 'expanded'
 export abstract class AbstractVxVerticalExpanderComponent implements AfterViewInit {
 
   private _expanded = false;
@@ -8,7 +9,7 @@ export abstract class AbstractVxVerticalExpanderComponent implements AfterViewIn
 
   }
 
-  @Input()
+  // @Input()
   set expanded(val: boolean) {
     val = coerceBooleanProperty(val);
     if (val !== this._expanded) {

@@ -20,6 +20,11 @@ import { VxNsItemComponent } from '../menu/vx-ns-item.component';
   selector: 'StackLayout[vx-ns-autocomplete]',
   templateUrl: 'vx-ns-autocomplete.component.html',
   styleUrls: ['vx-ns-autocomplete.component.scss'],
+  // VX_AUTOCOMPLETE_INPUTS
+  inputs: ['id', 'value', 'disabled', 'required', 'multiple', 'filterFunction', 'placeholder',
+    'label', 'searchable'],
+  // VX_AUTOCOMPLETE_OUTPUTS
+  outputs: ['focusedChange', 'valueChange', 'search', 'itemSelect'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 

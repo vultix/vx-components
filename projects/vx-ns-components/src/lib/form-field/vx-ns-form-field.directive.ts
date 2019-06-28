@@ -1,12 +1,17 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { ChangeDetectorRef, Directive, ElementRef, Input, Optional, Self } from '@angular/core';
 import { FormGroupDirective, NgControl, NgForm } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 import { TextField } from 'tns-core-modules/ui/text-field';
-import { AbstractVxFormFieldDirective, ErrorStateMatcher, coerceBooleanProperty } from 'vx-components-base';
+import { AbstractVxFormFieldDirective, ErrorStateMatcher } from 'vx-components-base';
 
 @Directive({
   selector: '[vxNsFormField]',
   exportAs: 'vxNsFormField',
+  // VX_FORM_FIELD_DIRECTIVE_INPUTS
+  inputs: ['id', 'value', 'disabled', 'required', 'placeholder', 'label', 'hideRequiredMarker'],
+  // VX_FORM_FIELD_DIRECTIVE_OUTPUTS
+  outputs: ['focusedChange', 'valueChange'],
   host: {
     '(blur)': '_setHasFocus(false)',
     '(focus)': '_setHasFocus(true)',

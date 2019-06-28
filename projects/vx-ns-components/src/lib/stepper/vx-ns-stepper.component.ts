@@ -17,6 +17,12 @@ import { VxNsStepComponent } from './vx-ns-step.component';
     provide: VX_STEPPER_TOKEN,
     useExisting: forwardRef(() => VxNsStepperComponent)
   }],
+  // VX_STEPPER_INPUTS
+  inputs: [
+    'linear', 'selectedStep'
+  ],
+  // VX_STEPPER_OUTPUTS:
+  outputs: ['selectedStepChange'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   host: {

@@ -21,6 +21,12 @@ import { VxRadioButtonComponent } from './vx-radio-button.component';
   styleUrls: ['vx-radio-group.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // VX_RADIO_GROUP_INPUTS
+  inputs: ['id', 'value', 'disabled', 'required', 'name'],
+  // VX_RADIO_GROUP_OUTPUTS
+  outputs: [
+    'focusedChange', 'valueChange'
+  ],
   host: {
     '[class.vx-radio-group]': 'true',
     '[class.vx-error]': 'errorState',

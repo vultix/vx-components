@@ -7,11 +7,15 @@ import { ErrorStateMatcher } from './error-options';
 // A counter for the unique id for the form element
 let _idCounter = 0;
 
+// VX_FORM_INPUTS: 'id', 'value', 'disabled', 'required'
+// VX_FORM_OUTPUTS: 'focusedChange', 'valueChange'
+
 export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDestroy, DoCheck, OnInit {
   errorState = false;
   focused = false;
-  @Output() focusedChange = new EventEmitter<boolean>();
-  @Output()
+  // @Output()
+  readonly focusedChange = new EventEmitter<boolean>();
+  // @Output()
   readonly valueChange = new EventEmitter<T>();
 
   // TODO:: readonly
@@ -46,7 +50,7 @@ export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDest
     }
   }
 
-  @Input()
+  // @Input()
   set id(id: string) {
     if (id !== this._id) {
       this._id = id;
@@ -61,7 +65,7 @@ export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDest
   /**
    * The value of this form component
    */
-  @Input()
+  // @Input()
   get value(): T {
     return this.getNativeValue();
   }
@@ -71,7 +75,7 @@ export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDest
   }
 
   /** Whether the component is disabled */
-  @Input()
+  // @Input()
   get disabled(): boolean {
     return this._disabled;
   }
@@ -85,7 +89,7 @@ export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDest
   }
 
   /** Whether the component is required */
-  @Input()
+  // @Input()
   get required(): boolean {
     return this._required;
   }

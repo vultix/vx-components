@@ -13,9 +13,14 @@ import { startWith, takeUntil } from 'rxjs/operators';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { AbstractVxRadioGroupComponent } from './abstract-vx-radio-group.component';
 
+// VX_RADIO_BUTTON_INPUTS: 'value', 'disabled', 'checked', 'name'
+// VX_RADIO_BUTTON_OUTPUTS: 'checkedChange'
+
 export abstract class AbstractVxRadioButtonComponent<T> implements OnDestroy, OnInit, OnChanges {
-  @Output() checkedChange = new EventEmitter<boolean>();
-  @Input() value!: T;
+  // @Output()
+  readonly checkedChange = new EventEmitter<boolean>();
+  // @Input()
+  value!: T;
   protected abstract componentName: string;
   protected _disabled = false;
   private _name = '';
@@ -26,7 +31,7 @@ export abstract class AbstractVxRadioButtonComponent<T> implements OnDestroy, On
   }
 
   /** Whether the radio button is disabled */
-  @Input()
+  // @Input()
   get disabled(): boolean {
     return this._disabled || this.group.disabled;
   }
@@ -40,7 +45,7 @@ export abstract class AbstractVxRadioButtonComponent<T> implements OnDestroy, On
   }
 
   /** Whether the radio button is disabled */
-  @Input()
+  // @Input()
   get checked(): boolean {
     return this.value === this.group.value;
   }
@@ -54,7 +59,7 @@ export abstract class AbstractVxRadioButtonComponent<T> implements OnDestroy, On
     }
   }
 
-  @Input()
+  // @Input()
   get name(): string {
     return this._name || this.group.name;
   }

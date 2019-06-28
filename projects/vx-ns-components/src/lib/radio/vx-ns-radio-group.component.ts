@@ -27,6 +27,10 @@ import { VxNsRadioButtonComponent } from './vx-ns-radio-button.component';
       useExisting: forwardRef(() => VxNsRadioGroupComponent)
     }
   ],
+  // VX_RADIO_GROUP_INPUTS
+  inputs: ['id', 'value', 'disabled', 'required', 'name'],
+  // VX_RADIO_GROUP_OUTPUTS
+  outputs: ['focusedChange', 'valueChange'],
   host: {
     '[class.vx-ns-radio-group]': 'true',
     '[class.vx-ns-error]': 'errorState',

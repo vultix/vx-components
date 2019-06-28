@@ -21,6 +21,10 @@ const MIN_HANDLE_LEFT = -3;
   styleUrls: ['vx-slide-toggle.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // VX_CHECKBOX_INPUTS
+  inputs: [
+    'id', 'value', 'disabled', 'required', 'checked'
+  ],
   host: {
     'class': 'vx-slide-toggle',
     '[class.vx-checked]': 'checked',

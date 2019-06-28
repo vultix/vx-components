@@ -27,6 +27,11 @@ import { VxItemComponent } from '../menu/vx-item.component';
   styleUrls: ['vx-autocomplete.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // VX_AUTOCOMPLETE_INPUTS
+  inputs: ['id', 'value', 'disabled', 'required', 'multiple', 'filterFunction', 'placeholder',
+    'label', 'searchable'],
+  // VX_AUTOCOMPLETE_OUTPUTS
+  outputs: ['focusedChange', 'valueChange', 'search', 'itemSelect'],
   host: {
     'class': 'vx-autocomplete'
   }

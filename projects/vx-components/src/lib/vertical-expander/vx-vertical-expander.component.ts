@@ -15,6 +15,8 @@ import { AbstractVxVerticalExpanderComponent } from 'vx-components-base';
   styleUrls: ['vx-vertical-expander.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  // VX_VERTICAL_EXPANDER_INPUTS
+  inputs: ['expanded'],
   host: {
     'class': 'vx-vertical-expander',
     '[class.vx-expanded]': 'expanded'

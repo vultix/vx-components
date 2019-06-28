@@ -17,6 +17,14 @@ import { AbstractVxCheckboxComponent, ErrorStateMatcher } from 'vx-components-ba
   styleUrls: ['vx-checkbox.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // VX_CHECKBOX_INPUTS
+  inputs: [
+    'id', 'value', 'disabled', 'required', 'checked'
+  ],
+  // VX_CHECKBOX_OUTPUTS
+  outputs: [
+    'focusedChange', 'valueChange', 'checkedChange'
+  ],
   host: {
     'class': 'vx-checkbox',
     '[class.vx-checked]': 'checked',

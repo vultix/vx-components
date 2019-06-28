@@ -3,10 +3,13 @@ import { AfterContentInit, ChangeDetectorRef, EventEmitter, Input, Output, Query
 import { clampNumber } from '../shared';
 import { AbstractVxStepComponent } from './abstract-vx-step.component';
 
+// VX_STEPPER_INPUTS: 'linear', 'selectedStep'
+// VX_STEPPER_OUTPUTS: 'selectedStepChange'
 export abstract class AbstractVxStepperComponent implements AfterContentInit {
   abstract _steps: QueryList<AbstractVxStepComponent>;
 
-  @Output() selectedStepChange = new EventEmitter<number>();
+  // @Output()
+  readonly selectedStepChange = new EventEmitter<number>();
 
   protected _linear = false;
   protected _selectedStep = -1;
@@ -14,7 +17,7 @@ export abstract class AbstractVxStepperComponent implements AfterContentInit {
   }
 
 
-  @Input()
+  // @Input()
   get linear(): boolean {
     return this._linear;
   }
@@ -27,7 +30,7 @@ export abstract class AbstractVxStepperComponent implements AfterContentInit {
     }
   }
 
-  @Input()
+  // @Input()
   get selectedStep(): number {
     return this._selectedStep;
   }

@@ -3,8 +3,15 @@ import { ChangeDetectorRef, Input, Output } from '@angular/core';
 import { FormGroupDirective, NgControl, NgForm } from '@angular/forms';
 import { ErrorStateMatcher, VxFormComponent } from '../shared';
 
+// VX_FORM_INPUTS: 'id', 'value', 'disabled', 'required'
+// VX_CHECKBOX_INPUTS: 'checked'
+
+// VX_FORM_OUTPUTS: 'focusedChange', 'valueChange'
+// VX_CHECKBOX_OUTPUTS: 'checkedChange'
+
 export abstract class AbstractVxCheckboxComponent extends VxFormComponent<boolean> {
-  @Output() checkedChange = this.valueChange;
+  // @Output()
+  readonly checkedChange = this.valueChange;
 
   constructor(
     cdr: ChangeDetectorRef,
@@ -16,7 +23,7 @@ export abstract class AbstractVxCheckboxComponent extends VxFormComponent<boolea
     super(cdr, errorStateMatcher, control, parentForm, parentFormGroup);
   }
 
-  @Input()
+  // @Input()
   set checked(value: boolean) {
     this.value = value;
   }

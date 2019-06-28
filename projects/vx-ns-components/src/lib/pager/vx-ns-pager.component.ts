@@ -13,6 +13,8 @@ import { VxNsPageComponent } from './vx-ns-page.component';
   selector: 'AbsoluteLayout[vx-ns-pager]',
   template: `<ng-content></ng-content>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // VX_PAGER_INPUTS
+  inputs: ['selectedPage'],
   providers: [
     {provide: VX_PAGER_TOKEN, useExisting: forwardRef(() => VxNsPagerComponent)}
   ],

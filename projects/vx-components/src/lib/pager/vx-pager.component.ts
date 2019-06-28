@@ -15,6 +15,8 @@ import { VxPageComponent } from './vx-page.component';
   styleUrls: [`./vx-pager.component.scss`],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // VX_PAGER_INPUTS
+  inputs: ['selectedPage'],
   providers: [
     {provide: VX_PAGER_TOKEN, useExisting: forwardRef(() => VxPagerComponent)}
   ],
