@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { VxAutocompleteModule } from './autocomplete/vx-autocomplete.module';
+import { VxButtonGroupComponent } from './button-group/vx-button-group.component';
+import { VxButtonGroupModule } from './button-group/vx-button-group.module';
 import { VxButtonModule } from './button/vx-button.module';
 import { VxCheckboxModule } from './checkbox/vx-checkbox.module';
 import { VxDialogModule } from './dialog/vx-dialog.module';
@@ -30,7 +32,8 @@ const modules = [
   VxSpinnerModule,
   VxSliderModule,
   VxSlideToggleModule,
-  VxToastModule
+  VxToastModule,
+  VxButtonGroupModule
 ];
 
 @NgModule({

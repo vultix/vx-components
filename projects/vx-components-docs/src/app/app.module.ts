@@ -9,6 +9,7 @@ import { VxSliderModule } from '../../../vx-components/src/lib/slider/vx-slider.
 import { AppComponent } from './app.component';
 import { VxAutocompleteDocsComponent } from './autocomplete-docs/vx-autocomplete-docs.component';
 import { VxButtonDocsComponent } from './button-docs/vx-button-docs.component';
+import { VxButtonGroupDocsComponent } from './button-group-docs/vx-button-group-docs.component';
 import { VxCheckboxDocsComponent } from './checkbox-docs/vx-checkbox-docs.component';
 import { AnimalDialogComponent } from './dialog-docs/animal-dialog.component';
 import { VxDialogDocsComponent } from './dialog-docs/vx-dialog-docs.component';
@@ -32,6 +33,7 @@ const routes: Routes = [
   {path: 'menu', component: VxMenuDocsComponent},
   {path: 'autocomplete', component: VxAutocompleteDocsComponent},
   {path: 'button', component: VxButtonDocsComponent},
+  {path: 'button-group', component: VxButtonGroupDocsComponent},
   {path: 'pager', component: VxPagerDocsComponent},
   {path: 'tabs', component: VxTabsDocsComponent},
   {path: 'checkbox', component: VxCheckboxDocsComponent},
@@ -41,7 +43,7 @@ const routes: Routes = [
   {path: 'spinner', component: VxSpinnerDocsComponent},
   {path: 'slider', component: VxSliderDocsComponent},
   {path: 'slide-toggle', component: VxSlideToggleDocsComponent},
-  {path: 'toast', component: VxToastDocsComponent}
+  {path: 'toast', component: VxToastDocsComponent},
 ];
 
 @NgModule({
@@ -62,7 +64,8 @@ const routes: Routes = [
     VxSpinnerDocsComponent,
     VxSliderDocsComponent,
     VxSlideToggleDocsComponent,
-    VxToastDocsComponent
+    VxToastDocsComponent,
+    VxButtonGroupDocsComponent
   ],
   entryComponents: [
     AnimalDialogComponent

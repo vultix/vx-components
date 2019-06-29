@@ -8,9 +8,10 @@ import {
   Optional,
   ViewEncapsulation
 } from '@angular/core';
+import { VxButtonGroupComponent } from '../button-group/vx-button-group.component';
 import { VxThemeColor } from '../shared/vx-theme-color';
 import { VxButtonVariation } from './vx-button-variation';
-import { VX_BUTTON_DEFAULT_COLOR, VX_BUTTON_DEFAULT_VARIATION } from './vx-button.tokens';
+import { VX_BUTTON_DEFAULT_COLOR, VX_BUTTON_DEFAULT_VARIATION, VX_BUTTON_GROUP } from './vx-button.tokens';
 
 @Component({
   selector: '[vx-button]', // tslint:disable-line
@@ -31,7 +32,10 @@ import { VX_BUTTON_DEFAULT_COLOR, VX_BUTTON_DEFAULT_VARIATION } from './vx-butto
     '[class.vx-button-flat]': `variation === 'flat'`,
     '[class.vx-button-raised]': `variation === 'raised'`,
     '[class.vx-button-stroked]': `variation === 'stroked'`,
-    '[class.vx-disabled]': 'disabled'
+    '[class.vx-disabled]': 'disabled',
+    '[class.vx-button-group-button]': '_hasButtonGroup',
+    '[class.vx-button-group-selected-button]': '_isSelectedButtonGroupButton',
+    '(click)': '_handleClick()'
   }
 })
 export class VxButtonComponent<T = any> {
@@ -43,9 +47,18 @@ export class VxButtonComponent<T = any> {
 
   constructor(private cdr: ChangeDetectorRef,
               @Inject(VX_BUTTON_DEFAULT_COLOR) @Optional() defaultColor?: VxThemeColor,
-              @Inject(VX_BUTTON_DEFAULT_VARIATION) @Optional() defaultVariation?: VxButtonVariation) {
+              @Inject(VX_BUTTON_DEFAULT_VARIATION) @Optional() defaultVariation?: VxButtonVariation,
+              @Inject(VX_BUTTON_GROUP) @Optional() private buttonGroup?: any) {
     this.color = defaultColor || 'light';
     this._variation = defaultVariation || 'flat';
+  }
+
+  get _hasButtonGroup(): boolean {
+    return !!this.buttonGroup
+  }
+
+  get _isSelectedButtonGroupButton(): boolean {
+    return !!this.buttonGroup && this.buttonGroup.value !== undefined && this.buttonGroup.value === this.value;
   }
 
   @Input('vx-button')
@@ -70,6 +83,12 @@ export class VxButtonComponent<T = any> {
     if (value !== this.disabled) {
       this._disabled = value;
       this.cdr.markForCheck();
+    }
+  }
+
+  _handleClick(): void {
+    if (this.buttonGroup) {
+      this.buttonGroup._handleButtonSelect(this.value);
     }
   }
 }

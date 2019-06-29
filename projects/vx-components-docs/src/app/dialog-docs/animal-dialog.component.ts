@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Type } from '@angular/core';
-import { VxDialogDef, VxDialogRef, DialogDataType } from 'vx-components';
+import { VxDialogDef, VxDialogRef } from 'vx-components';
 import { Constructor } from 'vx-components-base';
 
 

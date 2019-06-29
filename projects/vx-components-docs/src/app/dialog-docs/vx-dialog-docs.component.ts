@@ -8,7 +8,6 @@ import { AnimalDialogComponent } from './animal-dialog.component';
   styleUrls: ['vx-dialog-docs.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-
 export class VxDialogDocsComponent {
 
   constructor(private title: Title, private dialog: VxDialog) {

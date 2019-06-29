@@ -63,6 +63,9 @@
       &:active {
         background: $lightColorActive;
       }
+      &.vx-button-group-selected-button {
+        background: $lightColorActive;
+      }
     }
 
     &.vx-button-dark {
@@ -76,6 +79,9 @@
         background: $darkColorHover;
       }
       &:active {
+        background: $darkColorActive;
+      }
+      &.vx-button-group-selected-button {
         background: $darkColorActive;
       }
     }
@@ -93,6 +99,9 @@
       &:active {
         background: $primaryColorActive;
       }
+      &.vx-button-group-selected-button {
+        background: $primaryColorActive;
+      }
     }
 
     &.vx-button-accent {
@@ -106,6 +115,9 @@
         background: $accentColorHover;
       }
       &:active {
+        background: $accentColorActive;
+      }
+      &.vx-button-group-selected-button {
         background: $accentColorActive;
       }
     }
@@ -123,6 +135,9 @@
       &:active {
         background: $errorColorActive;
       }
+      &.vx-button-group-selected-button {
+        background: $errorColorActive;
+      }
     }
 
     &.vx-button-success {
@@ -136,6 +151,9 @@
         background: $successColorHover;
       }
       &:active {
+        background: $successColorActive;
+      }
+      &.vx-button-group-selected-button {
         background: $successColorActive;
       }
     }
@@ -153,6 +171,9 @@
       &:active {
         background: $warnColorActive;
       }
+      &.vx-button-group-selected-button {
+        background: $warnColorActive;
+      }
     }
   }
 
@@ -166,6 +187,9 @@
       background: rgba($foreground, .09);
     }
     &:active {
+      background: rgba($foreground, .14);
+    }
+    &.vx-button-group-selected-button {
       background: rgba($foreground, .14);
     }
 
