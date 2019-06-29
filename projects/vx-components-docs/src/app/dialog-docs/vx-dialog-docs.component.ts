@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { VxDialog, VxDialogRef, DialogDataType } from 'vx-components';
+import { VxDialog, VxDialogRef } from 'vx-components';
 import { AnimalDialogComponent } from './animal-dialog.component';
 
 @Component({

@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { AbstractVxDialog, Constructor } from 'vx-components-base';
 import { OverlayRef } from '../shared/overlay-factory';
-import { DialogCloseDataType, DialogDataType, VxDialogDef } from './vx-dialog-def';
+import { DialogCloseDataType, DialogDataType, VxDialogDef } from 'vx-components-base';
 import { VxDialogRef } from './vx-dialog-ref';
 import { VxDialogComponent } from './vx-dialog.component';
 

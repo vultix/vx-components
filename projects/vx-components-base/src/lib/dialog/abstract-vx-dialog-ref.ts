@@ -1,7 +1,10 @@
 import { Observable } from 'rxjs';
+import { DialogCloseDataType, DialogDataType, VxDialogDef } from './abstract-vx-dialog-def';
 import { AbstractVxDialogComponent } from './abstract-vx-dialog.component';
 
-export class AbstractVxDialogRef<ComponentType, DataType, CloseDataType> {
+export class AbstractVxDialogRef<ComponentType = VxDialogDef<any, any>,
+  DataType extends DialogDataType<ComponentType> = DialogDataType<ComponentType>,
+  CloseDataType extends DialogCloseDataType<ComponentType> = DialogCloseDataType<ComponentType>> {
 
   get componentInstance(): ComponentType {
     return this.dialog.componentInstance;

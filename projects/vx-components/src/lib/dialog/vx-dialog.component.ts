@@ -10,8 +10,8 @@ import {
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import { AbstractVxDialogComponent } from 'vx-components-base';
+import { DialogDataType, DialogCloseDataType, VxDialogDef } from 'vx-components-base';
 import { OverlayRef } from '../shared/overlay-factory';
-import { DialogCloseDataType, DialogDataType, VxDialogDef } from './vx-dialog-def';
 import { VxDialogRef } from './vx-dialog-ref';
 
 @Component({

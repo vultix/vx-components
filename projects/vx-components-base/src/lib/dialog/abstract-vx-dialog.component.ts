@@ -9,12 +9,16 @@ import {
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Constructor } from '../shared/mixins';
+import { DialogCloseDataType, DialogDataType, VxDialogDef } from './abstract-vx-dialog-def';
 import { AbstractVxDialogRef } from './abstract-vx-dialog-ref';
 
 const ANIMATION_TIME = 300;
 let _dialogIdCounter = 0;
 
-export abstract class AbstractVxDialogComponent<ComponentType, DataType, CloseDataType> implements OnDestroy {
+export abstract class AbstractVxDialogComponent<ComponentType = VxDialogDef<any, any>,
+  DataType extends DialogDataType<ComponentType> = DialogDataType<ComponentType>,
+  CloseDataType extends DialogCloseDataType<ComponentType> = DialogCloseDataType<ComponentType>>
+  implements OnDestroy {
 
   componentInstance!: ComponentType;
   data!: DataType;

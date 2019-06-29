@@ -1,7 +1,7 @@
 import { merge, Observable } from 'rxjs';
 import { map, mapTo } from 'rxjs/operators';
 import { AbstractVxDialogRef } from 'vx-components-base';
-import { DialogCloseDataType, DialogDataType, VxDialogDef } from './vx-dialog-def';
+import { DialogCloseDataType, DialogDataType, VxDialogDef } from 'vx-components-base';
 import { VxDialogComponent } from './vx-dialog.component';
 
 export class VxDialogRef
