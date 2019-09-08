@@ -248,11 +248,16 @@ export class VxMenuComponent<T> extends AbstractVxMenuComponent<T, HTMLElement> 
     }
   }
 
-  @HostListener('window:keydown.escape', ['"escape"'])
+  @HostListener('window:keydown.escape', ['"escape"', '$event'])
   @HostListener('window:keydown.tab', ['"tab"'])
-  _autoClose(reason: keyof VxMenuAutoClose) {
+  _autoClose(reason: keyof VxMenuAutoClose, event?: Event) {
     if (this._shouldAutoclose(reason)) {
       this.visible = false;
+
+      if (event) {
+        event.stopPropagation();
+        event.preventDefault();
+      }
     }
   }
 

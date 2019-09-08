@@ -6,7 +6,7 @@ import { AbstractVxFormFieldDirective, ErrorStateMatcher } from 'vx-components-b
   selector: '[vxFormField]',
   exportAs: 'vxFormField',
   // VX_FORM_FIELD_DIRECTIVE_INPUTS
-  inputs: ['id', 'value', 'disabled', 'required', 'placeholder', 'label', 'hideRequiredMarker'],
+  inputs: ['id', 'value', 'disabled', 'required', 'placeholder', 'label', 'hideRequiredMarker', 'showRequiredMarker'],
   // VX_FORM_FIELD_DIRECTIVE_OUTPUTS
   outputs: ['focusedChange', 'valueChange'],
   host: {
@@ -15,7 +15,8 @@ import { AbstractVxFormFieldDirective, ErrorStateMatcher } from 'vx-components-b
     '(input)': '_onChange()',
     '[placeholder]': 'placeholder',
     '[class.vx-form-field-input]': 'true',
-    '[attr.id]': 'id'
+    '[attr.id]': 'id',
+    '[attr.disabled]': 'disabled || undefined'
   }
 })
 export class VxFormFieldDirective extends AbstractVxFormFieldDirective<HTMLInputElement> {

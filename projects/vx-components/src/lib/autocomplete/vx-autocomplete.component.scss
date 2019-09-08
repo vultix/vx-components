@@ -45,6 +45,7 @@ $triangleHeight: 7px;
   margin: 2px 2px 2px 3px;
   vertical-align: middle;
   animation: vx-chip-entrance .3s ease;
+  text-align: inherit;
 
   @keyframes vx-chip-entrance {
     from {

@@ -20,7 +20,7 @@ export abstract class AbstractVxDialog<ContainerType> {
 
     const factory = this.resolver.resolveComponentFactory<AbstractVxDialogComponent<any, any, any>>(this.dialogType);
     const dialogRef = factory.create(this.injector);
-    dialogRef.instance._init(data);
+    dialogRef.instance._init(data[0]);
     dialogRef.instance._selfComponentRef = dialogRef;
     this.appRef.attachView(dialogRef.hostView);
     // dialogRef.changeDetectorRef.detectChanges();

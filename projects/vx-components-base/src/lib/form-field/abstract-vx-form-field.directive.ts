@@ -6,7 +6,7 @@ import { ErrorStateMatcher, VxFormComponent } from '../shared';
 
 
 // VX_FORM_INPUTS: 'id', 'value', 'disabled', 'required'
-// VX_FORM_FIELD_DIRECTIVE_INPUTS: 'placeholder', 'label', 'hideRequiredMarker'
+// VX_FORM_FIELD_DIRECTIVE_INPUTS: 'placeholder', 'label', 'hideRequiredMarker', 'showRequiredMarker'
 
 // VX_FORM_OUTPUTS: 'focusedChange', 'valueChange'
 // VX_FORM_FIELD_DIRECTIVE_OUTPUTS
@@ -20,6 +20,7 @@ export abstract class AbstractVxFormFieldDirective<T> extends VxFormComponent<st
   protected _placeholder = '';
   protected _label = '';
   private _hideRequiredMarker = false;
+  private _showRequiredMarker = false;
 
   constructor(
     protected elementRef: ElementRef<T>,
@@ -70,6 +71,18 @@ export abstract class AbstractVxFormFieldDirective<T> extends VxFormComponent<st
   set hideRequiredMarker(value) {
     value = coerceBooleanProperty(value);
     if (value !== this._hideRequiredMarker) {
+      this.cdr.markForCheck();
+      this.stateChanges.next();
+    }
+  }
+
+  get showRequiredMarker(): boolean {
+    return this._showRequiredMarker;
+  }
+
+  set showRequiredMarker(value) {
+    value = coerceBooleanProperty(value);
+    if (value !== this._showRequiredMarker) {
       this.cdr.markForCheck();
       this.stateChanges.next();
     }

@@ -11,6 +11,9 @@ type AnimalName = 'dog' | 'cat';
     <div vxDialogContent>
       Here is my super duper long content that should scroll!
       <a href="google.com">Go to google!</a>
+      <vx-autocomplete>
+        <vx-item>A</vx-item><vx-item>B</vx-item>
+      </vx-autocomplete>
     </div>
     <div vxDialogActions>
       <button vx-button (click)="dialog.close(true)">Close True</button>

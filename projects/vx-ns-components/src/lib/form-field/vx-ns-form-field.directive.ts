@@ -9,7 +9,7 @@ import { AbstractVxFormFieldDirective, ErrorStateMatcher } from 'vx-components-b
   selector: '[vxNsFormField]',
   exportAs: 'vxNsFormField',
   // VX_FORM_FIELD_DIRECTIVE_INPUTS
-  inputs: ['id', 'value', 'disabled', 'required', 'placeholder', 'label', 'hideRequiredMarker'],
+  inputs: ['id', 'value', 'disabled', 'required', 'placeholder', 'label', 'hideRequiredMarker', 'showRequiredMarker'],
   // VX_FORM_FIELD_DIRECTIVE_OUTPUTS
   outputs: ['focusedChange', 'valueChange'],
   host: {

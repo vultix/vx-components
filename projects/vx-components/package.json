@@ -1,12 +1,10 @@
 {
   "name": "vx-components",
-  "version": "2.0.0-alpha.21",
+  "version": "2.0.0-alpha.28",
   "peerDependencies": {
     "@angular/common": "^8.0.0",
-    "@angular/core": "^8.0.0"
-  },
-  "dependencies": {
-    "vx-components-base": "^2.0.0-alpha.10",
+    "@angular/core": "^8.0.0",
+    "vx-components-base": "2.0.0-alpha.15",
     "@angular/cdk": "^8.0.1"
   }
 }

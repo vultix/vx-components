@@ -17,7 +17,7 @@ import { VxMenuComponent } from './vx-menu.component';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   // VX_ITEM_INPUTS
-  inputs: ['value', 'disabled'],
+  inputs: ['value', 'disabled', '_transparentChild'],
   // VX_ITEM_OUTPUTS
   outputs: ['select'],
   host: {

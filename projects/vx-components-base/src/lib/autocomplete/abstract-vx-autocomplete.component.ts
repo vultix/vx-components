@@ -16,7 +16,7 @@ import { compareArrays, ErrorStateMatcher, VxFormComponent } from '../shared';
 import { AutocompleteFilterFunction, defaultAutocompleteFilterFunction } from './autocomplete-filter-function';
 
 
-// VX_AUTOCOMPLETE_INPUTS: 'multiple', 'filterFunction', 'placeholder', 'label', 'searchable'
+// VX_AUTOCOMPLETE_INPUTS: 'multiple', 'defaultText', 'filterFunction', 'placeholder', 'label', 'searchable'
 // VX_FORM_INPUTS: 'id', 'value', 'disabled', 'required'
 
 // VX_AUTOCOMPLETE_OUTPUTS: 'search', 'itemSelect'
@@ -200,7 +200,8 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
 
       // Verify all
       this.shouldVerifyValue = true;
-      this.filter();
+      // This filter should run immediately because these on changes don't always trigger a doCheck.
+      this.filter(true);
     });
   }
 
@@ -260,10 +261,13 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
     if (focused && !this._menu.visible) {
       this._showMenu();
       this._field.value = '';
-    } else if (!focused && !this._menu._active && this._menu.visible) {
-      this._hideMenu();
-    } else if (!focused && this._menu._active) {
-      this._field.focus();
+    } else if (!focused) {
+      if (this._menu._active) {
+        // Activity went to the menu, no need to hide it or call onTouch
+        this._field.focus();
+      } else {
+        this._hideMenu();
+      }
     }
   }
 
@@ -312,6 +316,9 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
 
     this.needsFilter = false;
     this._filteredItems = this.filterFunction(this._items.toArray(), this.searchText, this.multiple ? this.value as T[] : undefined) as I[];
+    if (this._menu && this._menu.items) {
+      this._menu.items.notifyOnChanges();
+    }
   }
 
   protected getNativeValue(): T[] | T {
@@ -369,13 +376,6 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
   protected handleValueSet(value: T | T[]): void {
     value = this.parseValueInput(value);
 
-    // If the ngControl isn't aware of this value make it aware
-    if (this.lastRegisteredValue !== value) {
-      this.onChangeFn(value);
-    } else if (this.multiple && !compareArrays(this.lastRegisteredValue as any as T[], value as any as T[])) {
-      this.onChangeFn(value);
-    }
-
     if (value !== this.value || this.multiple) {
       this._lastNativeValue = value;
       this.setNativeValue(value);
@@ -389,6 +389,13 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
       }
 
       this.cdr.markForCheck();
+    }
+
+    // If the ngControl isn't aware of this value make it aware
+    if (this.lastRegisteredValue !== value) {
+      this.onChangeFn(value);
+    } else if (this.multiple && !compareArrays(this.lastRegisteredValue as any as T[], value as any as T[])) {
+      this.onChangeFn(value);
     }
   }
 
@@ -410,5 +417,9 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
     } else {
       return value;
     }
+  }
+
+  _trackByItem(idx: number, item: I): any {
+    return item.value;
   }
 }

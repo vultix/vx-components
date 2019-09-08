@@ -190,16 +190,17 @@ export abstract class VxFormComponent<T> implements ControlValueAccessor, OnDest
   protected handleValueSet(value: T): void {
     value = this.parseValueInput(value);
 
-    // If the ngControl isn't aware of this value make it aware
-    if (this.lastRegisteredValue !== value) {
-      this.onChangeFn(value);
-    }
-
     if (value !== this.value) {
       this._lastNativeValue = value;
       this.setNativeValue(value);
 
       this.cdr.markForCheck();
+    }
+
+
+    // If the ngControl isn't aware of this value make it aware
+    if (this.lastRegisteredValue !== value) {
+      this.onChangeFn(value);
     }
   }
 

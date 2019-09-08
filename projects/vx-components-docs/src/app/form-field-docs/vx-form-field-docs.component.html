@@ -1,4 +1,6 @@
+<vx-checkbox #disable>disable</vx-checkbox>
+
 <vx-form-field>
   <input type="text" vxFormField [(ngModel)]="game.name" required label="Woot woot!"
-         placeholder="Enter your name">
+         placeholder="Enter your name" [disabled]="disable.checked">
 </vx-form-field>

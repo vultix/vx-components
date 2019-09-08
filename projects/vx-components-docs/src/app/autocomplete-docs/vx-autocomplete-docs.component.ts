@@ -9,7 +9,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/
 
 export class VxAutocompleteDocsComponent {
   selectedState = null;
-  selectedStates = [];
+  selectedStates: string[] = [];
   myStates: any[] = [];
   states = [
     {name: 'Afghanistan', value: 'AF'},
@@ -257,7 +257,7 @@ export class VxAutocompleteDocsComponent {
     {name: 'Zimbabwe', value: 'ZW'}
   ];
 
-  constructor() {
+  constructor(private cdr: ChangeDetectorRef) {
   }
 
 }

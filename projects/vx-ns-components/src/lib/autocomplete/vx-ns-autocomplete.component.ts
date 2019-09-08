@@ -22,7 +22,7 @@ import { VxNsItemComponent } from '../menu/vx-ns-item.component';
   styleUrls: ['vx-ns-autocomplete.component.scss'],
   // VX_AUTOCOMPLETE_INPUTS
   inputs: ['id', 'value', 'disabled', 'required', 'multiple', 'filterFunction', 'placeholder',
-    'label', 'searchable'],
+    'label', 'searchable', 'defaultText'],
   // VX_AUTOCOMPLETE_OUTPUTS
   outputs: ['focusedChange', 'valueChange', 'search', 'itemSelect'],
   changeDetection: ChangeDetectionStrategy.OnPush

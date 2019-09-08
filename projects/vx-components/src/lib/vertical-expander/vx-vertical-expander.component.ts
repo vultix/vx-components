@@ -24,7 +24,6 @@ import { AbstractVxVerticalExpanderComponent } from 'vx-components-base';
 })
 
 export class VxVerticalExpanderComponent extends AbstractVxVerticalExpanderComponent {
-  @ViewChild('content', {static: false}) content!: ElementRef<HTMLElement>;
   _showContent = false;
 
   private timeouts: any[] = [];
@@ -53,19 +52,14 @@ export class VxVerticalExpanderComponent extends AbstractVxVerticalExpanderCompo
   }
 
   private initializeAnimation(): void {
-    if (!this.content) {
-      return;
-    }
-
-    const contentEl = this.content.nativeElement;
     const thisEl = this.element.nativeElement;
-    let contentSize = contentEl.offsetHeight;
+    let contentSize = thisEl.scrollHeight;
     // Initialize the height
     thisEl.style.height = this.expanded ? '0' : `${contentSize}px`;
 
     // Trigger the animation (Because of css we need to do this on another frame;
     const initializeTimeout = setTimeout(() => {
-      contentSize = contentEl.offsetHeight;
+      contentSize = thisEl.scrollHeight;
       thisEl.style.height = this.expanded ? `${contentSize}px` : '0';
     });
 

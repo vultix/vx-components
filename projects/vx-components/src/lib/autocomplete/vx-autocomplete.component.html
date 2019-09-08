@@ -15,7 +15,7 @@
        (blur)="searchable ? null : _handleFieldFocusChange(false)"
        (focus)="searchable ? null : _handleFieldFocusChange(true)">
     <input vxFormField [label]="label" [placeholder]="placeholder" #field="vxFormField" autocomplete="off"
-           (keydown.ArrowDown)="_showMenu()" [attr.disabled]="!searchable || undefined" [disabled]="disabled">
+           (keydown.ArrowDown)="_showMenu()" [showRequiredMarker]="required" [attr.disabled]="!searchable || undefined" [disabled]="disabled">
 
     <div class="vx-autocomplete-down-arrow"></div>
   </div>
@@ -23,6 +23,6 @@
 
 <vx-menu #menu [positionStrategy]="_positionStrategy" width="match" [defaultText]="defaultText"
          class="vx-autocomplete-menu" [class.vx-error]="errorState">
-  <vx-item *ngFor="let item of _filteredItems" [_transparentChild]="item">
+  <vx-item *ngFor="let item of _filteredItems; trackBy: _trackByItem" [_transparentChild]="item">
   </vx-item>
 </vx-menu>

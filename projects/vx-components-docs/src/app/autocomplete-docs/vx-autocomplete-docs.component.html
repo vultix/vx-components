@@ -1,6 +1,17 @@
 <div style="height: 800px"></div>
-<vx-autocomplete label="You rock!" multiple [(ngModel)]="selectedStates" required>
-  <vx-item *ngFor="let state of states" [value]="state.value">{{state.name}}</vx-item>
+<vx-autocomplete label="You rock!" [(ngModel)]="selectedStates" multiple required>
+  <vx-item *ngFor="let state of states" [value]="state.value" [disabled]="selectedStates.includes('AF')">
+    <div><b>Hello</b></div>
+    {{state.name}}
+  </vx-item>
 </vx-autocomplete>
+
 {{selectedStates | json}}
 <div style="height: 800px"></div>
+
+<vx-autocomplete>
+  <vx-item value="a">A</vx-item>
+  <vx-item value="b">B</vx-item>
+  <vx-item value="c">C</vx-item>
+
+</vx-autocomplete>

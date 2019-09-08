@@ -4,5 +4,5 @@ export * from './vx-dialog.module';
 export * from './vx-dialog';
 export * from './vx-dialog.directives';
 export {
-  VxDialogDef
+  VxDialogDef, DialogCloseDataType as VxDialogCloseDataType, DialogDataType as VxDialogDataType
 } from 'vx-components-base'

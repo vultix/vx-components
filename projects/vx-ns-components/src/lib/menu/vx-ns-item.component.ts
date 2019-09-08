@@ -27,7 +27,7 @@ import { AbstractVxItemComponent, AbstractVxMenuComponent, VX_MENU_TOKEN } from 
     '(touch)': 'handleTouch($event)'
   },
   // VX_ITEM_INPUTS
-  inputs: ['value', 'disabled'],
+  inputs: ['value', 'disabled', '_transparentChild'],
   // VX_ITEM_OUTPUTS
   outputs: ['select'],
 })
