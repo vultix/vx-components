@@ -14,12 +14,13 @@ import { AbstractVxFormFieldDirective } from '../form-field';
 import { AbstractVxItemComponent, AbstractVxMenuComponent, AttachedPositionStrategy } from '../menu';
 import { compareArrays, ErrorStateMatcher, VxFormComponent } from '../shared';
 import { AutocompleteFilterFunction, defaultAutocompleteFilterFunction } from './autocomplete-filter-function';
+import { BeforeItemDeselectEvent, BeforeItemSelectEvent } from './item-select-events';
 
 
 // VX_AUTOCOMPLETE_INPUTS: 'multiple', 'defaultText', 'filterFunction', 'placeholder', 'label', 'searchable'
 // VX_FORM_INPUTS: 'id', 'value', 'disabled', 'required'
 
-// VX_AUTOCOMPLETE_OUTPUTS: 'search', 'itemSelect'
+// VX_AUTOCOMPLETE_OUTPUTS: 'search', 'itemSelect', 'beforeItemSelect', 'beforeItemDeselect'
 // VX_FORM_OUTPUTS: 'focusedChange', 'valueChange'
 
 export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxItemComponent<T>>
@@ -30,6 +31,8 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
   readonly search = new EventEmitter<string>();
   // @Output()
   readonly itemSelect = new EventEmitter<T>();
+  readonly beforeItemSelect = new EventEmitter<BeforeItemSelectEvent<T>>();
+  readonly beforeItemDeselect = new EventEmitter<BeforeItemDeselectEvent<T>>();
 
   @ViewChild('field', {static: true})
   _field!: AbstractVxFormFieldDirective<any>;
@@ -247,9 +250,17 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
 
   _removeItem(value: T): void {
     if (this.multiple) {
+
       const existing = this.value as T[];
       const idx = existing.indexOf(value);
       if (idx !== -1) {
+        const event = new BeforeItemDeselectEvent(value);
+        this.beforeItemDeselect.emit(event);
+
+        if (event._preventDefault) {
+          return;
+        }
+
         existing.splice(idx, 1);
       }
 
@@ -330,6 +341,12 @@ export abstract class AbstractVxAutocompleteComponent<T, I extends AbstractVxIte
   }
 
   protected handleItemSelect(val: T) {
+    const event = new BeforeItemSelectEvent(val);
+    this.beforeItemSelect.emit(event);
+    if (event._preventDefault) {
+      return;
+    }
+
     this.itemSelect.emit(val);
 
     if (this.multiple) {

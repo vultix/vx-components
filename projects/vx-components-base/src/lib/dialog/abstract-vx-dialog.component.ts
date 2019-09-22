@@ -61,6 +61,7 @@ export abstract class AbstractVxDialogComponent<ComponentType = VxDialogDef<any,
 
   close(closeData: CloseDataType): void {
     this.onClose.next(closeData);
+    this.onClose.complete();
     this.animateClosing();
 
     setTimeout(() => {

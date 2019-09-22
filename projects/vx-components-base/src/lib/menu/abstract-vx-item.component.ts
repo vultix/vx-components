@@ -84,7 +84,7 @@ export abstract class AbstractVxItemComponent<T> implements OnDestroy {
     this.value = wrappedItem.value;
     this.disabled = wrappedItem.disabled;
     wrappedItem._transparentParent = this;
-    wrappedItem.cdr.markForCheck();
+    wrappedItem.cdr.detectChanges();
     this.__transparentChild = wrappedItem;
   }
 

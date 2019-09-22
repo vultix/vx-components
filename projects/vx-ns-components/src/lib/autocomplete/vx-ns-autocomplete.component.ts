@@ -24,7 +24,7 @@ import { VxNsItemComponent } from '../menu/vx-ns-item.component';
   inputs: ['id', 'value', 'disabled', 'required', 'multiple', 'filterFunction', 'placeholder',
     'label', 'searchable', 'defaultText'],
   // VX_AUTOCOMPLETE_OUTPUTS
-  outputs: ['focusedChange', 'valueChange', 'search', 'itemSelect'],
+  outputs: ['focusedChange', 'valueChange', 'search', 'itemSelect', 'beforeItemSelect', 'beforeItemDeselect'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 

@@ -31,7 +31,7 @@ import { VxItemComponent } from '../menu/vx-item.component';
   inputs: ['id', 'value', 'disabled', 'required', 'multiple', 'filterFunction', 'placeholder',
     'label', 'searchable', 'defaultText'],
   // VX_AUTOCOMPLETE_OUTPUTS
-  outputs: ['focusedChange', 'valueChange', 'search', 'itemSelect'],
+  outputs: ['focusedChange', 'valueChange', 'search', 'itemSelect', 'beforeItemSelect', 'beforeItemDeselect'],
   host: {
     'class': 'vx-autocomplete'
   }

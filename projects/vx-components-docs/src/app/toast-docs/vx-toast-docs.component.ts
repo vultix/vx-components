@@ -23,7 +23,8 @@ export class VxToastDocsComponent implements OnInit {
       text: 'Here is the text',
       title: 'Error',
       position: 'top-right',
-      type: 'success'
+      type: 'success',
+      duration: 30000
     })
   }
 
