@@ -2,7 +2,8 @@
 
 <div class="vx-slide-toggle-wrapper" [class.checked]="checked">
   <div class="vx-slide-toggle-bar"></div>
-  <div class="vx-slide-toggle-handle" [class.transition]="_transitionHandle" [style.left.px]="_handleLeft"></div>
+  <div class="vx-slide-toggle-handle" [class.transition]="_transitionHandle" [style.left.px]="_handleLeft"
+       (mousedown)="_handleTouchStart($event)" (touchstart)="_handleTouchStart($event)"></div>
 </div>
 
 <ng-content></ng-content>

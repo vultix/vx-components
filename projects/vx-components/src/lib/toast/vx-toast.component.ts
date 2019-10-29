@@ -9,6 +9,7 @@ import {
   ViewContainerRef,
   ViewEncapsulation
 } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 import { isDefined } from '../shared/util';
 import { CreateToastOptions, OpenToastOptions, ToastComponentOptions } from './vx-toast.types';
 
@@ -24,6 +25,10 @@ const CLOSE_ANIMATION_TIME = 300;
   encapsulation: ViewEncapsulation.None,
   host: {
     'class': 'vx-toast',
+    '[class.warn]': '_options.type === "warn"',
+    '[class.error]': '_options.type === "error"',
+    '[class.info]': '_options.type === "info"',
+    '[class.success]': '_options.type === "success"',
     '[class.vx-show-close]': '_options?.showClose'
   }
 })
@@ -34,11 +39,16 @@ export class VxToastComponent implements OnDestroy {
   _closing = false;
   _options?: CreateToastOptions;
 
+  onClose: Observable<void>;
+
   private contentComponentRef?: ComponentRef<any>;
+  private _onClose: Subject<void>;
   constructor(private resolver: ComponentFactoryResolver, private elementRef: ElementRef<HTMLElement>,
               @Inject(_VX_TOAST_CLOSE_TOKEN) private closeCallback: Function,
               @Inject(_VX_TOAST_OPTIONS_TOKEN) options: OpenToastOptions,
               private cdr: ChangeDetectorRef) {
+    this._onClose = new Subject();
+    this.onClose = this._onClose.asObservable();
 
     if ('component' in options) {
       this.hasComponent = true;
@@ -62,6 +72,7 @@ export class VxToastComponent implements OnDestroy {
     const thisEl = this.elementRef.nativeElement;
     thisEl.style.maxHeight = thisEl.offsetHeight + 'px';
 
+    this._onClose.next();
     setTimeout(() => {
       thisEl.className += ' vx-toast-closing';
     });
@@ -75,6 +86,7 @@ export class VxToastComponent implements OnDestroy {
     if (this.contentComponentRef) {
       this.contentComponentRef.destroy();
     }
+    this._onClose.complete();
   }
 
   private prepareOptions(options: CreateToastOptions): CreateToastOptions {

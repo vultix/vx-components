@@ -11,7 +11,6 @@
   $border: map_get($colors, borderLight);
 
   .vx-toast {
-    background: $error;
     color: $background;
     box-shadow: 0 0 12px transparentize($darkerBgFg, .75);
     &.warn {

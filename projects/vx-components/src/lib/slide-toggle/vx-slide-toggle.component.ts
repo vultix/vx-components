@@ -25,6 +25,10 @@ const MIN_HANDLE_LEFT = -3;
   inputs: [
     'id', 'value', 'disabled', 'required', 'checked'
   ],
+  // VX_CHECKBOX_OUTPUTS
+  outputs: [
+    'focusedChange', 'valueChange', 'checkedChange'
+  ],
   host: {
     'class': 'vx-slide-toggle',
     '[class.vx-checked]': 'checked',
@@ -75,8 +79,6 @@ export class VxSlideToggleComponent extends AbstractVxCheckboxComponent {
   }
 
 
-  @HostListener('mousedown', ['$event'])
-  @HostListener('touchstart', ['$event'])
   _handleTouchStart(event: MouseEvent | TouchEvent): void {
     this.touchX = getTouchPos(event).x;
     this.touchDown = true;
