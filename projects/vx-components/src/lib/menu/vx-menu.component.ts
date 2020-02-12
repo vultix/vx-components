@@ -219,7 +219,7 @@ export class VxMenuComponent<T> extends AbstractVxMenuComponent<T, HTMLElement> 
   @HostListener('window:keydown.ArrowUp', ['true', '$event'])
   @HostListener('window:keydown.ArrowDown', ['false', '$event'])
   _onArrowDown(upKey: boolean, event: Event): void {
-    if (this.visible) {
+    if (this.visible && this.items.length) {
       if (this.focusedIdx === -1) {
         this.focusedIdx = upKey ? this.items.length - 1 : 0;
       } else {

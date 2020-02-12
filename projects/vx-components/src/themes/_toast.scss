@@ -5,8 +5,8 @@
   $background: map_get($colors, background);
   $accent: map_get($colors, accent);
   $error: map_get($colors, error);
-  $warn: map_get($colors, error);
-  $success: map_get($colors, error);
+  $warn: map_get($colors, warn);
+  $success: map_get($colors, success);
   $darkerBgFg: map_get($colors, darkerBgFg);
   $border: map_get($colors, borderLight);
 

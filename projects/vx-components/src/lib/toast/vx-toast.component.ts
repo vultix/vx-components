@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { isDefined } from '../shared/util';
-import { CreateToastOptions, OpenToastOptions, ToastComponentOptions } from './vx-toast.types';
+import { CreateToastOptions, OpenToastOptions, ToastComponentOptions, ToastType } from './vx-toast.types';
 
 export const _VX_TOAST_OPTIONS_TOKEN = new InjectionToken<OpenToastOptions>('_VX_TOAST_OPTIONS_TOKEN');
 export const _VX_TOAST_CLOSE_TOKEN = new InjectionToken<() => void>('VX_TOAST_CLOSE_TOKEN');
@@ -25,10 +25,10 @@ const CLOSE_ANIMATION_TIME = 300;
   encapsulation: ViewEncapsulation.None,
   host: {
     'class': 'vx-toast',
-    '[class.warn]': '_options.type === "warn"',
-    '[class.error]': '_options.type === "error"',
-    '[class.info]': '_options.type === "info"',
-    '[class.success]': '_options.type === "success"',
+    '[class.warn]': '_type === "warn"',
+    '[class.error]': '_type === "error"',
+    '[class.info]': '_type === "info"',
+    '[class.success]': '_type === "success"',
     '[class.vx-show-close]': '_options?.showClose'
   }
 })
@@ -38,6 +38,7 @@ export class VxToastComponent implements OnDestroy {
   hasComponent = false;
   _closing = false;
   _options?: CreateToastOptions;
+  _type: ToastType;
 
   onClose: Observable<void>;
 
@@ -50,6 +51,7 @@ export class VxToastComponent implements OnDestroy {
     this._onClose = new Subject();
     this.onClose = this._onClose.asObservable();
 
+    this._type = options.type || 'error';
     if ('component' in options) {
       this.hasComponent = true;
       const factory = this.resolver.resolveComponentFactory(options.component);
